@@ -34,6 +34,7 @@ export type TripPlannerInitial = {
   destination?: string;
   travelDate?: string;
   travellers?: string;
+  tripType?: string;
 };
 
 const STEPS: MultiStepDefinition[] = [
@@ -61,7 +62,7 @@ function buildDefaults(initial?: TripPlannerInitial): TripPlanInput {
     endDate: "",
     travellers: initial?.travellers ?? "",
     budgetRange: "",
-    tripType: "",
+    tripType: initial?.tripType ?? "",
     specialRequests: "",
     name: "",
     email: "",
@@ -71,7 +72,12 @@ function buildDefaults(initial?: TripPlannerInitial): TripPlanInput {
 }
 
 function hasInitialOverride(initial?: TripPlannerInitial): boolean {
-  return Boolean(initial?.destination || initial?.travelDate || initial?.travellers);
+  return Boolean(
+    initial?.destination ||
+      initial?.travelDate ||
+      initial?.travellers ||
+      initial?.tripType,
+  );
 }
 
 function hasDraftData(values: TripPlanInput): boolean {
@@ -101,14 +107,27 @@ export function TripPlanner({
   open,
   onOpenChange,
   initial,
+  standalone = false,
+  tripTypes,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   initial?: TripPlannerInitial;
+  /**
+   * Renders the planner inline (no dialog) — used by /plan-my-trip.
+   * In standalone mode the form is always "open": drafts restore on mount
+   * and field values autosave as usual.
+   */
+  standalone?: boolean;
+  /** Overrides the trip-type choices (defaults to the built-in taxonomy). */
+  tripTypes?: string[];
 }) {
   const [step, setStep] = React.useState(0);
   const [formError, setFormError] = React.useState<string | null>(null);
   const skipWatchRef = React.useRef(false);
+  const active = standalone || open;
+  const tripTypeOptions = tripTypes?.length ? tripTypes : TRIP_TYPES;
+  const prefillKey = JSON.stringify(initial ?? null);
 
   const fieldDraft = useDraft<TripPlanInput>(FIELD_DRAFT_KEY, buildDefaults(initial));
   const stepDraft = useDraft<{ current: number }>(STEP_DRAFT_KEY, { current: 0 });
@@ -122,17 +141,17 @@ export function TripPlanner({
 
   // Autosave field values while the form is open (debounced inside useDraft).
   React.useEffect(() => {
-    if (!open) return;
+    if (!active) return;
     const subscription = form.watch((values) => {
       if (skipWatchRef.current) return;
       setFieldDraftValue(values as TripPlanInput);
     });
     return () => subscription.unsubscribe();
-  }, [open, form, setFieldDraftValue]);
+  }, [active, form, setFieldDraftValue]);
 
   // Restore draft (or defaults / initial override) each time the dialog opens.
   React.useEffect(() => {
-    if (!open || !fieldDraft.hydrated) return;
+    if (!active || !fieldDraft.hydrated) return;
     setFormError(null);
 
     if (hasInitialOverride(initial)) {
@@ -163,7 +182,7 @@ export function TripPlanner({
     stepDraft.clear();
     setStep(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, fieldDraft.hydrated]);
+  }, [active, fieldDraft.hydrated, prefillKey]);
 
   function goToStep(next: number) {
     const clamped = Math.min(Math.max(next, 0), STEPS.length - 1);
@@ -222,6 +241,317 @@ export function TripPlanner({
   const values = form.watch();
   const { formState } = form;
 
+  const body = (
+    <FormProvider {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 p-4 sm:p-5">
+        <HoneypotInput />
+
+        <MultiStepForm
+          steps={STEPS}
+          current={step}
+          onStepChange={goToStep}
+          draftKey={STEP_DRAFT_KEY}
+          progressLabel="Trip planner"
+          contentClassName="min-h-[330px] sm:min-h-[320px]"
+        >
+          {step === 0 ? (
+            <>
+              <FormField
+                control={form.control}
+                name="destination"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel required>Where do you want to go?</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Destination or region" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="tripType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Trip type</FormLabel>
+                      <Select
+                        value={field.value || "none"}
+                        onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select trip type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="none">Not sure yet</SelectItem>
+                          {tripTypeOptions.map((type) => (
+                            <SelectItem key={type} value={type}>
+                              {type}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="travellers"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Travellers</FormLabel>
+                      <Select
+                        value={field.value || "none"}
+                        onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="How many people?" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="none">Not sure yet</SelectItem>
+                          {TRAVELLER_COUNTS.map((count) => (
+                            <SelectItem key={count} value={count}>
+                              {count}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </>
+          ) : null}
+
+          {step === 1 ? (
+            <>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="travelDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel required>Start date</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="endDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>End date</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="budgetRange"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Budget range</FormLabel>
+                    <Select
+                      value={field.value || "none"}
+                      onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a budget range" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="none">To be discussed</SelectItem>
+                        {BUDGET_RANGES.map((budget) => (
+                          <SelectItem key={budget} value={budget}>
+                            {budget}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="specialRequests"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Special requests</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        rows={3}
+                        placeholder="Accessibility needs, celebration, dietary notes…"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          ) : null}
+
+          {step === 2 ? (
+            <>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel required>Your name</FormLabel>
+                      <FormControl>
+                        <Input autoComplete="name" placeholder="Full name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel required>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          autoComplete="email"
+                          placeholder="you@example.com"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone / WhatsApp</FormLabel>
+                    <FormControl>
+                      <Input type="tel" autoComplete="tel" placeholder="+91 ..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          ) : null}
+
+          {step === 3 ? (
+            <div className="grid gap-3">
+              <h4 className="font-display text-h4 uppercase">Review your trip</h4>
+              <dl className="grid gap-2 border-[3px] border-ink bg-butter p-4 text-sm sm:grid-cols-2">
+                <Summary label="Destination" value={values.destination} />
+                <Summary label="Trip type" value={values.tripType} />
+                <Summary
+                  label="Start date"
+                  value={values.travelDate ? formatDate(values.travelDate) : ""}
+                />
+                <Summary
+                  label="End date"
+                  value={values.endDate ? formatDate(values.endDate) : ""}
+                />
+                <Summary label="Travellers" value={values.travellers} />
+                <Summary label="Budget" value={values.budgetRange} />
+                <Summary label="Name" value={values.name} />
+                <Summary label="Email" value={values.email} />
+                <Summary label="Phone" value={values.phone} />
+                <Summary label="Notes" value={values.specialRequests} wide />
+              </dl>
+              <p className="text-xs font-medium text-ink-soft">
+                By sending this you agree that we may contact you about this trip request.
+              </p>
+            </div>
+          ) : null}
+        </MultiStepForm>
+
+        {formError ? (
+          <div className="flex items-center gap-2 border-[2px] border-ink bg-blush px-3 py-2 text-sm font-bold">
+            <RotateCcw aria-hidden="true" className="size-4 shrink-0" />
+            {formError}
+          </div>
+        ) : null}
+
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t-[3px] border-ink pt-4">
+          <Button
+            type="button"
+            variant="ghost"
+            size="md"
+            onClick={handleBack}
+            disabled={step === 0}
+          >
+            <ArrowLeft aria-hidden="true" className="size-4" />
+            Back
+          </Button>
+
+          {step < STEPS.length - 1 ? (
+            <Button type="button" size="lg" onClick={handleNext}>
+              Continue
+              <ArrowRight aria-hidden="true" className="size-4" />
+            </Button>
+          ) : (
+            <Button type="submit" size="lg" loading={formState.isSubmitting} magnetic>
+              {formState.isSubmitting ? (
+                <>
+                  <Loader2 aria-hidden="true" className="size-4 animate-spin" />
+                  Sending
+                </>
+              ) : (
+                <>
+                  <MapPinned aria-hidden="true" className="size-4" />
+                  Send trip request
+                </>
+              )}
+            </Button>
+          )}
+        </div>
+
+        <p role="status" aria-live="polite" className="sr-only">
+          {formError ?? ""}
+        </p>
+      </form>
+    </FormProvider>
+  );
+
+  if (standalone) {
+    return (
+      <div className="border-4 border-ink bg-cream shadow-brutal-lg">
+        <div className="border-b-[3px] border-ink bg-butter p-4 pr-14 sm:p-5 sm:pr-14">
+          <h2 className="font-display text-xl leading-tight sm:text-2xl">Plan my trip</h2>
+          <p className="mt-1 text-sm font-medium text-ink-soft">
+            Four quick steps — we&apos;ll come back with a plan built around your dates and
+            budget.
+          </p>
+        </div>
+        {body}
+      </div>
+    );
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
@@ -231,300 +561,7 @@ export function TripPlanner({
             Four quick steps — we&apos;ll come back with a plan built around your dates and budget.
           </DialogDescription>
         </DialogHeader>
-
-        <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 p-4 sm:p-5">
-            <HoneypotInput />
-
-            <MultiStepForm
-              steps={STEPS}
-              current={step}
-              onStepChange={goToStep}
-              draftKey={STEP_DRAFT_KEY}
-              progressLabel="Trip planner"
-              contentClassName="min-h-[330px] sm:min-h-[320px]"
-            >
-              {step === 0 ? (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="destination"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel required>Where do you want to go?</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Destination or region" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <FormField
-                      control={form.control}
-                      name="tripType"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Trip type</FormLabel>
-                          <Select
-                            value={field.value || "none"}
-                            onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select trip type" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="none">Not sure yet</SelectItem>
-                              {TRIP_TYPES.map((type) => (
-                                <SelectItem key={type} value={type}>
-                                  {type}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="travellers"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Travellers</FormLabel>
-                          <Select
-                            value={field.value || "none"}
-                            onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="How many people?" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="none">Not sure yet</SelectItem>
-                              {TRAVELLER_COUNTS.map((count) => (
-                                <SelectItem key={count} value={count}>
-                                  {count}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </>
-              ) : null}
-
-              {step === 1 ? (
-                <>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <FormField
-                      control={form.control}
-                      name="travelDate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel required>Start date</FormLabel>
-                          <FormControl>
-                            <Input type="date" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="endDate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>End date</FormLabel>
-                          <FormControl>
-                            <Input type="date" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="budgetRange"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Budget range</FormLabel>
-                        <Select
-                          value={field.value || "none"}
-                          onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a budget range" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="none">To be discussed</SelectItem>
-                            {BUDGET_RANGES.map((budget) => (
-                              <SelectItem key={budget} value={budget}>
-                                {budget}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="specialRequests"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Special requests</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            rows={3}
-                            placeholder="Accessibility needs, celebration, dietary notes…"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              ) : null}
-
-              {step === 2 ? (
-                <>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel required>Your name</FormLabel>
-                          <FormControl>
-                            <Input autoComplete="name" placeholder="Full name" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel required>Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="email"
-                              autoComplete="email"
-                              placeholder="you@example.com"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone / WhatsApp</FormLabel>
-                        <FormControl>
-                          <Input type="tel" autoComplete="tel" placeholder="+91 ..." {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              ) : null}
-
-              {step === 3 ? (
-                <div className="grid gap-3">
-                  <h4 className="font-display text-h4 uppercase">Review your trip</h4>
-                  <dl className="grid gap-2 border-[3px] border-ink bg-butter p-4 text-sm sm:grid-cols-2">
-                    <Summary label="Destination" value={values.destination} />
-                    <Summary label="Trip type" value={values.tripType} />
-                    <Summary
-                      label="Start date"
-                      value={values.travelDate ? formatDate(values.travelDate) : ""}
-                    />
-                    <Summary
-                      label="End date"
-                      value={values.endDate ? formatDate(values.endDate) : ""}
-                    />
-                    <Summary label="Travellers" value={values.travellers} />
-                    <Summary label="Budget" value={values.budgetRange} />
-                    <Summary label="Name" value={values.name} />
-                    <Summary label="Email" value={values.email} />
-                    <Summary label="Phone" value={values.phone} />
-                    <Summary label="Notes" value={values.specialRequests} wide />
-                  </dl>
-                  <p className="text-xs font-medium text-ink-soft">
-                    By sending this you agree that we may contact you about this trip request.
-                  </p>
-                </div>
-              ) : null}
-            </MultiStepForm>
-
-            {formError ? (
-              <div className="flex items-center gap-2 border-[2px] border-ink bg-blush px-3 py-2 text-sm font-bold">
-                <RotateCcw aria-hidden="true" className="size-4 shrink-0" />
-                {formError}
-              </div>
-            ) : null}
-
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t-[3px] border-ink pt-4">
-              <Button
-                type="button"
-                variant="ghost"
-                size="md"
-                onClick={handleBack}
-                disabled={step === 0}
-              >
-                <ArrowLeft aria-hidden="true" className="size-4" />
-                Back
-              </Button>
-
-              {step < STEPS.length - 1 ? (
-                <Button type="button" size="lg" onClick={handleNext}>
-                  Continue
-                  <ArrowRight aria-hidden="true" className="size-4" />
-                </Button>
-              ) : (
-                <Button type="submit" size="lg" loading={formState.isSubmitting} magnetic>
-                  {formState.isSubmitting ? (
-                    <>
-                      <Loader2 aria-hidden="true" className="size-4 animate-spin" />
-                      Sending
-                    </>
-                  ) : (
-                    <>
-                      <MapPinned aria-hidden="true" className="size-4" />
-                      Send trip request
-                    </>
-                  )}
-                </Button>
-              )}
-            </div>
-
-            <p role="status" aria-live="polite" className="sr-only">
-              {formError ?? ""}
-            </p>
-          </form>
-        </FormProvider>
+        {body}
       </DialogContent>
     </Dialog>
   );

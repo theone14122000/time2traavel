@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#FFE45E" />
+    <title>You are offline · Time to Travel</title>
+    <style>
+      :root {
+        --ink: #0a0a0a;
+        --paper: #fffdf5;
+        --lemon: #ffe45e;
+        --tomato: #ff5a36;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        border-color: var(--ink);
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial,
+          sans-serif;
+        line-height: 1.6;
+      }
+      main {
+        width: min(34rem, 100%);
+        padding: 2rem;
+        border: 4px solid var(--ink);
+        background: var(--paper);
+        box-shadow: 12px 12px 0 var(--ink);
+      }
+      .eyebrow {
+        display: inline-block;
+        padding: 0.45rem 0.8rem;
+        border: 3px solid var(--ink);
+        background: var(--lemon);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        line-height: 1;
+      }
+      h1 {
+        margin: 1.25rem 0 0.75rem;
+        font-family: "Arial Black", Arial, Helvetica, sans-serif;
+        font-size: clamp(1.9rem, 7vw, 2.9rem);
+        line-height: 0.95;
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+      }
+      p {
+        margin: 0 0 1.5rem;
+        font-weight: 500;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      a,
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0.65rem 1.35rem;
+        border: 3px solid var(--ink);
+        color: var(--ink);
+        font: inherit;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 120ms ease;
+      }
+      button {
+        background: var(--tomato);
+      }
+      a {
+        background: var(--paper);
+      }
+      a:hover,
+      button:hover {
+        transform: translate(-2px, -2px);
+      }
+      a:active,
+      button:active {
+        transform: translate(2px, 2px);
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 4px solid var(--ink);
+        outline-offset: 3px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        a,
+        button {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="eyebrow">Time to Travel</span>
+      <h1>You are offline</h1>
+      <p>
+        This page could not be loaded because you are offline. Check your
+        connection and try again — your saved wishlist and recently viewed
+        items stay on this device.
+      </p>
+      <div class="actions">
+        <button type="button" onclick="location.reload()">Retry</button>
+        <a href="/">Home</a>
+      </div>
+    </main>
+  </body>
+</html>

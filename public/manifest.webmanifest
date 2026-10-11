@@ -1,0 +1,17 @@
+{
+  "name": "Time to Travel",
+  "short_name": "Time to Travel",
+  "description": "Travel planning from Kasumpti, Shimla — destinations, packages and trip planning by Time to Travel.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFDF5",
+  "theme_color": "#FFE45E",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

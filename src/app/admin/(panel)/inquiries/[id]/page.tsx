@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { getUserOptionsAction } from "@/actions/admin/inquiries";
 import { safeAdminQuery } from "@/actions/admin/shared";
 import { formatDate, formatDateRange } from "@/lib/utils";
 import { INQUIRY_STATUSES, INQUIRY_TYPES } from "@/lib/constants";
@@ -40,11 +41,14 @@ export default async function AdminInquiryDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const inquiry = await safeAdminQuery(
-    `admin.inquiries.detail:${id}`,
-    () => prisma.inquiry.findUnique({ where: { id } }),
-    null,
-  );
+  const [inquiry, users] = await Promise.all([
+    safeAdminQuery(
+      `admin.inquiries.detail:${id}`,
+      () => prisma.inquiry.findUnique({ where: { id } }),
+      null,
+    ),
+    getUserOptionsAction(),
+  ]);
 
   if (!inquiry) notFound();
 
@@ -162,7 +166,8 @@ export default async function AdminInquiryDetailPage({
             <CardHeader>
               <CardTitle>Update enquiry</CardTitle>
               <CardDescription>
-                Move it through NEW → CONTACTED → CLOSED and keep internal notes.
+                Move it through the pipeline (New → In progress → Quoted →
+                Contacted → Closed) and keep internal notes.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -171,7 +176,9 @@ export default async function AdminInquiryDetailPage({
                   id: inquiry.id,
                   status: inquiry.status,
                   adminNotes: inquiry.adminNotes,
+                  assigneeId: inquiry.assigneeId,
                 }}
+                users={users}
               />
             </CardContent>
           </Card>

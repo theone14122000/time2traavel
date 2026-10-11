@@ -4,14 +4,19 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BookOpen,
+  Briefcase,
   FileText,
   HelpCircle,
   Images,
   Inbox,
   LayoutDashboard,
+  LayoutGrid,
+  LayoutList,
   MapPin,
   Newspaper,
   Package,
+  Route,
   Settings,
   Star,
 } from "lucide-react";
@@ -21,6 +26,11 @@ export const ADMIN_NAV_ITEMS = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/destinations", label: "Destinations", icon: MapPin },
   { href: "/admin/packages", label: "Packages", icon: Package },
+  { href: "/admin/services", label: "Services", icon: Briefcase },
+  { href: "/admin/trip-types", label: "Trip Types", icon: Route },
+  { href: "/admin/guides", label: "Guides", icon: BookOpen },
+  { href: "/admin/gallery", label: "Gallery", icon: LayoutGrid },
+  { href: "/admin/home-sections", label: "Home Sections", icon: LayoutList },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
   { href: "/admin/inquiries", label: "Enquiries", icon: Inbox },
   { href: "/admin/faqs", label: "FAQs", icon: HelpCircle },

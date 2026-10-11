@@ -105,6 +105,40 @@ export async function getWhyChooseItems(): Promise<WhyChooseItem[]> {
   return [];
 }
 
+export type AnnouncementShape = {
+  text: string;
+  link: string | null;
+};
+
+export async function getAnnouncement(): Promise<AnnouncementShape | null> {
+  const row = await safeQuery(
+    "pageContent:announcement",
+    () => prisma.pageContent.findUnique({ where: { key: "announcement" } }),
+    null,
+  );
+  if (!row) return null;
+
+  const data =
+    row.data && typeof row.data === "object"
+      ? (row.data as { text?: unknown; link?: unknown })
+      : {};
+
+  const text =
+    (typeof data.text === "string" ? data.text.trim() : "") ||
+    row.body?.trim() ||
+    row.title?.trim() ||
+    "";
+
+  if (!text) return null;
+
+  const link =
+    typeof data.link === "string" && data.link.trim().length > 0
+      ? data.link.trim()
+      : null;
+
+  return { text, link };
+}
+
 /** Contact helpers that hide gracefully when nothing is configured. */
 export async function getContactDetails() {
   const settings = await getSiteSettings();

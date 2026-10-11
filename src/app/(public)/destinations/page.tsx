@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MapPinned, Send } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { SectionWrapper, SectionHeading } from "@/components/shared/section";
+import { DestinationHubTabs } from "@/components/destinations/hub-list";
 import { DestinationGrid } from "@/components/home/destination-grid";
 import { FaqSection } from "@/components/home/faq-section";
 import { Reveal } from "@/components/shared/reveal";
@@ -61,6 +62,10 @@ export default async function DestinationsPage() {
         />
 
         <div className="mt-8">
+          <DestinationHubTabs active="all" />
+        </div>
+
+        <div className="mt-6">
           <DestinationGrid destinations={destinations} showViewAll={false} />
         </div>
       </SectionWrapper>

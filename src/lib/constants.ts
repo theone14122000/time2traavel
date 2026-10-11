@@ -88,19 +88,54 @@ export const CONTENT_KEYS = {
 } as const;
 
 export const INQUIRY_TYPES: Record<
-  "GENERAL" | "TRIP_PLAN" | "PACKAGE" | "DESTINATION",
+  "GENERAL" | "TRIP_PLAN" | "PACKAGE" | "DESTINATION" | "SERVICE",
   string
 > = {
   GENERAL: "General enquiry",
   TRIP_PLAN: "Trip planning",
   PACKAGE: "Package enquiry",
   DESTINATION: "Destination enquiry",
+  SERVICE: "Service enquiry",
 };
 
-export const INQUIRY_STATUSES: Record<"NEW" | "CONTACTED" | "CLOSED", string> = {
+export const INQUIRY_STATUSES: Record<
+  "NEW" | "IN_PROGRESS" | "QUOTED" | "CONTACTED" | "CLOSED",
+  string
+> = {
   NEW: "New",
+  IN_PROGRESS: "In progress",
+  QUOTED: "Quoted",
   CONTACTED: "Contacted",
   CLOSED: "Closed",
 };
 
 export const PAGE_SIZE = 9;
+
+/** Fixed home-section keys (created by the seed — the manager only edits them). */
+export const HOME_SECTION_KEYS: ReadonlyArray<{ key: string; label: string }> = [
+  { key: "announcement", label: "Announcement" },
+  { key: "hero", label: "Hero" },
+  { key: "marquee", label: "Marquee" },
+  { key: "domestic", label: "Domestic" },
+  { key: "international", label: "International" },
+  { key: "featured_packages", label: "Featured packages" },
+  { key: "services", label: "Services" },
+  { key: "how_it_works", label: "How it works" },
+  { key: "trip_types", label: "Trip types" },
+  { key: "destination_finder", label: "Destination finder" },
+  { key: "gallery", label: "Gallery" },
+  { key: "reviews", label: "Reviews" },
+  { key: "guides", label: "Guides" },
+  { key: "founder", label: "Founder" },
+  { key: "faq", label: "FAQ" },
+  { key: "final_cta", label: "Final CTA" },
+] as const;
+
+/** Datalist suggestions for gallery categories — free text, never enforced. */
+export const GALLERY_CATEGORIES = [
+  "General",
+  "Destinations",
+  "Packages",
+  "Team",
+  "Office",
+] as const;

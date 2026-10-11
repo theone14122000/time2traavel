@@ -1,7 +1,11 @@
 "use server";
 
 import { z } from "zod";
-import { submitInquiry, type ActionResult } from "@/actions/inquiry";
+import { headers } from "next/headers";
+import { prisma } from "@/lib/prisma";
+import { getClientIp, rateLimit } from "@/lib/rate-limit";
+import type { Prisma } from "@prisma/client";
+import { submitInquiry, type ActionResult, type PublicInquiryInput } from "@/actions/inquiry";
 import {
   contactSchema,
   destinationEnquirySchema,
@@ -34,17 +38,23 @@ function invalid(
 
 export async function submitContactAction(
   values: ContactInput,
+  options?: {
+    /** Overrides the default "Website contact form" subject. */
+    subject?: string;
+    /** Inquiry type — service pages pass "SERVICE". */
+    type?: PublicInquiryInput["type"];
+  },
 ): Promise<ActionResult> {
   const parsed = contactSchema.safeParse(values);
   if (!parsed.success) return invalid(parsed.error);
   const data = parsed.data;
   return submitInquiry({
-    type: "GENERAL",
+    type: options?.type ?? "GENERAL",
     name: data.name,
     email: data.email,
     phone: data.phone,
     message: data.message,
-    subject: "Website contact form",
+    subject: options?.subject?.trim() || "Website contact form",
     honeypot: data.website,
   });
 }
@@ -113,4 +123,128 @@ export async function submitDestinationEnquiryAction(
     travellers: data.travellers,
     honeypot: data.website,
   });
+}
+
+/* ---------------------------------------------------------------
+   6. Track an existing enquiry by reference id + contact detail
+--------------------------------------------------------------- */
+
+const trackInquirySchema = z
+  .object({
+    refId: z
+      .string()
+      .trim()
+      .min(4, "Enter the reference id from your enquiry confirmation")
+      .max(64, "Reference id is too long"),
+    phone: z
+      .string()
+      .trim()
+      .max(25, "Phone number is too long")
+      .optional()
+      .or(z.literal("")),
+    email: z
+      .string()
+      .trim()
+      .max(200, "Email is too long")
+      .optional()
+      .or(z.literal("")),
+  })
+  .refine((value) => Boolean(value.phone) || Boolean(value.email), {
+    message: "Add the phone number or email you used for the enquiry",
+    path: ["_form"],
+  });
+
+export type TrackInquiryInput = z.infer<typeof trackInquirySchema>;
+
+export type TrackInquiryResult =
+  | {
+      ok: true;
+      match: {
+        status: "NEW" | "IN_PROGRESS" | "QUOTED" | "CONTACTED" | "CLOSED";
+        type: "GENERAL" | "TRIP_PLAN" | "PACKAGE" | "DESTINATION" | "SERVICE";
+        createdAt: string;
+      };
+    }
+  | { ok: false; error: string; notFound?: boolean; fieldErrors?: Record<string, string[]> };
+
+/**
+ * Public enquiry tracking: matches a reference id AND one contact detail.
+ * Returns only status / type / createdAt — never the traveller's name or
+ * message. Rate-limited per IP.
+ */
+export async function trackInquiryAction(
+  values: TrackInquiryInput,
+): Promise<TrackInquiryResult> {
+  const parsed = trackInquirySchema.safeParse(values);
+  if (!parsed.success) {
+    const fieldErrors: Record<string, string[]> = {};
+    for (const issue of parsed.error.issues) {
+      const key = issue.path.join(".") || "_form";
+      (fieldErrors[key] ??= []).push(issue.message);
+    }
+    return {
+      ok: false,
+      error: "Please check the highlighted fields and try again.",
+      fieldErrors,
+    };
+  }
+
+  const h = await headers();
+  const ip = await getClientIp(h);
+  const limit = rateLimit({
+    key: "track-inquiry",
+    limit: 10,
+    windowMs: 10 * 60 * 1000,
+    ip,
+  });
+  if (!limit.success) {
+    return {
+      ok: false,
+      error: `Too many lookups — please try again in ${limit.retryAfterSeconds}s.`,
+    };
+  }
+
+  const { refId, phone, email } = parsed.data;
+  const contactOr: Prisma.InquiryWhereInput[] = [];
+  if (phone) contactOr.push({ phone });
+  if (email) contactOr.push({ email });
+
+  const row = await safeInquiryLookup(refId, contactOr);
+  if (!row) {
+    return {
+      ok: false,
+      notFound: true,
+      error: "No enquiry matches those details.",
+    };
+  }
+
+  return {
+    ok: true,
+    match: {
+      status: row.status,
+      type: row.type,
+      createdAt: row.createdAt.toISOString(),
+    },
+  };
+}
+
+async function safeInquiryLookup(
+  refId: string,
+  contactOr: Prisma.InquiryWhereInput[],
+) {
+  try {
+    return await prisma.inquiry.findFirst({
+      where: {
+        refId,
+        OR: contactOr,
+      },
+      select: { status: true, type: true, createdAt: true },
+    });
+  } catch (error) {
+    console.error(
+      "[trackInquiry] lookup failed:",
+      error instanceof Error ? error.message : error,
+    );
+    return null;
+  }
 }

@@ -143,8 +143,10 @@ export type ReviewStatusInput = z.infer<typeof reviewStatusSchema>;
 --------------------------------------------------------------- */
 export const inquiryUpdateSchema = z.object({
   id: idSchema,
-  status: z.enum(["NEW", "CONTACTED", "CLOSED"]),
+  status: z.enum(["NEW", "IN_PROGRESS", "QUOTED", "CONTACTED", "CLOSED"]),
   adminNotes: optionalText(5_000),
+  /** Staff member id — empty string means "unassigned" (stored as null). */
+  assigneeId: z.string().trim().optional().or(z.literal("")),
 });
 export type InquiryUpdateInput = z.infer<typeof inquiryUpdateSchema>;
 
@@ -238,3 +240,143 @@ export const contentSchema = z.object({
     }),
 });
 export type ContentInput = z.infer<typeof contentSchema>;
+
+/* ---------------------------------------------------------------
+   10. Services
+--------------------------------------------------------------- */
+/**
+ * JSON textarea helpers: the raw string must parse as JSON (and, for
+ * `jsonArrayField`, as a JSON *array*) — the action does the real parse.
+ */
+const jsonText = (label: string, mustBeArray: boolean) =>
+  z
+    .string()
+    .optional()
+    .superRefine((value, ctx) => {
+      const trimmed = value?.trim();
+      if (!trimmed) return;
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (mustBeArray && !Array.isArray(parsed)) {
+          ctx.addIssue({
+            code: "custom",
+            message: `${label} must be a JSON array (e.g. [{"title": "…"}]).`,
+          });
+        }
+      } catch {
+        ctx.addIssue({
+          code: "custom",
+          message: `${label} must be valid JSON (double-quoted keys and strings).`,
+        });
+      }
+    });
+
+export const serviceSchema = z.object({
+  title: z.string().trim().min(2, "Title is required").max(120, "Title is too long"),
+  slug: slugField,
+  icon: optionalText(60),
+  color: optionalText(40),
+  shortDescription: optionalText(320, "Summary should stay under 320 characters"),
+  longDescription: optionalText(20_000),
+  coverImage: urlField,
+  coverImageAlt: optionalText(200),
+  processSteps: jsonText("Process steps", true),
+  faqs: jsonText("FAQs", true),
+  linkedPackageSlugs: jsonText("Linked package slugs", true),
+  seoTitle: optionalText(160, "Keep the SEO title under 160 characters"),
+  seoDescription: optionalText(320, "Keep the SEO description under 320 characters"),
+  published: z.boolean(),
+  order: orderField,
+});
+export type ServiceInput = z.infer<typeof serviceSchema>;
+
+/* ---------------------------------------------------------------
+   11. Trip types
+--------------------------------------------------------------- */
+export const tripTypeSchema = z.object({
+  name: z.string().trim().min(2, "Name is required").max(120, "Name is too long"),
+  slug: slugField,
+  icon: optionalText(60),
+  color: optionalText(40),
+  description: optionalText(10_000),
+  coverImage: urlField,
+  coverImageAlt: optionalText(200),
+  published: z.boolean(),
+  order: orderField,
+});
+export type TripTypeInput = z.infer<typeof tripTypeSchema>;
+
+/* ---------------------------------------------------------------
+   12. Guide posts
+--------------------------------------------------------------- */
+/** Empty string or whole number (nullable reading time, stored as Int). */
+const readingMinutesField = z
+  .union([
+    z.literal(""),
+    z
+      .string()
+      .trim()
+      .regex(/^\d{1,3}$/, "Enter a whole number of minutes")
+      .refine((v) => {
+        const n = Number(v);
+        return Number.isInteger(n) && n >= 1 && n <= 600;
+      }, "Enter 1–600 minutes"),
+  ])
+  .optional();
+
+export const guidePostSchema = z.object({
+  title: z.string().trim().min(3, "Title is required").max(160, "Title is too long"),
+  slug: slugField,
+  excerpt: optionalText(320, "Excerpt should stay under 320 characters"),
+  body: optionalText(60_000),
+  category: z.string().trim().min(1, "Category is required").max(80, "Category is too long"),
+  coverImage: urlField,
+  coverImageAlt: optionalText(200),
+  readingMinutes: readingMinutesField,
+  seoTitle: optionalText(160, "Keep the SEO title under 160 characters"),
+  seoDescription: optionalText(320, "Keep the SEO description under 320 characters"),
+  published: z.boolean(),
+});
+export type GuidePostInput = z.infer<typeof guidePostSchema>;
+
+/* ---------------------------------------------------------------
+   13. Gallery items
+--------------------------------------------------------------- */
+export const galleryItemCreateSchema = z.object({
+  url: urlField.refine((v) => v !== "", "Image URL is required"),
+  alt: z.string().trim().min(1, "Alt text is required").max(300, "Alt text is too long"),
+  category: z.string().trim().min(1, "Category is required").max(80, "Category is too long"),
+  caption: optionalText(300),
+  destinationId: z.string().trim().optional().or(z.literal("")),
+});
+export type GalleryItemCreateInput = z.infer<typeof galleryItemCreateSchema>;
+
+export const galleryItemUpdateSchema = galleryItemCreateSchema.extend({
+  id: idSchema,
+});
+export type GalleryItemUpdateInput = z.infer<typeof galleryItemUpdateSchema>;
+
+/* ---------------------------------------------------------------
+   14. Home sections
+--------------------------------------------------------------- */
+export const homeSectionUpdateSchema = z.object({
+  id: idSchema,
+  enabled: z.boolean(),
+  /** Raw JSON from the textarea — parsed (and type-checked) in the action. */
+  config: z
+    .string()
+    .optional()
+    .superRefine((value, ctx) => {
+      const trimmed = value?.trim();
+      if (!trimmed) return;
+      try {
+        JSON.parse(trimmed);
+      } catch {
+        ctx.addIssue({
+          code: "custom",
+          message: "Config must be valid JSON (double-quoted keys and strings).",
+        });
+      }
+    }),
+});
+export type HomeSectionUpdateInput = z.infer<typeof homeSectionUpdateSchema>;

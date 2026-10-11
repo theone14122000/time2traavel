@@ -27,6 +27,8 @@ import { SectionHeading, SectionWrapper } from "@/components/shared/section";
 import { PackageDetailActions } from "@/components/packages/package-detail-actions";
 import { PackageEnquiryButton } from "@/components/packages/package-enquiry";
 import { PackageGrid } from "@/components/packages/package-grid";
+import { PackageShare } from "@/components/packages/package-share";
+import { PrintItineraryButton } from "@/components/packages/print-itinerary";
 import { CompareProvider } from "@/components/packages/compare-context";
 import { CompareTray } from "@/components/packages/compare-tray";
 import { ReviewForm } from "@/components/forms/review-form";
@@ -299,7 +301,7 @@ export default async function PackageDetailPage({ params }: Props) {
             ) : null}
           </div>
 
-          <div>
+          <div className="grid content-start gap-6">
             <PackageDetailActions
               slug={pkg.slug}
               title={pkg.title}
@@ -309,6 +311,21 @@ export default async function PackageDetailPage({ params }: Props) {
               destinationSlug={pkg.destination?.slug}
               comparePkg={pkg}
             />
+
+            <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
+              <h3 className="font-display text-h4 uppercase">Share &amp; save</h3>
+              <div className="mt-4 grid gap-4">
+                <PackageShare title={pkg.title} path={`/packages/${pkg.slug}`} />
+                <PrintItineraryButton
+                  title={pkg.title}
+                  destinationName={pkg.destination?.name}
+                  durationText={duration || null}
+                  priceLabel={priceLabel}
+                  summary={pkg.summary}
+                  itinerary={itinerary}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </SectionWrapper>

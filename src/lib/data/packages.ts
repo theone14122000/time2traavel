@@ -164,6 +164,24 @@ export async function getPackageBySlug(slug: string): Promise<PackageDetail | nu
   );
 }
 
+/** Published packages by slug list — used by service detail cross-links. */
+export async function getPackagesBySlugs(slugs: string[]): Promise<PackageCard[]> {
+  const clean = Array.from(
+    new Set(slugs.map((slug) => slug?.trim()).filter(Boolean)),
+  );
+  if (clean.length === 0) return [];
+  return safeQuery(
+    "packages.bySlugs",
+    () =>
+      prisma.package.findMany({
+        where: { published: true, slug: { in: clean } },
+        select: cardSelect,
+        orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+      }),
+    [],
+  );
+}
+
 export async function getPackagesByDestination(
   destinationId: string,
   limit = 4,

@@ -13,6 +13,7 @@ import { BrutalImage } from "@/components/ui/brutal-image";
 import { SectionDivider } from "@/components/ui/dividers";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { DestinationEnquiryButton } from "@/components/destinations/destination-enquiry";
+import { WeatherWidget } from "@/components/destinations/weather-widget";
 import { PackageGrid } from "@/components/packages/package-grid";
 import { getDestinationBySlug } from "@/lib/data/destinations";
 import { getPackagesByDestination } from "@/lib/data/packages";
@@ -193,6 +194,8 @@ export default async function DestinationDetailPage({ params }: Props) {
           </div>
 
           <aside className="grid content-start gap-6">
+            <WeatherWidget place={destination.name} />
+
             {destination.bestTimeToVisit ? (
               <div className="border-4 border-ink bg-mint p-5 shadow-brutal-md">
                 <div className="flex items-center gap-2">

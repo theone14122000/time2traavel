@@ -20,6 +20,8 @@ enum ReviewStatus {
 
 enum InquiryStatus {
   NEW
+  IN_PROGRESS
+  QUOTED
   CONTACTED
   CLOSED
 }
@@ -29,6 +31,7 @@ enum InquiryType {
   TRIP_PLAN
   PACKAGE
   DESTINATION
+  SERVICE
 }
 
 enum MediaProvider {
@@ -37,39 +40,48 @@ enum MediaProvider {
 }
 
 model User {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   name         String
-  email        String   @unique
+  email        String    @unique
   passwordHash String
-  role         Role     @default(ADMIN)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  role         Role      @default(ADMIN)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  inquiries    Inquiry[]
 }
 
 model Destination {
-  id              String    @id @default(cuid())
-  slug            String    @unique
-  name            String
-  state           String
-  region          String?
-  summary         String?
-  description     String?   @db.Text
-  bestTimeToVisit String?   @db.Text
-  image           String?
-  imageAlt        String?
-  gallery         Json?
-  seoTitle        String?
-  seoDescription  String?
-  published       Boolean   @default(false)
-  featured        Boolean   @default(false)
-  order           Int       @default(0)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  packages        Package[]
+  id               String    @id @default(cuid())
+  slug             String    @unique
+  name             String
+  state            String
+  region           String?
+  country          String?
+  isInternational  Boolean   @default(false)
+  summary          String?
+  description      String?   @db.Text
+  bestTimeToVisit  String?   @db.Text
+  bestMonths       Json?
+  entryInfo        String?   @db.Text
+  image            String?
+  imageAlt         String?
+  focalX           Int?
+  focalY           Int?
+  gallery          Json?
+  seoTitle         String?
+  seoDescription   String?
+  published        Boolean   @default(false)
+  featured         Boolean   @default(false)
+  order            Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  packages         Package[]
+  galleryItems     GalleryItem[]
 
   @@index([published, order])
   @@index([state])
   @@index([region])
+  @@index([isInternational])
 }
 
 model Package {
@@ -85,6 +97,9 @@ model Package {
   price           Int?
   currency        String    @default("INR")
   priceNote       String?
+  tripType        String?
+  budgetBand      String?
+  bestMonths      Json?
   highlights      Json?
   inclusions      Json?
   exclusions      Json?
@@ -146,8 +161,10 @@ model Faq {
 
 model Inquiry {
   id               String        @id @default(cuid())
+  refId            String?       @unique
   type             InquiryType   @default(GENERAL)
   status           InquiryStatus @default(NEW)
+  source           String?
   name             String
   email            String
   phone            String?
@@ -155,6 +172,7 @@ model Inquiry {
   subject          String?
   packageId        String?
   destinationId    String?
+  serviceId        String?
   travelDate       DateTime?
   endDate          DateTime?
   travellers       Int?
@@ -162,6 +180,8 @@ model Inquiry {
   tripType         String?
   specialRequests  String?       @db.Text
   adminNotes       String?       @db.Text
+  assigneeId       String?
+  assignee         User?         @relation(fields: [assigneeId], references: [id], onDelete: SetNull)
   ipHash           String?
   userAgent        String?
   createdAt        DateTime      @default(now())
@@ -169,6 +189,7 @@ model Inquiry {
 
   @@index([status, createdAt])
   @@index([type])
+  @@index([source])
 }
 
 model NewsletterSubscriber {
@@ -217,4 +238,90 @@ model MediaAsset {
   provider  MediaProvider @default(LOCAL)
   publicId  String?
   createdAt DateTime      @default(now())
+}
+
+model Service {
+  id                String   @id @default(cuid())
+  slug              String   @unique
+  title             String
+  icon              String?
+  color             String?
+  shortDescription  String?  @db.Text
+  longDescription   String?  @db.Text
+  coverImage        String?
+  coverImageAlt     String?
+  processSteps      Json?
+  faqs              Json?
+  linkedPackageSlugs Json?
+  seoTitle          String?
+  seoDescription    String?
+  published         Boolean  @default(false)
+  order             Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([published, order])
+}
+
+model TripType {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  icon          String?
+  color         String?
+  description   String?  @db.Text
+  coverImage    String?
+  coverImageAlt String?
+  published     Boolean  @default(false)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([published, order])
+}
+
+model GuidePost {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  excerpt       String?  @db.Text
+  body          String?  @db.Text
+  category      String   @default("General")
+  coverImage    String?
+  coverImageAlt String?
+  readingMinutes Int?
+  seoTitle      String?
+  seoDescription String?
+  published     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([published, createdAt])
+  @@index([category])
+}
+
+model GalleryItem {
+  id            String        @id @default(cuid())
+  url           String
+  alt           String
+  category      String        @default("General")
+  caption       String?
+  destinationId String?
+  destination   Destination?  @relation(fields: [destinationId], references: [id], onDelete: SetNull)
+  width         Int?
+  height        Int?
+  order         Int           @default(0)
+  createdAt     DateTime      @default(now())
+
+  @@index([category, order])
+}
+
+model HomeSection {
+  id      String  @id @default(cuid())
+  key     String  @unique
+  enabled Boolean @default(true)
+  order   Int     @default(0)
+  config  Json?
+
+  @@index([enabled, order])
 }

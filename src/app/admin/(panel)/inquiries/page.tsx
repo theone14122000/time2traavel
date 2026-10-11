@@ -27,6 +27,8 @@ export const metadata: Metadata = {
 
 const statusVariant = {
   NEW: "default",
+  IN_PROGRESS: "lavender",
+  QUOTED: "peach",
   CONTACTED: "sky",
   CLOSED: "outline",
 } as const;
@@ -146,7 +148,12 @@ export default async function AdminInquiriesPage({
               !status ? "bg-lemon" : "bg-paper hover:bg-butter",
             )}
           >
-            All ({countFor("NEW") + countFor("CONTACTED") + countFor("CLOSED")})
+            All (
+            {Object.keys(INQUIRY_STATUSES).reduce(
+              (sum, key) => sum + countFor(key as InquiryStatus),
+              0,
+            )}
+            )
           </Link>
           {(
             Object.entries(INQUIRY_STATUSES) as [

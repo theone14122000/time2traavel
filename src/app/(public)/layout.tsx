@@ -2,6 +2,7 @@ import * as React from "react";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
+import { WhatsappFloat } from "@/components/shared/whatsapp-float";
 import { TripPlannerProvider } from "@/components/forms/trip-planner-context";
 import { RouteWipe } from "@/components/shared/motion";
 import { BackToTop } from "@/components/ui/back-to-top";
@@ -52,6 +53,7 @@ export default async function PublicLayout({
 
       <SiteFooter />
       <MobileActionBar phone={settings.phone} whatsapp={settings.whatsapp} />
+      <WhatsappFloat number={settings.whatsapp} />
       <BackToTop />
       <JsonLd data={jsonLd} />
     </TripPlannerProvider>

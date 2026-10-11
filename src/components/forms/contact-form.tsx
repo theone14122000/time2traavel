@@ -50,6 +50,8 @@ export function ContactForm({
   whatsappUrl,
   successTitle,
   nextSteps,
+  subject,
+  inquiryType,
 }: {
   className?: string;
   defaultMessage?: string;
@@ -63,6 +65,10 @@ export function ContactForm({
   successTitle?: string;
   /** "What happens next" bullets on the success panel. */
   nextSteps?: string[];
+  /** Optional enquiry subject recorded with the submission (e.g. a service). */
+  subject?: string;
+  /** Optional inquiry type recorded with the submission (e.g. "SERVICE"). */
+  inquiryType?: "GENERAL" | "SERVICE";
 }) {
   const [submitted, setSubmitted] = React.useState(false);
   const [submitError, setSubmitError] = React.useState<string | null>(null);
@@ -78,7 +84,10 @@ export function ContactForm({
 
   async function onSubmit(values: ContactInput) {
     setSubmitError(null);
-    const result = await submitContactAction(values);
+    const result = await submitContactAction(values, {
+      ...(subject ? { subject } : {}),
+      ...(inquiryType ? { type: inquiryType } : {}),
+    });
     if (result.ok) {
       toast.success(successMessage ?? result.message);
       form.reset({ ...defaultValues, message: defaultMessage ?? "" });

@@ -27,17 +27,29 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { asStr } from "@/components/admin/form-utils";
+import { INQUIRY_STATUSES } from "@/lib/constants";
+import type { InquiryStatus } from "@prisma/client";
 
-const STATUS_LABELS = {
-  NEW: "New",
-  CONTACTED: "Contacted",
-  CLOSED: "Closed",
-} as const;
+export type InquiryUserOption = {
+  id: string;
+  name: string;
+  email: string;
+  role: "ADMIN" | "EDITOR";
+};
+
+const NO_ASSIGNEE = "none";
 
 export function InquiryStatusForm({
   inquiry,
+  users,
 }: {
-  inquiry: { id: string; status: "NEW" | "CONTACTED" | "CLOSED"; adminNotes: string | null };
+  inquiry: {
+    id: string;
+    status: InquiryStatus;
+    adminNotes: string | null;
+    assigneeId?: string | null;
+  };
+  users: InquiryUserOption[];
 }) {
   const router = useRouter();
   const form = useForm<InquiryUpdateInput>({
@@ -46,6 +58,7 @@ export function InquiryStatusForm({
       id: inquiry.id,
       status: inquiry.status,
       adminNotes: inquiry.adminNotes ?? "",
+      assigneeId: inquiry.assigneeId ?? "",
     },
     mode: "onBlur",
   });
@@ -91,9 +104,40 @@ export function InquiryStatusForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.entries(STATUS_LABELS).map(([value, label]) => (
+                  {Object.entries(INQUIRY_STATUSES).map(([value, label]) => (
                     <SelectItem key={value} value={value}>
                       {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="assigneeId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Assignee</FormLabel>
+              <Select
+                value={asStr(field.value) || NO_ASSIGNEE}
+                onValueChange={(value) =>
+                  field.onChange(value === NO_ASSIGNEE ? "" : value)
+                }
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pick a staff member" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value={NO_ASSIGNEE}>Unassigned</SelectItem>
+                  {users.map((user) => (
+                    <SelectItem key={user.id} value={user.id}>
+                      {user.name} · {user.email}
                     </SelectItem>
                   ))}
                 </SelectContent>

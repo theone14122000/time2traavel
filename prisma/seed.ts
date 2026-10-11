@@ -56,7 +56,149 @@ async function main() {
   console.log("[seed] Running seed (no demo content — factual data only)...");
   await seedSiteSettings();
   await seedAdminUser();
+  await seedDestinationTaxonomy();
+  await seedDraftServices();
+  await seedTripTypes();
+  await seedHomeSections();
   console.log("[seed] Done.");
+}
+
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+/** Taxonomy-only destination names (unpublished; no descriptions/prices/claims). */
+async function seedDestinationTaxonomy() {
+  const taxonomy: Array<{
+    name: string;
+    state: string;
+    country?: string;
+    isInternational: boolean;
+  }> = [
+    // International (per brief; Andaman & Nicobar is an Indian UT flagged international per brief — admin can flip one click)
+    { name: "Dubai", state: "Dubai", country: "United Arab Emirates", isInternational: true },
+    { name: "Nepal", state: "Nepal", country: "Nepal", isInternational: true },
+    { name: "Bhutan", state: "Bhutan", country: "Bhutan", isInternational: true },
+    { name: "Myanmar", state: "Myanmar", country: "Myanmar", isInternational: true },
+    { name: "Andaman & Nicobar Islands", state: "Andaman & Nicobar Islands", country: "India", isInternational: true },
+    // Domestic regions
+    { name: "Himachal Pradesh", state: "Himachal Pradesh", isInternational: false },
+    { name: "Uttarakhand", state: "Uttarakhand", isInternational: false },
+    { name: "Jammu & Kashmir", state: "Jammu & Kashmir", isInternational: false },
+    { name: "Ladakh", state: "Ladakh", isInternational: false },
+    { name: "Rajasthan", state: "Rajasthan", isInternational: false },
+    { name: "Goa", state: "Goa", isInternational: false },
+    { name: "Kerala", state: "Kerala", isInternational: false },
+    { name: "North East India", state: "North East", isInternational: false },
+  ];
+  let created = 0;
+  for (const [index, item] of taxonomy.entries()) {
+    const slug = slugify(item.name);
+    const existing = await prisma.destination.findUnique({ where: { slug }, select: { id: true } });
+    if (existing) continue;
+    await prisma.destination.create({
+      data: {
+        slug,
+        name: item.name,
+        state: item.state,
+        country: item.country ?? "India",
+        isInternational: item.isInternational,
+        published: false,
+        order: index,
+      },
+    });
+    created++;
+  }
+  console.log(`[seed] Destination taxonomy: ${created} created (${taxonomy.length - created} existing).`);
+}
+
+/** Stock service NAMES only, unpublished drafts — client enables what they truly offer. */
+async function seedDraftServices() {
+  const names = [
+    "Holiday Packages",
+    "Customized Tours",
+    "Flight Tickets",
+    "Hotel Bookings",
+    "Visa Assistance",
+    "Passport Assistance",
+    "Cab and Car Rental",
+    "Tour Guides",
+    "Honeymoon Trips",
+    "Group Tours",
+    "Corporate Travel",
+    "Pilgrimage Tours",
+    "Adventure Trips",
+    "Travel Insurance",
+    "Forex Assistance",
+  ];
+  let created = 0;
+  for (const [index, title] of names.entries()) {
+    const slug = slugify(title);
+    const existing = await prisma.service.findUnique({ where: { slug }, select: { id: true } });
+    if (existing) continue;
+    await prisma.service.create({
+      data: { slug, title, published: false, order: index },
+    });
+    created++;
+  }
+  console.log(`[seed] Draft services: ${created} created (${names.length - created} existing).`);
+}
+
+async function seedTripTypes() {
+  const names = [
+    "Family",
+    "Honeymoon",
+    "Adventure",
+    "Group",
+    "Weekend Getaway",
+    "Pilgrimage",
+    "Corporate",
+  ];
+  let created = 0;
+  for (const [index, name] of names.entries()) {
+    const slug = slugify(name);
+    const existing = await prisma.tripType.findUnique({ where: { slug }, select: { id: true } });
+    if (existing) continue;
+    await prisma.tripType.create({
+      data: { slug, name, published: true, order: index },
+    });
+    created++;
+  }
+  console.log(`[seed] Trip types: ${created} created (${names.length - created} existing).`);
+}
+
+/** Default home section order/enabled flags (admin can toggle + drag-reorder). */
+async function seedHomeSections() {
+  const defaults: Array<{ key: string; enabled: boolean; order: number }> = [
+    { key: "announcement", enabled: true, order: 0 },
+    { key: "hero", enabled: true, order: 1 },
+    { key: "marquee", enabled: true, order: 2 },
+    { key: "domestic", enabled: true, order: 3 },
+    { key: "international", enabled: true, order: 4 },
+    { key: "featured_packages", enabled: true, order: 5 },
+    { key: "services", enabled: true, order: 6 },
+    { key: "how_it_works", enabled: true, order: 7 },
+    { key: "trip_types", enabled: true, order: 8 },
+    { key: "destination_finder", enabled: true, order: 9 },
+    { key: "gallery", enabled: true, order: 10 },
+    { key: "reviews", enabled: true, order: 11 },
+    { key: "guides", enabled: true, order: 12 },
+    { key: "founder", enabled: true, order: 13 },
+    { key: "faq", enabled: true, order: 14 },
+    { key: "final_cta", enabled: true, order: 15 },
+  ];
+  let created = 0;
+  for (const item of defaults) {
+    const existing = await prisma.homeSection.findUnique({ where: { key: item.key }, select: { id: true } });
+    if (existing) continue;
+    await prisma.homeSection.create({ data: item });
+    created++;
+  }
+  console.log(`[seed] Home sections: ${created} created (${defaults.length - created} existing).`);
 }
 
 main()

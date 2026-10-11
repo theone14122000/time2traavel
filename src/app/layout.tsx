@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Archivo_Black, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { CommandPaletteProvider } from "@/components/ui/command-palette";
+import { CookieConsent } from "@/components/ui/cookie-consent";
 import { SITE_IDENTITY } from "@/lib/constants";
 
 const archivo = Archivo_Black({
@@ -29,10 +31,13 @@ export const metadata: Metadata = {
   description: `${SITE_IDENTITY.name} — travel planning from ${SITE_IDENTITY.address}.`,
   applicationName: SITE_IDENTITY.name,
   category: "travel",
+  manifest: "/manifest.webmanifest",
 };
 
+// `themeColor` lives on `viewport` (the `metadata.themeColor` field is
+// deprecated since Next 14) and matches the manifest's theme_color.
 export const viewport = {
-  themeColor: "#fffdf5",
+  themeColor: "#FFE45E",
   width: "device-width",
   initialScale: 1,
 };
@@ -45,6 +50,17 @@ export default function RootLayout({
       <body className="min-h-dvh bg-cream font-sans text-ink antialiased">
         <Toaster />
         <CommandPaletteProvider>{children}</CommandPaletteProvider>
+        <CookieConsent />
+        {process.env.NODE_ENV === "production" ? (
+          <Script
+            id="tt-sw-register"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html:
+                'if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})})}',
+            }}
+          />
+        ) : null}
       </body>
     </html>
   );

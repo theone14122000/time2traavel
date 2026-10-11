@@ -15,7 +15,7 @@ export async function WhyChooseUs() {
     <section
       id="why-us"
       aria-labelledby="why-us-heading"
-      className="relative w-full border-y-[3px] border-ink bg-sand"
+      className="relative w-full border-y-[3px] border-ink bg-blush"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
