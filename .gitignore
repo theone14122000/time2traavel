@@ -1,0 +1,21 @@
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.log
+npm-debug.log*
+
+.env
+.env.local
+.env*.local
+
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# uploaded media (local fallback storage)
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+.vercel

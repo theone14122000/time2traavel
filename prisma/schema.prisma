@@ -1,0 +1,220 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+enum InquiryType {
+  GENERAL
+  TRIP_PLAN
+  PACKAGE
+  DESTINATION
+}
+
+enum MediaProvider {
+  LOCAL
+  CLOUDINARY
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Destination {
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  name            String
+  state           String
+  region          String?
+  summary         String?
+  description     String?   @db.Text
+  bestTimeToVisit String?   @db.Text
+  image           String?
+  imageAlt        String?
+  gallery         Json?
+  seoTitle        String?
+  seoDescription  String?
+  published       Boolean   @default(false)
+  featured        Boolean   @default(false)
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  packages        Package[]
+
+  @@index([published, order])
+  @@index([state])
+  @@index([region])
+}
+
+model Package {
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  title           String
+  summary         String?
+  description     String?   @db.Text
+  destinationId   String?
+  destination     Destination? @relation(fields: [destinationId], references: [id], onDelete: SetNull)
+  durationDays    Int       @default(1)
+  durationLabel   String?
+  price           Int?
+  currency        String    @default("INR")
+  priceNote       String?
+  highlights      Json?
+  inclusions      Json?
+  exclusions      Json?
+  image           String?
+  imageAlt        String?
+  gallery         Json?
+  seoTitle        String?
+  seoDescription  String?
+  published       Boolean   @default(false)
+  featured        Boolean   @default(false)
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  itinerary       PackageItineraryDay[]
+
+  @@index([published, order])
+  @@index([destinationId])
+  @@index([durationDays])
+  @@index([price])
+}
+
+model PackageItineraryDay {
+  id          String  @id @default(cuid())
+  packageId   String
+  package     Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  day         Int
+  title       String
+  description String  @db.Text
+
+  @@index([packageId, day])
+}
+
+model Review {
+  id         String       @id @default(cuid())
+  name       String
+  context    String?
+  rating     Int
+  comment    String       @db.Text
+  status     ReviewStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  approvedAt DateTime?
+
+  @@index([status, createdAt])
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  category  String   @default("General")
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published, order])
+  @@index([category])
+}
+
+model Inquiry {
+  id               String        @id @default(cuid())
+  type             InquiryType   @default(GENERAL)
+  status           InquiryStatus @default(NEW)
+  name             String
+  email            String
+  phone            String?
+  message          String?       @db.Text
+  subject          String?
+  packageId        String?
+  destinationId    String?
+  travelDate       DateTime?
+  endDate          DateTime?
+  travellers       Int?
+  budgetRange      String?
+  tripType         String?
+  specialRequests  String?       @db.Text
+  adminNotes       String?       @db.Text
+  ipHash           String?
+  userAgent        String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([status, createdAt])
+  @@index([type])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id                String   @id @default("singleton")
+  siteName          String   @default("Time to Travel")
+  tagline           String?
+  phone             String?
+  whatsapp          String?
+  email             String?
+  address           String   @default("Kasumpti, Shimla, Himachal Pradesh, India")
+  workingHours      String?
+  mapEmbedUrl       String?
+  socials           Json?
+  heroTitle         String?
+  heroSubtitle      String?
+  metaTitle         String?
+  metaDescription   String?
+  ogImage           String?
+  footerNote        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model PageContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  title     String?
+  body      String?  @db.Text
+  data      Json?
+  updatedAt DateTime @updatedAt
+}
+
+model MediaAsset {
+  id        String        @id @default(cuid())
+  url       String
+  alt       String
+  width     Int?
+  height    Int?
+  provider  MediaProvider @default(LOCAL)
+  publicId  String?
+  createdAt DateTime      @default(now())
+}

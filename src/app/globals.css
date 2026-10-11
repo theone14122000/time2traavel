@@ -1,0 +1,481 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/* ============================================================
+   TIME TO TRAVEL — NEO-BRUTALISM DESIGN TOKENS (Tailwind v4)
+   ------------------------------------------------------------
+   • Runtime variables live on :root (prefix --tt-*) so a future
+     dark theme only has to override that block.
+   • @theme inline maps them into Tailwind's color/shadow/radius
+     namespaces (bg-* / shadow-* / rounded-*).
+   • tailwind.config.ts mirrors the same tokens for tooling and
+     is loaded via @config below.
+   ============================================================ */
+
+:root {
+  /* ---- Base ---- */
+  --tt-ink: #0a0a0a;
+  --tt-ink-soft: #3d3d3d;
+  --tt-paper: #fffdf5;
+  --tt-cream: #fffdf5; /* legacy alias of paper */
+
+  /* ---- Section palette (one background per section tone) ---- */
+  --tt-sunrise: #ffe45e; /* sunrise yellow */
+  --tt-mint: #b8f2d0;
+  --tt-sky: #a9d8ff;
+  --tt-peach: #ffc9a8;
+  --tt-lavender: #d9c8ff;
+  --tt-blush: #ffc2d9;
+  --tt-sand: #f3ead9;
+
+  /* ---- Accents ---- */
+  --tt-tomato: #ff5a36; /* the one hot CTA accent */
+  --tt-lemon: #ffe45e; /* highlighter / label yellow (= sunrise) */
+  --tt-coral: #ff6b3d;
+  --tt-mint-strong: #7df0c4;
+  --tt-sky-strong: #7cc4ff;
+  --tt-grape: #6d4bff;
+  --tt-berry: #ff4d8d;
+
+  /* ---- Semantic ---- */
+  --tt-success: #157a44;
+  --tt-warning: #ffe45e;
+  --tt-danger: #c62014;
+
+  /* ---- Marker (highlighter underline) ---- */
+  --tt-marker: var(--tt-sunrise);
+  --tt-marker-hot: var(--tt-tomato);
+
+  /* ---- Borders: 2px small · 3px card · 4px hero/feature ---- */
+  --tt-bw-sm: 2px;
+  --tt-bw-md: 3px;
+  --tt-bw-lg: 4px;
+}
+
+@theme inline {
+  /* ---------- Fonts ---------- */
+  --font-display: var(--font-archivo), "Arial Black", "Helvetica Neue", sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ---------- Base palette ---------- */
+  --color-ink: var(--tt-ink);
+  --color-ink-soft: var(--tt-ink-soft);
+  --color-paper: var(--tt-paper);
+  --color-cream: var(--tt-cream);
+
+  /* ---------- Section palette (no adjacent repeats) ---------- */
+  --color-sunrise: var(--tt-sunrise);
+  --color-butter: var(--tt-sunrise); /* legacy name → sunrise yellow */
+  --color-mint: var(--tt-mint);
+  --color-sky: var(--tt-sky);
+  --color-peach: var(--tt-peach);
+  --color-lavender: var(--tt-lavender);
+  --color-blush: var(--tt-blush);
+  --color-pink: var(--tt-blush); /* legacy name → blush */
+  --color-sand: var(--tt-sand);
+
+  /* ---------- Accents ---------- */
+  --color-tomato: var(--tt-tomato);
+  --color-lemon: var(--tt-lemon);
+  --color-coral: var(--tt-coral);
+  --color-mint-strong: var(--tt-mint-strong);
+  --color-sky-strong: var(--tt-sky-strong);
+  --color-grape: var(--tt-grape);
+  --color-berry: var(--tt-berry);
+
+  /* ---------- Semantic ---------- */
+  --color-success: var(--tt-success);
+  --color-warning: var(--tt-warning);
+  --color-danger: var(--tt-danger);
+
+  /* ---------- Hard offset shadows (no blur) ----------
+     Canonical brutal scale: 3 / 6 / 10 px.
+     Legacy hard-* names kept so nothing breaks. */
+  --shadow-brutal-sm: 3px 3px 0 var(--tt-ink);
+  --shadow-brutal-md: 6px 6px 0 var(--tt-ink);
+  --shadow-brutal-lg: 10px 10px 0 var(--tt-ink);
+
+  --shadow-hard-xs: 2px 2px 0 var(--tt-ink);
+  --shadow-hard-sm: 4px 4px 0 var(--tt-ink);
+  --shadow-hard: 6px 6px 0 var(--tt-ink);
+  --shadow-hard-lg: 10px 10px 0 var(--tt-ink);
+  --shadow-hard-xl: 16px 16px 0 var(--tt-ink);
+  --shadow-hard-2xl: 24px 24px 0 var(--tt-ink);
+  --shadow-hard-lemon: 6px 6px 0 var(--tt-lemon);
+  --shadow-hard-coral: 6px 6px 0 var(--tt-coral);
+  --shadow-hard-tomato: 6px 6px 0 var(--tt-tomato);
+
+  /* ---------- Radius: 0 by default, 8px max (chips/inputs) ---------- */
+  --radius-none: 0px;
+  --radius-chip: 8px;
+
+  /* ---------- Type scale (fluid, mobile-first) ---------- */
+  --text-display: clamp(2.6rem, 8.5vw, 6.5rem);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-h1: clamp(2.1rem, 6vw, 4.25rem);
+  --text-h1--line-height: 0.95;
+  --text-h1--letter-spacing: -0.015em;
+
+  --text-h2: clamp(1.75rem, 4.4vw, 3.25rem);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.01em;
+
+  --text-h3: clamp(1.35rem, 2.6vw, 2rem);
+  --text-h3--line-height: 1.1;
+
+  --text-h4: clamp(1.1rem, 1.6vw, 1.35rem);
+  --text-h4--line-height: 1.2;
+
+  --text-lead: clamp(1.02rem, 1.5vw, 1.3rem);
+  --text-lead--line-height: 1.55;
+}
+
+@theme {
+  /* ---------- Motion ---------- */
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-marquee-slow: marquee 48s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 38s linear infinite;
+  --animate-pop: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-accordion-down: accordion-down 0.22s ease-out;
+  --animate-accordion-up: accordion-up 0.18s ease-out;
+  --animate-wipe: wipe 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes marquee-reverse {
+    from {
+      transform: translate3d(-50%, 0, 0);
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(0.96);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes wipe {
+    0% {
+      transform: translateX(-101%);
+    }
+    45% {
+      transform: translateX(0);
+    }
+    55% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(101%);
+    }
+  }
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--tt-ink);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+  }
+
+  body {
+    background-color: var(--tt-paper);
+    color: var(--tt-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem; /* 16px */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--tt-lemon);
+    color: var(--tt-ink);
+  }
+
+  /* Brutalist focus rings — thick, visible, keyboard only */
+  :focus-visible {
+    outline: var(--tt-bw-lg) solid var(--tt-ink);
+    outline-offset: 3px;
+    border-radius: 0;
+  }
+
+  [data-theme-dark] :focus-visible,
+  .bg-ink :focus-visible {
+    outline-color: var(--tt-lemon);
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    accent-color: var(--tt-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Chunky uppercase label used across the site (eyebrow / chips) */
+  .label-brutal {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+
+  /* Press-down interaction for interactive brutalist surfaces */
+  .press {
+    transition:
+      transform 120ms ease,
+      box-shadow 120ms ease,
+      background-color 120ms ease;
+  }
+  .press:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: calc(var(--press-x, 6px) + 2px) calc(var(--press-y, 6px) + 2px)
+      0 var(--tt-ink);
+  }
+  .press:active {
+    transform: translate(var(--press-x, 6px), var(--press-y, 6px));
+    box-shadow: 0 0 0 var(--tt-ink);
+  }
+
+  /* Visible grid structure helper */
+  .grid-lines {
+    background-image:
+      linear-gradient(to right, rgb(10 10 10 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(10 10 10 / 0.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Highlighter marker for key words inside display headings */
+  .marker {
+    background-image: linear-gradient(
+      to bottom,
+      transparent 58%,
+      var(--tt-marker) 58%,
+      var(--tt-marker) 94%,
+      transparent 94%
+    );
+    background-repeat: no-repeat;
+    padding-inline: 0.08em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .marker-hot {
+    --tt-marker: var(--tt-marker-hot);
+  }
+
+  /* Diagonal thick-stripe divider band */
+  .divider-stripe {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--tt-ink) 0 12px,
+      transparent 12px 26px
+    );
+  }
+
+  /* Simple rich-text rendering for admin-managed body copy */
+  .brutal-prose {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--tt-ink);
+  }
+  .brutal-prose p + p {
+    margin-top: 1rem;
+  }
+  .brutal-prose a {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+  }
+  .brutal-prose a:hover {
+    background-color: var(--tt-lemon);
+  }
+  .brutal-prose ul {
+    list-style: square;
+    padding-left: 1.25rem;
+    margin-top: 0.75rem;
+  }
+  .brutal-prose ol {
+    list-style: decimal;
+    padding-left: 1.25rem;
+    margin-top: 0.75rem;
+  }
+  .brutal-prose li + li {
+    margin-top: 0.35rem;
+  }
+  .brutal-prose strong {
+    font-weight: 800;
+  }
+  .brutal-prose h3 {
+    font-size: 1.35rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .brutal-prose blockquote {
+    border-left: var(--tt-bw-lg) solid var(--tt-ink);
+    padding-left: 1rem;
+    font-weight: 600;
+    margin: 1.25rem 0;
+  }
+
+  /* Skip-to-content link (visible only on keyboard focus) */
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: -100%;
+    z-index: 100;
+    border: var(--tt-bw-md) solid var(--tt-ink);
+    background: var(--tt-lemon);
+    padding: 0.75rem 1.25rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    box-shadow: var(--shadow-brutal-md);
+    transition: top 120ms ease;
+  }
+  .skip-link:focus-visible {
+    top: 1rem;
+  }
+
+  /* Ticker pauses while hovered (pointer devices) */
+  .marquee-pause:hover .marquee-track,
+  .marquee-pause:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar on horizontal scrollers (filters, chips) */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Text stroke for oversized outlined display type */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--tt-ink);
+  }
+
+  .text-outline-paper {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--tt-paper);
+  }
+
+  .z-1 {
+    z-index: 1;
+  }
+
+  /* 44px minimum touch target (WCAG 2.5.5) */
+  .tap-44 {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Horizontal snap scroller (mobile rails) */
+  .snap-rail {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .snap-rail > * {
+    scroll-snap-align: start;
+  }
+
+  /* Marquee track helper (duplicated groups, seamless loop) */
+  .marquee-track {
+    will-change: transform;
+  }
+
+  @media (hover: none) {
+    /* never rely on hover on touch devices */
+    .press:hover {
+      transform: none;
+    }
+  }
+}
+
+/* Respect the user's motion preference globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
