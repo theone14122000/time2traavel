@@ -170,14 +170,14 @@ function HeroHeading({ title }: { title: string }) {
   return (
     <h1
       id="hero-heading"
-      className="mt-4 max-w-[12ch] font-display text-[clamp(2rem,9.5vw,3.5rem)] uppercase leading-[0.95] tracking-tight text-ink lg:text-[clamp(3.1rem,4.8vw,5.25rem)]"
+      className="mt-3 max-w-[13ch] font-display text-[clamp(1.85rem,8.2vw,3.25rem)] uppercase leading-[0.96] tracking-tight text-ink sm:mt-4 lg:text-[clamp(3rem,4.6vw,5rem)]"
     >
       {lines.map((lineWords, i) => {
         const isLast = i === lines.length - 1 && lines.length >= 3;
         const delay = 0.12 + i * 0.1;
         if (isLast) {
           return line(
-            <span className="comic-panel comic-panel-tomato [text-shadow:2px_2px_0_var(--tt-ink)]">
+            <span className="comic-panel comic-panel-tomato max-w-full [text-shadow:2px_2px_0_var(--tt-ink)]">
               {lineWords.join(" ")}
             </span>,
             delay,
@@ -213,12 +213,12 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
       {/* dotted backdrop */}
       <div
         aria-hidden="true"
-        className="dots-field absolute -left-4 -top-4 h-[85%] w-[90%] border-[3px] border-ink bg-paper"
+        className="dots-field absolute -left-3 -top-3 h-[85%] w-[90%] border-[3px] border-ink bg-paper sm:-left-4 sm:-top-4"
       />
 
       {/* main image frame */}
       <motion.figure
-        className="relative z-10 aspect-[4/3] overflow-hidden border-[4px] border-ink bg-paper shadow-brutal-md"
+        className="relative z-10 aspect-[5/4] overflow-hidden border-[3px] border-ink bg-paper shadow-brutal-sm sm:aspect-[4/3] sm:border-[4px] sm:shadow-brutal-md"
         style={{ rotate: "-1.5deg" }}
         {...(anim
           ? {
@@ -244,21 +244,21 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         {/* corner tape */}
         <span
           aria-hidden="true"
-          className="absolute -left-3 -top-3 h-6 w-16 rotate-[-18deg] border-2 border-ink bg-lemon/80"
+          className="absolute -left-3 -top-3 h-5 w-12 rotate-[-18deg] border-2 border-ink bg-lemon/80 sm:h-6 sm:w-16"
         />
         <span
           aria-hidden="true"
-          className="absolute -right-3 -top-3 h-6 w-16 rotate-[16deg] border-2 border-ink bg-lemon/80"
+          className="absolute -right-3 -top-3 h-5 w-12 rotate-[16deg] border-2 border-ink bg-lemon/80 sm:h-6 sm:w-16"
         />
       </motion.figure>
 
       {/* overlapping mini card — secondary image or location chip card */}
       <motion.div
-        className="absolute -bottom-6 -left-2 z-20 w-[46%] max-w-[210px] sm:-left-6"
+        className="absolute -bottom-5 -left-1 z-20 w-[44%] max-w-[180px] sm:-bottom-6 sm:-left-6 sm:max-w-[210px]"
         {...pop(0.55)}
         style={{ rotate: "2.5deg" }}
       >
-        <div className="border-[3px] border-ink bg-paper p-2 shadow-brutal-sm">
+        <div className="border-[3px] border-ink bg-paper p-1.5 shadow-brutal-sm sm:p-2">
           {secondary?.src ? (
             <div className="aspect-[4/3] overflow-hidden border-2 border-ink">
               <BrutalImage
@@ -272,40 +272,42 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
             </div>
           ) : (
             <div className="flex aspect-[4/3] items-center justify-center border-2 border-ink bg-mint">
-              <Compass aria-hidden="true" className="size-10 text-mint-strong" strokeWidth={2.5} />
+              <Compass aria-hidden="true" className="size-8 text-mint-strong sm:size-10" strokeWidth={2.5} />
             </div>
           )}
-          <p className="label-brutal mt-2 px-0.5 text-ink-soft">From the hills</p>
+          <p className="label-brutal mt-1.5 px-0.5 text-[0.6rem] text-ink-soft sm:mt-2 sm:text-xs">
+            From the hills
+          </p>
         </div>
       </motion.div>
 
       {/* location badge */}
       <motion.div
-        className="absolute -right-1 top-4 z-20 sm:-right-4"
+        className="absolute -right-1 top-3 z-20 sm:-right-4 sm:top-4"
         {...pop(0.65)}
       >
-        <span className="label-brutal inline-flex items-center gap-1.5 border-[3px] border-ink bg-paper px-2.5 py-2 shadow-hard-xs">
-          <MapPin aria-hidden="true" className="size-3.5 text-tomato" />
+        <span className="label-brutal inline-flex items-center gap-1.5 border-[3px] border-ink bg-paper px-2 py-1.5 text-[0.6rem] shadow-hard-xs sm:px-2.5 sm:py-2 sm:text-xs">
+          <MapPin aria-hidden="true" className="size-3 text-tomato sm:size-3.5" />
           Shimla, India
         </span>
       </motion.div>
 
       {/* adventure sticker */}
       <motion.div
-        className="absolute -bottom-3 right-2 z-20 sm:right-6"
+        className="absolute -bottom-2 right-1 z-20 sm:-bottom-3 sm:right-6"
         {...pop(0.75)}
       >
         <span
-          className="sticker float-gentle bg-tomato text-cream"
+          className="sticker float-gentle bg-tomato text-[0.6rem] text-cream sm:text-xs"
           style={{ rotate: "4deg" }}
         >
           Adventure mode: on!
         </span>
       </motion.div>
 
-      {/* speech bubble */}
+      {/* speech bubble — tablet+ only */}
       <motion.div
-        className="absolute -top-10 right-4 z-20 hidden sm:block"
+        className="absolute -top-8 right-4 z-20 hidden sm:block"
         {...pop(0.7)}
       >
         <span
@@ -316,18 +318,18 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         </span>
       </motion.div>
 
-      {/* route + stars */}
+      {/* route + stars — tablet+ only */}
       <motion.div
-        className="absolute -top-8 left-8 z-20 hidden sm:block"
+        className="absolute -top-6 left-6 z-20 hidden sm:block"
         {...pop(0.7)}
       >
-        <RouteDecoration className="float-gentle-slow h-16 w-40" />
+        <RouteDecoration className="float-gentle-slow h-14 w-36 lg:h-16 lg:w-40" />
       </motion.div>
       <motion.div
-        className="absolute -right-2 bottom-16 z-20 hidden text-lemon sm:block"
+        className="absolute -right-1 bottom-14 z-20 hidden text-lemon sm:block"
         {...pop(0.8)}
       >
-        <StarAccent className="float-gentle size-6 drop-shadow-[2px_2px_0_var(--tt-ink)]" />
+        <StarAccent className="float-gentle size-5 drop-shadow-[2px_2px_0_var(--tt-ink)] lg:size-6" />
       </motion.div>
     </div>
   );
@@ -335,6 +337,8 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
 
 /* ------------------------------------------------------------------ *
  * Hero — "the world is your next comic book" magazine cover.          *
+ * Mobile-first: copy → illustration → meta (chips/counts).            *
+ * Desktop (lg+): two-column magazine layout with meta under the CTAs. *
  * ------------------------------------------------------------------ */
 export function Hero({
   title,
@@ -350,6 +354,9 @@ export function Hero({
   const animate = !reduceMotion;
 
   const container = stagger(0.1);
+  const showCounts = Boolean(
+    counts && (counts.destinations > 0 || counts.packages > 0),
+  );
 
   return (
     <section
@@ -357,31 +364,31 @@ export function Hero({
       className="relative w-full overflow-hidden border-b-[3px] border-ink bg-cream clip-x"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0" />
-      {/* soft corner wash — navy, not yellow */}
       <span
         aria-hidden="true"
-        className="absolute -right-24 -top-24 size-72 rounded-full bg-sky/40 blur-[2px] sm:size-96"
+        className="absolute -right-24 -top-24 size-56 rounded-full bg-sky/40 blur-[2px] sm:size-72 lg:size-96"
       />
       <span
         aria-hidden="true"
-        className="absolute -bottom-20 -left-16 size-52 rotate-12 border-[3px] border-ink bg-mint sm:size-64"
+        className="absolute -bottom-16 -left-12 size-36 rotate-12 border-[3px] border-ink bg-mint sm:size-48 lg:size-64"
       />
 
-      <Container className="relative px-6 pb-16 pt-12 sm:pb-14 sm:pt-14 lg:px-10 lg:py-20 xl:px-12">
+      <Container className="relative px-5 pb-10 pt-8 sm:px-6 sm:pb-12 sm:pt-10 lg:px-10 lg:py-20 xl:px-12">
         <motion.div
           initial={animate ? "hidden" : "show"}
           animate="show"
           variants={container}
-          className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10"
+          className="grid items-start gap-8 lg:grid-cols-12 lg:items-center lg:gap-10"
         >
-          {/* -------- Copy column -------- */}
-          <div className="lg:col-span-6 xl:col-span-6">
-            <motion.div variants={fadeUp}>
+          {/* -------- Headline block (always first) -------- */}
+          <div className="lg:col-span-6 lg:row-start-1 xl:col-span-6">
+            {/* Wordmark only where the sticky header doesn't already brand the page */}
+            <motion.div variants={fadeUp} className="hidden lg:block">
               <Wordmark size="lg" href={null} />
             </motion.div>
 
-            <motion.div variants={fadeUp} className="mt-5">
-              <span className="label-brutal inline-flex w-fit max-w-full items-center gap-2 border-[3px] border-ink bg-lemon px-2.5 py-2 text-[0.65rem] shadow-hard-xs sm:px-3 sm:text-xs">
+            <motion.div variants={fadeUp} className="mt-0 lg:mt-5">
+              <span className="label-brutal inline-flex w-fit max-w-full flex-wrap items-center gap-x-2 gap-y-1 border-[3px] border-ink bg-lemon px-2 py-1.5 text-[0.65rem] leading-snug shadow-hard-xs sm:px-3 sm:py-2 sm:text-xs">
                 <Sparkles aria-hidden="true" className="size-3.5 shrink-0" />
                 <span className="min-w-0">Issue No. 01 — the world awaits</span>
               </span>
@@ -391,13 +398,13 @@ export function Hero({
 
             <motion.p
               variants={fadeUp}
-              className="mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lead"
+              className="mt-4 max-w-xl text-[0.95rem] leading-relaxed text-ink-soft sm:mt-5 sm:text-base lg:text-lead"
             >
               {subtitle}
             </motion.p>
 
             {/* CTA pair */}
-            <motion.div variants={fadeUp} className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <motion.div variants={fadeUp} className="mt-5 flex flex-col gap-2.5 sm:mt-6 sm:flex-row sm:gap-3">
               <Button
                 asChild
                 size="lg"
@@ -419,11 +426,31 @@ export function Hero({
                 Build my adventure
               </Button>
             </motion.div>
+          </div>
 
-            {/* category chips */}
-            <motion.ul
-              variants={fadeUp}
-              className="mt-6 flex flex-wrap gap-2"
+          {/* -------- Illustration (directly after CTAs on mobile) -------- */}
+          <motion.div
+            className="pb-8 sm:pb-10 lg:col-span-6 lg:row-start-1 lg:col-start-7 lg:pb-0 xl:col-span-6"
+            initial={animate ? { opacity: 0 } : false}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <HeroComposition tiles={visibleTiles} />
+            {instruction ? (
+              <p className="label-brutal mt-8 text-center text-ink-soft lg:mt-8">
+                <Plane aria-hidden="true" className="mr-1.5 inline size-3.5 -translate-y-0.5" />
+                {instruction}
+              </p>
+            ) : null}
+          </motion.div>
+
+          {/* -------- Meta: chips + counts (below image on mobile, under CTAs on desktop) -------- */}
+          <motion.div
+            variants={fadeUp}
+            className="lg:col-span-6 lg:row-start-2 lg:col-start-1 xl:col-span-6"
+          >
+            <ul
+              className="flex flex-wrap gap-2"
               aria-label="Travel categories"
             >
               {CATEGORY_CHIPS.map((chip) => (
@@ -436,24 +463,20 @@ export function Hero({
                   </Link>
                 </li>
               ))}
-            </motion.ul>
+            </ul>
 
-            {/* real catalogue counts */}
-            {counts && (counts.destinations > 0 || counts.packages > 0) ? (
-              <motion.dl
-                variants={fadeUp}
-                className="mt-8 flex flex-wrap gap-6 border-t-[3px] border-ink/15 pt-6"
-              >
+            {showCounts ? (
+              <dl className="mt-5 flex flex-wrap gap-5 border-t-[3px] border-ink/15 pt-5 sm:gap-6 sm:pt-6">
                 <div>
                   <dt className="label-brutal text-ink-soft">Destinations</dt>
-                  <dd className="mt-1 font-display text-3xl leading-none text-ink">
-                    <CountUp value={counts.destinations} />
+                  <dd className="mt-1 font-display text-2xl leading-none text-ink sm:text-3xl">
+                    <CountUp value={counts!.destinations} />
                   </dd>
                 </div>
                 <div>
                   <dt className="label-brutal text-ink-soft">Packages</dt>
-                  <dd className="mt-1 font-display text-3xl leading-none text-ink">
-                    <CountUp value={counts.packages} />
+                  <dd className="mt-1 font-display text-2xl leading-none text-ink sm:text-3xl">
+                    <CountUp value={counts!.packages} />
                   </dd>
                 </div>
                 {founderName ? (
@@ -462,23 +485,7 @@ export function Hero({
                     <dd className="mt-1 text-sm font-bold text-ink">{founderName}</dd>
                   </div>
                 ) : null}
-              </motion.dl>
-            ) : null}
-          </div>
-
-          {/* -------- Composition column -------- */}
-          <motion.div
-            className="lg:col-span-6 xl:col-span-6"
-            initial={animate ? { opacity: 0 } : false}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <HeroComposition tiles={visibleTiles} />
-            {instruction ? (
-              <p className="label-brutal mt-10 text-center text-ink-soft lg:mt-8">
-                <Plane aria-hidden="true" className="mr-1.5 inline size-3.5 -translate-y-0.5" />
-                {instruction}
-              </p>
+              </dl>
             ) : null}
           </motion.div>
         </motion.div>

@@ -594,11 +594,19 @@
   /* Comic panel: last words of a heading sit in a solid colour block */
   .comic-panel {
     display: inline-block;
+    max-width: 100%;
     padding: 0.08em 0.28em 0.12em;
     border: 3px solid var(--tt-ink);
     box-shadow: 4px 4px 0 var(--tt-ink);
     line-height: 1;
     vertical-align: baseline;
+    overflow-wrap: break-word;
+  }
+  @media (max-width: 359px) {
+    .comic-panel {
+      box-shadow: 3px 3px 0 var(--tt-ink);
+      padding-inline: 0.2em;
+    }
   }
   .comic-panel-tomato {
     background: var(--tt-tomato);
