@@ -2,59 +2,61 @@
 @config "../../tailwind.config.ts";
 
 /* ============================================================
-   TIME TO TRAVEL — NEO-BRUTALISM DESIGN TOKENS (Tailwind v4)
+   TIME2TRAVEL — COMIC-EDITORIAL DESIGN TOKENS (Tailwind v4)
    ------------------------------------------------------------
-   • Runtime variables live on :root (prefix --tt-*) so a future
-     dark theme only has to override that block.
-   • @theme inline maps them into Tailwind's color/shadow/radius
-     namespaces (bg-* / shadow-* / rounded-*).
-   • tailwind.config.ts mirrors the same tokens for tooling and
-     is loaded via @config below.
+   Premium comic-book travel magazine: warm off-white canvas,
+   deep navy ink, coral primary, teal + purple accents.
+   Yellow is a highlight only — never a dominant background.
+   Variable names (--tt-*) are stable; values carry the brand.
    ============================================================ */
 
 :root {
   /* ---- Base ---- */
-  --tt-ink: #0a0a0a;
-  --tt-ink-soft: #3d3d3d;
-  --tt-paper: #fffdf5;
-  --tt-cream: #fffdf5; /* legacy alias of paper */
+  --tt-ink: #202a44; /* deep navy — text + comic outline */
+  --tt-ink-soft: #566174; /* secondary text */
+  --tt-paper: #ffffff; /* pure white cards */
+  --tt-cream: #fff9f0; /* warm off-white primary canvas */
 
-  /* ---- Section palette (one background per section tone) ---- */
-  --tt-sunrise: #ffe45e; /* sunrise yellow */
-  --tt-mint: #b8f2d0;
-  --tt-sky: #a9d8ff;
-  --tt-peach: #ffc9a8;
-  --tt-lavender: #d9c8ff;
-  --tt-blush: #ffc2d9;
-  --tt-sand: #f3ead9;
+  /* ---- Section palette (tinted neutrals + soft accents) ---- */
+  --tt-sunrise: #ffd866; /* yellow — highlights only */
+  --tt-mint: #ddf5e9; /* pale mint — trekking / nature */
+  --tt-sky: #a9d9ff; /* sky blue — international */
+  --tt-peach: #ffe0d5; /* soft coral tint */
+  --tt-lavender: #ede7fa; /* soft purple tint */
+  --tt-blush: #ffd6db; /* soft warm pink */
+  --tt-sand: #f5ede3; /* warm neutral band */
 
   /* ---- Accents ---- */
-  --tt-tomato: #ff5a36; /* the one hot CTA accent */
-  --tt-lemon: #ffe45e; /* highlighter / label yellow (= sunrise) */
-  --tt-coral: #ff6b3d;
-  --tt-mint-strong: #7df0c4;
-  --tt-sky-strong: #7cc4ff;
-  --tt-grape: #6d4bff;
-  --tt-berry: #ff4d8d;
+  --tt-tomato: #ff6847; /* coral — THE primary action accent */
+  --tt-lemon: #ffd866; /* yellow highlighter / star */
+  --tt-coral: #ff6847; /* alias of tomato */
+  --tt-mint-strong: #31b8a5; /* teal — nature / treks */
+  --tt-sky-strong: #6bb8e8;
+  --tt-grape: #7b61d1; /* purple — featured experiences */
+  --tt-berry: #e85d75;
 
   /* ---- Semantic ---- */
-  --tt-success: #157a44;
-  --tt-warning: #ffe45e;
-  --tt-danger: #c62014;
+  --tt-success: #1e8a6e;
+  --tt-warning: #ffd866;
+  --tt-danger: #d9442b;
 
   /* ---- Marker (highlighter underline) ---- */
-  --tt-marker: var(--tt-sunrise);
+  --tt-marker: var(--tt-lemon);
   --tt-marker-hot: var(--tt-tomato);
 
   /* ---- Borders: 2px small · 3px card · 4px hero/feature ---- */
   --tt-bw-sm: 2px;
   --tt-bw-md: 3px;
   --tt-bw-lg: 4px;
+
+  /* ---- Halftone / dotted comic textures ---- */
+  --tt-halftone: radial-gradient(circle, rgb(32 42 68 / 0.14) 1px, transparent 1.5px);
+  --tt-dots: radial-gradient(circle, rgb(32 42 68 / 0.12) 1.2px, transparent 1.5px);
 }
 
 @theme inline {
   /* ---------- Fonts ---------- */
-  --font-display: var(--font-archivo), "Arial Black", "Helvetica Neue", sans-serif;
+  --font-display: var(--font-bungee), "Arial Black", "Helvetica Neue", sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* ---------- Base palette ---------- */
@@ -226,7 +228,7 @@
   }
 
   body {
-    background-color: var(--tt-paper);
+    background-color: var(--tt-cream);
     color: var(--tt-ink);
     font-family: var(--font-sans);
     font-size: 1rem; /* 16px */
@@ -319,9 +321,21 @@
   /* Visible grid structure helper */
   .grid-lines {
     background-image:
-      linear-gradient(to right, rgb(10 10 10 / 0.07) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(10 10 10 / 0.07) 1px, transparent 1px);
+      linear-gradient(to right, rgb(32 42 68 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(32 42 68 / 0.06) 1px, transparent 1px);
     background-size: 48px 48px;
+  }
+
+  /* Subtle halftone dots — comic texture without noise */
+  .halftone {
+    background-image: var(--tt-halftone);
+    background-size: 14px 14px;
+  }
+
+  /* Sparse dotted field — hero / card backdrops */
+  .dots-field {
+    background-image: var(--tt-dots);
+    background-size: 22px 22px;
   }
 
   /* Highlighter marker for key words inside display headings */
@@ -422,6 +436,105 @@
   .marquee-pause:hover .marquee-track,
   .marquee-pause:focus-within .marquee-track {
     animation-play-state: paused;
+  }
+
+  /* ---- Comic visual language primitives ---- */
+
+  /* Adventure sticker — rotated die-cut label */
+  .sticker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--tt-bw-md) solid var(--tt-ink);
+    background: var(--tt-lemon);
+    padding: 0.45rem 0.85rem;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--tt-ink);
+    box-shadow: var(--shadow-hard-xs);
+    transform: rotate(-3deg);
+  }
+
+  /* Speech bubble with comic tail (down-left) */
+  .speech-bubble {
+    position: relative;
+    border: var(--tt-bw-md) solid var(--tt-ink);
+    background: var(--tt-paper);
+    padding: 0.75rem 1rem;
+    box-shadow: var(--shadow-hard-sm);
+    border-radius: 14px;
+  }
+  .speech-bubble::after {
+    content: "";
+    position: absolute;
+    left: 1.25rem;
+    bottom: -12px;
+    width: 16px;
+    height: 16px;
+    background: var(--tt-paper);
+    border-right: var(--tt-bw-md) solid var(--tt-ink);
+    border-bottom: var(--tt-bw-md) solid var(--tt-ink);
+    transform: rotate(45deg);
+  }
+
+  /* Motion lines — speed accent (decorative) */
+  .motion-lines {
+    background-image: repeating-linear-gradient(
+      -12deg,
+      transparent 0 6px,
+      rgb(32 42 68 / 0.18) 6px 8px,
+      transparent 8px 14px
+    );
+  }
+
+  /* Comic starburst behind badges */
+  .starburst {
+    background:
+      radial-gradient(circle at 50% 50%, var(--tt-lemon) 0 42%, transparent 43%),
+      conic-gradient(
+        from 0deg,
+        var(--tt-lemon) 0deg 12deg,
+        transparent 12deg 30deg,
+        var(--tt-lemon) 30deg 42deg,
+        transparent 42deg 60deg,
+        var(--tt-lemon) 60deg 72deg,
+        transparent 72deg 90deg,
+        var(--tt-lemon) 90deg 102deg,
+        transparent 102deg 120deg,
+        var(--tt-lemon) 120deg 132deg,
+        transparent 132deg 150deg,
+        var(--tt-lemon) 150deg 162deg,
+        transparent 162deg 180deg,
+        var(--tt-lemon) 180deg 192deg,
+        transparent 192deg 210deg,
+        var(--tt-lemon) 210deg 222deg,
+        transparent 222deg 240deg,
+        var(--tt-lemon) 240deg 252deg,
+        transparent 252deg 270deg,
+        var(--tt-lemon) 270deg 282deg,
+        transparent 282deg 300deg,
+        var(--tt-lemon) 300deg 312deg,
+        transparent 312deg 330deg,
+        var(--tt-lemon) 330deg 342deg,
+        transparent 342deg 360deg
+      );
+  }
+
+  /* Torn-paper bottom edge for magazine bands */
+  .torn-edge {
+    clip-path: polygon(
+      0% 0%, 100% 0%, 100% calc(100% - 10px),
+      96% 100%, 92% calc(100% - 8px), 88% 100%, 84% calc(100% - 6px),
+      80% 100%, 76% calc(100% - 10px), 72% 100%, 68% calc(100% - 7px),
+      64% 100%, 60% calc(100% - 9px), 56% 100%, 52% calc(100% - 6px),
+      48% 100%, 44% calc(100% - 10px), 40% 100%, 36% calc(100% - 7px),
+      32% 100%, 28% calc(100% - 9px), 24% 100%, 20% calc(100% - 6px),
+      16% 100%, 12% calc(100% - 10px), 8% 100%, 4% calc(100% - 7px),
+      0% 100%
+    );
   }
 }
 

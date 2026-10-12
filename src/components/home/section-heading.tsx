@@ -13,13 +13,17 @@ export function HomeSectionHeading({
   title,
   description,
   align = "left",
+  tone = "cream",
 }: {
   id: string;
   eyebrow?: string;
   title: React.ReactNode;
   description?: React.ReactNode;
   align?: "left" | "center";
+  /** "ink" = heading sits on a dark band (cream text). */
+  tone?: "cream" | "ink";
 }) {
+  const onDark = tone === "ink";
   return (
     <div
       className={cn(
@@ -28,19 +32,40 @@ export function HomeSectionHeading({
       )}
     >
       {eyebrow ? (
-        <span className="label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2 text-ink shadow-hard-xs">
+        <span
+          className={cn(
+            "label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink px-3 py-2 shadow-hard-xs",
+            onDark
+              ? "border-cream bg-tomato text-cream"
+              : "bg-lemon text-ink",
+          )}
+        >
           {eyebrow}
         </span>
       ) : null}
 
       <div id={id}>
-        <RevealTitle as="h2" className="max-w-[22ch] font-display text-h2 uppercase">
+        <RevealTitle
+          as="h2"
+          onDark={onDark}
+          className={cn(
+            "max-w-[22ch] font-display text-h2 uppercase",
+            onDark && "text-cream",
+          )}
+        >
           {title}
         </RevealTitle>
       </div>
 
       {description ? (
-        <p className="max-w-2xl text-lead font-medium text-ink-soft">{description}</p>
+        <p
+          className={cn(
+            "max-w-2xl text-lead font-medium",
+            onDark ? "text-cream/80" : "text-ink-soft",
+          )}
+        >
+          {description}
+        </p>
       ) : null}
     </div>
   );

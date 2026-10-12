@@ -73,8 +73,8 @@ export async function InternationalTrips() {
           <HomeSectionHeading
             id="international-heading"
             eyebrow="International"
-            title="Across the border"
-            description="Published destinations flagged for international travel — open one to see entry info and packages."
+            title="Your next passport stamp awaits!"
+            description="Discover exciting destinations, different cultures, and journeys that take you beyond the familiar."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">
             <Link href="/destinations/international">

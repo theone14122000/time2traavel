@@ -11,7 +11,7 @@ export default function PublicLoading() {
         className="w-full max-w-md border-[3px] border-ink bg-paper px-6 py-8 text-center shadow-hard-xl"
       >
         <p className="label-brutal mx-auto w-fit border-[3px] border-ink bg-ink px-3 py-2 text-cream">
-          Time to Travel
+          Time2Travel
         </p>
 
         <div

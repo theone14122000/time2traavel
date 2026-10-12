@@ -1,21 +1,22 @@
 "use client";
 
 import * as React from "react";
-import { ArrowRight, CalendarDays, Compass, MapPin, Users } from "lucide-react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import type { MotionValue } from "framer-motion";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Compass,
+  MapPin,
+  Plane,
+  Sparkles,
+} from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/shared/container";
 import { CountUp } from "@/components/shared/motion";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { BrutalImage } from "@/components/ui/brutal-image";
-import {
-  AnimatedHeading,
-  WordSwapper,
-} from "@/components/ui/animated-heading";
+import { Wordmark } from "@/components/brand/wordmark";
 import { useTripPlanner } from "@/components/forms/trip-planner-context";
-import { REGION_FILTERS, TRIP_TYPES, TRAVELLER_COUNTS } from "@/lib/constants";
-import { fadeUp, stagger } from "@/lib/motion";
+import { EASE, stagger, fadeUp } from "@/lib/motion";
 
 export type HeroTile = { src: string | null; alt: string };
 
@@ -25,111 +26,289 @@ type HeroProps = {
   instruction: string;
   /** Real database counts only (never invented). */
   counts?: { destinations: number; packages: number };
-  /** Destination images from the database — empty list renders the collage. */
+  /** Destination images from the database — empty list renders the illustrated fallback. */
   tiles?: HeroTile[];
   founderName?: string | null;
 };
 
-/** Structural swapper words — the site's own destination-region taxonomy. */
-const SWAPPER_WORDS = REGION_FILTERS.filter(
-  (region) => region !== "All",
-);
+/** Accurate category chips — drawn from the site's real taxonomy. */
+const CATEGORY_CHIPS = [
+  { label: "Himachal", href: "/destinations" },
+  { label: "Ladakh", href: "/destinations" },
+  { label: "Kashmir", href: "/destinations" },
+  { label: "International", href: "/destinations/international" },
+  { label: "Custom Trips", href: "/plan-my-trip" },
+] as const;
 
 /* ------------------------------------------------------------------ *
- * Decorative postcard/ticket/stamp collage — flat shapes only,        *
- * aria-hidden, contained inside the bordered frame.                    *
+ * Illustrated mountain fallback — SVG silhouettes (no fake photos).   *
  * ------------------------------------------------------------------ */
-function CollageShapes({
-  parallax,
-}: {
-  parallax?: {
-    a: MotionValue<number>;
-    b: MotionValue<number>;
-    c: MotionValue<number>;
-  };
-}) {
+function MountainIllustration() {
   return (
-    <div aria-hidden="true" className="flex h-full items-center justify-center gap-3 px-4">
-      {/* Postcard — percentage widths keep min-content at zero */}
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 640 400"
+      className="h-full w-full"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <rect width="640" height="400" fill="var(--tt-sky)" />
+      {/* sun */}
+      <circle cx="500" cy="96" r="44" fill="var(--tt-lemon)" stroke="var(--tt-ink)" strokeWidth="4" />
+      {/* far range */}
+      <path
+        d="M0 260 L120 140 L200 220 L300 100 L420 230 L520 130 L640 250 L640 400 L0 400 Z"
+        fill="var(--tt-mint-strong)"
+        stroke="var(--tt-ink)"
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
+      {/* near range */}
+      <path
+        d="M0 320 L90 220 L170 290 L280 180 L400 300 L500 210 L640 310 L640 400 L0 400 Z"
+        fill="var(--tt-mint)"
+        stroke="var(--tt-ink)"
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
+      {/* snow caps */}
+      <path d="M300 100 L270 140 L290 132 L310 148 L330 128 L350 142 Z" fill="var(--tt-paper)" stroke="var(--tt-ink)" strokeWidth="3" />
+      <path d="M120 140 L98 172 L114 166 L130 178 L146 160 Z" fill="var(--tt-paper)" stroke="var(--tt-ink)" strokeWidth="3" />
+      {/* foreground hills */}
+      <path
+        d="M0 380 L140 300 L260 360 L400 290 L540 370 L640 320 L640 400 L0 400 Z"
+        fill="var(--tt-cream)"
+        stroke="var(--tt-ink)"
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Flight-route decoration — dotted arc + paper plane.                 *
+ * ------------------------------------------------------------------ */
+function RouteDecoration({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 220 90"
+      className={className}
+      fill="none"
+    >
+      <path
+        d="M10 70 Q 80 0, 210 40"
+        stroke="var(--tt-ink)"
+        strokeWidth="2.5"
+        strokeDasharray="6 7"
+        strokeLinecap="round"
+      />
+      <g transform="translate(200 32) rotate(24)">
+        <path
+          d="M0 8 L18 0 L10 14 L8 8 Z"
+          fill="var(--tt-tomato)"
+          stroke="var(--tt-ink)"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Star accent — small comic sparkle.                                  *
+ * ------------------------------------------------------------------ */
+function StarAccent({ className }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="currentColor">
+      <path d="M12 0l2.4 7.2L21 4.8l-3 6.6 6 1.8-6 1.8 3 6.6-6.6-2.4L12 24l-2.4-7.2L3 19.2l3-6.6-6-1.8 6-1.8-3-6.6 6.6 2.4z" />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Hero heading — editorial comic display with selective colour.       *
+ * ------------------------------------------------------------------ */
+function HeroHeading({ title }: { title: string }) {
+  const reduceMotion = useReducedMotion();
+  const words = title.trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return null;
+
+  /* Front-load: first half on line 1, remainder on line 2; last word coral. */
+  const splitAt = Math.max(1, Math.ceil(words.length / 2));
+  const line1 = words.slice(0, splitAt);
+  const line2 = words.slice(splitAt);
+  const lastWord = line2.length > 0 ? line2[line2.length - 1] : null;
+  const line2Main = line2.length > 0 ? line2.slice(0, -1) : [];
+
+  const rise = (delay: number) =>
+    reduceMotion
+      ? {}
+      : {
+          initial: { y: "110%", opacity: 0 },
+          animate: { y: 0, opacity: 1 },
+          transition: { duration: 0.55, ease: EASE, delay },
+        };
+
+  const line = (content: React.ReactNode, delay: number, key: string) => (
+    <span key={key} className="block overflow-hidden pb-1 -mb-1">
+      <motion.span className="block" {...rise(delay)}>
+        {content}
+      </motion.span>
+    </span>
+  );
+
+  return (
+    <h1 className="mt-4 max-w-[14ch] font-display text-[clamp(2.35rem,10.5vw,3.75rem)] uppercase leading-[0.95] tracking-tight text-ink lg:text-[clamp(3.4rem,5.2vw,5.75rem)]">
+      {line(line1.join(" "), 0.12, "l1")}
+      {line(
+        <>
+          {line2Main.length > 0 ? `${line2Main.join(" ")} ` : null}
+          {lastWord ? (
+            <span className="relative inline-block text-tomato">
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-[-0.12em] inset-y-[0.08em] -z-10 block bg-tomato/15"
+              />
+              {lastWord}
+            </span>
+          ) : null}
+        </>,
+        0.22,
+        "l2",
+      )}
+    </h1>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Right-side layered composition.                                     *
+ * ------------------------------------------------------------------ */
+function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
+  const reduceMotion = useReducedMotion();
+  const primary = tiles[0] ?? null;
+  const secondary = tiles[1] ?? null;
+  const anim = !reduceMotion;
+
+  const pop = (delay: number) =>
+    anim
+      ? {
+          initial: { opacity: 0, scale: 0.88, rotate: -2 },
+          animate: { opacity: 1, scale: 1 },
+          transition: { duration: 0.5, ease: EASE, delay },
+        }
+      : {};
+
+  return (
+    <div className="relative mx-auto w-full max-w-[540px] lg:max-w-none">
+      {/* dotted backdrop */}
+      <div
+        aria-hidden="true"
+        className="dots-field absolute -left-4 -top-4 h-[85%] w-[90%] border-[3px] border-ink bg-paper"
+      />
+
+      {/* main image frame */}
       <motion.figure
-        style={{
-          rotate: "-4deg",
-          y: parallax?.a,
-        }}
-        className="relative aspect-[4/3] w-[44%] max-h-full shrink border-[3px] border-ink bg-paper shadow-hard-sm"
+        className="relative z-10 aspect-[4/3] overflow-hidden border-[4px] border-ink bg-paper shadow-brutal-md"
+        style={{ rotate: "-1.5deg" }}
+        {...(anim
+          ? {
+              initial: { opacity: 0, clipPath: "inset(8% 8% 8% 8%)" },
+              animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)" },
+              transition: { duration: 0.7, ease: EASE, delay: 0.35 },
+            }
+          : {})}
       >
-        <span className="absolute inset-1.5 border-2 border-dashed border-ink/30" />
-        <span className="absolute left-3 top-3 h-2 w-2/3 bg-sky" />
-        <span className="absolute left-3 top-7 h-2 w-1/2 bg-mint" />
-        <span className="absolute bottom-3 right-3 size-8 rounded-full border-[3px] border-ink bg-blush" />
+        {primary?.src ? (
+          <BrutalImage
+            src={primary.src}
+            alt={primary.alt}
+            decorative={!primary.alt}
+            aspect="free"
+            priority
+            sizes="(max-width: 1024px) 90vw, 42vw"
+            className="h-full w-full"
+          />
+        ) : (
+          <MountainIllustration />
+        )}
+        {/* corner tape */}
+        <span
+          aria-hidden="true"
+          className="absolute -left-3 -top-3 h-6 w-16 rotate-[-18deg] border-2 border-ink bg-lemon/80"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute -right-3 -top-3 h-6 w-16 rotate-[16deg] border-2 border-ink bg-lemon/80"
+        />
       </motion.figure>
 
-      {/* Ticket */}
-      <motion.figure
-        style={{ rotate: "3deg", y: parallax?.b }}
-        className="relative aspect-[3/4] w-[28%] max-h-full shrink border-[3px] border-ink bg-lemon shadow-hard-sm"
+      {/* overlapping mini card — secondary image or location chip card */}
+      <motion.div
+        className="absolute -bottom-6 -left-2 z-20 w-[46%] max-w-[210px] sm:-left-6"
+        {...pop(0.55)}
+        style={{ rotate: "2.5deg" }}
       >
-        <span className="absolute inset-x-0 top-1/2 border-t-2 border-dashed border-ink/50" />
-        <span className="absolute left-2 top-2 size-4 border-2 border-ink bg-paper" />
-        <span className="absolute bottom-2 left-2 h-2 w-10 bg-tomato" />
-        <span className="absolute bottom-6 left-2 h-2 w-6 bg-ink" />
-      </motion.figure>
+        <div className="border-[3px] border-ink bg-paper p-2 shadow-brutal-sm">
+          {secondary?.src ? (
+            <div className="aspect-[4/3] overflow-hidden border-2 border-ink">
+              <BrutalImage
+                src={secondary.src}
+                alt={secondary.alt}
+                decorative={!secondary.alt}
+                aspect="free"
+                sizes="210px"
+                className="h-full w-full"
+              />
+            </div>
+          ) : (
+            <div className="flex aspect-[4/3] items-center justify-center border-2 border-ink bg-mint">
+              <Compass aria-hidden="true" className="size-10 text-mint-strong" strokeWidth={2.5} />
+            </div>
+          )}
+          <p className="label-brutal mt-2 px-0.5 text-ink-soft">From the hills</p>
+        </div>
+      </motion.div>
 
-      {/* Stamp */}
-      <motion.figure
-        style={{ rotate: "-8deg", y: parallax?.c }}
-        className="relative aspect-square w-[24%] max-h-full shrink border-[3px] border-dashed border-ink bg-lavender shadow-hard-sm"
+      {/* location badge */}
+      <motion.div
+        className="absolute -right-1 top-4 z-20 sm:-right-4"
+        {...pop(0.65)}
       >
-        <span className="absolute inset-1.5 border-2 border-ink bg-peach" />
-        <span className="absolute left-1/2 top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-ink bg-mint" />
-      </motion.figure>
+        <span className="label-brutal inline-flex items-center gap-1.5 border-[3px] border-ink bg-paper px-2.5 py-2 shadow-hard-xs">
+          <MapPin aria-hidden="true" className="size-3.5 text-tomato" />
+          Shimla, India
+        </span>
+      </motion.div>
+
+      {/* adventure sticker */}
+      <motion.div
+        className="absolute -bottom-3 right-2 z-20 sm:right-6"
+        {...pop(0.75)}
+      >
+        <span className="sticker bg-tomato text-cream" style={{ rotate: "4deg" }}>
+          Adventure mode: on!
+        </span>
+      </motion.div>
+
+      {/* route + stars */}
+      <motion.div className="absolute -top-8 left-8 z-20 hidden sm:block" {...pop(0.7)}>
+        <RouteDecoration className="h-16 w-40" />
+      </motion.div>
+      <motion.div
+        className="absolute -right-2 bottom-16 z-20 hidden text-lemon sm:block"
+        {...pop(0.8)}
+      >
+        <StarAccent className="size-6 drop-shadow-[2px_2px_0_var(--tt-ink)]" />
+      </motion.div>
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ *
- * Hero visual — swipeable image carousel when admin images exist,     *
- * compact decorative collage otherwise. Framed, never cropped oddly.   *
+ * Hero — "the world is your next comic book" magazine cover.          *
  * ------------------------------------------------------------------ */
-function HeroVisual({
-  tiles,
-  parallax,
-}: {
-  tiles: HeroTile[];
-  parallax?: {
-    a: MotionValue<number>;
-    b: MotionValue<number>;
-    c: MotionValue<number>;
-  };
-}) {
-  const hasTiles = tiles.length > 0;
-
-  if (hasTiles) {
-    return (
-      <div className="snap-rail no-scrollbar flex h-full items-center gap-3 overflow-x-auto p-3">
-        {tiles.map((tile, index) => (
-          <figure
-            key={`hero-tile-${index}`}
-            className="aspect-[4/3] h-full shrink-0 snap-center"
-          >
-            <BrutalImage
-              src={tile.src}
-              alt={tile.alt}
-              decorative={!tile.alt}
-              aspect="free"
-              priority={index === 0}
-              sizes="(max-width: 768px) 85vw, 34vw"
-              className="h-full w-full shadow-hard-sm"
-            />
-          </figure>
-        ))}
-      </div>
-    );
-  }
-
-  return <CollageShapes parallax={parallax} />;
-}
-
 export function Hero({
   title,
   subtitle,
@@ -140,287 +319,143 @@ export function Hero({
 }: HeroProps) {
   const { openPlanner } = useTripPlanner();
   const reduceMotion = useReducedMotion();
-
-  const [destination, setDestination] = React.useState("");
-  const [travelDate, setTravelDate] = React.useState("");
-  const [travellers, setTravellers] = React.useState("");
-  const [tripType, setTripType] = React.useState("");
-
-  const hasCounts = Boolean(
-    counts && (counts.destinations > 0 || counts.packages > 0),
-  );
-  const visibleTiles: HeroTile[] = tiles.slice(0, 3);
+  const visibleTiles: HeroTile[] = tiles.slice(0, 2);
   const animate = !reduceMotion;
 
-  /* Desktop parallax — subtle scroll-linked shift on the collage only. */
-  const sectionRef = React.useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-  const py1 = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : -26]);
-  const py2 = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : 16]);
-  const py3 = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : -12]);
-  const parallax = React.useMemo(
-    () => ({ a: py1, b: py2, c: py3 }),
-    [py1, py2, py3],
-  );
-
-  function handleStart(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    openPlanner({ destination, travelDate, travellers, tripType });
-  }
-
-  function handleQuickPlan() {
-    openPlanner({ destination, travelDate, travellers, tripType });
-  }
+  const container = stagger(0.1);
 
   return (
     <section
-      ref={sectionRef}
       aria-labelledby="hero-heading"
-      className="relative w-full overflow-hidden border-b-[3px] border-ink bg-sunrise clip-x md:min-h-svh"
+      className="relative w-full overflow-hidden border-b-[3px] border-ink bg-cream clip-x"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0" />
+      {/* soft corner wash — navy, not yellow */}
       <span
         aria-hidden="true"
-        className="absolute -right-10 -top-10 size-44 rotate-12 border-[3px] border-ink bg-lemon sm:size-64"
+        className="absolute -right-24 -top-24 size-72 rounded-full bg-sky/40 blur-[2px] sm:size-96"
+      />
+      <span
+        aria-hidden="true"
+        className="absolute -bottom-20 -left-16 size-52 rotate-12 border-[3px] border-ink bg-mint sm:size-64"
       />
 
-      {/* 24px side padding on mobile, then the standard fluid scale */}
-      <Container className="relative px-6 py-12 sm:px-6 sm:py-14 lg:px-10 lg:py-16 xl:px-14 xl:py-20">
+      <Container className="relative px-6 py-12 sm:py-14 lg:px-10 lg:py-20 xl:px-12">
         <motion.div
           initial={animate ? "hidden" : "show"}
           animate="show"
-          variants={stagger(0.08)}
+          variants={container}
+          className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10"
         >
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-12 lg:gap-10">
-            {/* -------- Copy column: chip → headline → swapper → sub → CTAs -------- */}
-            <motion.div
-              variants={fadeUp}
-              className="md:col-span-1 lg:col-span-7"
-            >
-              <span className="label-brutal inline-flex items-center gap-2 border-[3px] border-ink bg-paper px-3 py-2 shadow-hard-xs">
-                <MapPin aria-hidden="true" className="size-3.5" />
-                Kasumpti, Shimla · Himachal Pradesh
-              </span>
-
-              <AnimatedHeading
-                as="h1"
-                id="hero-heading"
-                text={title}
-                variant="hero"
-                lines={3}
-                scribble={0}
-                sticker
-                className="mt-5 max-w-[13ch] text-hero uppercase lg:text-hero-lg"
-              />
-
-              <WordSwapper
-                words={SWAPPER_WORDS}
-                prefix="Explore"
-                tone="mint"
-                className="mt-3"
-              />
-
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lead">
-                {subtitle}
-              </p>
-
-              {/* CTA pair — stacked on phones, side by side once they fit */}
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Button
-                  type="button"
-                  size="lg"
-                  className="w-full sm:w-auto"
-                  onClick={handleQuickPlan}
-                  magnetic
-                >
-                  <Compass aria-hidden="true" className="size-5" />
-                  Plan My Trip
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto"
-                >
-                  <a href="#destinations">
-                    Browse destinations
-                    <ArrowRight aria-hidden="true" className="size-5" />
-                  </a>
-                </Button>
-              </div>
+          {/* -------- Copy column -------- */}
+          <div className="lg:col-span-6 xl:col-span-6">
+            <motion.div variants={fadeUp}>
+              <Wordmark size="lg" href={null} />
             </motion.div>
 
-            {/* -------- Visual column: framed collage + anchored sticker -------- */}
-            <motion.aside
+            <motion.div variants={fadeUp} className="mt-5">
+              <span className="label-brutal inline-flex items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2 shadow-hard-xs">
+                <Sparkles aria-hidden="true" className="size-3.5" />
+                Your adventure starts here
+              </span>
+            </motion.div>
+
+            <div id="hero-heading">
+              <HeroHeading title={title} />
+            </div>
+
+            <motion.p
               variants={fadeUp}
-              className="md:col-span-1 lg:col-span-5"
-              aria-label="Time to Travel at a glance"
+              className="mt-5 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lead"
             >
-              <div className="relative">
-                {/* Rotated sticker — anchored to the frame corner, never over text */}
-                <span
-                  aria-hidden="true"
-                  className="absolute -right-2 -top-5 z-10 flex size-[76px] rotate-[10deg] items-center justify-center rounded-full border-[3px] border-ink bg-tomato text-center text-[10px] font-black uppercase leading-tight tracking-wide text-ink shadow-hard-xs sm:size-[84px] sm:text-[11px]"
-                >
-                  Shimla
-                  <br />
-                  based
-                </span>
+              {subtitle}
+            </motion.p>
 
-                <div className="h-[212px] overflow-hidden border-[3px] border-ink bg-paper shadow-brutal-md sm:h-[248px] lg:h-[340px] xl:h-[380px]">
-                  <HeroVisual tiles={visibleTiles} parallax={parallax} />
-                </div>
-              </div>
+            {/* CTA pair */}
+            <motion.div variants={fadeUp} className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Button
+                asChild
+                size="lg"
+                className="w-full sm:w-auto"
+              >
+                <a href="#destinations">
+                  Explore destinations
+                  <ArrowRight aria-hidden="true" className="size-5" />
+                </a>
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto"
+                onClick={() => openPlanner({})}
+              >
+                <Compass aria-hidden="true" className="size-5" />
+                Plan my adventure
+              </Button>
+            </motion.div>
 
-              {hasCounts ? (
-                <div className="mt-6 hidden border-4 border-ink bg-paper p-5 shadow-brutal-md sm:block">
-                  <p className="label-brutal text-ink-soft">
-                    Live from our catalogue
-                  </p>
-
-                  <dl className="mt-4 grid grid-cols-2 gap-3">
-                    <div className="border-[3px] border-ink bg-mint p-4 shadow-hard-xs">
-                      <dt className="label-brutal text-ink-soft">
-                        Destinations
-                      </dt>
-                      <dd className="mt-2 font-display text-4xl leading-none">
-                        <CountUp value={counts?.destinations ?? 0} />
-                      </dd>
-                    </div>
-                    <div className="border-[3px] border-ink bg-sky p-4 shadow-hard-xs">
-                      <dt className="label-brutal text-ink-soft">Packages</dt>
-                      <dd className="mt-2 font-display text-4xl leading-none">
-                        <CountUp value={counts?.packages ?? 0} />
-                      </dd>
-                    </div>
-                  </dl>
-
-                  <ul className="mt-4 grid gap-2 text-sm font-semibold">
-                    <li className="flex items-center gap-2 border-[3px] border-ink bg-sunrise px-3 py-2">
-                      <span aria-hidden="true">→</span> Office in Kasumpti,
-                      Shimla, Himachal Pradesh
-                    </li>
-                    {founderName ? (
-                      <li className="flex items-center gap-2 border-[3px] border-ink bg-sunrise px-3 py-2">
-                        <span aria-hidden="true">→</span> Founded by{" "}
-                        {founderName}
-                      </li>
-                    ) : null}
-                    <li className="flex items-center gap-2 border-[3px] border-ink bg-sunrise px-3 py-2">
-                      <span aria-hidden="true">→</span> Destinations, packages
-                      &amp; FAQs managed by our team
-                    </li>
-                  </ul>
-                </div>
-              ) : null}
-            </motion.aside>
-
-            {/* -------- Boarding-pass enquiry panel: full-width, in-flow -------- */}
-            <motion.form
+            {/* category chips */}
+            <motion.ul
               variants={fadeUp}
-              onSubmit={handleStart}
-              className="border-4 border-ink bg-paper p-4 shadow-brutal-md sm:p-5 md:col-span-2 lg:col-span-12"
-              aria-label="Quick trip enquiry"
+              className="mt-6 flex flex-wrap gap-2"
+              aria-label="Travel categories"
             >
-              <p className="label-brutal mb-4 text-ink-soft">{instruction}</p>
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {/* Destination — full row */}
-                <label className="grid min-w-0 gap-1.5 sm:col-span-2">
-                  <span className="label-brutal flex items-center gap-1.5">
-                    <MapPin aria-hidden="true" className="size-3.5" />
-                    Destination
-                  </span>
-                  <Input
-                    value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
-                    placeholder="Where to?"
-                    autoComplete="off"
-                    enterKeyHint="next"
-                    name="quick-destination"
-                    className="min-w-0"
-                  />
-                </label>
-
-                {/* Date + Travellers — two columns */}
-                <label className="grid min-w-0 gap-1.5">
-                  <span className="label-brutal flex items-center gap-1.5">
-                    <CalendarDays aria-hidden="true" className="size-3.5" />
-                    Travel date
-                  </span>
-                  <Input
-                    type="date"
-                    value={travelDate}
-                    onChange={(e) => setTravelDate(e.target.value)}
-                    name="quick-date"
-                    className="min-w-0"
-                  />
-                </label>
-
-                <label className="grid min-w-0 gap-1.5">
-                  <span className="label-brutal flex items-center gap-1.5">
-                    <Users aria-hidden="true" className="size-3.5" />
-                    Travellers
-                  </span>
-                  <select
-                    value={travellers}
-                    onChange={(e) => setTravellers(e.target.value)}
-                    name="quick-travellers"
-                    className="h-12 w-full min-w-0 appearance-none rounded-chip border-[3px] border-ink bg-paper px-3.5 py-2 text-base font-medium shadow-hard-xs focus:outline-none focus-visible:shadow-[4px_4px_0_var(--color-ink)]"
+              {CATEGORY_CHIPS.map((chip) => (
+                <li key={chip.label}>
+                  <Link
+                    href={chip.href}
+                    className="label-brutal inline-flex min-h-11 items-center border-[3px] border-ink bg-paper px-3 py-2 text-ink transition hover:bg-sky focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
-                    <option value="">Any</option>
-                    {TRAVELLER_COUNTS.map((count) => (
-                      <option key={count} value={count}>
-                        {count}
-                        {count === "8+"
-                          ? " people"
-                          : count === "1"
-                            ? " traveller"
-                            : " travellers"}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                    {chip.label}
+                  </Link>
+                </li>
+              ))}
+            </motion.ul>
 
-                {/* Trip type — full row */}
-                <label className="grid min-w-0 gap-1.5 sm:col-span-2">
-                  <span className="label-brutal flex items-center gap-1.5">
-                    <Compass aria-hidden="true" className="size-3.5" />
-                    Trip type
-                  </span>
-                  <select
-                    value={tripType}
-                    onChange={(e) => setTripType(e.target.value)}
-                    name="quick-trip-type"
-                    className="h-12 w-full min-w-0 appearance-none rounded-chip border-[3px] border-ink bg-paper px-3.5 py-2 text-base font-medium shadow-hard-xs focus:outline-none focus-visible:shadow-[4px_4px_0_var(--color-ink)]"
-                  >
-                    <option value="">Any</option>
-                    {TRIP_TYPES.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-
-              {/* CTA */}
-              <div className="mt-4">
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full sm:w-auto"
-                  magnetic
-                >
-                  <Compass aria-hidden="true" className="size-5" />
-                  Plan My Trip
-                </Button>
-              </div>
-            </motion.form>
+            {/* real catalogue counts */}
+            {counts && (counts.destinations > 0 || counts.packages > 0) ? (
+              <motion.dl
+                variants={fadeUp}
+                className="mt-8 flex flex-wrap gap-6 border-t-[3px] border-ink/15 pt-6"
+              >
+                <div>
+                  <dt className="label-brutal text-ink-soft">Destinations</dt>
+                  <dd className="mt-1 font-display text-3xl leading-none text-ink">
+                    <CountUp value={counts.destinations} />
+                  </dd>
+                </div>
+                <div>
+                  <dt className="label-brutal text-ink-soft">Packages</dt>
+                  <dd className="mt-1 font-display text-3xl leading-none text-ink">
+                    <CountUp value={counts.packages} />
+                  </dd>
+                </div>
+                {founderName ? (
+                  <div className="min-w-0">
+                    <dt className="label-brutal text-ink-soft">Founded by</dt>
+                    <dd className="mt-1 text-sm font-bold text-ink">{founderName}</dd>
+                  </div>
+                ) : null}
+              </motion.dl>
+            ) : null}
           </div>
+
+          {/* -------- Composition column -------- */}
+          <motion.div
+            className="lg:col-span-6 xl:col-span-6"
+            initial={animate ? { opacity: 0 } : false}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <HeroComposition tiles={visibleTiles} />
+            {instruction ? (
+              <p className="label-brutal mt-10 text-center text-ink-soft lg:mt-8">
+                <Plane aria-hidden="true" className="mr-1.5 inline size-3.5 -translate-y-0.5" />
+                {instruction}
+              </p>
+            ) : null}
+          </motion.div>
         </motion.div>
       </Container>
     </section>

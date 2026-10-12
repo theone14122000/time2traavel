@@ -19,6 +19,7 @@ import { Z_HEADER } from "@/lib/z-index";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { Wordmark } from "@/components/brand/wordmark";
 import { useTripPlanner } from "@/components/forms/trip-planner-context";
 import type { SiteSettingsShape } from "@/lib/data/site";
 
@@ -180,24 +181,13 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
             scrolled ? "h-14 lg:h-16" : "h-16 lg:h-20",
           )}
         >
-          <Link href="/" aria-label="Time to Travel — home" className="shrink-0">
-            <span
-              className={cn(
-                "inline-flex origin-left items-center gap-2 border-[3px] border-ink bg-lemon px-2.5 py-1.5 shadow-hard-xs transition-transform duration-300 ease-out hover:-translate-y-0.5",
-                scrolled && "scale-90",
-              )}
-            >
-              <span
-                aria-hidden="true"
-                className="flex size-6 items-center justify-center border-[2px] border-ink bg-ink font-display text-[0.7rem] leading-none text-cream"
-              >
-                T
-              </span>
-              <span className="font-display text-sm uppercase leading-none tracking-tight sm:text-base">
-                Time to Travel
-              </span>
-            </span>
-          </Link>
+          <Wordmark
+            size="md"
+            className={cn(
+              "origin-left transition-transform duration-300 ease-out",
+              scrolled && "scale-90",
+            )}
+          />
 
           <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
             {NAV_LINKS.map((link) => {
@@ -325,22 +315,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                   className="flex min-h-full flex-col bg-paper pb-[env(safe-area-inset-bottom)]"
                 >
                   <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b-[3px] border-ink bg-lemon px-4 pb-3 pt-[calc(0.75rem_+_env(safe-area-inset-top))]">
-                    <Link
-                      href="/"
-                      aria-label="Time to Travel — home"
-                      onClick={() => setMenuOpen(false)}
-                      className="inline-flex items-center gap-2 border-[3px] border-ink bg-paper px-2.5 py-1.5 shadow-hard-xs"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="flex size-6 items-center justify-center border-[2px] border-ink bg-ink font-display text-[0.7rem] leading-none text-cream"
-                      >
-                        T
-                      </span>
-                      <span className="font-display text-sm uppercase leading-none sm:text-base">
-                        Time to Travel
-                      </span>
-                    </Link>
+                    <Wordmark size="md" onClick={() => setMenuOpen(false)} />
 
                     <button
                       type="button"

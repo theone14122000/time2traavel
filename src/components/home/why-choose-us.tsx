@@ -15,15 +15,15 @@ export async function WhyChooseUs() {
     <section
       id="why-us"
       aria-labelledby="why-us-heading"
-      className="relative w-full border-y-[3px] border-ink bg-blush"
+      className="relative w-full border-y-[3px] border-ink bg-peach"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <HomeSectionHeading
           id="why-us-heading"
           eyebrow="Why choose us"
-          title="What we put into every trip"
-          description="This section is written by our team from the admin panel — no stock claims, no invented numbers."
+          title="Why travel with us?"
+          description="Personalised planning, adventure-first experiences, and support from first enquiry to final itinerary."
         />
 
         <div className="mt-8">

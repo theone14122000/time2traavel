@@ -11,7 +11,7 @@ export default function RootLoading() {
         className="w-full max-w-md border-[3px] border-ink bg-paper px-6 py-8 text-center shadow-hard-xl"
       >
         <p className="font-display text-3xl uppercase leading-none sm:text-4xl">
-          Time to Travel
+          Time2Travel
         </p>
 
         <div

@@ -4,7 +4,7 @@
  * until the admin fills in Site Settings / Page Content.
  */
 export const SITE_IDENTITY = {
-  name: "Time to Travel",
+  name: "Time2Travel",
   address: "Kasumpti, Shimla, Himachal Pradesh, India",
 } as const;
 

@@ -41,7 +41,7 @@ export function HowItWorks() {
     <section
       id="how-it-works"
       aria-labelledby="how-it-works-heading"
-      className="relative w-full border-y-[3px] border-ink bg-cream"
+      className="relative w-full border-y-[3px] border-ink bg-mint"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
 
@@ -49,7 +49,7 @@ export function HowItWorks() {
         <HomeSectionHeading
           id="how-it-works-heading"
           eyebrow="How it works"
-          title="From idea to itinerary"
+          title="How it works"
           description="The same four steps whether you're booking a weekend break or a multi-stop trip."
         />
 

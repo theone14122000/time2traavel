@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Archivo_Black, Inter } from "next/font/google";
+import { Bungee, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { CommandPaletteProvider } from "@/components/ui/command-palette";
@@ -12,10 +12,10 @@ import { MotionProvider } from "@/components/shared/lazy-motion";
 import { getSiteSettings } from "@/lib/data/site";
 import { SITE_IDENTITY } from "@/lib/constants";
 
-const archivo = Archivo_Black({
+const bungee = Bungee({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-archivo",
+  variable: "--font-bungee",
   display: "swap",
 });
 
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 // `themeColor` lives on `viewport` (the `metadata.themeColor` field is
 // deprecated since Next 14) and matches the manifest's theme_color.
 export const viewport = {
-  themeColor: "#FFE45E",
+  themeColor: "#FFF9F0",
   width: "device-width",
   initialScale: 1,
 };
@@ -53,7 +53,7 @@ export default async function RootLayout({
   const settings = await getSiteSettings();
 
   return (
-    <html lang="en" className={`${archivo.variable} ${inter.variable}`}>
+    <html lang="en" className={`${bungee.variable} ${inter.variable}`}>
       <body className="min-h-dvh bg-cream font-sans text-ink antialiased">
         <Toaster />
         <MotionProvider>

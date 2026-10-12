@@ -66,7 +66,7 @@ const config: Config = {
         feature: "4px", // hero / feature blocks
       },
       fontFamily: {
-        display: ["var(--font-archivo)", "Arial Black", "Helvetica Neue", "sans-serif"],
+        display: ["var(--font-bungee)", "Arial Black", "Helvetica Neue", "sans-serif"],
         sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       spacing: {

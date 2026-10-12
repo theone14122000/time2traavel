@@ -28,8 +28,8 @@ export async function GuidesTeaser() {
           <HomeSectionHeading
             id="guides-heading"
             eyebrow="Travel guides"
-            title="Read before you go"
-            description="Written by our team — practical notes for the places we send travellers to."
+            title="Little stories. big adventures."
+            description="Destination guides, trekking tips and travel inspiration from the Time2Travel team."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">
             <Link href="/travel-guides">

@@ -23,9 +23,9 @@ export async function DestinationsSection() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="destinations-heading"
-            eyebrow="Destinations"
-            title="Where do you want to go?"
-            description="Pick a region, open a destination, and enquire right from the card."
+            eyebrow="Domestic"
+            title="Explore India, one adventure at a time!"
+            description="From quiet Himalayan valleys to vibrant destinations, discover experiences across incredible India."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">
             <Link href="/destinations">

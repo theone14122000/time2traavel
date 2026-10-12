@@ -31,12 +31,16 @@ export async function FinalCta() {
     <section
       id="enquire"
       aria-labelledby="enquire-heading"
-      className="relative w-full clip-x border-b-[3px] border-ink bg-sky"
+      className="relative w-full clip-x border-b-[3px] border-ink bg-ink text-cream"
     >
-      <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
+      <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-40" />
       <span
         aria-hidden="true"
-        className="absolute -left-8 bottom-10 hidden size-40 rotate-6 border-[3px] border-ink bg-lemon lg:block"
+        className="absolute -left-8 bottom-10 hidden size-40 rotate-6 border-[3px] border-ink bg-tomato lg:block"
+      />
+      <span
+        aria-hidden="true"
+        className="absolute -right-10 top-8 hidden size-28 -rotate-12 border-[3px] border-ink bg-lemon lg:block"
       />
 
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
@@ -45,9 +49,10 @@ export async function FinalCta() {
             <div className="relative">
               <HomeSectionHeading
                 id="enquire-heading"
-                eyebrow="Plan my trip"
-                title={<HighlightedTitle text="Let's plan your next trip" />}
-                description="Send a quick message with your destination, dates and group size — or use the multi-step planner for a full brief."
+                eyebrow="Let's go"
+                tone="ink"
+                title={<HighlightedTitle text="The world won't explore itself!" />}
+                description="Your next unforgettable story could begin with one simple decision. Tell us where you're dreaming of — we'll help plan the rest."
               />
               <Stamp
                 rotate={9}
@@ -58,8 +63,8 @@ export async function FinalCta() {
               </Stamp>
             </div>
 
-            <div className="mt-7 border-4 border-ink bg-paper p-5 shadow-brutal-md">
-              <p className="label-brutal text-ink-soft">Time to Travel</p>
+            <div className="mt-7 border-4 border-ink bg-paper p-5 text-ink shadow-brutal-md">
+              <p className="label-brutal text-ink-soft">Time2Travel</p>
               <p className="mt-3 flex items-start gap-2 text-sm font-semibold">
                 <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
                 {settings.address}
@@ -73,7 +78,7 @@ export async function FinalCta() {
                         href={item.href}
                         target={item.href.startsWith("http") ? "_blank" : undefined}
                         rel={item.href.startsWith("http") ? "noreferrer noopener" : undefined}
-                        className="press tap-44 flex items-center gap-2 border-[3px] border-ink bg-sky px-3 py-2 text-sm font-bold shadow-brutal-sm"
+                        className="press tap-44 flex items-center gap-2 border-[3px] border-ink bg-mint px-3 py-2 text-sm font-bold shadow-brutal-sm"
                       >
                         {item.icon}
                         {item.label}
@@ -90,10 +95,10 @@ export async function FinalCta() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="border-4 border-ink bg-paper p-5 shadow-brutal-lg sm:p-7">
+            <div className="border-4 border-ink bg-paper p-5 text-ink shadow-brutal-lg sm:p-7">
               <ContactForm
                 heading="Send a message"
-                submitLabel="Send Enquiry"
+                submitLabel="Let's go exploring"
                 successMessage="Message received — we'll get back to you shortly."
                 whatsappUrl={whatsappUrl}
               />

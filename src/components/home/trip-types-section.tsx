@@ -37,7 +37,7 @@ export async function TripTypesSection() {
     <section
       id="trip-types"
       aria-labelledby="trip-types-heading"
-      className="relative w-full border-y-[3px] border-ink bg-peach"
+      className="relative w-full border-y-[3px] border-ink bg-lavender"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
 
@@ -46,8 +46,8 @@ export async function TripTypesSection() {
           <HomeSectionHeading
             id="trip-types-heading"
             eyebrow="Trip types"
-            title="How do you like to travel?"
-            description="Browse by the kind of trip you have in mind — every type is managed from the admin panel."
+            title="Pick your next adventure!"
+            description="Mountain trails, peaceful valleys, international escapes, and unforgettable road trips. Your next story starts here."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">
             <Link href="/packages">

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Hero } from "@/components/home/hero";
 import { AnnouncementBar } from "@/components/home/announcement-bar";
 import { DestinationsSection } from "@/components/home/destinations-section";
+import { MountainsBand } from "@/components/home/mountains-band";
 import { InternationalTrips } from "@/components/home/international-section";
 import { PackagesSection } from "@/components/home/packages-section";
 import { ServicesSection } from "@/components/home/services-section";
@@ -36,7 +37,7 @@ import {
 import { getPackages } from "@/lib/data/packages";
 import { getFounder } from "@/lib/data/team";
 import { buildMetadata } from "@/lib/seo";
-import { CONTENT_KEYS, SITE_IDENTITY } from "@/lib/constants";
+import { CONTENT_KEYS } from "@/lib/constants";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
@@ -63,23 +64,24 @@ type BandTone =
   | "sand";
 
 const SECTION_TONES: Record<string, BandTone> = {
-  announcement: "tomato",
-  hero: "sunrise",
+  announcement: "ink",
+  hero: "cream",
   marquee: "ink",
   domestic: "cream",
+  mountains: "ink",
   international: "sky",
-  featured_packages: "mint",
-  why_choose: "blush",
+  featured_packages: "paper",
+  why_choose: "peach",
   services: "sand",
-  how_it_works: "cream",
-  trip_types: "peach",
-  destination_finder: "lavender",
+  how_it_works: "mint",
+  trip_types: "lavender",
+  destination_finder: "sand",
   gallery: "paper",
-  reviews: "peach",
+  reviews: "sky",
   guides: "cream",
   founder: "ink",
-  faq: "lavender",
-  final_cta: "sky",
+  faq: "mint",
+  final_cta: "ink",
 };
 
 const DIVIDER_VARIANTS: DividerVariant[] = ["torn", "zigzag", "stripe", "thick"];
@@ -133,12 +135,12 @@ async function loadHomeBands(): Promise<HomeBands> {
   const title =
     settings.heroTitle?.trim() ||
     heroContent?.title?.trim() ||
-    "Plan your next trip";
+    "Let's make your next trip epic!";
 
   const subtitle =
     settings.heroSubtitle?.trim() ||
     heroContent?.body?.trim() ||
-    `${SITE_IDENTITY.name} is a travel agency based in ${SITE_IDENTITY.address}. Tell us your destination, dates and travellers — we'll take it from there.`;
+    "From breathtaking Himalayan trails to unforgettable international escapes, discover journeys that turn ordinary days into extraordinary stories.";
 
   const instruction = heroData.instruction?.trim() || "Start here —";
 
@@ -190,6 +192,7 @@ export default async function HomePage() {
     ),
     marquee: () => <Marquee tone="ink" />,
     domestic: () => <DestinationsSection />,
+    mountains: () => <MountainsBand />,
     international: () => <InternationalTrips />,
     featured_packages: () => <PackagesSection />,
     why_choose: () => <WhyChooseUs />,
@@ -205,7 +208,11 @@ export default async function HomePage() {
     final_cta: () => <FinalCta />,
   };
 
-  const withWhyChoose = insertWhyChooseSection(sections);
+  const withWhyChoose = insertSectionAfter(
+    insertSectionAfter(sections, "featured_packages", "why_choose"),
+    "domestic",
+    "mountains",
+  );
 
   const bands = withWhyChoose
     .filter(
@@ -246,20 +253,21 @@ export default async function HomePage() {
 }
 
 /**
- * "Why choose us" isn't seeded into `HomeSection`, so it is slotted in right
- * after the featured packages band (its position on the original home page).
- * A real `HomeSection` row for the key wins when the admin creates one.
+ * Splices a built-in section into the CMS-driven order when no `HomeSection`
+ * row exists for that key. A real admin-created row always wins.
  */
-function insertWhyChooseSection(
+function insertSectionAfter(
   sections: { key: string; enabled: boolean }[],
+  anchorKey: string,
+  entryKey: string,
 ): { key: string; enabled: boolean }[] {
-  if (sections.some((section) => section.key === "why_choose")) {
+  if (sections.some((section) => section.key === entryKey)) {
     return sections;
   }
   const anchorIndex = sections.findIndex(
-    (section) => section.key === "featured_packages",
+    (section) => section.key === anchorKey,
   );
-  const entry = { key: "why_choose", enabled: true };
+  const entry = { key: entryKey, enabled: true };
   const next = [...sections];
   if (anchorIndex >= 0) {
     next.splice(anchorIndex + 1, 0, entry);

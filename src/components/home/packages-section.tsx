@@ -51,7 +51,7 @@ export async function PackagesSection() {
     <section
       id="packages"
       aria-labelledby="packages-heading"
-      className="relative w-full border-y-[3px] border-ink bg-mint"
+      className="relative w-full border-y-[3px] border-ink bg-paper"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
@@ -59,8 +59,8 @@ export async function PackagesSection() {
           <HomeSectionHeading
             id="packages-heading"
             eyebrow="Packages"
-            title="Ready-made trips you can customise"
-            description="Every itinerary below is published from the admin panel — durations, prices and highlights included when they exist."
+            title="Good trips. great stories."
+            description="Find a journey that matches your travel style and turns your next holiday into something unforgettable."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">
             <Link href="/packages">

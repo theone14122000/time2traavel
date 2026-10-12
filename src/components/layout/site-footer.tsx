@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone, Clock3, ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
+import { Wordmark } from "@/components/brand/wordmark";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
 import { MapEmbed } from "@/components/shared/map-embed";
 import { SectionDivider } from "@/components/ui/dividers";
@@ -47,12 +48,7 @@ export async function SiteFooter() {
 
       <Container className="pt-8 sm:pt-12">
         {/* Giant brutalist wordmark */}
-        <p
-          className="font-display text-[clamp(2.5rem,12vw,9rem)] uppercase leading-none text-cream"
-          aria-hidden="true"
-        >
-          Time to Travel
-        </p>
+        <Wordmark size="lg" onDark />
 
         <div className="mt-8 grid gap-8 lg:grid-cols-12">
           {/* Brand + newsletter */}
@@ -64,9 +60,7 @@ export async function SiteFooter() {
               >
                 T
               </span>
-              <span className="font-display text-sm uppercase leading-none sm:text-base">
-                Time to Travel
-              </span>
+              <Wordmark size="md" href={null} />
             </span>
 
             {settings.tagline ? (
