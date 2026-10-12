@@ -3,9 +3,9 @@ import { RevealTitle } from "@/components/shared/motion";
 import { cn } from "@/lib/utils";
 
 /**
- * Home-section eyebrow + masked slide-up display heading.
- * Same anatomy as the shared `SectionHeading`, but the title uses
- * `RevealTitle` (reduced-motion aware) per the home design system.
+ * Home-section eyebrow + comic display heading.
+ * Optional `panelWords` wraps the final N words in a solid comic panel
+ * (one clear focal point per heading — never every word).
  */
 export function HomeSectionHeading({
   id,
@@ -14,6 +14,8 @@ export function HomeSectionHeading({
   description,
   align = "left",
   tone = "cream",
+  panelWords = 0,
+  panelTone = "tomato",
 }: {
   id: string;
   eyebrow?: string;
@@ -22,8 +24,17 @@ export function HomeSectionHeading({
   align?: "left" | "center";
   /** "ink" = heading sits on a dark band (cream text). */
   tone?: "cream" | "ink";
+  /** Wrap the last N words of a string title in a comic panel (0 = off). */
+  panelWords?: number;
+  panelTone?: "tomato" | "mint" | "lemon" | "sky" | "paper" | "peach";
 }) {
   const onDark = tone === "ink";
+
+  const headingNode =
+    panelWords > 0 && typeof title === "string"
+      ? renderPanelTitle(title, panelWords, panelTone)
+      : title;
+
   return (
     <div
       className={cn(
@@ -53,14 +64,14 @@ export function HomeSectionHeading({
             onDark && "text-cream",
           )}
         >
-          {title}
+          {headingNode}
         </RevealTitle>
       </div>
 
       {description ? (
         <p
           className={cn(
-            "max-w-2xl text-lead font-medium",
+            "max-w-2xl text-base leading-relaxed font-medium sm:text-lead",
             onDark ? "text-cream/80" : "text-ink-soft",
           )}
         >
@@ -68,5 +79,32 @@ export function HomeSectionHeading({
         </p>
       ) : null}
     </div>
+  );
+}
+
+/** Split a string title so the last `count` words sit in a comic panel. */
+function renderPanelTitle(
+  title: string,
+  count: number,
+  panelTone: "tomato" | "mint" | "lemon" | "sky" | "paper" | "peach",
+) {
+  const words = title.trim().split(/\s+/).filter(Boolean);
+  if (words.length <= count) {
+    return (
+      <span className={cn("comic-panel", `comic-panel-${panelTone}`)}>
+        {words.join(" ")}
+      </span>
+    );
+  }
+  const cut = words.length - count;
+  const head = words.slice(0, cut).join(" ");
+  const tail = words.slice(cut).join(" ");
+  return (
+    <>
+      {head}{" "}
+      <span className={cn("comic-panel", `comic-panel-${panelTone}`)}>
+        {tail}
+      </span>
+    </>
   );
 }

@@ -74,6 +74,8 @@ export async function InternationalTrips() {
             id="international-heading"
             eyebrow="No borders"
             title="Your next chapter has no borders!"
+            panelWords={2}
+            panelTone="sky"
             description="Discover exciting destinations, different cultures, and journeys that take you beyond the familiar."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

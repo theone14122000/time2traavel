@@ -17,6 +17,8 @@ export async function FaqSection() {
           id="faq-heading"
           eyebrow="Ask away"
           title="Questions, answered."
+          panelWords={1}
+          panelTone="lemon"
           description="Published by our team from the admin panel — search below or jump straight to a question."
         />
 

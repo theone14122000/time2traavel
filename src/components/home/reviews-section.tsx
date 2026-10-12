@@ -128,6 +128,8 @@ export async function ReviewsSection() {
           id="reviews-heading"
           eyebrow="Traveller stories"
           title="Real reviews from real trips"
+          panelWords={2}
+          panelTone="peach"
           description="Only reviews approved by our team are shown here."
         />
 

@@ -23,6 +23,8 @@ export async function WhyChooseUs() {
           id="why-us-heading"
           eyebrow="The good stuff"
           title="Why roll with us?"
+          panelWords={3}
+          panelTone="paper"
           description="Personalised planning, adventure-first experiences, and support from first enquiry to final itinerary."
         />
 

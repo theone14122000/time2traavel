@@ -23,8 +23,8 @@ export function DestinationCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col border-[3px] border-ink bg-paper shadow-hard transition-transform duration-150",
-        "hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-lg",
+        "group relative flex h-full flex-col border-[3px] border-ink bg-paper shadow-hard transition-[transform,box-shadow] duration-200",
+        "hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg",
         className,
       )}
     >
@@ -48,7 +48,7 @@ export function DestinationCard({
           ) : null}
         </div>
 
-        <h3 className="font-display text-h3 uppercase leading-none">
+        <h3 className="font-display text-[1.25rem] uppercase leading-tight tracking-tight sm:text-h3">
           {destination.name}
         </h3>
 
@@ -107,8 +107,8 @@ export function PackageCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col border-[3px] border-ink bg-paper shadow-hard transition-transform duration-150",
-        "hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-lg",
+        "group relative flex h-full flex-col border-[3px] border-ink bg-paper shadow-hard transition-[transform,box-shadow] duration-200",
+        "hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg",
         className,
       )}
     >
@@ -135,7 +135,9 @@ export function PackageCard({
           ) : null}
         </div>
 
-        <h3 className="font-display text-h3 uppercase leading-none">{pkg.title}</h3>
+        <h3 className="font-display text-[1.15rem] uppercase leading-tight tracking-tight sm:text-h3">
+          {pkg.title}
+        </h3>
 
         {pkg.summary ? (
           <p className="line-clamp-3 text-sm font-medium leading-relaxed text-ink-soft">

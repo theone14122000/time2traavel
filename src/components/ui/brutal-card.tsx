@@ -11,8 +11,10 @@ const base =
   "relative border-[3px] border-ink bg-paper shadow-hard text-left";
 
 const variantClasses: Record<BrutalCardVariant, string> = {
-  destination: "hover:shadow-hard-lg transition-shadow duration-200",
-  package: "shadow-brutal-md",
+  destination:
+    "transition-[transform,box-shadow] duration-200 hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg",
+  package:
+    "shadow-brutal-md transition-[transform,box-shadow] duration-200 hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-brutal-lg",
   review: "bg-paper",
   info: "border-4",
 };
@@ -76,7 +78,13 @@ export function BrutalCard({
 
   return (
     <motion.div
-      className={cn(base, variantClasses[variant], variant === "review" && reviewAccent, className)}
+      className={cn(
+        "group",
+        base,
+        variantClasses[variant],
+        variant === "review" && reviewAccent,
+        className,
+      )}
       initial="rest"
       animate="rest"
       whileHover={interactive ? "hover" : undefined}

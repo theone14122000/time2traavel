@@ -29,6 +29,8 @@ export async function GuidesTeaser() {
             id="guides-heading"
             eyebrow="Field notes"
             title="Real places. unreal stories."
+            panelWords={2}
+            panelTone="mint"
             description="Destination guides, trekking tips and travel inspiration from the Time2Travel team."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

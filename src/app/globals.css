@@ -129,8 +129,8 @@
   --text-h1--line-height: 0.95;
   --text-h1--letter-spacing: -0.015em;
 
-  --text-h2: clamp(1.7rem, 3.5vw + 0.55rem, 4.25rem);
-  --text-h2--line-height: 1;
+  --text-h2: clamp(1.85rem, 3.5vw + 0.55rem, 4.25rem);
+  --text-h2--line-height: 0.98;
   --text-h2--letter-spacing: -0.01em;
 
   --text-h3: clamp(1.3rem, 2vw + 0.8rem, 2.75rem);
@@ -584,6 +584,86 @@
     text-shadow:
       2px 2px 0 var(--tt-cream),
       4px 4px 0 var(--tt-cream);
+  }
+
+  /* Single-layer offset shadow for large cream display type on ink bands */
+  .heading-offset {
+    text-shadow: 3px 3px 0 var(--tt-ink);
+  }
+
+  /* Comic panel: last words of a heading sit in a solid colour block */
+  .comic-panel {
+    display: inline-block;
+    padding: 0.08em 0.28em 0.12em;
+    border: 3px solid var(--tt-ink);
+    box-shadow: 4px 4px 0 var(--tt-ink);
+    line-height: 1;
+    vertical-align: baseline;
+  }
+  .comic-panel-tomato {
+    background: var(--tt-tomato);
+    color: var(--tt-cream);
+  }
+  .comic-panel-mint {
+    background: var(--tt-mint-strong);
+    color: var(--tt-ink);
+  }
+  .comic-panel-lemon {
+    background: var(--tt-lemon);
+    color: var(--tt-ink);
+  }
+  .comic-panel-sky {
+    background: var(--tt-sky);
+    color: var(--tt-ink);
+  }
+  .comic-panel-paper {
+    background: var(--tt-paper);
+    color: var(--tt-ink);
+  }
+
+  /* Comic underline — thick offset bar under a word */
+  .comic-underline {
+    background-image: linear-gradient(
+      to top,
+      var(--tt-lemon) 0,
+      var(--tt-lemon) 0.22em,
+      transparent 0.22em
+    );
+    padding-inline: 0.08em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .comic-panel-peach {
+    background: var(--tt-peach);
+    color: var(--tt-ink);
+  }
+
+  /* Gentle idle float for decorative stickers/illustrations */
+  @keyframes float-gentle {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+  .float-gentle {
+    animation: float-gentle 4.5s ease-in-out infinite;
+  }
+  .float-gentle-slow {
+    animation: float-gentle 7s ease-in-out infinite;
+  }
+
+  /* Card image zoom on desktop hover (parent must be group) */
+  @media (hover: hover) and (pointer: fine) {
+    .group:hover .card-img-zoom {
+      transform: scale(1.06);
+    }
+    .card-img-zoom {
+      transition: transform 400ms ease;
+    }
   }
 
   /* Word mask wrapper used by <AnimatedHeading> — descender-safe clip */

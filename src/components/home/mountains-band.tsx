@@ -33,6 +33,8 @@ export async function MountainsBand() {
               eyebrow="No signal. All adventure."
               tone="ink"
               title="The Himalayas are calling!"
+              panelWords={2}
+              panelTone="mint"
               description="Pick up the adventure — winding roads, hidden valleys, and unforgettable high-country escapes."
             />
 

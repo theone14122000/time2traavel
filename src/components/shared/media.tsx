@@ -59,7 +59,7 @@ export function Media({
           fill
           sizes={sizes}
           priority={priority}
-          className={cn("object-cover", imgClassName)}
+          className={cn("object-cover card-img-zoom", imgClassName)}
           style={objectPosition ? { objectPosition } : undefined}
         />
       ) : (

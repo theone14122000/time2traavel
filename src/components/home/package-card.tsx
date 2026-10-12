@@ -105,7 +105,9 @@ export function HomePackageCard({
           ) : null}
         </div>
 
-        <h3 className="font-display text-h3 uppercase leading-none">{pkg.title}</h3>
+        <h3 className="font-display text-[1.15rem] uppercase leading-tight tracking-tight sm:text-h3">
+          {pkg.title}
+        </h3>
 
         {pkg.summary ? (
           <p className="line-clamp-3 text-sm font-medium leading-relaxed text-ink-soft">

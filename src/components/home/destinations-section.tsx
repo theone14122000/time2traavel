@@ -25,6 +25,8 @@ export async function DestinationsSection() {
             id="destinations-heading"
             eyebrow="Choose your next quest"
             title="India is full of plot twists!"
+            panelWords={2}
+            panelTone="tomato"
             description="From quiet Himalayan valleys to vibrant destinations, discover experiences across incredible India."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

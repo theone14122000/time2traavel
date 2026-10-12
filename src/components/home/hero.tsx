@@ -168,13 +168,16 @@ function HeroHeading({ title }: { title: string }) {
   );
 
   return (
-    <h1 className="mt-4 max-w-[12ch] font-display text-[clamp(2.25rem,10vw,3.5rem)] uppercase leading-[0.95] tracking-tight text-ink lg:text-[clamp(3.1rem,4.8vw,5.25rem)]">
+    <h1
+      id="hero-heading"
+      className="mt-4 max-w-[12ch] font-display text-[clamp(2rem,9.5vw,3.5rem)] uppercase leading-[0.95] tracking-tight text-ink lg:text-[clamp(3.1rem,4.8vw,5.25rem)]"
+    >
       {lines.map((lineWords, i) => {
         const isLast = i === lines.length - 1 && lines.length >= 3;
         const delay = 0.12 + i * 0.1;
         if (isLast) {
           return line(
-            <span className="inline-block bg-tomato px-2 pb-1 pt-0.5 text-cream shadow-hard-sm [text-shadow:2px_2px_0_var(--tt-ink)]">
+            <span className="comic-panel comic-panel-tomato [text-shadow:2px_2px_0_var(--tt-ink)]">
               {lineWords.join(" ")}
             </span>,
             delay,
@@ -292,7 +295,10 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         className="absolute -bottom-3 right-2 z-20 sm:right-6"
         {...pop(0.75)}
       >
-        <span className="sticker bg-tomato text-cream" style={{ rotate: "4deg" }}>
+        <span
+          className="sticker float-gentle bg-tomato text-cream"
+          style={{ rotate: "4deg" }}
+        >
           Adventure mode: on!
         </span>
       </motion.div>
@@ -303,7 +309,7 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         {...pop(0.7)}
       >
         <span
-          className="speech-bubble inline-block bg-paper text-ink"
+          className="speech-bubble float-gentle-slow inline-block bg-paper text-ink"
           style={{ rotate: "-3deg" }}
         >
           <span className="label-brutal text-ink">Where to next?</span>
@@ -311,14 +317,17 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
       </motion.div>
 
       {/* route + stars */}
-      <motion.div className="absolute -top-8 left-8 z-20 hidden sm:block" {...pop(0.7)}>
-        <RouteDecoration className="h-16 w-40" />
+      <motion.div
+        className="absolute -top-8 left-8 z-20 hidden sm:block"
+        {...pop(0.7)}
+      >
+        <RouteDecoration className="float-gentle-slow h-16 w-40" />
       </motion.div>
       <motion.div
         className="absolute -right-2 bottom-16 z-20 hidden text-lemon sm:block"
         {...pop(0.8)}
       >
-        <StarAccent className="size-6 drop-shadow-[2px_2px_0_var(--tt-ink)]" />
+        <StarAccent className="float-gentle size-6 drop-shadow-[2px_2px_0_var(--tt-ink)]" />
       </motion.div>
     </div>
   );
@@ -358,12 +367,12 @@ export function Hero({
         className="absolute -bottom-20 -left-16 size-52 rotate-12 border-[3px] border-ink bg-mint sm:size-64"
       />
 
-      <Container className="relative px-6 py-12 sm:py-14 lg:px-10 lg:py-20 xl:px-12">
+      <Container className="relative px-6 pb-16 pt-12 sm:pb-14 sm:pt-14 lg:px-10 lg:py-20 xl:px-12">
         <motion.div
           initial={animate ? "hidden" : "show"}
           animate="show"
           variants={container}
-          className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10"
+          className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10"
         >
           {/* -------- Copy column -------- */}
           <div className="lg:col-span-6 xl:col-span-6">
@@ -372,15 +381,13 @@ export function Hero({
             </motion.div>
 
             <motion.div variants={fadeUp} className="mt-5">
-              <span className="label-brutal inline-flex items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2 shadow-hard-xs">
-                <Sparkles aria-hidden="true" className="size-3.5" />
-                Issue No. 01 — the world awaits
+              <span className="label-brutal inline-flex w-fit max-w-full items-center gap-2 border-[3px] border-ink bg-lemon px-2.5 py-2 text-[0.65rem] shadow-hard-xs sm:px-3 sm:text-xs">
+                <Sparkles aria-hidden="true" className="size-3.5 shrink-0" />
+                <span className="min-w-0">Issue No. 01 — the world awaits</span>
               </span>
             </motion.div>
 
-            <div id="hero-heading">
-              <HeroHeading title={title} />
-            </div>
+            <HeroHeading title={title} />
 
             <motion.p
               variants={fadeUp}
