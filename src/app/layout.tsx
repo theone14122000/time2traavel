@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 // `themeColor` lives on `viewport` (the `metadata.themeColor` field is
 // deprecated since Next 14) and matches the manifest's theme_color.
 export const viewport = {
-  themeColor: "#FFF9F0",
+  themeColor: "#FFF8EE",
   width: "device-width",
   initialScale: 1,
 };

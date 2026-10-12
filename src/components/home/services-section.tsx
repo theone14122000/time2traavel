@@ -7,14 +7,14 @@ import { getPublishedServices, type ServiceCard } from "@/lib/data/services";
 import { cn } from "@/lib/utils";
 
 const FALLBACK_TONES = [
-  "bg-lemon",
   "bg-mint",
   "bg-sky",
   "bg-peach",
   "bg-lavender",
   "bg-blush",
   "bg-sand",
-  "bg-sunrise",
+  "bg-paper",
+  "bg-lemon",
 ];
 
 function isHexColor(value: string): boolean {

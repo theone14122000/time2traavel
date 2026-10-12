@@ -21,7 +21,7 @@ import type { DestinationCard as DestinationData } from "@/lib/data/destinations
 export function DestinationGrid({
   destinations,
   showViewAll = false,
-  emptyStateTone = "butter",
+  emptyStateTone = "paper",
 }: {
   destinations: DestinationData[];
   showViewAll?: boolean;

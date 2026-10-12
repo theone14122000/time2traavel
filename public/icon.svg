@@ -1,8 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Time to Travel">
-  <rect width="512" height="512" fill="#FFFDF5"/>
-  <rect x="14" y="14" width="484" height="484" fill="none" stroke="#0A0A0A" stroke-width="28"/>
-  <circle cx="336" cy="172" r="74" fill="#FF5A36" stroke="#0A0A0A" stroke-width="14"/>
-  <path d="M64 352 L188 160 L272 276 L332 200 L448 352 Z" fill="#B8F2D0" stroke="#0A0A0A" stroke-width="14" stroke-linejoin="miter"/>
-  <rect x="64" y="352" width="384" height="18" fill="#0A0A0A"/>
-  <text x="256" y="456" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="92" font-weight="900" letter-spacing="8" fill="#0A0A0A">T2T</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Time2Travel">
+  <rect width="512" height="512" fill="#FFF8EE"/>
+  <rect x="14" y="14" width="484" height="484" fill="none" stroke="#171717" stroke-width="28"/>
+  <circle cx="336" cy="172" r="74" fill="#FF5B45" stroke="#171717" stroke-width="14"/>
+  <path d="M64 352 L188 160 L272 276 L332 200 L448 352 Z" fill="#35D0BA" stroke="#171717" stroke-width="14" stroke-linejoin="miter"/>
+  <path d="M188 160 L168 196 L200 190 L220 214 L244 194 Z" fill="#FFFFFF" stroke="#171717" stroke-width="10" stroke-linejoin="miter"/>
+  <rect x="64" y="352" width="384" height="18" fill="#171717"/>
+  <text x="256" y="456" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="92" font-weight="900" letter-spacing="8" fill="#171717">T2T</text>
 </svg>

@@ -4,8 +4,8 @@
   "description": "Travel planning from Kasumpti, Shimla — destinations, packages and trip planning by Time2Travel.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFF9F0",
-  "theme_color": "#FFF9F0",
+  "background_color": "#FFF8EE",
+  "theme_color": "#FFF8EE",
   "icons": [
     {
       "src": "/icon.svg",

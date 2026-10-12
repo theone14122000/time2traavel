@@ -39,7 +39,7 @@ export function PackageDetailActions({
       aria-label={`Enquiry options for ${title}`}
       className="border-4 border-ink bg-paper p-5 shadow-brutal-md lg:sticky lg:top-24"
     >
-      <div className="border-[3px] border-ink bg-sunrise px-4 py-3 shadow-brutal-sm">
+      <div className="border-[3px] border-ink bg-mint px-4 py-3 shadow-brutal-sm">
         <span className="label-brutal text-ink-soft">From</span>
         <p className="mt-1 font-display text-h3 uppercase leading-tight">
           {priceLabel ?? "On request"}

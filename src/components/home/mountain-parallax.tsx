@@ -38,8 +38,8 @@ export function MountainParallax() {
         >
           <path
             d="M0 220 L180 100 L320 200 L520 60 L720 190 L940 80 L1140 200 L1320 110 L1440 210 L1440 320 L0 320 Z"
-            fill="#16304a"
-            stroke="#0f2033"
+            fill="#1f1f1f"
+            stroke="#0a0a0a"
             strokeWidth="3"
           />
         </svg>
@@ -75,7 +75,7 @@ export function MountainParallax() {
         >
           <path
             d="M0 160 L260 70 L520 150 L800 60 L1080 150 L1440 80 L1440 200 L0 200 Z"
-            fill="#0c1828"
+            fill="#0a0a0a"
           />
         </svg>
       </motion.div>

@@ -49,9 +49,9 @@ export async function FinalCta() {
             <div className="relative">
               <HomeSectionHeading
                 id="enquire-heading"
-                eyebrow="Let's go"
+                eyebrow="Stop scrolling"
                 tone="ink"
-                title={<HighlightedTitle text="The world won't explore itself!" />}
+                title={<HighlightedTitle text="Start exploring!" />}
                 description="Your next unforgettable story could begin with one simple decision. Tell us where you're dreaming of — we'll help plan the rest."
               />
               <Stamp

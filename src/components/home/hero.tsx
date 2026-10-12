@@ -7,6 +7,7 @@ import {
   Compass,
   MapPin,
   Plane,
+  Plus,
   Sparkles,
 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
@@ -128,19 +129,26 @@ function StarAccent({ className }: { className?: string }) {
 }
 
 /* ------------------------------------------------------------------ *
- * Hero heading — editorial comic display with selective colour.       *
+ * Hero heading — comic cover lettering.                               *
+ * 5+ words → 3 lines with the final word in a coral block.            *
  * ------------------------------------------------------------------ */
 function HeroHeading({ title }: { title: string }) {
   const reduceMotion = useReducedMotion();
   const words = title.trim().split(/\s+/).filter(Boolean);
   if (words.length === 0) return null;
 
-  /* Front-load: first half on line 1, remainder on line 2; last word coral. */
-  const splitAt = Math.max(1, Math.ceil(words.length / 2));
-  const line1 = words.slice(0, splitAt);
-  const line2 = words.slice(splitAt);
-  const lastWord = line2.length > 0 ? line2[line2.length - 1] : null;
-  const line2Main = line2.length > 0 ? line2.slice(0, -1) : [];
+  const lastWord = words[words.length - 1];
+  const rest = words.slice(0, -1);
+
+  let lines: string[][];
+  if (rest.length >= 4) {
+    const a = Math.ceil(rest.length / 2);
+    lines = [rest.slice(0, a), rest.slice(a), [lastWord]];
+  } else if (rest.length >= 2) {
+    lines = [rest.slice(0, 1), rest.slice(1), [lastWord]];
+  } else {
+    lines = [[...rest, lastWord].filter(Boolean)];
+  }
 
   const rise = (delay: number) =>
     reduceMotion
@@ -160,24 +168,21 @@ function HeroHeading({ title }: { title: string }) {
   );
 
   return (
-    <h1 className="mt-4 max-w-[14ch] font-display text-[clamp(2.35rem,10.5vw,3.75rem)] uppercase leading-[0.95] tracking-tight text-ink lg:text-[clamp(3.4rem,5.2vw,5.75rem)]">
-      {line(line1.join(" "), 0.12, "l1")}
-      {line(
-        <>
-          {line2Main.length > 0 ? `${line2Main.join(" ")} ` : null}
-          {lastWord ? (
-            <span className="relative inline-block text-tomato">
-              <span
-                aria-hidden="true"
-                className="absolute inset-x-[-0.12em] inset-y-[0.08em] -z-10 block bg-tomato/15"
-              />
-              {lastWord}
-            </span>
-          ) : null}
-        </>,
-        0.22,
-        "l2",
-      )}
+    <h1 className="mt-4 max-w-[12ch] font-display text-[clamp(2.25rem,10vw,3.5rem)] uppercase leading-[0.95] tracking-tight text-ink lg:text-[clamp(3.1rem,4.8vw,5.25rem)]">
+      {lines.map((lineWords, i) => {
+        const isLast = i === lines.length - 1 && lines.length >= 3;
+        const delay = 0.12 + i * 0.1;
+        if (isLast) {
+          return line(
+            <span className="inline-block bg-tomato px-2 pb-1 pt-0.5 text-cream shadow-hard-sm [text-shadow:2px_2px_0_var(--tt-ink)]">
+              {lineWords.join(" ")}
+            </span>,
+            delay,
+            `l${i}`,
+          );
+        }
+        return line(lineWords.join(" "), delay, `l${i}`);
+      })}
     </h1>
   );
 }
@@ -292,6 +297,19 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         </span>
       </motion.div>
 
+      {/* speech bubble */}
+      <motion.div
+        className="absolute -top-10 right-4 z-20 hidden sm:block"
+        {...pop(0.7)}
+      >
+        <span
+          className="speech-bubble inline-block bg-paper text-ink"
+          style={{ rotate: "-3deg" }}
+        >
+          <span className="label-brutal text-ink">Where to next?</span>
+        </span>
+      </motion.div>
+
       {/* route + stars */}
       <motion.div className="absolute -top-8 left-8 z-20 hidden sm:block" {...pop(0.7)}>
         <RouteDecoration className="h-16 w-40" />
@@ -356,7 +374,7 @@ export function Hero({
             <motion.div variants={fadeUp} className="mt-5">
               <span className="label-brutal inline-flex items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2 shadow-hard-xs">
                 <Sparkles aria-hidden="true" className="size-3.5" />
-                Your adventure starts here
+                Issue No. 01 — the world awaits
               </span>
             </motion.div>
 
@@ -390,8 +408,8 @@ export function Hero({
                 className="w-full sm:w-auto"
                 onClick={() => openPlanner({})}
               >
-                <Compass aria-hidden="true" className="size-5" />
-                Plan my adventure
+                <Plus aria-hidden="true" className="size-5" />
+                Build my adventure
               </Button>
             </motion.div>
 

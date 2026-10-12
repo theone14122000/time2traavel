@@ -58,8 +58,8 @@ export async function PackagesSection() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="packages-heading"
-            eyebrow="Packages"
-            title="Good trips. great stories."
+            eyebrow="Less planning stress"
+            title="More adventure!"
             description="Find a journey that matches your travel style and turns your next holiday into something unforgettable."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

@@ -48,7 +48,7 @@ export function HowItWorks() {
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <HomeSectionHeading
           id="how-it-works-heading"
-          eyebrow="How it works"
+          eyebrow="Your adventure, your rules"
           title="How it works"
           description="The same four steps whether you're booking a weekend break or a multi-stop trip."
         />

@@ -120,7 +120,7 @@ export function EmptyState({
   description,
   action,
   className,
-  tone = "butter",
+  tone = "paper",
   icon,
   illustration = "default",
 }: EmptyStateProps) {

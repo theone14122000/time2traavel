@@ -97,7 +97,7 @@ export function QuickViewButton({
               {pkg.featured ? <Badge variant="default">Popular</Badge> : null}
             </div>
 
-            <div className="border-[3px] border-ink bg-sunrise px-4 py-3 shadow-brutal-sm">
+            <div className="border-[3px] border-ink bg-mint px-4 py-3 shadow-brutal-sm">
               <span className="label-brutal text-ink-soft">Price</span>
               <p className="mt-1 font-display text-h4 uppercase leading-tight">
                 {priceText ? `From ${priceText}` : (pkg.priceNote ?? "On request")}

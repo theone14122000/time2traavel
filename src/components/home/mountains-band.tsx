@@ -30,17 +30,17 @@ export async function MountainsBand() {
           <div className="lg:col-span-5">
             <HomeSectionHeading
               id="mountains-heading"
-              eyebrow="Into the mountains"
+              eyebrow="No signal. All adventure."
               tone="ink"
-              title="The mountains are calling!"
-              description="Follow the winding roads, discover hidden valleys, and find your own unforgettable Himalayan escape."
+              title="The Himalayas are calling!"
+              description="Pick up the adventure — winding roads, hidden valleys, and unforgettable high-country escapes."
             />
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="w-full sm:w-auto">
                 <Link href="/destinations">
                   <Mountain aria-hidden="true" className="size-5" />
-                  Discover the Himalayas
+                  Enter the mountains
                 </Link>
               </Button>
               <Button

@@ -27,8 +27,8 @@ export async function GuidesTeaser() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="guides-heading"
-            eyebrow="Travel guides"
-            title="Little stories. big adventures."
+            eyebrow="Field notes"
+            title="Real places. unreal stories."
             description="Destination guides, trekking tips and travel inspiration from the Time2Travel team."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

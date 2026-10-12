@@ -15,7 +15,7 @@ export async function FaqSection() {
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <HomeSectionHeading
           id="faq-heading"
-          eyebrow="FAQs"
+          eyebrow="Ask away"
           title="Questions, answered."
           description="Published by our team from the admin panel — search below or jump straight to a question."
         />

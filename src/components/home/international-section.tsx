@@ -72,8 +72,8 @@ export async function InternationalTrips() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="international-heading"
-            eyebrow="International"
-            title="Your next passport stamp awaits!"
+            eyebrow="No borders"
+            title="Your next chapter has no borders!"
             description="Discover exciting destinations, different cultures, and journeys that take you beyond the familiar."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

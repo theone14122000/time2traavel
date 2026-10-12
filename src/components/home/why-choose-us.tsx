@@ -21,8 +21,8 @@ export async function WhyChooseUs() {
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <HomeSectionHeading
           id="why-us-heading"
-          eyebrow="Why choose us"
-          title="Why travel with us?"
+          eyebrow="The good stuff"
+          title="Why roll with us?"
           description="Personalised planning, adventure-first experiences, and support from first enquiry to final itinerary."
         />
 

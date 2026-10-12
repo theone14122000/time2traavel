@@ -23,8 +23,8 @@ export async function DestinationsSection() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="destinations-heading"
-            eyebrow="Domestic"
-            title="Explore India, one adventure at a time!"
+            eyebrow="Choose your next quest"
+            title="India is full of plot twists!"
             description="From quiet Himalayan valleys to vibrant destinations, discover experiences across incredible India."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

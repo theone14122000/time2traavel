@@ -87,7 +87,7 @@ export function PackageTile({
         ) : null}
 
         {hasPriceBlock ? (
-          <div className="mt-auto border-[3px] border-ink bg-sunrise px-3 py-2 shadow-brutal-sm">
+          <div className="mt-auto border-[3px] border-ink bg-mint px-3 py-2 shadow-brutal-sm">
             <span className="label-brutal text-ink-soft">Price</span>
             <p className="mt-1 font-display text-lg leading-tight">
               {hasPrice ? `From ${formatPrice(pkg.price, pkg.currency)}` : pkg.priceNote}

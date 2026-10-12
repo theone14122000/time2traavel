@@ -126,8 +126,8 @@ export async function ReviewsSection() {
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <HomeSectionHeading
           id="reviews-heading"
-          eyebrow="Reviews"
-          title="Traveller stories"
+          eyebrow="Traveller stories"
+          title="Real reviews from real trips"
           description="Only reviews approved by our team are shown here."
         />
 

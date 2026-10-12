@@ -85,7 +85,7 @@ const SECTION_TONES: Record<string, BandTone> = {
 };
 
 const DIVIDER_VARIANTS: DividerVariant[] = ["torn", "zigzag", "stripe", "thick"];
-const DIVIDER_TONES: DividerTone[] = ["ink", "lemon", "tomato"];
+const DIVIDER_TONES: DividerTone[] = ["ink", "tomato", "sky"];
 
 function pickDividerTone(previous: BandTone, next: BandTone): DividerTone {
   return (
@@ -135,12 +135,12 @@ async function loadHomeBands(): Promise<HomeBands> {
   const title =
     settings.heroTitle?.trim() ||
     heroContent?.title?.trim() ||
-    "Let's make your next trip epic!";
+    "Your next trip is going to be legendary!";
 
   const subtitle =
     settings.heroSubtitle?.trim() ||
     heroContent?.body?.trim() ||
-    "From breathtaking Himalayan trails to unforgettable international escapes, discover journeys that turn ordinary days into extraordinary stories.";
+    "From Himalayan treks to passport-stamp escapes, we turn ordinary weekends into comic-book adventures."; //
 
   const instruction = heroData.instruction?.trim() || "Start here —";
 

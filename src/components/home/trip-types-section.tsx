@@ -9,14 +9,13 @@ import { getPublishedTripTypes, type TripTypeCard } from "@/lib/data/trip-types"
 import { cn } from "@/lib/utils";
 
 const FALLBACK_TONES = [
-  "bg-lemon",
   "bg-mint",
   "bg-sky",
   "bg-peach",
   "bg-lavender",
   "bg-blush",
   "bg-sand",
-  "bg-sunrise",
+  "bg-paper",
 ];
 
 function isHexColor(value: string): boolean {
@@ -45,7 +44,7 @@ export async function TripTypesSection() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="trip-types-heading"
-            eyebrow="Trip types"
+            eyebrow="Choose your next quest"
             title="Pick your next adventure!"
             description="Mountain trails, peaceful valleys, international escapes, and unforgettable road trips. Your next story starts here."
           />

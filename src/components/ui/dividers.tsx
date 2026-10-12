@@ -2,13 +2,15 @@ import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 
 export type DividerVariant = "zigzag" | "torn" | "stripe" | "thick";
-export type DividerTone = "ink" | "lemon" | "tomato" | "paper";
+export type DividerTone = "ink" | "lemon" | "tomato" | "paper" | "sky" | "mint";
 
 const toneBackground: Record<DividerTone, string> = {
   ink: "bg-ink",
   lemon: "bg-lemon",
   tomato: "bg-tomato",
   paper: "bg-paper",
+  sky: "bg-sky",
+  mint: "bg-mint",
 };
 
 const toneFill: Record<DividerTone, string> = {
@@ -16,6 +18,8 @@ const toneFill: Record<DividerTone, string> = {
   lemon: "var(--tt-lemon)",
   tomato: "var(--tt-tomato)",
   paper: "var(--tt-paper)",
+  sky: "var(--tt-sky)",
+  mint: "var(--tt-mint)",
 };
 
 /** Repeating triangles rising from the baseline. */

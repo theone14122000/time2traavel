@@ -2,43 +2,43 @@
 @config "../../tailwind.config.ts";
 
 /* ============================================================
-   TIME2TRAVEL — COMIC-EDITORIAL DESIGN TOKENS (Tailwind v4)
+   TIME2TRAVEL — ADVENTURE COMICS DESIGN TOKENS (Tailwind v4)
    ------------------------------------------------------------
-   Premium comic-book travel magazine: warm off-white canvas,
-   deep navy ink, coral primary, teal + purple accents.
-   Yellow is a highlight only — never a dominant background.
+   Neo-brutalist comic-book travel system: warm paper canvas,
+   true-black ink, electric coral, teal + violet + sky accents.
+   Acid lime replaces yellow as the small highlight colour.
    Variable names (--tt-*) are stable; values carry the brand.
    ============================================================ */
 
 :root {
   /* ---- Base ---- */
-  --tt-ink: #202a44; /* deep navy — text + comic outline */
-  --tt-ink-soft: #566174; /* secondary text */
+  --tt-ink: #171717; /* true black — text + comic outline */
+  --tt-ink-soft: #3f3f46; /* secondary text (AA on paper) */
   --tt-paper: #ffffff; /* pure white cards */
-  --tt-cream: #fff9f0; /* warm off-white primary canvas */
+  --tt-cream: #fff8ee; /* warm paper — primary canvas */
 
   /* ---- Section palette (tinted neutrals + soft accents) ---- */
-  --tt-sunrise: #ffd866; /* yellow — highlights only */
-  --tt-mint: #ddf5e9; /* pale mint — trekking / nature */
-  --tt-sky: #a9d9ff; /* sky blue — international */
-  --tt-peach: #ffe0d5; /* soft coral tint */
-  --tt-lavender: #ede7fa; /* soft purple tint */
-  --tt-blush: #ffd6db; /* soft warm pink */
-  --tt-sand: #f5ede3; /* warm neutral band */
+  --tt-sunrise: #d9ff62; /* acid lime — badges / stars only */
+  --tt-mint: #e5faf4; /* pale teal tint — treks / nature */
+  --tt-sky: #8fd8ff; /* sky blue — mountains / storytelling */
+  --tt-peach: #ffe0d8; /* soft coral tint */
+  --tt-lavender: #f3eefc; /* soft violet tint */
+  --tt-blush: #ffdfe9; /* soft pink */
+  --tt-sand: #f6efe6; /* warm neutral band */
 
   /* ---- Accents ---- */
-  --tt-tomato: #ff6847; /* coral — THE primary action accent */
-  --tt-lemon: #ffd866; /* yellow highlighter / star */
-  --tt-coral: #ff6847; /* alias of tomato */
-  --tt-mint-strong: #31b8a5; /* teal — nature / treks */
-  --tt-sky-strong: #6bb8e8;
-  --tt-grape: #7b61d1; /* purple — featured experiences */
-  --tt-berry: #e85d75;
+  --tt-tomato: #ff5b45; /* electric coral — THE primary action */
+  --tt-lemon: #d9ff62; /* acid lime — comic badges / emphasis */
+  --tt-coral: #ff5b45; /* alias of tomato */
+  --tt-mint-strong: #35d0ba; /* comic teal — treks / adventure */
+  --tt-sky-strong: #5ec4ef;
+  --tt-grape: #a78bfa; /* violet pop — featured / international */
+  --tt-berry: #ff8fab;
 
   /* ---- Semantic ---- */
-  --tt-success: #1e8a6e;
-  --tt-warning: #ffd866;
-  --tt-danger: #d9442b;
+  --tt-success: #0f8a6a;
+  --tt-warning: #d9ff62;
+  --tt-danger: #dc2626;
 
   /* ---- Marker (highlighter underline) ---- */
   --tt-marker: var(--tt-lemon);
@@ -50,8 +50,8 @@
   --tt-bw-lg: 4px;
 
   /* ---- Halftone / dotted comic textures ---- */
-  --tt-halftone: radial-gradient(circle, rgb(32 42 68 / 0.14) 1px, transparent 1.5px);
-  --tt-dots: radial-gradient(circle, rgb(32 42 68 / 0.12) 1.2px, transparent 1.5px);
+  --tt-halftone: radial-gradient(circle, rgb(23 23 23 / 0.14) 1px, transparent 1.5px);
+  --tt-dots: radial-gradient(circle, rgb(23 23 23 / 0.12) 1.2px, transparent 1.5px);
 }
 
 @theme inline {
@@ -321,8 +321,8 @@
   /* Visible grid structure helper */
   .grid-lines {
     background-image:
-      linear-gradient(to right, rgb(32 42 68 / 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(32 42 68 / 0.06) 1px, transparent 1px);
+      linear-gradient(to right, rgb(23 23 23 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(23 23 23 / 0.06) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
@@ -485,7 +485,7 @@
     background-image: repeating-linear-gradient(
       -12deg,
       transparent 0 6px,
-      rgb(32 42 68 / 0.18) 6px 8px,
+      rgb(23 23 23 / 0.18) 6px 8px,
       transparent 8px 14px
     );
   }
