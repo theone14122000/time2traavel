@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/form";
 import { Input, Textarea } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { scrollFieldIntoViewOnFocus } from "@/components/forms/scroll-on-focus";
 import {
   Dialog,
   DialogContent,
@@ -167,7 +168,12 @@ export function EnquiryDialog({
                   <FormItem>
                     <FormLabel required>Your name</FormLabel>
                     <FormControl>
-                      <Input autoComplete="name" placeholder="Full name" {...field} />
+                      <Input
+                        autoComplete="name"
+                        placeholder="Full name"
+                        onFocus={scrollFieldIntoViewOnFocus}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -180,7 +186,13 @@ export function EnquiryDialog({
                   <FormItem>
                     <FormLabel required>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" autoComplete="email" placeholder="you@example.com" {...field} />
+                      <Input
+                        type="email"
+                        autoComplete="email"
+                        placeholder="you@example.com"
+                        onFocus={scrollFieldIntoViewOnFocus}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -196,7 +208,13 @@ export function EnquiryDialog({
                   <FormItem>
                     <FormLabel>Phone / WhatsApp</FormLabel>
                     <FormControl>
-                      <Input type="tel" autoComplete="tel" placeholder="+91 ..." {...field} />
+                      <Input
+                        type="tel"
+                        autoComplete="tel"
+                        placeholder="+91 ..."
+                        onFocus={scrollFieldIntoViewOnFocus}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -209,7 +227,11 @@ export function EnquiryDialog({
                   <FormItem>
                     <FormLabel>Travel date</FormLabel>
                     <FormControl>
-                      <Input type="date" {...field} />
+                      <Input
+                        type="date"
+                        onFocus={scrollFieldIntoViewOnFocus}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -224,7 +246,12 @@ export function EnquiryDialog({
                 <FormItem>
                   <FormLabel>Travellers</FormLabel>
                   <FormControl>
-                    <Input inputMode="numeric" placeholder="e.g. 2" {...field} />
+                    <Input
+                      inputMode="numeric"
+                      placeholder="e.g. 2"
+                      onFocus={scrollFieldIntoViewOnFocus}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -238,7 +265,12 @@ export function EnquiryDialog({
                 <FormItem>
                   <FormLabel>Message</FormLabel>
                   <FormControl>
-                    <Textarea rows={3} placeholder="Anything we should know?" {...field} />
+                    <Textarea
+                      rows={3}
+                      placeholder="Anything we should know?"
+                      onFocus={scrollFieldIntoViewOnFocus}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

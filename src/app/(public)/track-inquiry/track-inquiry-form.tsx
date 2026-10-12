@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { scrollFieldIntoViewOnFocus } from "@/components/forms/scroll-on-focus";
 import { z } from "zod";
 import { cn, formatDate } from "@/lib/utils";
 
@@ -99,6 +100,7 @@ export function TrackInquiryForm({ className }: { className?: string }) {
                     placeholder="e.g. TTT-2026-0001"
                     autoComplete="off"
                     spellCheck={false}
+                    onFocus={scrollFieldIntoViewOnFocus}
                     {...field}
                   />
                 </FormControl>
@@ -114,7 +116,13 @@ export function TrackInquiryForm({ className }: { className?: string }) {
               <FormItem>
                 <FormLabel>Phone used for the enquiry</FormLabel>
                 <FormControl>
-                  <Input type="tel" autoComplete="tel" placeholder="+91…" {...field} />
+                  <Input
+                    type="tel"
+                    autoComplete="tel"
+                    placeholder="+91…"
+                    onFocus={scrollFieldIntoViewOnFocus}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -128,7 +136,13 @@ export function TrackInquiryForm({ className }: { className?: string }) {
               <FormItem>
                 <FormLabel>Email used for the enquiry</FormLabel>
                 <FormControl>
-                  <Input type="email" autoComplete="email" placeholder="you@example.com" {...field} />
+                  <Input
+                    type="email"
+                    autoComplete="email"
+                    placeholder="you@example.com"
+                    onFocus={scrollFieldIntoViewOnFocus}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -144,7 +158,7 @@ export function TrackInquiryForm({ className }: { className?: string }) {
             return rootError?.message ? (
               <p
                 role="alert"
-                className="border-[3px] border-ink bg-danger px-3 py-2 text-sm font-semibold text-paper"
+                className="break-words border-[3px] border-ink bg-danger px-3 py-2 text-sm font-semibold text-paper"
               >
                 {rootError.message}
               </p>

@@ -118,7 +118,7 @@ export function BrutalCardHeader({
 
 export interface BrutalCardMediaProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Aspect ratio of the media box. Defaults to `landscape`. */
-  aspect?: "square" | "portrait" | "landscape" | "wide";
+  aspect?: "square" | "portrait" | "landscape" | "wide" | "destination" | "package";
 }
 
 const mediaAspect: Record<NonNullable<BrutalCardMediaProps["aspect"]>, string> = {
@@ -126,6 +126,8 @@ const mediaAspect: Record<NonNullable<BrutalCardMediaProps["aspect"]>, string> =
   portrait: "aspect-[3/4]",
   landscape: "aspect-[3/2]",
   wide: "aspect-[16/9]",
+  destination: "aspect-[4/5]",
+  package: "aspect-[16/10]",
 };
 
 /** Aspect-ratio media frame for images. */

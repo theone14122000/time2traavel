@@ -4,6 +4,7 @@ import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { popIn } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { Z_COOKIE } from "@/lib/z-index";
 
 /**
  * Cookie consent banner — consent UX only.
@@ -66,8 +67,9 @@ export function CookieConsent() {
           animate="visible"
           exit={reduceMotion ? { opacity: 0, transition: { duration: 0 } } : "hidden"}
           variants={popIn}
+          style={{ zIndex: Z_COOKIE }}
           className={cn(
-            "fixed bottom-24 left-4 right-4 z-40 border-4 border-ink bg-ink p-4 text-cream shadow-hard-xl sm:bottom-6 sm:left-24 sm:right-6 sm:max-w-3xl",
+            "fixed bottom-24 left-4 right-4 border-4 border-ink bg-ink p-4 text-cream shadow-hard-xl lg:bottom-[calc(1.5rem_+_env(safe-area-inset-bottom))] sm:left-24 sm:right-6 sm:max-w-3xl",
           )}
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -79,14 +81,14 @@ export function CookieConsent() {
               <button
                 type="button"
                 onClick={() => accept("all")}
-                className={cn(buttonClass, "bg-lemon")}
+                className={cn(buttonClass, "w-full sm:w-auto", "bg-lemon")}
               >
                 Accept all
               </button>
               <button
                 type="button"
                 onClick={() => accept("essential")}
-                className={cn(buttonClass, "bg-paper")}
+                className={cn(buttonClass, "w-full sm:w-auto", "bg-paper")}
               >
                 Essential only
               </button>

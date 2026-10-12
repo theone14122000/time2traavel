@@ -80,7 +80,7 @@ export default async function AdminPackagesPage() {
           }
         />
       ) : (
-        <Table>
+        <Table className="min-w-[52rem]">
           <TableHeader>
             <TableRow>
               <TableHead>Title</TableHead>

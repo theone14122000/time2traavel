@@ -31,7 +31,7 @@ export async function FinalCta() {
     <section
       id="enquire"
       aria-labelledby="enquire-heading"
-      className="relative w-full border-b-[3px] border-ink bg-sky"
+      className="relative w-full clip-x border-b-[3px] border-ink bg-sky"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
       <span

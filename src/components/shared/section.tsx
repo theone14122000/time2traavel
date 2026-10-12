@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
+import { AnimatedHeading } from "@/components/ui/animated-heading";
 
 type SectionTone =
   | "cream"
@@ -110,9 +111,31 @@ export function SectionHeading({
       ) : null}
       <h2
         id={id}
-        className="max-w-[22ch] font-display text-h2 uppercase"
+        className={cn(
+          "max-w-[22ch] font-display text-h2 uppercase",
+          tone === "ink" ? "heading-hard-cream" : "heading-hard",
+        )}
       >
-        {title}
+        {typeof title === "string" ? (
+          <AnimatedHeading
+            as="span"
+            text={title}
+            variant="section"
+            hard={false}
+            onDark={tone === "ink"}
+            className="text-inherit"
+          />
+        ) : (
+          <AnimatedHeading
+            as="span"
+            variant="section"
+            hard={false}
+            onDark={tone === "ink"}
+            className="text-inherit"
+          >
+            {title}
+          </AnimatedHeading>
+        )}
       </h2>
       {description ? (
         <p className="max-w-2xl text-lead font-medium text-ink-soft">

@@ -96,7 +96,7 @@ function TripTypeTile({
               alt={tripType.coverImageAlt?.trim() || tripType.name}
               aspect="free"
               zoom
-              sizes="(max-width: 640px) 92vw, 30vw"
+              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
               className="h-full w-full border-0"
             />
           ) : (
@@ -125,14 +125,20 @@ function TripTypeTile({
             <div className="flex flex-wrap gap-2">
               <Link
                 href={`/trip-types/${tripType.slug}`}
-                className={cn(buttonVariants({ variant: "outline", size: "sm" }), "flex-1")}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "tap-44 flex-1",
+                )}
               >
                 View
                 <ArrowRight aria-hidden="true" className="size-4" />
               </Link>
               <Link
                 href={`/packages?tripType=${tripType.slug}`}
-                className={cn(buttonVariants({ variant: "soft", size: "sm" }), "flex-1")}
+                className={cn(
+                  buttonVariants({ variant: "soft", size: "sm" }),
+                  "tap-44 flex-1",
+                )}
               >
                 Packages
               </Link>
@@ -140,7 +146,10 @@ function TripTypeTile({
 
             <Link
               href={`/plan-my-trip?tripType=${tripType.slug}`}
-              className={cn(buttonVariants({ variant: "default", size: "sm" }), "w-full")}
+              className={cn(
+                buttonVariants({ variant: "default", size: "sm" }),
+                "tap-44 w-full",
+              )}
             >
               <CalendarHeart aria-hidden="true" className="size-4" />
               Plan this trip

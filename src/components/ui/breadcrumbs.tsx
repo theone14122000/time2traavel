@@ -35,7 +35,7 @@ export function Breadcrumbs({
               {!isLast && item.href ? (
                 <Link
                   href={item.href}
-                  className="label-brutal border-[2px] border-ink bg-paper px-2.5 py-1.5 transition-colors hover:bg-butter"
+                  className="label-brutal tap-44 inline-flex items-center border-[2px] border-ink bg-paper px-2.5 py-1.5 transition-colors hover:bg-butter"
                 >
                   {item.label}
                 </Link>

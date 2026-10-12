@@ -67,7 +67,6 @@ export function Lightbox({
                   height={active.height ?? 1067}
                   sizes="(max-width: 1024px) 100vw, 90vw"
                   className="h-auto max-h-[70vh] w-auto object-contain"
-                  priority
                 />
               ) : (
                 <p className="p-10 text-sm font-semibold text-paper">Photo unavailable</p>
@@ -81,6 +80,7 @@ export function Lightbox({
                 size="sm"
                 onClick={() => go(-1)}
                 aria-label="Previous photo"
+                className="tap-44"
               >
                 <ChevronLeft aria-hidden="true" className="size-4" />
               </Button>
@@ -101,6 +101,7 @@ export function Lightbox({
                 size="sm"
                 onClick={() => go(1)}
                 aria-label="Next photo"
+                className="tap-44"
               >
                 <ChevronRight aria-hidden="true" className="size-4" />
               </Button>

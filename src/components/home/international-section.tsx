@@ -119,15 +119,17 @@ export async function InternationalTrips() {
                     }
                   >
                     <BrutalCardMedia
-                      aspect={index === 0 && destinations.length > 1 ? "wide" : "landscape"}
+                      aspect={index === 0 && destinations.length > 1 ? "wide" : "destination"}
                     >
                       <BrutalImage
                         src={destination.image}
                         alt={destination.imageAlt?.trim() || destination.name}
+                        aspect="free"
+                        className="h-full w-full border-0"
                         sizes={
                           index === 0 && destinations.length > 1
-                            ? "(max-width: 640px) 92vw, (max-width: 1024px) 60vw, 40vw"
-                            : "(max-width: 640px) 92vw, 30vw"
+                            ? "(max-width: 1024px) 92vw, 62vw"
+                            : "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
                         }
                       />
                     </BrutalCardMedia>
@@ -150,7 +152,12 @@ export async function InternationalTrips() {
                       ) : null}
 
                       <div className="mt-auto pt-2">
-                        <Button asChild variant="outline" size="sm" className="w-full sm:w-auto">
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="sm"
+                          className="tap-44 w-full sm:w-auto"
+                        >
                           <Link href={`/destinations/${destination.slug}`}>
                             Explore
                             <ArrowRight aria-hidden="true" className="size-4" />

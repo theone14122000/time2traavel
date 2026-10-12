@@ -228,7 +228,7 @@ export function ReviewForm({
 
             {submitError ? (
               <div className="grid gap-2 border-[2px] border-ink bg-blush px-3 py-2.5">
-                <p className="text-sm font-bold">{submitError}</p>
+                <p className="break-words text-sm font-bold">{submitError}</p>
                 <div>
                   <Button
                     type="button"

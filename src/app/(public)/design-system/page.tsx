@@ -252,7 +252,7 @@ export default async function DesignSystemPage() {
         description="Four demo slides with drag, dots, arrow buttons and a live counter."
       >
         <Panel label="Carousel" note="keyboard: â† / â†’ when focused">
-          <div className="grid gap-3">
+          <div className="grid grid-cols-1 gap-3">
             <Carousel
               label="Demo carousel"
               items={CAROUSEL_SLIDES.map((slide) => (

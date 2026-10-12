@@ -15,6 +15,7 @@ import { NAV_LINKS } from "@/lib/constants";
 import { telHref, waHref } from "@/lib/contact";
 import { EASE, fadeUp, slideIn, stagger } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { Z_HEADER } from "@/lib/z-index";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
@@ -36,6 +37,8 @@ type SiteHeaderProps = {
 const DESTINATIONS_PANEL_ID = "site-header-destinations-panel";
 /** Grace period so the pointer can cross from trigger to panel without a flicker. */
 const MEGA_CLOSE_DELAY_MS = 140;
+/** Scroll offset (px) after which the header chrome shrinks. */
+const SCROLL_SHRINK_PX = 16;
 
 export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
   const pathname = usePathname();
@@ -51,16 +54,34 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
   const megaTriggerRef = React.useRef<HTMLAnchorElement | null>(null);
 
   React.useEffect(() => {
-    setScrolled(window.scrollY > 24);
+    setScrolled(window.scrollY > SCROLL_SHRINK_PX);
     return () => {
       if (megaCloseTimer.current) clearTimeout(megaCloseTimer.current);
     };
   }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    const next = latest > 24;
+    const next = latest > SCROLL_SHRINK_PX;
     setScrolled((prev) => (prev === next ? prev : next));
   });
+
+  // The drawer owns the full viewport, so page scrolling is locked while it is
+  // open (Radix locks it too — this keeps the inline style in sync for the
+  // SSR/no-JS-free mount and restores whatever was there before).
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [menuOpen]);
+
+  // Close the drawer on navigation that does not pass through the link's own
+  // onClick (browser back/forward, programmatic pushes, route wipes).
+  React.useEffect(() => {
+    setMenuOpen(false);
+  }, [currentPath]);
 
   const clearMegaTimer = React.useCallback(() => {
     if (megaCloseTimer.current) {
@@ -147,14 +168,15 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
       <ScrollProgress />
 
       <header
+        style={{ zIndex: Z_HEADER }}
         className={cn(
-          "sticky top-0 z-40 w-full border-b-[3px] border-ink bg-cream/95 backdrop-blur transition-shadow duration-300 ease-out",
+          "sticky top-0 w-full border-b-[3px] border-ink bg-cream/95 pt-[env(safe-area-inset-top)] backdrop-blur transition-shadow duration-300 ease-out",
           scrolled && "shadow-hard-sm",
         )}
       >
         <div
           className={cn(
-            "mx-auto flex w-full max-w-[90rem] items-center justify-between gap-3 px-4 transition-[height] duration-300 ease-out sm:px-6 lg:px-10 xl:px-14",
+            "mx-auto flex w-full max-w-[80rem] items-center justify-between gap-3 px-4 transition-[height] duration-300 ease-out sm:px-6 lg:px-10 xl:px-12",
             scrolled ? "h-14 lg:h-16" : "h-16 lg:h-20",
           )}
         >
@@ -210,7 +232,15 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                   onFocus={openMega}
                   onBlur={(event) => {
                     const next = event.relatedTarget;
-                    if (!(next instanceof Node) || !event.currentTarget.contains(next)) {
+                    if (!(next instanceof Node)) {
+                      closeMega(false);
+                      return;
+                    }
+                    const panel = document.getElementById(DESTINATIONS_PANEL_ID);
+                    if (
+                      !event.currentTarget.contains(next) &&
+                      !(panel instanceof Node && panel.contains(next))
+                    ) {
                       closeMega(false);
                     }
                   }}
@@ -231,71 +261,6 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                       />
                     ) : null}
                   </Link>
-
-                  <AnimatePresence>
-                    {megaOpen ? (
-                      <motion.div
-                        id={DESTINATIONS_PANEL_ID}
-                        initial={reduceMotion ? false : "hidden"}
-                        animate="visible"
-                        exit={
-                          reduceMotion
-                            ? { opacity: 0, transition: { duration: 0 } }
-                            : { opacity: 0, y: -16, transition: { duration: 0.2, ease: EASE } }
-                        }
-                        variants={slideIn("top", 24)}
-                        className="absolute left-0 top-full z-50 w-[min(44rem,calc(100vw_-_3rem))] border-[3px] border-ink bg-paper p-4 shadow-hard-lg sm:p-5"
-                      >
-                        <p className="label-brutal mb-3 text-ink-soft">Browse destinations</p>
-
-                        {destinations.length > 0 ? (
-                          <>
-                            <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                              {destinations.map((destination) => (
-                                <li key={destination.slug}>
-                                  <Link
-                                    href={`/destinations/${destination.slug}`}
-                                    onClick={() => closeMega(false)}
-                                    className="flex h-full flex-col gap-1 border-[2px] border-ink bg-paper px-3 py-2.5 transition-colors hover:bg-butter"
-                                  >
-                                    <span className="font-display text-sm uppercase leading-tight">
-                                      {destination.name}
-                                    </span>
-                                    <span className="label-brutal text-[0.6rem] text-ink-soft">
-                                      {destination.state}
-                                    </span>
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-
-                            <div className="mt-4 flex items-center justify-end border-t-[3px] border-ink pt-3">
-                              <Link
-                                href="/destinations"
-                                onClick={() => closeMega(false)}
-                                className="label-brutal inline-flex items-center gap-1.5 border-[2px] border-ink bg-lemon px-3 py-2 shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard"
-                              >
-                                View all
-                                <ArrowRight aria-hidden="true" className="size-3.5" />
-                              </Link>
-                            </div>
-                          </>
-                        ) : (
-                          <p className="text-sm font-semibold">
-                            New destinations coming soon.{" "}
-                            <Link
-                              href="/about-us"
-                              onClick={() => closeMega(false)}
-                              className="underline decoration-2 underline-offset-4 hover:bg-lemon"
-                            >
-                              About Us
-                            </Link>{" "}
-                            to plan a trip.
-                          </p>
-                        )}
-                      </motion.div>
-                    ) : null}
-                  </AnimatePresence>
                 </div>
               );
             })}
@@ -357,9 +322,9 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                   initial={reduceMotion ? false : "hidden"}
                   animate="visible"
                   variants={stagger(0.05)}
-                  className="flex min-h-full flex-col bg-paper"
+                  className="flex min-h-full flex-col bg-paper pb-[env(safe-area-inset-bottom)]"
                 >
-                  <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b-[3px] border-ink bg-lemon px-4 py-3">
+                  <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b-[3px] border-ink bg-lemon px-4 pb-3 pt-[calc(0.75rem_+_env(safe-area-inset-top))]">
                     <Link
                       href="/"
                       aria-label="Time to Travel — home"
@@ -397,7 +362,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                             onClick={() => setMenuOpen(false)}
                             aria-current={active ? "page" : undefined}
                             className={cn(
-                              "relative flex items-center justify-between gap-3 overflow-hidden border-[3px] border-ink py-4 pl-7 pr-4 font-display text-xl uppercase transition-all sm:text-2xl",
+                              "tap-44 relative flex items-center justify-between gap-3 overflow-hidden border-[3px] border-ink py-4 pl-7 pr-4 font-display text-xl uppercase transition-all sm:text-2xl",
                               active
                                 ? "bg-paper shadow-hard-sm"
                                 : "bg-paper hover:bg-butter hover:shadow-hard-xs",
@@ -445,7 +410,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                             onClick={() => setMenuOpen(false)}
                             target={row.external ? "_blank" : undefined}
                             rel={row.external ? "noopener noreferrer" : undefined}
-                            className="flex items-center gap-3 rounded-chip border-[3px] border-ink bg-paper px-4 py-3 text-sm font-semibold transition-colors hover:bg-butter"
+                            className="tap-44 flex items-center gap-3 rounded-chip border-[3px] border-ink bg-paper px-4 py-3 text-sm font-semibold transition-colors hover:bg-butter"
                           >
                             <row.icon aria-hidden="true" className="size-4 shrink-0" />
                             <span className="truncate">{row.label}</span>
@@ -459,6 +424,80 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
             </Dialog>
           </div>
         </div>
+
+        {/* Destinations mega panel — anchored to the full-width header and
+            centered on the viewport so it can never clip at any width. */}
+        <AnimatePresence>
+          {megaOpen ? (
+            <div
+              onMouseEnter={openMega}
+              onMouseLeave={scheduleMegaClose}
+              onFocus={openMega}
+              className="absolute left-1/2 top-full z-50 w-[min(44rem,calc(100dvw_-_3rem))] -translate-x-1/2 pt-2"
+            >
+              <motion.div
+                id={DESTINATIONS_PANEL_ID}
+                initial={reduceMotion ? false : "hidden"}
+                animate="visible"
+                exit={
+                  reduceMotion
+                    ? { opacity: 0, transition: { duration: 0 } }
+                    : { opacity: 0, y: -16, transition: { duration: 0.2, ease: EASE } }
+                }
+                variants={slideIn("top", 24)}
+                className="border-[3px] border-ink bg-paper p-4 shadow-hard-lg sm:p-5"
+              >
+                <p className="label-brutal mb-3 text-ink-soft">Browse destinations</p>
+
+                {destinations.length > 0 ? (
+                  <>
+                    <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                      {destinations.map((destination) => (
+                        <li key={destination.slug}>
+                          <Link
+                            href={`/destinations/${destination.slug}`}
+                            onClick={() => closeMega(false)}
+                            className="flex h-full flex-col gap-1 border-[2px] border-ink bg-paper px-3 py-2.5 transition-colors hover:bg-butter"
+                          >
+                            <span className="font-display text-sm uppercase leading-tight">
+                              {destination.name}
+                            </span>
+                            <span className="label-brutal text-[0.6rem] text-ink-soft">
+                              {destination.state}
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-4 flex items-center justify-end border-t-[3px] border-ink pt-3">
+                      <Link
+                        href="/destinations"
+                        onClick={() => closeMega(false)}
+                        className="label-brutal inline-flex items-center gap-1.5 border-[2px] border-ink bg-lemon px-3 py-2 shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard"
+                      >
+                        View all
+                        <ArrowRight aria-hidden="true" className="size-3.5" />
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-sm font-semibold">
+                    New destinations coming soon.{" "}
+                    <Link
+                      href="/about-us"
+                      onClick={() => closeMega(false)}
+                      className="underline decoration-2 underline-offset-4 hover:bg-lemon"
+                    >
+                      About Us
+                    </Link>{" "}
+                    to plan a trip.
+                  </p>
+                )}
+              </motion.div>
+            </div>
+          ) : null}
+        </AnimatePresence>
       </header>
     </>
   );

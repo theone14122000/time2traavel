@@ -9,7 +9,9 @@ export function Container({
   return (
     <div
       className={cn(
-        "mx-auto w-full max-w-[90rem] px-4 sm:px-6 lg:px-10 xl:px-14",
+        // Fluid padding: 16 → 24 → 40 → 48px; content capped at 1280px
+        // so ultra-wide screens keep generous side margins.
+        "mx-auto w-full max-w-[80rem] px-4 sm:px-6 lg:px-10 xl:px-12",
         className,
       )}
       {...props}

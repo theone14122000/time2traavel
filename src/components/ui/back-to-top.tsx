@@ -40,7 +40,7 @@ export function BackToTop() {
           animate="visible"
           exit={reduceMotion ? { opacity: 0, transition: { duration: 0 } } : "hidden"}
           variants={popIn}
-          className="fixed right-4 z-30 flex size-12 items-center justify-center border-[3px] border-ink bg-lemon shadow-hard transition-transform duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none bottom-[calc(16px_+_env(safe-area-inset-bottom)_+_56px_+_60px_+_8px)] lg:bottom-[calc(16px_+_env(safe-area-inset-bottom)_+_60px_+_8px)]"
+          className="fixed right-4 z-30 flex size-12 items-center justify-center border-[3px] border-ink bg-lemon shadow-hard transition-transform duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none bottom-[calc(16px_+_env(safe-area-inset-bottom)_+_56px_+_56px_+_8px)] sm:bottom-[calc(16px_+_env(safe-area-inset-bottom)_+_56px_+_60px_+_8px)] lg:bottom-[calc(16px_+_env(safe-area-inset-bottom)_+_60px_+_8px)]"
         >
           <ArrowUp aria-hidden="true" className="size-5" />
         </motion.button>

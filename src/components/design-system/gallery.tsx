@@ -36,7 +36,7 @@ export function GallerySection({
           title={title}
           description={description}
         />
-        <div className="mt-8 grid gap-6">{children}</div>
+        <div className="mt-8 grid grid-cols-1 gap-6">{children}</div>
       </div>
     </SectionWrapper>
   );

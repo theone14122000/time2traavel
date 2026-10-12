@@ -156,7 +156,7 @@ export function RadioCards({
       </div>
 
       {errorText ? (
-        <p id={errorId} className="text-xs font-semibold text-danger">
+        <p id={errorId} className="break-words text-xs font-semibold text-danger">
           {errorText}
         </p>
       ) : null}

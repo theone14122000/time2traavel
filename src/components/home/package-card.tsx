@@ -80,11 +80,12 @@ export function HomePackageCard({
       badge={priceBadge}
       className={cn("flex h-full flex-col", className)}
     >
-      <BrutalCardMedia aspect="landscape">
+      <BrutalCardMedia aspect="package">
         <BrutalImage
           src={pkg.image}
           alt={pkg.imageAlt?.trim() || pkg.title}
-          className="aspect-auto h-full w-full border-0"
+          aspect="free"
+          className="h-full w-full border-0"
           sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
         />
       </BrutalCardMedia>
@@ -122,7 +123,7 @@ export function HomePackageCard({
       <BrutalCardFooter className="gap-2.5">
         <Link
           href={`/packages/${pkg.slug}`}
-          className={cn(buttonVariants({ variant: "outline", size: "sm" }), "flex-1")}
+          className={cn(buttonVariants({ variant: "outline", size: "sm" }), "tap-44 flex-1")}
         >
           Explore
           <ArrowRight aria-hidden="true" className="size-4" />
@@ -131,7 +132,7 @@ export function HomePackageCard({
           type="button"
           variant="default"
           size="sm"
-          className="flex-1"
+          className="tap-44 flex-1"
           onClick={() => onEnquire?.(pkg)}
         >
           Enquire

@@ -49,9 +49,9 @@ export function PackageTile({
         <BrutalImage
           src={pkg.image}
           alt={pkg.imageAlt ?? pkg.title}
-          aspect="landscape"
+          aspect="package"
           className="border-0"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 46vw, 30vw"
         />
       </div>
 
@@ -74,7 +74,7 @@ export function PackageTile({
         <h3 className="font-display text-h3 uppercase leading-tight">
           <Link
             href={`/packages/${pkg.slug}`}
-            className="decoration-[3px] underline-offset-4 hover:underline"
+            className="py-2 decoration-[3px] underline-offset-4 hover:underline"
           >
             {pkg.title}
           </Link>
@@ -105,13 +105,13 @@ export function PackageTile({
             type="button"
             variant="primary"
             size="sm"
-            className="flex-1"
+            className="tap-44 flex-1"
             onClick={() => onEnquire?.(pkg)}
           >
             <Send aria-hidden="true" className="size-4" />
             Enquire
           </Button>
-          <QuickViewButton pkg={pkg} className="flex-1" />
+          <QuickViewButton pkg={pkg} className="tap-44 flex-1" />
         </div>
 
         {showCompareToggle ? (

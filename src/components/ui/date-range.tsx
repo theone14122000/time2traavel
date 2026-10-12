@@ -191,7 +191,7 @@ export function DateRange({
       </div>
 
       {message ? (
-        <p id={errorId} className="mt-3 text-xs font-semibold text-danger">
+        <p id={errorId} className="mt-3 break-words text-xs font-semibold text-danger">
           {message}
         </p>
       ) : null}

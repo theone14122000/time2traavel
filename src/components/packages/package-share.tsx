@@ -48,7 +48,7 @@ export function PackageShare({ title, path }: { title: string; path: string }) {
             type="button"
             variant="dark"
             size="sm"
-            className="flex-1"
+            className="tap-44 flex-1"
             onClick={handleShare}
           >
             <Share2 aria-hidden="true" className="size-4" />
@@ -67,7 +67,7 @@ export function PackageShare({ title, path }: { title: string; path: string }) {
           type="button"
           variant="outline"
           size="sm"
-          className="flex-1"
+          className="tap-44 flex-1"
           onClick={handleCopy}
         >
           {copied ? (

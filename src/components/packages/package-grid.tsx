@@ -17,9 +17,12 @@ export function PackageGrid({ packages }: { packages: PackageCardData[] }) {
 
   return (
     <>
-      <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <StaggerGroup className="no-scrollbar snap-rail scroll-pl-4 -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
         {packages.map((pkg) => (
-          <StaggerItem key={pkg.id} className="h-full">
+          <StaggerItem
+            key={pkg.id}
+            className="h-full w-[calc(100%_-_2rem)] shrink-0 sm:w-auto"
+          >
             <PackageTile pkg={pkg} onEnquire={setEnquiry} />
           </StaggerItem>
         ))}

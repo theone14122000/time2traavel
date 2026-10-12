@@ -133,7 +133,7 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
           description="Use the filters to narrow the list — results update as you type or pick."
         />
 
-        <div className="mt-8 grid gap-8">
+        <div className="mt-8 grid grid-cols-1 gap-8">
           <PackageFilters initial={filterInitial} destinationOptions={options.destinations} />
 
           {result.items.length === 0 ? (

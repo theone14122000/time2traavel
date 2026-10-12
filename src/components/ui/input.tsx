@@ -9,7 +9,7 @@ export const Input = React.forwardRef<
     type={type}
     ref={ref}
     className={cn(
-      "flex h-12 w-full rounded-chip border-[3px] border-ink bg-paper px-3.5 py-2 text-sm font-medium text-ink",
+      "flex h-12 w-full rounded-chip border-[3px] border-ink bg-paper px-3.5 py-2 text-base font-medium text-ink",
       "shadow-hard-xs transition-shadow placeholder:text-ink-soft/60 placeholder:font-normal",
       "focus-visible:outline-none focus-visible:shadow-[4px_4px_0_var(--color-ink)]",
       "disabled:cursor-not-allowed disabled:opacity-50",
@@ -28,7 +28,7 @@ export const Textarea = React.forwardRef<
   <textarea
     ref={ref}
     className={cn(
-      "flex min-h-28 w-full rounded-chip border-[3px] border-ink bg-paper px-3.5 py-2.5 text-sm font-medium text-ink",
+      "flex min-h-28 w-full rounded-chip border-[3px] border-ink bg-paper px-3.5 py-2.5 text-base font-medium text-ink",
       "shadow-hard-xs transition-shadow placeholder:text-ink-soft/60 placeholder:font-normal",
       "focus-visible:outline-none focus-visible:shadow-[4px_4px_0_var(--color-ink)]",
       "disabled:cursor-not-allowed disabled:opacity-50",

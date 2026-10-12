@@ -75,7 +75,7 @@ export default async function AdminGuidesPage() {
           }
         />
       ) : (
-        <Table>
+        <Table className="min-w-[48rem]">
           <TableHeader>
             <TableRow>
               <TableHead>Title</TableHead>

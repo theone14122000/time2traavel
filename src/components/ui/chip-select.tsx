@@ -174,13 +174,13 @@ export function ChipMultiSelect({
       </div>
 
       {atMax && maxSelectable ? (
-        <p id={hintId} className="text-xs font-semibold text-ink-soft">
+        <p id={hintId} className="break-words text-xs font-semibold text-ink-soft">
           You can select up to {maxSelectable}.
         </p>
       ) : null}
 
       {message ? (
-        <p id={errorId} className="text-xs font-semibold text-danger">
+        <p id={errorId} className="break-words text-xs font-semibold text-danger">
           {message}
         </p>
       ) : null}

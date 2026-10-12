@@ -130,7 +130,13 @@ export function PackageFilters({
         </h3>
         <div className="flex flex-wrap items-center gap-3">
           {activeCount > 0 ? (
-            <Button type="button" variant="ghost" size="sm" onClick={clearFilters}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="tap-44"
+              onClick={clearFilters}
+            >
               <X aria-hidden="true" className="size-4" />
               Clear filters ({activeCount})
             </Button>

@@ -103,7 +103,7 @@ export default async function AdminTeamPage() {
           }
         />
       ) : (
-        <Table>
+        <Table className="min-w-[36rem]">
           <TableHeader>
             <TableRow>
               <TableHead>Member</TableHead>

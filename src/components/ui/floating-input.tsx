@@ -69,7 +69,7 @@ const labelFloated =
   "peer-not-placeholder-shown:font-bold peer-not-placeholder-shown:uppercase peer-not-placeholder-shown:tracking-[0.1em]";
 
 const inputClasses =
-  "peer h-11 w-full bg-transparent pl-3.5 text-sm font-medium text-ink " +
+  "peer h-12 w-full bg-transparent pl-3.5 text-base font-medium text-ink " +
   "placeholder:font-normal placeholder:text-transparent focus-visible:outline-none disabled:cursor-not-allowed";
 
 function readError(error: string | null | undefined) {
@@ -78,7 +78,7 @@ function readError(error: string | null | undefined) {
 
 function ErrorHint({ id, message }: { id: string; message: string }) {
   return (
-    <p id={id} className="mt-1.5 text-xs font-semibold text-danger">
+    <p id={id} className="mt-1.5 break-words text-xs font-semibold text-danger">
       {message}
     </p>
   );
@@ -236,7 +236,7 @@ export const FloatingTextarea = React.forwardRef<
               aria-invalid={fieldAriaInvalid}
               aria-describedby={describedBy}
               className={cn(
-                "peer min-h-32 w-full resize-y bg-transparent px-3.5 pb-2.5 pt-6 text-sm font-medium text-ink",
+                "peer min-h-32 w-full resize-y bg-transparent px-3.5 pb-2.5 pt-6 text-base font-medium text-ink",
                 "placeholder:font-normal placeholder:text-transparent focus-visible:outline-none disabled:cursor-not-allowed",
                 className,
               )}

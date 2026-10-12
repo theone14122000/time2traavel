@@ -13,7 +13,7 @@ export function DestinationCard({
   destination,
   className,
   onEnquire,
-  sizes = "(max-width: 768px) 100vw, 33vw",
+  sizes = "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw",
 }: {
   destination: DestinationData;
   className?: string;
@@ -33,7 +33,7 @@ export function DestinationCard({
         alt={destination.imageAlt}
         label={destination.name}
         sizes={sizes}
-        ratio="video"
+        ratio="destination"
       />
 
       <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
@@ -70,7 +70,7 @@ export function DestinationCard({
           <div className="flex flex-wrap gap-2.5">
             <Link
               href={`/destinations/${destination.slug}`}
-              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "flex-1")}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "tap-44 flex-1")}
             >
               Explore
               <ArrowRight aria-hidden="true" className="size-4" />
@@ -79,7 +79,7 @@ export function DestinationCard({
               type="button"
               variant="default"
               size="sm"
-              className="flex-1"
+              className="tap-44 flex-1"
               onClick={() => onEnquire?.(destination)}
             >
               Enquire
@@ -95,7 +95,7 @@ export function PackageCard({
   pkg,
   className,
   onEnquire,
-  sizes = "(max-width: 768px) 100vw, 33vw",
+  sizes = "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw",
 }: {
   pkg: PackageData;
   className?: string;
@@ -117,7 +117,7 @@ export function PackageCard({
         alt={pkg.imageAlt}
         label={pkg.title}
         sizes={sizes}
-        ratio="video"
+        ratio="package"
       />
 
       <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
@@ -157,7 +157,7 @@ export function PackageCard({
         <div className="flex flex-wrap gap-2.5">
           <Link
             href={`/packages/${pkg.slug}`}
-            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "flex-1")}
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "tap-44 flex-1")}
           >
             Explore
             <ArrowRight aria-hidden="true" className="size-4" />
@@ -166,7 +166,7 @@ export function PackageCard({
             type="button"
             variant="default"
             size="sm"
-            className="flex-1"
+            className="tap-44 flex-1"
             onClick={() => onEnquire?.(pkg)}
           >
             Enquire

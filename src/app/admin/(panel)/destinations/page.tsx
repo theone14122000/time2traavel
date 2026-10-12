@@ -77,7 +77,7 @@ export default async function AdminDestinationsPage() {
           }
         />
       ) : (
-        <Table>
+        <Table className="min-w-[52rem]">
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>

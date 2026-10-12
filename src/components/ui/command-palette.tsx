@@ -88,7 +88,7 @@ export function CommandPaletteProvider({ children }: { children?: React.ReactNod
             onClick={() => setOpen(true)}
             aria-keyshortcuts="Meta+K Control+K"
             aria-label="Search destinations and packages"
-            className="press tap-44 fixed bottom-20 right-4 z-40 hidden items-center gap-2.5 border-[3px] border-ink bg-lemon px-4 shadow-brutal-sm sm:flex lg:bottom-6"
+            className="press tap-44 fixed bottom-[calc(148px_+_env(safe-area-inset-bottom))] left-4 z-40 hidden items-center gap-2.5 border-[3px] border-ink bg-lemon px-4 shadow-brutal-sm sm:flex [@media(max-height:520px)]:!hidden"
           >
             <Search aria-hidden="true" className="size-4" />
             <span className="label-brutal">Search</span>
@@ -289,7 +289,7 @@ function CommandPaletteDialog({
               autoComplete="off"
               autoCorrect="off"
               spellCheck={false}
-              className="w-full bg-transparent text-sm font-semibold outline-none placeholder:text-ink-soft/80"
+              className="min-h-11 w-full bg-transparent text-sm font-semibold outline-none placeholder:text-ink-soft/80"
             />
             {loading ? (
               <span

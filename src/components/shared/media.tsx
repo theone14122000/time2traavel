@@ -11,7 +11,7 @@ type MediaProps = {
   imgClassName?: string;
   sizes?: string;
   priority?: boolean;
-  ratio?: "video" | "square" | "wide" | "portrait" | "banner";
+  ratio?: "video" | "square" | "wide" | "portrait" | "banner" | "destination" | "package";
   objectPosition?: string;
 };
 
@@ -21,6 +21,9 @@ const ratios: Record<NonNullable<MediaProps["ratio"]>, string> = {
   wide: "aspect-[16/9]",
   portrait: "aspect-[3/4]",
   banner: "aspect-[21/9]",
+  /* Card ratios: destination cards are 4:5, package cards are 16:10. */
+  destination: "aspect-[4/5]",
+  package: "aspect-[16/10]",
 };
 
 /**
@@ -33,7 +36,7 @@ export function Media({
   label,
   className,
   imgClassName,
-  sizes = "(max-width: 768px) 100vw, 33vw",
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
   priority = false,
   ratio = "video",
   objectPosition,

@@ -22,6 +22,8 @@ const aspectClasses: Record<NonNullable<BrutalImageProps["aspect"]>, string> = {
   portrait: "aspect-[3/4]",
   landscape: "aspect-[3/2]",
   wide: "aspect-[16/9]",
+  destination: "aspect-[4/5]",
+  package: "aspect-[16/10]",
   free: "",
 };
 
@@ -46,7 +48,7 @@ export interface BrutalImageProps {
   /** Required alt text. Decorative images must pass `alt=""` AND `decorative`. */
   alt: string;
   /** Aspect ratio box. `free` leaves height to the parent/children. */
-  aspect?: "square" | "portrait" | "landscape" | "wide" | "free";
+  aspect?: "square" | "portrait" | "landscape" | "wide" | "destination" | "package" | "free";
   className?: string;
   /** Hint next/image to prioritize this asset. */
   priority?: boolean;

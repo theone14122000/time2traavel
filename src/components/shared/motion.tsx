@@ -5,6 +5,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { EASE, DURATION, maskReveal, viewportOnce } from "@/lib/motion";
+import { AnimatedHeading } from "@/components/ui/animated-heading";
 
 /* ------------------------------------------------------------------ *
  * Magnetic wrapper — desktop pointers only, off for reduced motion.   *
@@ -110,19 +111,39 @@ export function CountUp({
 
 /* ------------------------------------------------------------------ *
  * RevealTitle — masked slide-up for section titles.                    *
+ * String titles get the full <AnimatedHeading> treatment (word mask    *
+ * reveal + palette highlight + hard shadow); rich node titles keep the *
+ * container-level mask.                                                *
  * ------------------------------------------------------------------ */
 export function RevealTitle({
   children,
   className,
   delay = 0,
   as: Tag = "div",
+  onDark = false,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-  as?: "div" | "span" | "h2" | "h3";
+  as?: "div" | "span" | "h1" | "h2" | "h3";
+  /** Cream hard-shadow for titles on ink backgrounds. */
+  onDark?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
+
+  if (typeof children === "string") {
+    return (
+      <AnimatedHeading
+        as={Tag}
+        text={children}
+        variant="section"
+        delay={delay}
+        onDark={onDark}
+        animate={!reduceMotion}
+        className={className}
+      />
+    );
+  }
 
   if (reduceMotion) {
     const Static = Tag;

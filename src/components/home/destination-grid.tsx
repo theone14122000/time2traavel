@@ -106,7 +106,7 @@ export function DestinationGrid({
           }
         />
       ) : (
-        <div className="no-scrollbar snap-rail -mx-4 mt-6 flex gap-4 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
+        <div className="no-scrollbar snap-rail scroll-pl-4 -mx-4 mt-6 flex gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
           <AnimatePresence initial={false}>
             {filtered.map((destination, index) => (
               <motion.div
@@ -117,7 +117,7 @@ export function DestinationGrid({
                 exit={reduceMotion ? undefined : { opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.35, ease: EASE }}
                 className={cn(
-                  "w-[78vw] max-w-sm shrink-0 sm:w-[42vw] lg:w-auto lg:max-w-none",
+                  "w-[calc(100%_-_2rem)] shrink-0 sm:w-auto",
                   index === 0 && "lg:col-span-2",
                 )}
               >
@@ -126,8 +126,8 @@ export function DestinationGrid({
                   onEnquire={setEnquiry}
                   sizes={
                     index === 0
-                      ? "(max-width: 1024px) 78vw, 60vw"
-                      : "(max-width: 1024px) 42vw, 30vw"
+                      ? "(max-width: 640px) 90vw, (max-width: 1024px) 46vw, 62vw"
+                      : "(max-width: 640px) 90vw, (max-width: 1024px) 46vw, 30vw"
                   }
                 />
               </motion.div>

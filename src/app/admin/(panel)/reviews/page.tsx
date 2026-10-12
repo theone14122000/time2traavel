@@ -103,7 +103,7 @@ export default async function AdminReviewsPage({
           icon={<Star aria-hidden="true" className="size-8" />}
         />
       ) : (
-        <Table>
+        <Table className="min-w-[44rem]">
           <TableHeader>
             <TableRow>
               <TableHead>From</TableHead>

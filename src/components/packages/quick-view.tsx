@@ -54,7 +54,7 @@ export function QuickViewButton({
         type="button"
         variant="outline"
         size="sm"
-        className={className}
+        className={cn("tap-44", className)}
         onClick={() => setQuickOpen(true)}
       >
         <Eye aria-hidden="true" className="size-4" />
@@ -74,15 +74,15 @@ export function QuickViewButton({
             <BrutalImage
               src={pkg.image}
               alt={pkg.imageAlt ?? pkg.title}
-              aspect="landscape"
-              sizes="(max-width: 768px) 100vw, 640px"
+              aspect="package"
+              sizes="(max-width: 640px) 92vw, 640px"
             />
 
             <div className="flex flex-wrap items-center gap-2">
               {pkg.destination ? (
                 <Link
                   href={`/destinations/${pkg.destination.slug}`}
-                  className="label-brutal inline-flex items-center gap-1.5 border-[2px] border-ink bg-sky px-2.5 py-1.5 transition-colors hover:bg-sky-strong"
+                  className="label-brutal tap-44 inline-flex items-center gap-1.5 border-[2px] border-ink bg-sky px-2.5 py-1.5 transition-colors hover:bg-sky-strong"
                 >
                   <MapPin aria-hidden="true" className="size-3.5" />
                   {pkg.destination.name}

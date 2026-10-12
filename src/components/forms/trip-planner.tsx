@@ -26,6 +26,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { MultiStepForm, type MultiStepDefinition } from "@/components/ui/multi-step";
+import { scrollFieldIntoViewOnFocus } from "@/components/forms/scroll-on-focus";
 import { useDraft } from "@/hooks/use-draft";
 import { BUDGET_RANGES, TRAVELLER_COUNTS, TRIP_TYPES } from "@/lib/constants";
 import { cn, formatDate } from "@/lib/utils";
@@ -263,7 +264,11 @@ export function TripPlanner({
                   <FormItem>
                     <FormLabel required>Where do you want to go?</FormLabel>
                     <FormControl>
-                      <Input placeholder="Destination or region" {...field} />
+                      <Input
+                        placeholder="Destination or region"
+                        onFocus={scrollFieldIntoViewOnFocus}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -281,7 +286,7 @@ export function TripPlanner({
                         onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger onFocus={scrollFieldIntoViewOnFocus}>
                             <SelectValue placeholder="Select trip type" />
                           </SelectTrigger>
                         </FormControl>
@@ -309,7 +314,7 @@ export function TripPlanner({
                         onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger onFocus={scrollFieldIntoViewOnFocus}>
                             <SelectValue placeholder="How many people?" />
                           </SelectTrigger>
                         </FormControl>
@@ -340,7 +345,11 @@ export function TripPlanner({
                     <FormItem>
                       <FormLabel required>Start date</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} />
+                        <Input
+                          type="date"
+                          onFocus={scrollFieldIntoViewOnFocus}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -353,7 +362,11 @@ export function TripPlanner({
                     <FormItem>
                       <FormLabel>End date</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} />
+                        <Input
+                          type="date"
+                          onFocus={scrollFieldIntoViewOnFocus}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -372,7 +385,7 @@ export function TripPlanner({
                       onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger onFocus={scrollFieldIntoViewOnFocus}>
                           <SelectValue placeholder="Select a budget range" />
                         </SelectTrigger>
                       </FormControl>
@@ -400,6 +413,7 @@ export function TripPlanner({
                       <Textarea
                         rows={3}
                         placeholder="Accessibility needs, celebration, dietary notes…"
+                        onFocus={scrollFieldIntoViewOnFocus}
                         {...field}
                       />
                     </FormControl>
@@ -420,7 +434,12 @@ export function TripPlanner({
                     <FormItem>
                       <FormLabel required>Your name</FormLabel>
                       <FormControl>
-                        <Input autoComplete="name" placeholder="Full name" {...field} />
+                        <Input
+                          autoComplete="name"
+                          placeholder="Full name"
+                          onFocus={scrollFieldIntoViewOnFocus}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -437,6 +456,7 @@ export function TripPlanner({
                           type="email"
                           autoComplete="email"
                           placeholder="you@example.com"
+                          onFocus={scrollFieldIntoViewOnFocus}
                           {...field}
                         />
                       </FormControl>
@@ -452,7 +472,13 @@ export function TripPlanner({
                   <FormItem>
                     <FormLabel>Phone / WhatsApp</FormLabel>
                     <FormControl>
-                      <Input type="tel" autoComplete="tel" placeholder="+91 ..." {...field} />
+                      <Input
+                        type="tel"
+                        autoComplete="tel"
+                        placeholder="+91 ..."
+                        onFocus={scrollFieldIntoViewOnFocus}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

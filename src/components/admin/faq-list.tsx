@@ -80,7 +80,7 @@ export function FaqList({ faqs }: { faqs: FaqRow[] }) {
         </Button>
       </div>
 
-      <Table>
+      <Table className="min-w-[48rem]">
         <TableHeader>
           <TableRow>
             <TableHead>Question</TableHead>

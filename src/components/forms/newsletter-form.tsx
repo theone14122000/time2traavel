@@ -140,7 +140,7 @@ export function NewsletterForm({
                 tone === "dark" ? "bg-paper text-ink" : "bg-blush text-ink",
               )}
             >
-              <p className="text-xs font-bold">{submitError}</p>
+              <p className="break-words text-xs font-bold">{submitError}</p>
               <button
                 type="button"
                 onClick={() => void form.handleSubmit(onSubmit)()}

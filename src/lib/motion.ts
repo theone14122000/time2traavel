@@ -86,5 +86,49 @@ export const maskReveal = {
   visible: { y: 0, transition: { duration: DURATION.base, ease: EASE } },
 } as const;
 
+/* ------------------------------------------------------------------ *
+ * Animated-heading variants (transform/opacity/clip-path only).       *
+ * ------------------------------------------------------------------ */
+
+/** Spring config for masked word reveals — smooth with a small overshoot. */
+export const SPRING = { type: "spring", stiffness: 260, damping: 32 } as const;
+
+/** A single heading word: masked slide-up, driven by a custom index. */
+export const headingWord = {
+  hidden: { y: "115%" },
+  visible: (i: number) => ({
+    y: 0,
+    transition: { ...SPRING, delay: i * 0.06 },
+  }),
+} as const;
+
+/** Highlight block wipe: scaleX 0 → 1 from the left, after its word. */
+export const highlightWipe = {
+  hidden: { scaleX: 0 },
+  visible: (i: number) => ({
+    scaleX: 1,
+    transition: { duration: 0.32, ease: EASE, delay: i * 0.06 + 0.24 },
+  }),
+} as const;
+
+/** Outline text fill: clip-path reveal from the baseline upward. */
+export const outlineFill = {
+  hidden: { clipPath: "inset(100% 0 0 0)" },
+  visible: {
+    clipPath: "inset(0% 0 0 0)",
+    transition: { duration: 0.55, ease: EASE, delay: 0.55 },
+  },
+} as const;
+
+/** Light section-heading entrance: fade + 16px lift (once, in view). */
+export const headingFadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: DURATION.base, ease: EASE },
+  },
+} as const;
+
 /** Default viewport config for scroll-triggered reveals. */
 export const viewportOnce = { once: true, amount: 0.2 } as const;

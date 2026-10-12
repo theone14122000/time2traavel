@@ -8,6 +8,7 @@ import { CookieConsent } from "@/components/ui/cookie-consent";
 // `ssr: false` must live inside a Client Component (Next 16 rejects it in a
 // Server Component), so the dynamic import comes from this client wrapper.
 import { FloatingContactButtons } from "@/components/layout/floating-contact-buttons-loader";
+import { MotionProvider } from "@/components/shared/lazy-motion";
 import { getSiteSettings } from "@/lib/data/site";
 import { SITE_IDENTITY } from "@/lib/constants";
 
@@ -55,7 +56,9 @@ export default async function RootLayout({
     <html lang="en" className={`${archivo.variable} ${inter.variable}`}>
       <body className="min-h-dvh bg-cream font-sans text-ink antialiased">
         <Toaster />
-        <CommandPaletteProvider>{children}</CommandPaletteProvider>
+        <MotionProvider>
+          <CommandPaletteProvider>{children}</CommandPaletteProvider>
+        </MotionProvider>
         <CookieConsent />
         <FloatingContactButtons
           whatsapp={settings.whatsapp}

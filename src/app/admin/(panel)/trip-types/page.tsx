@@ -75,7 +75,7 @@ export default async function AdminTripTypesPage() {
           }
         />
       ) : (
-        <Table>
+        <Table className="min-w-[44rem]">
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>

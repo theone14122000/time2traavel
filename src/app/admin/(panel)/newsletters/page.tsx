@@ -61,7 +61,7 @@ export default async function AdminNewslettersPage() {
           icon={<Newspaper aria-hidden="true" className="size-8" />}
         />
       ) : (
-        <Table>
+        <Table className="min-w-[36rem]">
           <TableHeader>
             <TableRow>
               <TableHead>Email</TableHead>

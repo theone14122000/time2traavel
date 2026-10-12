@@ -186,7 +186,7 @@ export function FinderForm({ tripTypes }: { tripTypes: TripTypeOption[] }) {
 
       <div aria-live="polite" className="mt-6">
         {state.status === "error" && state.error ? (
-          <p className="border-[3px] border-ink bg-tomato px-4 py-3 text-sm font-bold">
+          <p className="break-words border-[3px] border-ink bg-tomato px-4 py-3 text-sm font-bold">
             {state.error}
           </p>
         ) : null}

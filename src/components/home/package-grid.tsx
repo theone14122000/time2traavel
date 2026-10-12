@@ -24,15 +24,24 @@ export function PackageGrid({
   return (
     <>
       {reduceMotion ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="no-scrollbar snap-rail scroll-pl-4 -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
           {packages.map(({ pkg, meta }) => (
-            <HomePackageCard key={pkg.id} pkg={pkg} meta={meta} onEnquire={setEnquiry} />
+            <HomePackageCard
+              key={pkg.id}
+              pkg={pkg}
+              meta={meta}
+              onEnquire={setEnquiry}
+              className="w-[calc(100%_-_2rem)] shrink-0 sm:w-auto"
+            />
           ))}
         </div>
       ) : (
-        <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGroup className="no-scrollbar snap-rail scroll-pl-4 -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
           {packages.map(({ pkg, meta }) => (
-            <StaggerItem key={pkg.id} className="h-full">
+            <StaggerItem
+              key={pkg.id}
+              className="h-full w-[calc(100%_-_2rem)] shrink-0 sm:w-auto"
+            >
               <HomePackageCard pkg={pkg} meta={meta} onEnquire={setEnquiry} />
             </StaggerItem>
           ))}

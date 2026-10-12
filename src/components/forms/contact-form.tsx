@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input, Textarea } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { scrollFieldIntoViewOnFocus } from "@/components/forms/scroll-on-focus";
 import { cn } from "@/lib/utils";
 
 const defaultValues: ContactInput = {
@@ -191,6 +192,7 @@ export function ContactForm({
                       <Input
                         autoComplete="name"
                         placeholder="Your full name"
+                        onFocus={scrollFieldIntoViewOnFocus}
                         {...field}
                       />
                     </FormControl>
@@ -210,6 +212,7 @@ export function ContactForm({
                         type="email"
                         autoComplete="email"
                         placeholder="you@example.com"
+                        onFocus={scrollFieldIntoViewOnFocus}
                         {...field}
                       />
                     </FormControl>
@@ -230,6 +233,7 @@ export function ContactForm({
                       type="tel"
                       autoComplete="tel"
                       placeholder="+91 ..."
+                      onFocus={scrollFieldIntoViewOnFocus}
                       {...field}
                     />
                   </FormControl>
@@ -248,6 +252,7 @@ export function ContactForm({
                     <Textarea
                       rows={5}
                       placeholder="Tell us where you'd like to go, when, and who's travelling."
+                      onFocus={scrollFieldIntoViewOnFocus}
                       {...field}
                     />
                   </FormControl>
@@ -258,7 +263,7 @@ export function ContactForm({
 
             {submitError ? (
               <div className="grid gap-2 border-[2px] border-ink bg-blush px-3 py-2.5">
-                <p className="text-sm font-bold">{submitError}</p>
+                <p className="break-words text-sm font-bold">{submitError}</p>
                 <div>
                   <Button
                     type="button"

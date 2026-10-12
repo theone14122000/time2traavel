@@ -165,7 +165,7 @@ export function TravellerStepper({
       {name ? <input type="hidden" name={name} value={current} readOnly /> : null}
 
       {message ? (
-        <p id={errorId} className="text-xs font-semibold text-danger">
+        <p id={errorId} className="break-words text-xs font-semibold text-danger">
           {message}
         </p>
       ) : null}

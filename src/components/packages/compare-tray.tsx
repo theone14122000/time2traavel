@@ -84,7 +84,7 @@ export function CompareTray() {
         initial={reduceMotion ? false : "hidden"}
         animate="visible"
         variants={slideIn("bottom", 72)}
-        className="fixed inset-x-0 bottom-20 z-40 px-2 sm:px-4"
+        className="fixed inset-x-0 bottom-20 z-[50] px-2 sm:px-4"
       >
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 border-4 border-ink bg-ink p-3 text-cream shadow-hard-xl sm:flex-row sm:items-center sm:justify-between">
           <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-1">
@@ -114,7 +114,7 @@ export function CompareTray() {
               variant="outline"
               size="sm"
               onClick={clear}
-              className="border-cream bg-ink text-cream hover:bg-ink-soft"
+              className="tap-44 border-cream bg-ink text-cream hover:bg-ink-soft"
             >
               Clear all
             </Button>
@@ -122,6 +122,7 @@ export function CompareTray() {
               type="button"
               variant="secondary"
               size="sm"
+              className="tap-44"
               onClick={() => setOpen(true)}
             >
               Compare ({selected.length})

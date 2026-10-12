@@ -84,7 +84,7 @@ export async function GuidesTeaser() {
                   <div className="mt-auto pt-2">
                     <Link
                       href={`/travel-guides/${guide.slug}`}
-                      className="label-brutal inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
+                      className="label-brutal tap-44 inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
                     >
                       Read guide
                       <ArrowRight aria-hidden="true" className="size-3.5" />

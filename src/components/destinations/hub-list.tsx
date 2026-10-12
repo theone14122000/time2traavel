@@ -90,7 +90,7 @@ export function DestinationHubList({
   active: DestinationHubTab;
 }) {
   return (
-    <div className="grid gap-6">
+    <div className="grid grid-cols-1 gap-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <DestinationHubTabs active={active} />
         <p role="status" aria-live="polite" className="label-brutal shrink-0 text-ink-soft">

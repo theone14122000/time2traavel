@@ -64,7 +64,7 @@ function ServiceCardTile({ service }: { service: ServiceCard }) {
 
         <div className="mt-auto flex flex-wrap gap-2 pt-2">
           <Link
-            className={buttonVariants({ variant: "secondary", size: "sm" })}
+            className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "tap-44")}
             href={`/services/${service.slug}`}
           >
             View service

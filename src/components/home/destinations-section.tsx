@@ -35,7 +35,7 @@ export async function DestinationsSection() {
           </Button>
         </div>
 
-        <div className="mt-8 grid gap-6">
+        <div className="mt-8 grid grid-cols-1 gap-6">
           <DestinationGrid destinations={destinations} />
         </div>
       </div>
