@@ -59,6 +59,7 @@ export function CookieConsent() {
       {ready && choice === null ? (
         <motion.div
           key="cookie-consent"
+          data-cookie-banner=""
           role="region"
           aria-label="Cookie consent"
           initial={reduceMotion ? false : "hidden"}

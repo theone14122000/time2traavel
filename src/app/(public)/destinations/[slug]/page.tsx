@@ -337,7 +337,7 @@ export default async function DestinationDetailPage({ params }: Props) {
               />
               <Link
                 className={buttonVariants({ variant: "outline", size: "xl" })}
-                href="/contact"
+                href="/about-us#contact"
               >
                 <Send aria-hidden="true" className="size-4" />
                 Contact us

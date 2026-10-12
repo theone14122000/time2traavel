@@ -55,7 +55,9 @@ async function seedAdminUser() {
 async function main() {
   console.log("[seed] Running seed (no demo content — factual data only)...");
   await seedSiteSettings();
+  await seedContactValues();
   await seedAdminUser();
+  await seedTeamMembers();
   await seedDestinationTaxonomy();
   await seedDraftServices();
   await seedTripTypes();
@@ -69,6 +71,70 @@ function slugify(value: string): string {
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
+}
+
+/** Fills missing contact values only — never overwrites admin edits. */
+async function seedContactValues() {
+  const current = await prisma.siteSettings.findUnique({
+    where: { id: "singleton" },
+    select: { phone: true, whatsapp: true, supportPhone: true, email: true },
+  });
+  if (!current) return;
+  await prisma.siteSettings.update({
+    where: { id: "singleton" },
+    data: {
+      phone: current.phone ?? "+919882726990",
+      whatsapp: current.whatsapp ?? "+918351823736",
+      supportPhone: current.supportPhone ?? "+919805029089",
+      email: current.email ?? "info@time2travel.com",
+    },
+  });
+  console.log("[seed] Contact values ensured in SiteSettings.");
+}
+
+/** The three real team members (founder bio provided by the business). */
+async function seedTeamMembers() {
+  const members = [
+    {
+      slug: "prachi-bhardwaj",
+      name: "Prachi Bhardwaj",
+      role: "Founder",
+      isFounder: true,
+      image: "/team/prachi-bhardwaj.jpg",
+      imageAlt: "Portrait of Prachi Bhardwaj, Founder",
+      bio: "Prachi Bhardwaj founded Time to Travel with more than 4 years of experience in the travel industry. She leads the company's vision and oversees how every trip is planned, so each itinerary is built around the traveller, not a template.",
+      order: 0,
+    },
+    {
+      slug: "gaurav-sharma",
+      name: "Gaurav Sharma",
+      role: "Head of Operations",
+      isFounder: false,
+      image: "/team/gaurav-sharma.jpg",
+      imageAlt: "Portrait of Gaurav Sharma, Head of Operations",
+      order: 1,
+    },
+    {
+      slug: "shubham-sharma",
+      name: "Shubham Sharma",
+      role: "I.T Head",
+      isFounder: false,
+      image: "/team/shubham-sharma.jpg",
+      imageAlt: "Portrait of Shubham Sharma, I.T Head",
+      order: 2,
+    },
+  ];
+  let created = 0;
+  for (const member of members) {
+    const existing = await prisma.teamMember.findUnique({
+      where: { slug: member.slug },
+      select: { id: true },
+    });
+    if (existing) continue;
+    await prisma.teamMember.create({ data: member });
+    created++;
+  }
+  console.log(`[seed] Team members: ${created} created (${members.length - created} existing).`);
 }
 
 /** Taxonomy-only destination names (unpublished; no descriptions/prices/claims). */

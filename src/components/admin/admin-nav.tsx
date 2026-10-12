@@ -19,6 +19,7 @@ import {
   Route,
   Settings,
   Star,
+  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ export const ADMIN_NAV_ITEMS = [
   { href: "/admin/services", label: "Services", icon: Briefcase },
   { href: "/admin/trip-types", label: "Trip Types", icon: Route },
   { href: "/admin/guides", label: "Guides", icon: BookOpen },
+  { href: "/admin/team", label: "Team", icon: Users },
   { href: "/admin/gallery", label: "Gallery", icon: LayoutGrid },
   { href: "/admin/home-sections", label: "Home Sections", icon: LayoutList },
   { href: "/admin/reviews", label: "Reviews", icon: Star },

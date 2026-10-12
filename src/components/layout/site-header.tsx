@@ -12,6 +12,7 @@ import {
 } from "framer-motion";
 import { ArrowRight, Compass, Mail, MapPin, Menu, MessageCircle, Phone, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
+import { telHref, waHref } from "@/lib/contact";
 import { EASE, fadeUp, slideIn, stagger } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -100,17 +101,19 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
   }, [megaOpen, closeMega]);
 
   const whatsappUrl = settings.whatsapp
-    ? `https://wa.me/${settings.whatsapp.replace(/[^\d]/g, "")}?text=${encodeURIComponent(
-        "Hello Time to Travel, I would like to plan a trip.",
-      )}`
+    ? waHref(settings.whatsapp, "Hello Time to Travel, I would like to plan a trip.")
+    : null;
+
+  const phoneHref = settings.phone
+    ? telHref(settings.phone) ?? `tel:${settings.phone.replace(/[^\d+]/g, "")}`
     : null;
 
   const contactRows = [
-    settings.phone
+    settings.phone && phoneHref
       ? {
           icon: Phone,
           label: settings.phone,
-          href: `tel:${settings.phone.replace(/[^\d+]/g, "")}`,
+          href: phoneHref,
           external: false,
         }
       : null,
@@ -121,7 +124,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
       ? { icon: Mail, label: settings.email, href: `mailto:${settings.email}`, external: false }
       : null,
     settings.address
-      ? { icon: MapPin, label: settings.address, href: "/contact", external: false }
+      ? { icon: MapPin, label: settings.address, href: "/about-us#contact", external: false }
       : null,
   ].filter(Boolean) as {
     icon: typeof Phone;
@@ -281,11 +284,11 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                           <p className="text-sm font-semibold">
                             New destinations coming soon.{" "}
                             <Link
-                              href="/contact"
+                              href="/about-us"
                               onClick={() => closeMega(false)}
                               className="underline decoration-2 underline-offset-4 hover:bg-lemon"
                             >
-                              Contact us
+                              About Us
                             </Link>{" "}
                             to plan a trip.
                           </p>
@@ -299,9 +302,9 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            {settings.phone ? (
+            {phoneHref ? (
               <a
-                href={`tel:${settings.phone.replace(/[^\d+]/g, "")}`}
+                href={phoneHref}
                 className="hidden size-10 items-center justify-center border-[3px] border-ink bg-paper shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard sm:flex"
                 aria-label={`Call ${settings.siteName}`}
               >

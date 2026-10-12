@@ -80,7 +80,7 @@ export async function PackagesSection() {
               illustration="luggage"
               action={
                 <Button asChild variant="default" size="md">
-                  <Link href="/contact">Enquire now</Link>
+                  <Link href="/about-us#contact">Enquire now</Link>
                 </Button>
               }
             />

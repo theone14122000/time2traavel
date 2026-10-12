@@ -73,7 +73,6 @@ export function buildOrganizationJsonLd(settings?: {
         "@type": "TravelAgency",
         "@id": `${url}#organization`,
         name,
-        founder: SITE_IDENTITY.founder,
         url,
         logo: absoluteUrl("/logo.svg"),
         address: {

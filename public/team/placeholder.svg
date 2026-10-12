@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <clipPath id="avatar-clip">
+      <circle cx="200" cy="200" r="200" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#avatar-clip)">
+    <rect x="0" y="0" width="400" height="400" fill="#A9D8FF" />
+    <circle cx="200" cy="156" r="60" fill="#FFFDF5" stroke="#0A0A0A" stroke-width="3" />
+    <path
+      d="M76 400 C76 312 132 260 200 260 C268 260 324 312 324 400 Z"
+      fill="#FFFDF5"
+      stroke="#0A0A0A"
+      stroke-width="3"
+    />
+  </g>
+  <circle cx="200" cy="200" r="198.5" fill="none" stroke="#0A0A0A" stroke-width="3" />
+</svg>

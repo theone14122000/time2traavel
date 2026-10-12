@@ -3,12 +3,12 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
-import { Phone, MessageCircle, PenLine } from "lucide-react";
+import { Phone, PenLine } from "lucide-react";
+import { telHref } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
 type MobileActionBarProps = {
   phone?: string | null;
-  whatsapp?: string | null;
   className?: string;
 };
 
@@ -17,11 +17,12 @@ const REVEAL_PAST_PX = 80;
 const DIRECTION_THRESHOLD_PX = 4;
 
 /**
- * Sticky bottom action bar for small screens: Call / WhatsApp / Enquire.
- * Buttons without configured contact details are hidden automatically.
+ * Sticky bottom action bar for small screens: Call / Enquire. Buttons without
+ * configured contact details are hidden automatically (the floating WhatsApp
+ * and email buttons own messaging elsewhere).
  * Slides out of the way while scrolling down and returns on scroll up.
  */
-export function MobileActionBar({ phone, whatsapp, className }: MobileActionBarProps) {
+export function MobileActionBar({ phone, className }: MobileActionBarProps) {
   const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const [hidden, setHidden] = React.useState(false);
@@ -45,13 +46,8 @@ export function MobileActionBar({ phone, whatsapp, className }: MobileActionBarP
     else if (delta < -DIRECTION_THRESHOLD_PX) setHidden(false);
   });
 
-  const whatsappUrl = whatsapp
-    ? `https://wa.me/${whatsapp.replace(/[^\d]/g, "")}?text=${encodeURIComponent(
-        "Hello Time to Travel, I would like to plan a trip.",
-      )}`
-    : null;
-
-  const columns = [Boolean(phone), Boolean(whatsappUrl), true].filter(Boolean).length;
+  const callUrl = telHref(phone);
+  const columns = callUrl ? 2 : 1;
   const slideOut = !reduceMotion && hidden;
 
   return (
@@ -75,9 +71,9 @@ export function MobileActionBar({ phone, whatsapp, className }: MobileActionBarP
         className="grid"
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
-        {phone ? (
+        {callUrl ? (
           <a
-            href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+            href={callUrl}
             className="flex min-h-14 flex-col items-center justify-center gap-1 border-r-[3px] border-ink bg-paper px-2 py-2 text-center transition-colors active:bg-butter"
           >
             <Phone aria-hidden="true" className="size-5" />
@@ -85,20 +81,8 @@ export function MobileActionBar({ phone, whatsapp, className }: MobileActionBarP
           </a>
         ) : null}
 
-        {whatsappUrl ? (
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex min-h-14 flex-col items-center justify-center gap-1 border-r-[3px] border-ink bg-mint-strong px-2 py-2 text-center transition-colors active:bg-mint"
-          >
-            <MessageCircle aria-hidden="true" className="size-5" />
-            <span className="label-brutal text-[0.6rem]">WhatsApp</span>
-          </a>
-        ) : null}
-
         <Link
-          href="/contact"
+          href="/about-us#contact"
           className="flex min-h-14 flex-col items-center justify-center gap-1 bg-lemon px-2 py-2 text-center transition-colors active:bg-butter"
         >
           <PenLine aria-hidden="true" className="size-5" />

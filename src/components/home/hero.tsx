@@ -25,11 +25,19 @@ type HeroProps = {
   counts?: { destinations: number; packages: number };
   /** Destination images from the database — empty list renders SVG placeholders. */
   tiles?: HeroTile[];
+  founderName?: string | null;
 };
 
 const TILE_ROTATIONS = [-4, 3, -2];
 
-export function Hero({ title, subtitle, instruction, counts, tiles = [] }: HeroProps) {
+export function Hero({
+  title,
+  subtitle,
+  instruction,
+  counts,
+  tiles = [],
+  founderName,
+}: HeroProps) {
   const { openPlanner } = useTripPlanner();
   const reduceMotion = useReducedMotion();
 
@@ -158,9 +166,11 @@ export function Hero({ title, subtitle, instruction, counts, tiles = [] }: HeroP
                       <span aria-hidden="true">→</span> Office in Kasumpti, Shimla,
                       Himachal Pradesh
                     </li>
-                    <li className="flex items-center gap-2 border-[3px] border-ink bg-sunrise px-3 py-2">
-                      <span aria-hidden="true">→</span> Founded by Gaurav Bhardwaj
-                    </li>
+                    {founderName ? (
+                      <li className="flex items-center gap-2 border-[3px] border-ink bg-sunrise px-3 py-2">
+                        <span aria-hidden="true">→</span> Founded by {founderName}
+                      </li>
+                    ) : null}
                     <li className="flex items-center gap-2 border-[3px] border-ink bg-sunrise px-3 py-2">
                       <span aria-hidden="true">→</span> Destinations, packages &amp; FAQs
                       managed by our team

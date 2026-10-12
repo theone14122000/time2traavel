@@ -114,7 +114,7 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
           <Compass aria-hidden="true" className="size-4" />
           Browse destinations
         </Link>
-        <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/contact">
+        <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/about-us#contact">
           Contact us
         </Link>
       </PageHeader>
@@ -163,7 +163,7 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
                 action={
                   <Link
                     className={buttonVariants({ variant: "default", size: "md" })}
-                    href="/contact"
+                    href="/about-us#contact"
                   >
                     <Send aria-hidden="true" className="size-4" />
                     Enquire now
@@ -223,7 +223,7 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
               <div className="flex flex-wrap gap-3 lg:justify-end">
                 <Link
                   className={buttonVariants({ variant: "default", size: "xl" })}
-                  href="/contact"
+                  href="/about-us#contact"
                 >
                   <Send aria-hidden="true" className="size-4" />
                   Plan a custom trip

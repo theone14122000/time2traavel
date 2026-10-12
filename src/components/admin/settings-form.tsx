@@ -8,6 +8,12 @@ import { LoaderCircle, Save } from "lucide-react";
 import { settingsSchema, type SettingsInput } from "@/schemas/admin";
 import { saveSettingsAction } from "@/actions/admin/settings";
 import {
+  formatPhoneDisplay,
+  mailtoHref,
+  telHref,
+  waHref,
+} from "@/lib/contact";
+import {
   FormControl,
   FormDescription,
   FormField,
@@ -25,6 +31,7 @@ const emptyValues: SettingsInput = {
   tagline: "",
   phone: "",
   whatsapp: "",
+  supportPhone: "",
   email: "",
   address: "",
   workingHours: "",
@@ -63,7 +70,15 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
     mode: "onBlur",
   });
 
-  const { formState } = form;
+  const { formState, watch } = form;
+
+  const phoneValue = asStr(watch("phone"));
+  const whatsappValue = asStr(watch("whatsapp"));
+  const emailValue = asStr(watch("email"));
+  const supportPhoneDisplay = formatPhoneDisplay(asStr(watch("supportPhone")));
+  const testTelHref = telHref(phoneValue);
+  const testWaHref = waHref(whatsappValue);
+  const testMailHref = mailtoHref(emailValue);
 
   async function onSubmit(values: SettingsInput) {
     const result = await saveSettingsAction(values);
@@ -165,6 +180,24 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
             />
             <FormField
               control={form.control}
+              name="supportPhone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Support phone</FormLabel>
+                  <FormControl>
+                    <Input type="tel" placeholder="+91 …" {...field} value={asStr(field.value)} />
+                  </FormControl>
+                  <FormDescription>
+                    {supportPhoneDisplay
+                      ? `Preview: ${supportPhoneDisplay}`
+                      : "Saved in international format."}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
@@ -189,6 +222,33 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 </FormItem>
               )}
             />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="label-brutal border-[2px] border-ink bg-cream px-2 py-1 text-[0.65rem]">
+              Test links
+            </span>
+            {testTelHref ? (
+              <Button asChild variant="outline" size="sm" type="button">
+                <a href={testTelHref} target="_blank" rel="noopener noreferrer">
+                  Call (tel:)
+                </a>
+              </Button>
+            ) : null}
+            {testWaHref ? (
+              <Button asChild variant="outline" size="sm" type="button">
+                <a href={testWaHref} target="_blank" rel="noopener noreferrer">
+                  WhatsApp (wa.me)
+                </a>
+              </Button>
+            ) : null}
+            {testMailHref ? (
+              <Button asChild variant="outline" size="sm" type="button">
+                <a href={testMailHref} target="_blank" rel="noopener noreferrer">
+                  Email (mailto:)
+                </a>
+              </Button>
+            ) : null}
           </div>
 
           <FormField

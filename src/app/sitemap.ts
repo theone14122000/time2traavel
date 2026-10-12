@@ -7,8 +7,7 @@ const STATIC_PATHS: { path: string; priority: number; changeFrequency: "weekly" 
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/destinations", priority: 0.9, changeFrequency: "weekly" },
   { path: "/packages", priority: 0.9, changeFrequency: "weekly" },
-  { path: "/about", priority: 0.7, changeFrequency: "monthly" },
-  { path: "/contact", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/about-us", priority: 0.7, changeFrequency: "monthly" },
   { path: "/privacy", priority: 0.3, changeFrequency: "monthly" },
   { path: "/terms", priority: 0.3, changeFrequency: "monthly" },
 ];

@@ -61,7 +61,7 @@ export function DestinationGrid({
         illustration="map"
         action={
           <Button asChild variant="secondary" size="md">
-            <Link href="/contact">Enquire now</Link>
+            <Link href="/about-us#contact">Enquire now</Link>
           </Button>
         }
       />

@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { CONTENT_KEYS, SITE_IDENTITY } from "@/lib/constants";
 import { safeQuery } from "@/lib/data/safe";
@@ -9,6 +10,7 @@ export type SiteSettingsShape = {
   tagline: string | null;
   phone: string | null;
   whatsapp: string | null;
+  supportPhone: string | null;
   email: string | null;
   address: string;
   workingHours: string | null;
@@ -29,20 +31,34 @@ export type SiteSettingsShape = {
 export const DEFAULT_MAP_EMBED_URL =
   "https://www.google.com/maps?q=Kasumpti%2C%20Shimla%2C%20Himachal%20Pradesh%2C%20India&z=13&output=embed";
 
-/** Site settings with verified business details as fallbacks. */
+/** Cache tag invalidated by admin settings mutations (revalidateTag). */
+export const SETTINGS_CACHE_TAG = "site-settings";
+
+const readSettingsRow = unstable_cache(
+  () =>
+    safeQuery(
+      "siteSettings",
+      () => prisma.siteSettings.findUnique({ where: { id: "singleton" } }),
+      null,
+    ),
+  ["site-settings-row"],
+  { tags: [SETTINGS_CACHE_TAG], revalidate: 300 },
+);
+
+const envOr = (env: string | undefined, db: string | null | undefined) =>
+  db?.trim() || env?.trim() || null;
+
+/** Site settings with optional .env fallbacks for core contact values. */
 export async function getSiteSettings(): Promise<SiteSettingsShape> {
-  const row = await safeQuery(
-    "siteSettings",
-    () => prisma.siteSettings.findUnique({ where: { id: "singleton" } }),
-    null,
-  );
+  const row = await readSettingsRow();
 
   return {
     siteName: row?.siteName?.trim() || SITE_IDENTITY.name,
     tagline: row?.tagline?.trim() || null,
-    phone: row?.phone?.trim() || null,
-    whatsapp: row?.whatsapp?.trim() || null,
-    email: row?.email?.trim() || null,
+    phone: envOr(process.env.CONTACT_PHONE, row?.phone),
+    whatsapp: envOr(process.env.CONTACT_WHATSAPP, row?.whatsapp),
+    supportPhone: envOr(process.env.CONTACT_SUPPORT_PHONE, row?.supportPhone),
+    email: envOr(process.env.CONTACT_EMAIL, row?.email),
     address: row?.address?.trim() || SITE_IDENTITY.address,
     workingHours: row?.workingHours?.trim() || null,
     mapEmbedUrl: row?.mapEmbedUrl?.trim() || DEFAULT_MAP_EMBED_URL,

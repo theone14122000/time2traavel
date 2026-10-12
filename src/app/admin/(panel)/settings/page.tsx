@@ -27,6 +27,7 @@ export default async function AdminSettingsPage() {
     tagline: row?.tagline ?? "",
     phone: row?.phone ?? "",
     whatsapp: row?.whatsapp ?? "",
+    supportPhone: row?.supportPhone ?? "",
     email: row?.email ?? "",
     address: row?.address ?? SITE_IDENTITY.address,
     workingHours: row?.workingHours ?? "",

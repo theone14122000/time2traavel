@@ -68,7 +68,7 @@ export default function NotFound() {
                 Packages
               </Link>
               <Link
-                href="/contact"
+                href="/about-us#contact"
                 className={buttonVariants({ variant: "dark", size: "lg" })}
               >
                 Contact

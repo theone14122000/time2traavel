@@ -52,7 +52,7 @@ export default async function PlanMyTripPage() {
         description="Four quick steps — where you're headed, when, how many of you, and how to reach you. Drafts save on this device as you go."
         tone="butter"
       >
-        <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/contact">
+        <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/about-us#contact">
           <ShieldQuestion aria-hidden="true" className="size-4" />
           Prefer to just ask?
         </Link>
@@ -105,7 +105,7 @@ export default async function PlanMyTripPage() {
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link
                   className={buttonVariants({ variant: "outline", size: "sm" })}
-                  href="/contact"
+                  href="/about-us#contact"
                 >
                   Contact page
                 </Link>

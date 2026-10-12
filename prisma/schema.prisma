@@ -205,6 +205,7 @@ model SiteSettings {
   tagline           String?
   phone             String?
   whatsapp          String?
+  supportPhone      String?
   email             String?
   address           String   @default("Kasumpti, Shimla, Himachal Pradesh, India")
   workingHours      String?
@@ -324,4 +325,22 @@ model HomeSection {
   config  Json?
 
   @@index([enabled, order])
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  role      String
+  bio       String?  @db.Text
+  image     String?
+  imageAlt  String?
+  isFounder Boolean  @default(false)
+  socials   Json?
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published, order])
 }

@@ -5,7 +5,9 @@ import { NewsletterForm } from "@/components/forms/newsletter-form";
 import { MapEmbed } from "@/components/shared/map-embed";
 import { SectionDivider } from "@/components/ui/dividers";
 import { getSiteSettings } from "@/lib/data/site";
-import { NAV_LINKS, SITE_IDENTITY } from "@/lib/constants";
+import { getFounder } from "@/lib/data/team";
+import { formatPhoneDisplay, mailtoHref, telHref } from "@/lib/contact";
+import { NAV_LINKS } from "@/lib/constants";
 import { absoluteUrl, toSocialLinks } from "@/lib/utils";
 
 /** Letter badges instead of brand icons (lucide ships no brand glyphs). */
@@ -23,9 +25,18 @@ const LEGAL_LINKS = [
 ] as const;
 
 export async function SiteFooter() {
-  const settings = await getSiteSettings();
+  const [settings, founder] = await Promise.all([getSiteSettings(), getFounder()]);
   const year = new Date().getFullYear();
   const socials = toSocialLinks(settings.socials);
+
+  const phoneHref = settings.phone
+    ? telHref(settings.phone) ?? `tel:${settings.phone.replace(/[^\d+]/g, "")}`
+    : null;
+  const phoneDisplay = formatPhoneDisplay(settings.phone) ?? settings.phone;
+  const emailHref = mailtoHref(settings.email);
+  const supportDisplay = settings.supportPhone
+    ? formatPhoneDisplay(settings.supportPhone) ?? settings.supportPhone
+    : null;
 
   const footerLinkClass =
     "text-sm font-semibold underline-offset-4 hover:text-lemon hover:underline";
@@ -108,26 +119,27 @@ export async function SiteFooter() {
             <ul className="grid gap-2.5 text-sm font-medium">
               <li className="flex items-start gap-2.5 border-l-4 border-lemon pl-3">
                 <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-lemon" />
-                <address className="not-italic font-semibold">{settings.address}</address>
-              </li>
-              {settings.phone ? (
-                <li className="flex items-center gap-2.5">
-                  <Phone aria-hidden="true" className="size-4 shrink-0 text-lemon" />
-                  <a
-                    href={`tel:${settings.phone.replace(/[^\d+]/g, "")}`}
+                <address className="not-italic font-semibold">
+                  <Link
+                    href="/about-us#contact"
                     className="hover:text-lemon hover:underline"
                   >
-                    {settings.phone}
+                    {settings.address}
+                  </Link>
+                </address>
+              </li>
+              {settings.phone && phoneHref ? (
+                <li className="flex items-center gap-2.5">
+                  <Phone aria-hidden="true" className="size-4 shrink-0 text-lemon" />
+                  <a href={phoneHref} className="hover:text-lemon hover:underline">
+                    {phoneDisplay}
                   </a>
                 </li>
               ) : null}
-              {settings.email ? (
+              {settings.email && emailHref ? (
                 <li className="flex items-center gap-2.5">
                   <Mail aria-hidden="true" className="size-4 shrink-0 text-lemon" />
-                  <a
-                    href={`mailto:${settings.email}`}
-                    className="break-all hover:text-lemon hover:underline"
-                  >
+                  <a href={emailHref} className="break-all hover:text-lemon hover:underline">
                     {settings.email}
                   </a>
                 </li>
@@ -194,7 +206,13 @@ export async function SiteFooter() {
                 Terms &amp; Conditions
               </Link>
             </li>
-            <li>Founded and owned by {SITE_IDENTITY.founder}</li>
+            {founder ? <li>Founded by {founder.name}</li> : null}
+            {supportDisplay ? (
+              <li>
+                Website &amp; I.T support: {supportDisplay} — for website or technical issues
+                only.
+              </li>
+            ) : null}
             <li>
               <a
                 href={absoluteUrl("/")}

@@ -5,6 +5,10 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { CommandPaletteProvider } from "@/components/ui/command-palette";
 import { CookieConsent } from "@/components/ui/cookie-consent";
+// `ssr: false` must live inside a Client Component (Next 16 rejects it in a
+// Server Component), so the dynamic import comes from this client wrapper.
+import { FloatingContactButtons } from "@/components/layout/floating-contact-buttons-loader";
+import { getSiteSettings } from "@/lib/data/site";
 import { SITE_IDENTITY } from "@/lib/constants";
 
 const archivo = Archivo_Black({
@@ -42,15 +46,21 @@ export const viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const settings = await getSiteSettings();
+
   return (
     <html lang="en" className={`${archivo.variable} ${inter.variable}`}>
       <body className="min-h-dvh bg-cream font-sans text-ink antialiased">
         <Toaster />
         <CommandPaletteProvider>{children}</CommandPaletteProvider>
         <CookieConsent />
+        <FloatingContactButtons
+          whatsapp={settings.whatsapp}
+          email={settings.email}
+        />
         {process.env.NODE_ENV === "production" ? (
           <Script
             id="tt-sw-register"

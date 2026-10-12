@@ -172,7 +172,7 @@ export default async function TravelEssentialsPage() {
             <Luggage aria-hidden="true" className="size-4" />
             Start planning
           </Link>
-          <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/contact">
+          <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/about-us#contact">
             <Mail aria-hidden="true" className="size-4" />
             Ask a question
           </Link>

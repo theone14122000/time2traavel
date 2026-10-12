@@ -49,7 +49,7 @@ export default async function TrackInquiryPage() {
         description="Enter your reference id plus the phone or email you used. We only show the status — never your personal details."
         tone="sky"
       >
-        <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/contact">
+        <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/about-us#contact">
           <Mail aria-hidden="true" className="size-4" />
           Contact us
         </Link>

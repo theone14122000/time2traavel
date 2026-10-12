@@ -85,7 +85,7 @@ export default async function TermsPage() {
                 icon={<FileText className="size-8" aria-hidden="true" />}
                 action={
                   <Button asChild variant="default" size="md">
-                    <Link href="/contact">Contact us</Link>
+                    <Link href="/about-us#contact">Contact us</Link>
                   </Button>
                 }
               />

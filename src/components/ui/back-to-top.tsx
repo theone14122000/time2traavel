@@ -8,9 +8,10 @@ import { popIn } from "@/lib/motion";
 const REVEAL_AFTER_PX = 600;
 
 /**
- * Square lemon "back to top" button. Sits above the mobile action bar on small
- * screens and reveals itself only after real scrolling, so it never competes
- * with the hero.
+ * Square lemon "back to top" button. Stacked in the right-hand floating
+ * column — above the action bar and the WhatsApp floating button on small
+ * screens, and above the WhatsApp button from `sm:` up — and reveals itself
+ * only after real scrolling, so it never competes with the hero.
  */
 export function BackToTop() {
   const reduceMotion = useReducedMotion();
@@ -39,7 +40,7 @@ export function BackToTop() {
           animate="visible"
           exit={reduceMotion ? { opacity: 0, transition: { duration: 0 } } : "hidden"}
           variants={popIn}
-          className="fixed bottom-24 right-4 z-30 flex size-12 items-center justify-center border-[3px] border-ink bg-lemon shadow-hard transition-transform duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none sm:bottom-6"
+          className="fixed right-4 z-30 flex size-12 items-center justify-center border-[3px] border-ink bg-lemon shadow-hard transition-transform duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none bottom-[calc(16px_+_env(safe-area-inset-bottom)_+_56px_+_60px_+_8px)] lg:bottom-[calc(16px_+_env(safe-area-inset-bottom)_+_60px_+_8px)]"
         >
           <ArrowUp aria-hidden="true" className="size-5" />
         </motion.button>

@@ -34,6 +34,7 @@ import {
   getPublishedDestinations,
 } from "@/lib/data/destinations";
 import { getPackages } from "@/lib/data/packages";
+import { getFounder } from "@/lib/data/team";
 import { buildMetadata } from "@/lib/seo";
 import { CONTENT_KEYS, SITE_IDENTITY } from "@/lib/constants";
 
@@ -99,6 +100,7 @@ type HomeBands = {
     instruction: string;
     counts: { destinations: number; packages: number };
     tiles: { src: string; alt: string }[];
+    founderName: string | null;
   };
 };
 
@@ -111,6 +113,7 @@ async function loadHomeBands(): Promise<HomeBands> {
     destinationCount,
     packageResult,
     destinationRows,
+    founder,
   ] = await Promise.all([
     getHomeSections(),
     getAnnouncement(),
@@ -119,6 +122,7 @@ async function loadHomeBands(): Promise<HomeBands> {
     countPublishedDestinations(),
     getPackages({ sort: "popular", page: 1, pageSize: 1 }),
     getPublishedDestinations({ limit: 6 }),
+    getFounder(),
   ]);
 
   const heroData =
@@ -155,6 +159,7 @@ async function loadHomeBands(): Promise<HomeBands> {
       instruction,
       counts: { destinations: destinationCount, packages: packageResult.total },
       tiles,
+      founderName: founder?.name ?? null,
     },
   };
 }
@@ -180,6 +185,7 @@ export default async function HomePage() {
         instruction={hero.instruction}
         counts={hero.counts}
         tiles={hero.tiles}
+        founderName={hero.founderName}
       />
     ),
     marquee: () => <Marquee tone="ink" />,

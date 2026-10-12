@@ -6,7 +6,6 @@
 export const SITE_IDENTITY = {
   name: "Time to Travel",
   address: "Kasumpti, Shimla, Himachal Pradesh, India",
-  founder: "Gaurav Bhardwaj",
 } as const;
 
 /** Nav used by header + footer + mobile drawer. */
@@ -14,8 +13,7 @@ export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/destinations", label: "Destinations" },
   { href: "/packages", label: "Packages" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/about-us", label: "About Us" },
 ] as const;
 
 /**

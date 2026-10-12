@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { CONTENT_KEYS } from "@/lib/constants";
+import { toE164 } from "@/lib/contact";
 
 /* ---------------------------------------------------------------
    Shared field helpers
@@ -184,11 +185,34 @@ export const socialLinkSchema = z.object({
   url: urlField.refine((v) => v !== "", "URL is required"),
 });
 
+/**
+ * Phone-style contact field: empty is allowed (stored as null), anything
+ * filled in must normalise to E.164 via `toE164`. Validation only — the
+ * action stores the E.164 value so input/output types stay identical.
+ */
+const e164PhoneField = (label: string) =>
+  z
+    .string()
+    .trim()
+    .max(30, "Too long")
+    .optional()
+    .or(z.literal(""))
+    .superRefine((value, ctx) => {
+      if (!value) return;
+      if (!toE164(value)) {
+        ctx.addIssue({
+          code: "custom",
+          message: `Enter a valid ${label} number`,
+        });
+      }
+    });
+
 export const settingsSchema = z.object({
   siteName: z.string().trim().min(1, "Site name is required").max(120, "Too long"),
   tagline: optionalText(200),
-  phone: optionalText(30),
-  whatsapp: optionalText(30),
+  phone: e164PhoneField("phone"),
+  whatsapp: e164PhoneField("WhatsApp"),
+  supportPhone: e164PhoneField("support phone"),
   email: z
     .string()
     .trim()
@@ -380,3 +404,60 @@ export const homeSectionUpdateSchema = z.object({
     }),
 });
 export type HomeSectionUpdateInput = z.infer<typeof homeSectionUpdateSchema>;
+
+/* ---------------------------------------------------------------
+   15. Team members
+--------------------------------------------------------------- */
+export const teamSocialSchema = z.object({
+  kind: z.enum(["linkedin", "instagram", "x", "email"]),
+  url: z.string().trim().url("Enter a valid URL"),
+});
+export type TeamSocialInput = z.infer<typeof teamSocialSchema>;
+
+export const teamMemberSchema = z
+  .object({
+    name: z.string().trim().min(2, "Name is required").max(120, "Name is too long"),
+    slug: slugField,
+    role: z.string().trim().min(1, "Role is required").max(120, "Role is too long"),
+    bio: optionalText(1000),
+    image: z
+      .string()
+      .trim()
+      .max(500, "Path is too long")
+      .optional()
+      .or(z.literal(""))
+      .refine(
+        (v) => !v || v.startsWith("/"),
+        "Use a site path starting with / (e.g. /team/name.jpg)",
+      ),
+    imageAlt: optionalText(200),
+    isFounder: z.boolean(),
+    socials: z.array(teamSocialSchema).max(4, "Up to 4 links"),
+    order: orderField,
+    published: z.boolean(),
+  })
+  .superRefine((value, ctx) => {
+    if (value.image && !value.imageAlt) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["imageAlt"],
+        message: "Alt text is required when an image is set",
+      });
+    }
+  });
+export type TeamMemberInput = z.infer<typeof teamMemberSchema>;
+
+/** Ids of every team member in their new display order. */
+export const teamReorderSchema = z.object({
+  ids: z
+    .array(idSchema)
+    .min(1, "Nothing to reorder")
+    .refine((ids) => new Set(ids).size === ids.length, "Duplicate ids in the list"),
+});
+export type TeamReorderInput = z.infer<typeof teamReorderSchema>;
+
+export const teamToggleSchema = z.object({
+  id: idSchema,
+  field: z.enum(["published", "isFounder"]),
+});
+export type TeamToggleInput = z.infer<typeof teamToggleSchema>;

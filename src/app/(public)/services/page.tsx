@@ -97,7 +97,7 @@ export default async function ServicesPage() {
           <Compass aria-hidden="true" className="size-4" />
           Plan my trip
         </Link>
-        <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/contact">
+        <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/about-us#contact">
           <Mail aria-hidden="true" className="size-4" />
           Contact us
         </Link>
@@ -122,7 +122,7 @@ export default async function ServicesPage() {
             tone="peach"
             illustration="map"
             action={
-              <Link className={buttonVariants({ variant: "default", size: "md" })} href="/contact">
+              <Link className={buttonVariants({ variant: "default", size: "md" })} href="/about-us#contact">
                 Contact us
               </Link>
             }

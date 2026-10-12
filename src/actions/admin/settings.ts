@@ -1,8 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/guards";
+import { SETTINGS_CACHE_TAG } from "@/lib/data/site";
+import { toE164 } from "@/lib/contact";
 import { settingsSchema, type SettingsInput } from "@/schemas/admin";
 import {
   failure,
@@ -25,8 +27,9 @@ export async function saveSettingsAction(
   const data = {
     siteName: s.siteName,
     tagline: s.tagline || null,
-    phone: s.phone || null,
-    whatsapp: s.whatsapp || null,
+    phone: toE164(s.phone),
+    whatsapp: toE164(s.whatsapp),
+    supportPhone: toE164(s.supportPhone),
     email: s.email || null,
     address: s.address,
     workingHours: s.workingHours || null,
@@ -54,5 +57,7 @@ export async function saveSettingsAction(
   revalidatePath("/admin/settings");
   revalidatePath("/", "layout");
   revalidatePath("/contact");
+  revalidatePath("/about-us");
+  revalidateTag(SETTINGS_CACHE_TAG, { expire: 0 });
   return ok("Site settings saved.");
 }

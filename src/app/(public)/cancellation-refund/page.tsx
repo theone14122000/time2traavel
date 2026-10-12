@@ -93,7 +93,7 @@ export default async function CancellationRefundPage() {
                 icon={<Scale className="size-8" aria-hidden="true" />}
                 action={
                   <>
-                    <ButtonLink href="/contact">Contact us</ButtonLink>
+                    <ButtonLink href="/about-us#contact">Contact us</ButtonLink>
                     <ButtonLink href="/faqs" variant="outline">
                       FAQs
                     </ButtonLink>
@@ -111,7 +111,7 @@ export default async function CancellationRefundPage() {
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <ButtonLink href="/track-inquiry">Track an enquiry</ButtonLink>
-              <ButtonLink href="/contact" variant="outline">
+              <ButtonLink href="/about-us#contact" variant="outline">
                 <ShieldQuestion aria-hidden="true" className="size-4" />
                 Contact us
               </ButtonLink>
