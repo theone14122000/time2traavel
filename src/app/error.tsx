@@ -17,7 +17,7 @@ export default function RootError({
       <div className="w-full max-w-lg border-[4px] border-ink bg-peach p-6 text-center shadow-hard-xl sm:p-8">
         <p className="label-brutal text-ink">Error</p>
 
-        <h1 className="mt-3 font-display text-4xl uppercase leading-none sm:text-5xl">
+        <h1 className="mt-3 text-h2">
           Something broke
         </h1>
 

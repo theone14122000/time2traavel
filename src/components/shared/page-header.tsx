@@ -43,7 +43,7 @@ export function PageHeader({
               {eyebrow}
             </span>
           ) : null}
-          <h1 className="max-w-[16ch] font-display text-h1 uppercase">{title}</h1>
+          <h1 className="max-w-[16ch] text-h1">{title}</h1>
           {description ? (
             <p className="max-w-2xl text-lead font-medium text-ink-soft">{description}</p>
           ) : null}

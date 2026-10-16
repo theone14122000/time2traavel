@@ -135,12 +135,12 @@ async function loadHomeBands(): Promise<HomeBands> {
   const title =
     settings.heroTitle?.trim() ||
     heroContent?.title?.trim() ||
-    "Your next trip is going to be legendary!";
+    "Your next trip starts here.";
 
   const subtitle =
     settings.heroSubtitle?.trim() ||
     heroContent?.body?.trim() ||
-    "From Himalayan treks to passport-stamp escapes, we turn ordinary weekends into comic-book adventures."; //
+    "Tell us where you want to go, when, and with whom. We'll plan the rest.";
 
   const instruction = heroData.instruction?.trim() || "Start here —";
 

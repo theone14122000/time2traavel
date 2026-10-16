@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import { CircleHelp, Link2, MessageSquareText, Search, Send, X } from "lucide-react";
@@ -116,7 +116,7 @@ export function FaqView({ faqs }: { faqs: FaqItem[] }) {
       <EmptyState
         eyebrow="FAQs"
         title="Questions coming soon"
-        description="Our FAQs are being written. If you have a question right now, send it over — we'll reply with an answer."
+        description="Our FAQs are being written. If you have a question right now, send it over â€” we'll reply with an answer."
         tone="lavender"
         illustration="search"
         icon={<CircleHelp className="size-8" aria-hidden="true" />}
@@ -190,7 +190,7 @@ export function FaqView({ faqs }: { faqs: FaqItem[] }) {
               {visibleCategories.map(([category, items]) => (
                 <TabsTrigger key={category} value={category}>
                   {category}
-                  <span aria-hidden="true" className="ml-1 text-[0.65rem] opacity-70">
+                  <span aria-hidden="true" className="ml-1 text-xs opacity-70">
                     {items.length}
                   </span>
                 </TabsTrigger>

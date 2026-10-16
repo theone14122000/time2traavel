@@ -18,7 +18,7 @@ export default function PublicError({ reset }: PublicPageError) {
       <div className="w-full max-w-xl border-4 border-ink bg-peach p-6 text-center shadow-brutal-lg sm:p-8">
         <p className="label-brutal text-ink">Page error</p>
 
-        <h1 className="mt-3 font-display text-4xl uppercase leading-none sm:text-5xl">
+        <h1 className="mt-3 text-h2">
           Something broke
         </h1>
 

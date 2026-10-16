@@ -31,7 +31,7 @@ export async function GalleryTeaser() {
             id="gallery-heading"
             eyebrow="Gallery"
             title="Snapshots from the road"
-            description="Photos uploaded by our team — destinations, stays and moments from real trips."
+            description="Photos uploaded by our team — destinations, stays and moments from the road."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">
             <Link href="/gallery">

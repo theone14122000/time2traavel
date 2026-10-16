@@ -35,6 +35,17 @@ const config: Config = {
         "sky-strong": "var(--tt-sky-strong)",
         grape: "var(--tt-grape)",
         berry: "var(--tt-berry)",
+        tangerine: "var(--tt-tangerine)",
+        lime: "var(--tt-lime)",
+        teal: "var(--tt-teal)",
+        indigo: "var(--tt-indigo)",
+        "indigo-soft": "var(--tt-indigo-soft)",
+        // journal
+        "pen-blue": "var(--tt-pen-blue)",
+        "stamp-red": "var(--tt-stamp-red)",
+        kraft: "var(--tt-kraft)",
+        pencil: "var(--tt-pencil)",
+        sunshine: "var(--tt-sunrise)",
         // semantic
         success: "var(--tt-success)",
         warning: "var(--tt-warning)",
@@ -66,8 +77,11 @@ const config: Config = {
         feature: "4px", // hero / feature blocks
       },
       fontFamily: {
-        display: ["var(--font-bungee)", "Arial Black", "Helvetica Neue", "sans-serif"],
-        sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+        // Role stacks follow the active fontTheme (--tt-font-* vars)
+        script: ["var(--tt-font-script)", "cursive"],
+        hand: ["var(--tt-font-hand)", "cursive"],
+        display: ["var(--tt-font-hand)", "cursive"], // legacy → handwritten
+        sans: ["var(--tt-font-body)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       spacing: {
         // 8px grid: components should snap to these

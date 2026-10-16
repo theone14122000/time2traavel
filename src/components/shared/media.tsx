@@ -1,4 +1,4 @@
-import * as React from "react";
+﻿import * as React from "react";
 import Image from "next/image";
 import { cn, absoluteUrl } from "@/lib/utils";
 
@@ -74,7 +74,7 @@ export function Media({
           >
             {(label ?? "?").trim().charAt(0).toUpperCase() || "?"}
           </span>
-          <span className="label-brutal max-w-[80%] truncate px-2 text-center text-[0.6rem]">
+          <span className="label-brutal max-w-[80%] truncate px-2 text-center text-xs">
             {label ?? "Image coming soon"}
           </span>
         </div>

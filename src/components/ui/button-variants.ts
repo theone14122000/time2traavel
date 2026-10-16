@@ -9,7 +9,7 @@ export const buttonVariants = cva(
     "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard",
     "active:translate-x-1 active:translate-y-1 active:shadow-none",
     "disabled:pointer-events-none disabled:opacity-50",
-    "focus-visible:outline-4 focus-visible:outline-offset-3 focus-visible:outline-ink",
+    /* Focus ring comes from the global :focus-visible rule (3px ink + 2px lemon) */
     "aria-busy:opacity-80",
   ],
   {
@@ -28,7 +28,7 @@ export const buttonVariants = cva(
         link: "border-transparent bg-transparent text-ink shadow-none underline-offset-4 hover:translate-x-0 hover:translate-y-0 hover:shadow-none hover:underline",
       },
       size: {
-        sm: "h-9 px-3 text-[0.7rem] min-w-[44px]",
+        sm: "h-9 px-3 text-xs min-w-[44px]",
         md: "h-11 px-5 text-xs min-w-[44px]",
         lg: "h-14 px-7 text-sm sm:text-base min-w-[44px]",
         xl: "h-16 px-8 text-base sm:text-lg min-w-[44px]",

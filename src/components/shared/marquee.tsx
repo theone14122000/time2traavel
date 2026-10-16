@@ -1,4 +1,4 @@
-import * as React from "react";
+﻿import * as React from "react";
 import { Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +17,7 @@ const DEFAULT_ITEMS = [
   "Plan My Trip",
   "Enquire Now",
   "Travel Guides",
-  "Kasumpti · Shimla",
+  "Kasumpti Â· Shimla",
 ];
 
 /**
@@ -51,7 +51,7 @@ export function Marquee({
     >
       {items.map((item, index) => (
         <span key={`${groupKey}-${index}`} className="flex items-center gap-6 sm:gap-8">
-          <span className="label-brutal whitespace-nowrap text-[0.72rem] sm:text-xs">
+          <span className="label-brutal whitespace-nowrap text-xs sm:text-xs">
             {item}
           </span>
           {sep}

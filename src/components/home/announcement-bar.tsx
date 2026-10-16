@@ -52,7 +52,7 @@ export function AnnouncementBar({
     <div
       role="region"
       aria-label="Announcement"
-      className="relative w-full border-b-[3px] border-ink bg-tomato text-cream"
+      className="relative w-full border-b-[3px] border-ink bg-tomato text-ink"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-40" />
 

@@ -47,7 +47,7 @@ export function HomeSectionHeading({
           className={cn(
             "label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink px-3 py-2 shadow-hard-xs",
             onDark
-              ? "border-cream bg-tomato text-cream"
+              ? "border-cream bg-tomato text-ink"
               : "bg-lemon text-ink",
           )}
         >
@@ -60,7 +60,7 @@ export function HomeSectionHeading({
           as="h2"
           onDark={onDark}
           className={cn(
-            "max-w-[22ch] font-display text-h2 uppercase",
+            "max-w-[22ch] text-h2",
             onDark && "text-cream",
           )}
         >

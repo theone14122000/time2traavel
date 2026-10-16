@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { CONTENT_KEYS } from "@/lib/constants";
 import { toE164 } from "@/lib/contact";
+import { FONT_THEMES } from "@/lib/font-theme";
 
 /* ---------------------------------------------------------------
    Shared field helpers
@@ -210,6 +211,8 @@ const e164PhoneField = (label: string) =>
 export const settingsSchema = z.object({
   siteName: z.string().trim().min(1, "Site name is required").max(120, "Too long"),
   tagline: optionalText(200),
+  /** Type pairing: Journal (default) / Retro Postcard / Elegant. */
+  fontTheme: z.enum(FONT_THEMES),
   phone: e164PhoneField("phone"),
   whatsapp: e164PhoneField("WhatsApp"),
   supportPhone: e164PhoneField("support phone"),

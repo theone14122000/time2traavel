@@ -6,6 +6,7 @@ import { requireAdmin } from "@/lib/guards";
 import { SETTINGS_CACHE_TAG } from "@/lib/data/site";
 import { toE164 } from "@/lib/contact";
 import { settingsSchema, type SettingsInput } from "@/schemas/admin";
+import { DEFAULT_FONT_THEME } from "@/lib/font-theme";
 import {
   failure,
   ok,
@@ -27,6 +28,7 @@ export async function saveSettingsAction(
   const data = {
     siteName: s.siteName,
     tagline: s.tagline || null,
+    fontTheme: s.fontTheme || DEFAULT_FONT_THEME,
     phone: toE164(s.phone),
     whatsapp: toE164(s.whatsapp),
     supportPhone: toE164(s.supportPhone),

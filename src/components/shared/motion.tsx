@@ -151,7 +151,7 @@ export function RevealTitle({
   }
 
   return (
-    <Tag className={cn("overflow-hidden", className)}>
+    <Tag className={cn("overflow-hidden pb-[0.22em] -mb-[0.22em]", className)}>
       <motion.span
         className="block"
         initial="hidden"

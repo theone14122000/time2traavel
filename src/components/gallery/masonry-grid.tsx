@@ -60,7 +60,7 @@ export function MasonryGrid({
               />
             )}
             {item.category ? (
-              <span className="absolute left-3 top-3 inline-flex items-center border-[2px] border-ink bg-lemon px-2 py-1 text-[10px] font-bold uppercase tracking-wide shadow-hard-xs">
+              <span className="absolute left-3 top-3 inline-flex items-center border-[2px] border-ink bg-lemon px-2 py-1 text-xs font-bold uppercase tracking-wide shadow-hard-xs">
                 {item.category}
               </span>
             ) : null}

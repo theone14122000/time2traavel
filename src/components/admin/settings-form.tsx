@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
@@ -23,12 +23,25 @@ import {
 } from "@/components/ui/form";
 import { Input, Textarea } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { RepeatableRows } from "@/components/admin/repeatable-rows";
 import { asStr } from "@/components/admin/form-utils";
+import {
+  DEFAULT_FONT_THEME,
+  FONT_THEMES,
+  FONT_THEME_LABELS,
+} from "@/lib/font-theme";
 
 const emptyValues: SettingsInput = {
   siteName: "Time to Travel",
   tagline: "",
+  fontTheme: DEFAULT_FONT_THEME,
   phone: "",
   whatsapp: "",
   supportPhone: "",
@@ -149,6 +162,40 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
           />
         </Section>
 
+        <Section title="Typography">
+          <FormField
+            control={form.control}
+            name="fontTheme"
+            render={({ field }) => (
+              <FormItem className="max-w-xl">
+                <FormLabel>Font theme</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={asStr(field.value) || DEFAULT_FONT_THEME}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Choose a pairing" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {FONT_THEMES.map((theme) => (
+                      <SelectItem key={theme} value={theme}>
+                        {FONT_THEME_LABELS[theme]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  Switches the handwriting pairing across the whole site. All
+                  three pairings render live under Design system â†’ Type.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </Section>
+
         <Section title="Contact">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <FormField
@@ -158,7 +205,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="+91 …" {...field} value={asStr(field.value)} />
+                    <Input type="tel" placeholder="+91 â€¦" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -185,7 +232,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>Support phone</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="+91 …" {...field} value={asStr(field.value)} />
+                    <Input type="tel" placeholder="+91 â€¦" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormDescription>
                     {supportPhoneDisplay
@@ -216,7 +263,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>Working hours</FormLabel>
                   <FormControl>
-                    <Input placeholder="Mon–Sat, 10am–7pm" {...field} value={asStr(field.value)} />
+                    <Input placeholder="Monâ€“Sat, 10amâ€“7pm" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -225,7 +272,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="label-brutal border-[2px] border-ink bg-cream px-2 py-1 text-[0.65rem]">
+            <span className="label-brutal border-[2px] border-ink bg-cream px-2 py-1 text-xs">
               Test links
             </span>
             {testTelHref ? (
@@ -259,11 +306,11 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormLabel>Map embed URL</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="https://www.google.com/maps?q=…&output=embed"
+                    placeholder="https://www.google.com/maps?q=â€¦&output=embed"
                     {...field} value={asStr(field.value)} />
                 </FormControl>
                 <FormDescription>
-                  The Google Maps embed src (…&amp;output=embed).
+                  The Google Maps embed src (â€¦&amp;output=embed).
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -303,7 +350,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                           <FormItem>
                             <FormLabel>URL</FormLabel>
                             <FormControl>
-                              <Input placeholder="https://…" {...field} value={asStr(field.value)} />
+                              <Input placeholder="https://â€¦" {...field} value={asStr(field.value)} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -356,7 +403,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>Default meta title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Time to Travel — Shimla" {...field} value={asStr(field.value)} />
+                    <Input placeholder="Time to Travel â€” Shimla" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -369,7 +416,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>OG image URL</FormLabel>
                   <FormControl>
-                    <Input placeholder="/og-image.svg or https://…" {...field} value={asStr(field.value)} />
+                    <Input placeholder="/og-image.svg or https://â€¦" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

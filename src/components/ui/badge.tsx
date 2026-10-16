@@ -1,4 +1,4 @@
-import * as React from "react";
+﻿import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -26,8 +26,8 @@ const badgeVariants = cva(
         success: "bg-mint-strong text-ink",
       },
       size: {
-        sm: "px-2 py-0.5 text-[0.6rem]",
-        md: "px-2.5 py-1 text-[0.68rem]",
+        sm: "px-2 py-0.5 text-xs",
+        md: "px-2.5 py-1 text-xs",
         lg: "px-3 py-1.5 text-xs",
       },
     },
@@ -45,7 +45,7 @@ export function Badge({ className, variant, size, ...props }: BadgeProps) {
   );
 }
 
-/** Rotated "sticker" badge — for DB flags only (e.g. featured → "Popular"). */
+/** Rotated "sticker" badge â€” for DB flags only (e.g. featured â†’ "Popular"). */
 export function Stamp({
   children,
   className,
@@ -62,7 +62,7 @@ export function Stamp({
       aria-hidden="true"
       style={{ rotate: `${rotate}deg` }}
       className={cn(
-        "pointer-events-none inline-flex items-center border-[3px] border-ink px-2.5 py-1 font-display text-[0.7rem] uppercase leading-none shadow-hard-xs",
+        "pointer-events-none inline-flex items-center border-[3px] border-ink px-2.5 py-1 font-display text-xs uppercase leading-none shadow-hard-xs",
         badgeVariants({ variant: variant ?? "default", size: "md" }),
         "border-[3px]",
         className,

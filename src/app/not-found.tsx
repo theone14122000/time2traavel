@@ -33,10 +33,7 @@ export default function NotFound() {
           Error 404
         </p>
 
-        <h1
-          id="not-found-heading"
-          className="max-w-[16ch] font-display text-h1 uppercase text-ink"
-        >
+        <h1 id="not-found-heading" className="max-w-[16ch] text-h1 text-ink">
           404 / Page not found
         </h1>
 

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import { X } from "lucide-react";
@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
  *   onChange={setInterests}
  * />
  *
- * // …inside react-hook-form:
+ * // â€¦inside react-hook-form:
  * <ChipMultiSelect
  *   label="Interests"
  *   options={INTEREST_OPTIONS}
@@ -164,7 +164,7 @@ export function ChipMultiSelect({
             >
               {option.label}
               {typeof option.count === "number" ? (
-                <span className="ml-1.5 border-2 border-ink bg-sky px-1.5 py-0.5 text-[0.6rem] tabular-nums">
+                <span className="ml-1.5 border-2 border-ink bg-sky px-1.5 py-0.5 text-xs tabular-nums">
                   {option.count}
                 </span>
               ) : null}

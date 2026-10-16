@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Compass, PackageSearch, Send } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
@@ -20,7 +20,7 @@ export function generateMetadata(): Metadata {
   return buildMetadata({
     title: "Travel Packages",
     description:
-      "Browse published Time to Travel packages — filter by destination, duration and price, sort the list, and enquire for custom dates.",
+      "Browse published Time to Travel packages â€” filter by destination, duration and price, sort the list, and enquire for custom dates.",
     path: "/packages",
   });
 }
@@ -100,14 +100,14 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
   const resultSummary =
     result.total === 0
       ? "No packages match"
-      : `Showing ${rangeStart}–${rangeEnd} of ${pluralize(result.total, "package")}`;
+      : `Showing ${rangeStart}â€“${rangeEnd} of ${pluralize(result.total, "package")}`;
 
   return (
     <CompareProvider>
       <PageHeader
         eyebrow="Packages"
         title="Find your next trip"
-        description="Every package below is pulled live from our catalogue. Filter by destination, duration and budget — enquire for custom dates on any of them."
+        description="Every package below is pulled live from our catalogue. Filter by destination, duration and budget â€” enquire for custom dates on any of them."
         tone="butter"
       >
         <Link className={buttonVariants({ variant: "dark", size: "lg" })} href="/destinations">
@@ -130,7 +130,7 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
           id="packages-list-heading"
           eyebrow="Catalogue"
           title="All packages"
-          description="Use the filters to narrow the list — results update as you type or pick."
+          description="Use the filters to narrow the list â€” results update as you type or pick."
         />
 
         <div className="mt-8 grid grid-cols-1 gap-8">
@@ -157,7 +157,7 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
               <EmptyState
                 eyebrow="Packages"
                 title="Packages coming soon"
-                description="We're still loading packages onto the site. Tell us your destination, dates and group size — we'll plan it with you in the meantime."
+                description="We're still loading packages onto the site. Tell us your destination, dates and group size â€” we'll plan it with you in the meantime."
                 tone="butter"
                 icon={<Compass className="size-8" aria-hidden="true" />}
                 action={
@@ -210,13 +210,13 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
                 </span>
                 <h2
                   id="packages-cta-heading"
-                  className="mt-5 max-w-[16ch] font-display text-h2 uppercase"
+                  className="mt-5 max-w-[16ch] text-h2"
                 >
                   We build trips around your dates
                 </h2>
                 <p className="mt-4 max-w-xl text-lead font-medium text-ink-soft">
                   None of these quite right? Send us your destination, travel window and
-                  group size — we&apos;ll put together a plan that fits.
+                  group size â€” we&apos;ll put together a plan that fits.
                 </p>
               </div>
 

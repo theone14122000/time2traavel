@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Download, Inbox } from "lucide-react";
 import { prisma } from "@/lib/prisma";
@@ -178,7 +178,7 @@ export default async function AdminInquiriesPage({
           <Link
             href={buildHref({ status: sp.status })}
             className={cn(
-              "border-[2px] border-ink px-2.5 py-1.5 text-[0.7rem] font-bold uppercase",
+              "border-[2px] border-ink px-2.5 py-1.5 text-xs font-bold uppercase",
               !type ? "bg-ink text-cream" : "bg-paper hover:bg-butter",
             )}
           >
@@ -191,7 +191,7 @@ export default async function AdminInquiriesPage({
               key={value}
               href={buildHref({ status: sp.status, type: value })}
               className={cn(
-                "border-[2px] border-ink px-2.5 py-1.5 text-[0.7rem] font-bold uppercase",
+                "border-[2px] border-ink px-2.5 py-1.5 text-xs font-bold uppercase",
                 type === value ? "bg-ink text-cream" : "bg-paper hover:bg-butter",
               )}
             >
@@ -205,7 +205,7 @@ export default async function AdminInquiriesPage({
         <EmptyState
           eyebrow="Inbox"
           title="No enquiries match"
-          description="Adjust the filters — or wait for the first submission from the site."
+          description="Adjust the filters â€” or wait for the first submission from the site."
           icon={<Inbox aria-hidden="true" className="size-8" />}
         />
       ) : (
@@ -240,7 +240,7 @@ export default async function AdminInquiriesPage({
                   <p className="truncate">
                     {row.subject ||
                       row.message?.slice(0, 80) ||
-                      (row.packageTitle ? `Package: ${row.packageTitle}` : "—")}
+                      (row.packageTitle ? `Package: ${row.packageTitle}` : "â€”")}
                   </p>
                   {row.destinationName ? (
                     <span className="mt-0.5 block text-xs text-ink-soft">

@@ -31,7 +31,7 @@ export function Wordmark({
   const mark = (
     <span
       className={cn(
-        "inline-flex select-none items-baseline font-display uppercase leading-none tracking-tight",
+        "inline-flex select-none items-baseline font-display uppercase leading-none",
         sizeClass,
         onDark ? "text-cream" : "text-ink",
         className,
@@ -41,7 +41,7 @@ export function Wordmark({
       <span aria-hidden="true">TIME</span>
       <span
         aria-hidden="true"
-        className="relative mx-[0.06em] inline-flex items-center justify-center bg-tomato px-[0.18em] py-[0.02em] text-cream shadow-hard-xs"
+        className="relative mx-[0.06em] inline-flex items-center justify-center bg-tomato px-[0.18em] py-[0.02em] text-ink shadow-hard-xs"
         style={{ transform: "rotate(-3deg)" }}
       >
         2

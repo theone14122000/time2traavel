@@ -28,7 +28,7 @@ export async function GuidesTeaser() {
           <HomeSectionHeading
             id="guides-heading"
             eyebrow="Field notes"
-            title="Real places. unreal stories."
+            title="Reading for the road."
             panelWords={2}
             panelTone="mint"
             description="Destination guides, trekking tips and travel inspiration from the Time2Travel team."

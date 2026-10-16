@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import Link from "next/link";
@@ -27,12 +27,12 @@ type HeroProps = {
   instruction: string;
   /** Real database counts only (never invented). */
   counts?: { destinations: number; packages: number };
-  /** Destination images from the database — empty list renders the illustrated fallback. */
+  /** Destination images from the database â€” empty list renders the illustrated fallback. */
   tiles?: HeroTile[];
   founderName?: string | null;
 };
 
-/** Accurate category chips — drawn from the site's real taxonomy. */
+/** Accurate category chips â€” drawn from the site's real taxonomy. */
 const CATEGORY_CHIPS = [
   { label: "Himachal", href: "/destinations" },
   { label: "Ladakh", href: "/destinations" },
@@ -42,7 +42,7 @@ const CATEGORY_CHIPS = [
 ] as const;
 
 /* ------------------------------------------------------------------ *
- * Illustrated mountain fallback — SVG silhouettes (no fake photos).   *
+ * Illustrated mountain fallback â€” SVG silhouettes (no fake photos).   *
  * ------------------------------------------------------------------ */
 function MountainIllustration() {
   return (
@@ -87,7 +87,7 @@ function MountainIllustration() {
 }
 
 /* ------------------------------------------------------------------ *
- * Flight-route decoration — dotted arc + paper plane.                 *
+ * Flight-route decoration â€” dotted arc + paper plane.                 *
  * ------------------------------------------------------------------ */
 function RouteDecoration({ className }: { className?: string }) {
   return (
@@ -118,7 +118,7 @@ function RouteDecoration({ className }: { className?: string }) {
 }
 
 /* ------------------------------------------------------------------ *
- * Star accent — small comic sparkle.                                  *
+ * Star accent â€” small comic sparkle.                                  *
  * ------------------------------------------------------------------ */
 function StarAccent({ className }: { className?: string }) {
   return (
@@ -129,8 +129,8 @@ function StarAccent({ className }: { className?: string }) {
 }
 
 /* ------------------------------------------------------------------ *
- * Hero heading — comic cover lettering.                               *
- * 5+ words → 3 lines with the final word in a coral block.            *
+ * Hero heading â€” comic cover lettering.                               *
+ * 5+ words â†’ 3 lines with the final word in a coral block.            *
  * ------------------------------------------------------------------ */
 function HeroHeading({ title }: { title: string }) {
   const reduceMotion = useReducedMotion();
@@ -160,7 +160,7 @@ function HeroHeading({ title }: { title: string }) {
         };
 
   const line = (content: React.ReactNode, delay: number, key: string) => (
-    <span key={key} className="block overflow-hidden pb-1 -mb-1">
+    <span key={key} className="block overflow-hidden pb-[0.22em] -mb-[0.22em]">
       <motion.span className="block" {...rise(delay)}>
         {content}
       </motion.span>
@@ -170,14 +170,15 @@ function HeroHeading({ title }: { title: string }) {
   return (
     <h1
       id="hero-heading"
-      className="mt-3 max-w-[13ch] font-display text-[clamp(1.85rem,8.2vw,3.25rem)] uppercase leading-[0.96] tracking-tight text-ink sm:mt-4 lg:text-[clamp(3rem,4.6vw,5rem)]"
+      aria-label={lines.flat().join(" ")}
+      className="mt-3 max-w-[13ch] text-h1 leading-[1.12] text-ink sm:mt-4"
     >
       {lines.map((lineWords, i) => {
         const isLast = i === lines.length - 1 && lines.length >= 3;
         const delay = 0.12 + i * 0.1;
         if (isLast) {
           return line(
-            <span className="comic-panel comic-panel-tomato max-w-full [text-shadow:2px_2px_0_var(--tt-ink)]">
+            <span className="comic-panel comic-panel-tomato max-w-full">
               {lineWords.join(" ")}
             </span>,
             delay,
@@ -252,7 +253,7 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         />
       </motion.figure>
 
-      {/* overlapping mini card — secondary image or location chip card */}
+      {/* overlapping mini card â€” secondary image or location chip card */}
       <motion.div
         className="absolute -bottom-5 -left-1 z-20 w-[44%] max-w-[180px] sm:-bottom-6 sm:-left-6 sm:max-w-[210px]"
         {...pop(0.55)}
@@ -275,7 +276,7 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
               <Compass aria-hidden="true" className="size-8 text-mint-strong sm:size-10" strokeWidth={2.5} />
             </div>
           )}
-          <p className="label-brutal mt-1.5 px-0.5 text-[0.6rem] text-ink-soft sm:mt-2 sm:text-xs">
+          <p className="label-brutal mt-1.5 px-0.5 text-xs text-ink-soft sm:mt-2 sm:text-xs">
             From the hills
           </p>
         </div>
@@ -286,7 +287,7 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         className="absolute -right-1 top-3 z-20 sm:-right-4 sm:top-4"
         {...pop(0.65)}
       >
-        <span className="label-brutal inline-flex items-center gap-1.5 border-[3px] border-ink bg-paper px-2 py-1.5 text-[0.6rem] shadow-hard-xs sm:px-2.5 sm:py-2 sm:text-xs">
+        <span className="label-brutal inline-flex items-center gap-1.5 border-[3px] border-ink bg-paper px-2 py-1.5 text-xs shadow-hard-xs sm:px-2.5 sm:py-2">
           <MapPin aria-hidden="true" className="size-3 text-tomato sm:size-3.5" />
           Shimla, India
         </span>
@@ -298,14 +299,14 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         {...pop(0.75)}
       >
         <span
-          className="sticker float-gentle bg-tomato text-[0.6rem] text-cream sm:text-xs"
+          className="sticker float-gentle bg-tomato text-xs text-ink"
           style={{ rotate: "4deg" }}
         >
           Adventure mode: on!
         </span>
       </motion.div>
 
-      {/* speech bubble — tablet+ only */}
+      {/* speech bubble â€” tablet+ only */}
       <motion.div
         className="absolute -top-8 right-4 z-20 hidden sm:block"
         {...pop(0.7)}
@@ -318,7 +319,7 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         </span>
       </motion.div>
 
-      {/* route + stars — tablet+ only */}
+      {/* route + stars â€” tablet+ only */}
       <motion.div
         className="absolute -top-6 left-6 z-20 hidden sm:block"
         {...pop(0.7)}
@@ -336,8 +337,8 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
 }
 
 /* ------------------------------------------------------------------ *
- * Hero — "the world is your next comic book" magazine cover.          *
- * Mobile-first: copy → illustration → meta (chips/counts).            *
+ * Hero â€” "the world is your next comic book" magazine cover.          *
+ * Mobile-first: copy â†’ illustration â†’ meta (chips/counts).            *
  * Desktop (lg+): two-column magazine layout with meta under the CTAs. *
  * ------------------------------------------------------------------ */
 export function Hero({
@@ -388,9 +389,9 @@ export function Hero({
             </motion.div>
 
             <motion.div variants={fadeUp} className="mt-0 lg:mt-5">
-              <span className="label-brutal inline-flex w-fit max-w-full flex-wrap items-center gap-x-2 gap-y-1 border-[3px] border-ink bg-lemon px-2 py-1.5 text-[0.65rem] leading-snug shadow-hard-xs sm:px-3 sm:py-2 sm:text-xs">
+              <span className="label-brutal inline-flex w-fit max-w-full flex-wrap items-center gap-x-2 gap-y-1 border-[3px] border-ink bg-lemon px-2 py-1.5 text-xs leading-snug shadow-hard-xs sm:px-3 sm:py-2 sm:text-xs">
                 <Sparkles aria-hidden="true" className="size-3.5 shrink-0" />
-                <span className="min-w-0">Issue No. 01 — the world awaits</span>
+                <span className="min-w-0">Issue No. 01 â€” the world awaits</span>
               </span>
             </motion.div>
 

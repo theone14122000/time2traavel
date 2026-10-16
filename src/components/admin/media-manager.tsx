@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
@@ -56,7 +56,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
       await navigator.clipboard.writeText(url);
       toast.success(`Copied ${url}`);
     } catch {
-      toast.error("Couldn't copy — select the URL and copy manually.");
+      toast.error("Couldn't copy â€” select the URL and copy manually.");
     }
   }
 
@@ -79,7 +79,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
               className="h-12 w-full border-[3px] border-ink bg-paper px-3 py-2 text-sm font-medium file:mr-3 file:h-full file:border-0 file:border-r-[3px] file:border-ink file:bg-butter file:px-4 file:text-xs file:font-bold file:uppercase"
             />
             <p className="text-xs font-semibold text-ink-soft">
-              JPG, PNG, WEBP or SVG — max 4MB.
+              JPG, PNG, WEBP or SVG â€” max 4MB.
             </p>
           </div>
           <div className="grid gap-1.5">
@@ -111,7 +111,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
 
       {assets.length === 0 ? (
         <p className="border-[3px] border-dashed border-ink bg-butter px-4 py-10 text-center text-sm font-bold uppercase">
-          No uploads yet — images you upload appear here.
+          No uploads yet â€” images you upload appear here.
         </p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -138,7 +138,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
                   <Badge variant="soft" size="sm">
                     {asset.provider}
                   </Badge>
-                  <span className="text-[0.65rem] font-semibold text-ink-soft">
+                  <span className="text-xs font-semibold text-ink-soft">
                     {formatDate(asset.createdAt, {
                       day: "numeric",
                       month: "short",

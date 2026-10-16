@@ -7,6 +7,7 @@ import { toSocialLinks } from "@/lib/utils";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { SettingsForm } from "@/components/admin/settings-form";
 import type { SettingsInput } from "@/schemas/admin";
+import { parseFontTheme } from "@/lib/font-theme";
 
 export const metadata: Metadata = {
   title: "Site settings",
@@ -25,6 +26,7 @@ export default async function AdminSettingsPage() {
   const initial: SettingsInput = {
     siteName: row?.siteName ?? SITE_IDENTITY.name,
     tagline: row?.tagline ?? "",
+    fontTheme: parseFontTheme(row?.fontTheme),
     phone: row?.phone ?? "",
     whatsapp: row?.whatsapp ?? "",
     supportPhone: row?.supportPhone ?? "",

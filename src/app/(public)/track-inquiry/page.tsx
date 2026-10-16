@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { ClipboardList, Compass, Mail } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
@@ -26,7 +26,7 @@ const STEPS: { title: string; body: string }[] = [
   },
   {
     title: "Add one contact detail",
-    body: "Enter either the phone number or the email you used — both must match the enquiry.",
+    body: "Enter either the phone number or the email you used â€” both must match the enquiry.",
   },
   {
     title: "See the status",
@@ -46,7 +46,7 @@ export default async function TrackInquiryPage() {
       <PageHeader
         eyebrow="Track enquiry"
         title="Where's my enquiry?"
-        description="Enter your reference id plus the phone or email you used. We only show the status — never your personal details."
+        description="Enter your reference id plus the phone or email you used. We only show the status â€” never your personal details."
         tone="sky"
       >
         <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/about-us#contact">
@@ -70,7 +70,7 @@ export default async function TrackInquiryPage() {
             </span>
             <h2
               id="track-form-heading"
-              className="mt-5 max-w-[16ch] font-display text-h2 uppercase"
+              className="mt-5 max-w-[16ch] text-h2"
             >
               Three quick steps
             </h2>

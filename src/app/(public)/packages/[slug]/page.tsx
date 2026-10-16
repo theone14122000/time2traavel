@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       pkg.seoDescription ??
       pkg.summary ??
       pkg.description ??
-      `${pkg.title} — travel package from Time to Travel.`,
+      `${pkg.title} â€” travel package from Time to Travel.`,
     path: `/packages/${pkg.slug}`,
     image: pkg.image,
   });
@@ -115,7 +115,7 @@ function BandHeading({
         {eyebrow}
       </span>
       <div id={id}>
-        <RevealTitle as="h2" className="max-w-[22ch] font-display text-h2 uppercase">
+        <RevealTitle as="h2" className="max-w-[22ch] text-h2">
           {title}
         </RevealTitle>
       </div>
@@ -242,7 +242,7 @@ export default async function PackageDetailPage({ params }: Props) {
               ) : null}
             </div>
 
-            {/* No createdAt in the detail select — so no "New" stamp is ever rendered. */}
+            {/* No createdAt in the detail select â€” so no "New" stamp is ever rendered. */}
 
             <div className="mt-6 flex flex-wrap items-center gap-2">
               {duration ? (
@@ -344,7 +344,7 @@ export default async function PackageDetailPage({ params }: Props) {
               id="package-itinerary-heading"
               eyebrow="Itinerary"
               title="Day-by-day plan"
-              description="Every day is listed below — expand a day to read the full plan."
+              description="Every day is listed below â€” expand a day to read the full plan."
             />
 
             <div className="mt-8">
@@ -384,7 +384,7 @@ export default async function PackageDetailPage({ params }: Props) {
           id="package-inclusions-heading"
           eyebrow="Details"
           title="What's included"
-          description="Straight from the package record — ask us if anything is unclear."
+          description="Straight from the package record â€” ask us if anything is unclear."
         />
 
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
@@ -469,7 +469,7 @@ export default async function PackageDetailPage({ params }: Props) {
             title={
               pkg.destination ? `More packages in ${pkg.destination.name}` : "More packages"
             }
-            description="Other published packages — enquire on any of them for custom dates."
+            description="Other published packages â€” enquire on any of them for custom dates."
           />
 
           <div className="mt-8">
@@ -488,7 +488,7 @@ export default async function PackageDetailPage({ params }: Props) {
           id="package-review-heading"
           eyebrow="Reviews"
           title="Traveled with us?"
-          description="Share your experience — reviews are checked by our team before they appear publicly."
+          description="Share your experience â€” reviews are checked by our team before they appear publicly."
         />
 
         <div className="mt-8 max-w-3xl">
@@ -511,7 +511,7 @@ export default async function PackageDetailPage({ params }: Props) {
               </span>
               <h2
                 id="package-plan-heading"
-                className="mt-5 max-w-[18ch] font-display text-h2 uppercase md:ml-auto"
+                className="mt-5 max-w-[18ch] text-h2 md:ml-auto"
               >
                 Want this trip?
               </h2>

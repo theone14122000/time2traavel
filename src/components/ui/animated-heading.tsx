@@ -233,8 +233,10 @@ export function AnimatedHeading({
   const reduceMotion = useReducedMotion();
   const anim = animate ?? !reduceMotion;
 
+  /* Journal rule: hard shadows off by default (heavy shadows clash with
+     handwritten script) — opt in per heading with the `hard` prop. */
   const hardClass =
-    hard ?? variant !== "sub"
+    hard ?? false
       ? onDark
         ? "heading-hard-cream"
         : variant === "hero"
@@ -242,8 +244,14 @@ export function AnimatedHeading({
           : "heading-hard"
       : null;
 
+  /* h1/h2 inherit the script face from the base layer; h3/h4 handwritten.
+     Non-heading tags (p/div/span titles) get an explicit role so they
+     never fall back to the body face: sub → handwritten, otherwise script. */
+  const isHeadingTag = Tag === "h1" || Tag === "h2" || Tag === "h3" || Tag === "h4";
+
   const shellClass = cn(
-    "font-display uppercase [hyphens:none]",
+    "[hyphens:none]",
+    !isHeadingTag && (variant === "sub" ? "font-hand" : "font-script"),
     hardClass,
     className,
   );
@@ -314,7 +322,7 @@ export function AnimatedHeading({
                         <span className="heading-mask">
                           <motion.span
                             className="heading-word heading-highlight"
-                            style={{ color: "var(--tt-paper)" }}
+                            style={{ color: "var(--tt-ink)" }}
                             custom={globalIndex}
                             initial={anim ? "hidden" : "visible"}
                             variants={headingWord}
@@ -361,7 +369,7 @@ export function AnimatedHeading({
                               <motion.span
                                 aria-hidden="true"
                                 className="absolute inset-0 block"
-                                style={{ color: TONE_VAR.sky }}
+                                style={{ color: "var(--tt-stamp-red)" }}
                                 initial={anim ? "hidden" : "visible"}
                                 variants={outlineFill}
                               >

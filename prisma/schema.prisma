@@ -203,6 +203,7 @@ model SiteSettings {
   id                String   @id @default("singleton")
   siteName          String   @default("Time to Travel")
   tagline           String?
+  fontTheme         String   @default("JOURNAL")
   phone             String?
   whatsapp          String?
   supportPhone      String?

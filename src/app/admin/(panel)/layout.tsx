@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { requireAdmin } from "@/lib/guards";
 import { SITE_IDENTITY } from "@/lib/constants";
@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 
 /**
  * Auth-gated admin chrome. `requireAdmin()` redirects to /admin/login when the
- * session is missing — the public login page lives OUTSIDE this route group,
+ * session is missing â€” the public login page lives OUTSIDE this route group,
  * so there is no redirect loop.
  */
 export default async function AdminPanelLayout({
@@ -39,8 +39,8 @@ export default async function AdminPanelLayout({
           <p className="truncate text-xs font-bold uppercase tracking-wide text-cream/80">
             {user.name || user.email}
           </p>
-          <p className="mt-1 truncate text-[0.7rem] font-semibold text-cream/60">
-            {user.email} · {user.role}
+          <p className="mt-1 truncate text-xs font-semibold text-cream/60">
+            {user.email} Â· {user.role}
           </p>
           <div className="mt-3">
             <LogoutButton variant="danger" size="sm" className="w-full" />
@@ -54,7 +54,7 @@ export default async function AdminPanelLayout({
             <div className="min-w-0">
               <span className="label-brutal text-ink-soft lg:hidden">Admin</span>
               <p className="truncate font-display text-sm uppercase lg:text-base">
-                {SITE_IDENTITY.name} · Control room
+                {SITE_IDENTITY.name} Â· Control room
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-2">

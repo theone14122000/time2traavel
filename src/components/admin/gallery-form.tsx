@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
@@ -118,7 +118,7 @@ export function GalleryForm({
 
       {items.length === 0 ? (
         <p className="border-[3px] border-dashed border-ink bg-butter px-4 py-10 text-center text-sm font-bold uppercase">
-          No gallery items yet — upload an image or add one by URL.
+          No gallery items yet â€” upload an image or add one by URL.
         </p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -150,7 +150,7 @@ export function GalleryForm({
                 <p className="line-clamp-2 text-xs text-ink-soft" title={item.alt}>
                   {item.alt}
                 </p>
-                <span className="text-[0.65rem] font-semibold text-ink-soft">
+                <span className="text-xs font-semibold text-ink-soft">
                   {formatDate(item.createdAt, {
                     day: "numeric",
                     month: "short",
@@ -272,7 +272,7 @@ function GalleryUploadForm({
             className="h-12 w-full border-[3px] border-ink bg-paper px-3 py-2 text-sm font-medium file:mr-3 file:h-full file:border-0 file:border-r-[3px] file:border-ink file:bg-butter file:px-4 file:text-xs file:font-bold file:uppercase"
           />
           <p className="text-xs font-semibold text-ink-soft">
-            JPG, PNG, WEBP or SVG — max 4MB. Alt text is required.
+            JPG, PNG, WEBP or SVG â€” max 4MB. Alt text is required.
           </p>
         </div>
         <div className="grid gap-1.5">
@@ -394,7 +394,7 @@ function GalleryAddForm({
               <FormItem className="sm:col-span-2">
                 <FormLabel required>Image URL</FormLabel>
                 <FormControl>
-                  <Input placeholder="/uploads/image.jpg or https://…" {...field} value={asStr(field.value)} />
+                  <Input placeholder="/uploads/image.jpg or https://â€¦" {...field} value={asStr(field.value)} />
                 </FormControl>
                 <FormDescription>
                   Upload via Media (or the panel on the left), then paste the URL.
@@ -556,7 +556,7 @@ function GalleryItemDialog({
         <DialogHeader>
           <DialogTitle>Edit gallery item</DialogTitle>
           <DialogDescription>
-            Alt text is required — it is used by screen readers and as the image
+            Alt text is required â€” it is used by screen readers and as the image
             fallback.
           </DialogDescription>
         </DialogHeader>
@@ -570,7 +570,7 @@ function GalleryItemDialog({
                   <FormItem>
                     <FormLabel required>Image URL</FormLabel>
                     <FormControl>
-                      <Input placeholder="/uploads/…" {...field} value={asStr(field.value)} />
+                      <Input placeholder="/uploads/â€¦" {...field} value={asStr(field.value)} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -1,48 +1,56 @@
 ﻿import { Input } from "@/components/ui/input";
 
-/** Type scale specimens with their fluid clamp() definitions. */
+/** Type scale specimens with their fluid clamp() definitions.
+ *  Script (display/h1/h2) is never uppercase; handwritten for h3 and below. */
 const TYPE_ROWS: { label: string; cls: string; clamp: string; sample: string }[] = [
   {
     label: "display",
-    cls: "font-display text-display uppercase",
-    clamp: "clamp(2.6rem, 8.5vw, 6.5rem)",
-    sample: "Travel",
+    cls: "font-script text-display",
+    clamp: "clamp(3rem, 9vw, 7rem)",
+    sample: "Travel journal",
   },
   {
     label: "h1",
-    cls: "font-display text-h1 uppercase",
-    clamp: "clamp(2.1rem, 6vw, 4.25rem)",
-    sample: "Plan your trip",
+    cls: "font-script text-h1",
+    clamp: "clamp(2.75rem, 11vw, 6rem) · lh 1.16",
+    sample: "Your next trip starts here.",
   },
   {
     label: "h2",
-    cls: "font-display text-h2 uppercase",
-    clamp: "clamp(1.75rem, 4.4vw, 3.25rem)",
+    cls: "font-script text-h2",
+    clamp: "clamp(2.5rem, 7vw, 4rem) · 40px floor",
     sample: "Section heading",
   },
   {
     label: "h3",
-    cls: "font-display text-h3 uppercase",
-    clamp: "clamp(1.35rem, 2.6vw, 2rem)",
+    cls: "font-hand text-h3",
+    clamp: "clamp(1.5rem, 4.5vw, 2.25rem)",
     sample: "Sub-section heading",
   },
   {
     label: "h4",
-    cls: "font-display text-h4 uppercase",
-    clamp: "clamp(1.1rem, 1.6vw, 1.35rem)",
+    cls: "font-hand text-h4",
+    clamp: "clamp(1.15rem, 2vw + 0.75rem, 1.6rem)",
     sample: "Card heading",
+  },
+  {
+    label: "note",
+    cls: "font-hand text-note text-pen-blue",
+    clamp: "clamp(1.125rem, 3vw, 1.5rem)",
+    sample: "pick a region! (margin note)",
   },
   {
     label: "lead",
     cls: "text-lead font-medium",
-    clamp: "clamp(1.02rem, 1.5vw, 1.3rem)",
+    clamp: "clamp(1.0625rem, 1.4vw, 1.3rem)",
     sample: "Introductory paragraph copy for a section lead.",
   },
   {
     label: "body",
-    cls: "text-base font-medium",
-    clamp: "1rem (16px base)",
-    sample: "Body copy sits at the 16px base with a comfortable line height.",
+    cls: "measure",
+    clamp: "17px (1.0625rem) · lh 1.65 · 65ch",
+    sample:
+      "Body copy sits at the 17px journal size with a comfortable line height and a 65-character measure.",
   },
 ];
 
@@ -91,7 +99,7 @@ export function TypeUtilities() {
             Ink label
           </span>
         </div>
-        <p className="font-display text-h2 uppercase text-outline">Outline</p>
+        <p className="font-hand text-h3 text-outline">Outline</p>
       </div>
     </div>
   );

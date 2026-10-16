@@ -1,4 +1,4 @@
-import { Quote, UserRound } from "lucide-react";
+﻿import { Quote, UserRound } from "lucide-react";
 import { HomeSectionHeading } from "@/components/home/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { Marquee } from "@/components/shared/marquee";
@@ -40,7 +40,7 @@ function ReviewMiniCard({ review }: { review: ApprovedReview }) {
               {review.context}
             </Badge>
           ) : null}
-          <span className="text-[0.65rem] font-semibold text-ink-soft">
+          <span className="text-xs font-semibold text-ink-soft">
             {formatDate(review.createdAt, { month: "short", year: "numeric" })}
           </span>
         </div>
@@ -103,7 +103,7 @@ function FeaturedReview({ review }: { review: ApprovedReview }) {
 }
 
 /**
- * Reviews band — featured approved review + a two-row marquee wall of
+ * Reviews band â€” featured approved review + a two-row marquee wall of
  * approved-review mini-cards, plus a submission form that saves reviews
  * as PENDING for admin approval.
  */
@@ -126,8 +126,8 @@ export async function ReviewsSection() {
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <HomeSectionHeading
           id="reviews-heading"
-          eyebrow="Traveller stories"
-          title="Real reviews from real trips"
+          eyebrow="From the road"
+          title="Traveller stories"
           panelWords={2}
           panelTone="peach"
           description="Only reviews approved by our team are shown here."
@@ -140,7 +140,7 @@ export async function ReviewsSection() {
             <EmptyState
               eyebrow="Reviews"
               title="Be the first to review"
-              description="If you've travelled with us, share your experience — it will appear here after our team approves it."
+              description="If you've travelled with us, share your experience â€” it will appear here after our team approves it."
               tone="peach"
               illustration="luggage"
               action={

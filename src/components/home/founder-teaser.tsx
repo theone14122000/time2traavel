@@ -49,7 +49,7 @@ export async function FounderTeaser() {
 
             <h2
               id="founder-heading"
-              className="mt-4 flex items-start gap-3 font-display text-h2 uppercase text-cream"
+              className="mt-4 flex items-start gap-3 text-h2 text-cream"
             >
               <UserRound aria-hidden="true" className="mt-1 size-7 shrink-0 text-lemon" />
               Founded by {founder.name}

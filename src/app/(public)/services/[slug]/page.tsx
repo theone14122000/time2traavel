@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CircleHelp, ListChecks, Mail } from "lucide-react";
@@ -168,7 +168,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
               <h3 className="font-display text-h4 uppercase">Need this service?</h3>
               <p className="mt-3 text-sm font-medium leading-relaxed text-ink-soft">
-                Send a note with your trip details — we&apos;ll confirm what&apos;s possible
+                Send a note with your trip details â€” we&apos;ll confirm what&apos;s possible
                 and what it involves.
               </p>
               <a
@@ -239,12 +239,12 @@ export default async function ServiceDetailPage({ params }: Props) {
               </span>
               <h2
                 id="service-enquire-heading"
-                className="mt-5 max-w-[16ch] font-display text-h2 uppercase"
+                className="mt-5 max-w-[16ch] text-h2"
               >
                 Ask about {service.title}
               </h2>
               <p className="mt-4 max-w-xl text-lead font-medium text-ink-soft">
-                Tell us your dates and what you need — we&apos;ll reply with what&apos;s
+                Tell us your dates and what you need â€” we&apos;ll reply with what&apos;s
                 possible for this service.
               </p>
               <Link

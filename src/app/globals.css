@@ -2,43 +2,59 @@
 @config "../../tailwind.config.ts";
 
 /* ============================================================
-   TIME2TRAVEL — ADVENTURE COMICS DESIGN TOKENS (Tailwind v4)
+   TIME2TRAVEL — TRAVEL-JOURNAL DESIGN TOKENS (Tailwind v4)
    ------------------------------------------------------------
-   Neo-brutalist comic-book travel system: warm paper canvas,
-   true-black ink, electric coral, teal + violet + sky accents.
-   Acid lime replaces yellow as the small highlight colour.
+   "Pop Atlas" palette + journal tokens: warm paper canvas,
+   violet-black ink, sunshine yellow, coral/mint/sky/grape fills,
+   pen-blue handwriting, stamp-red postmarks, kraft tape.
    Variable names (--tt-*) are stable; values carry the brand.
    ============================================================ */
 
 :root {
-  /* ---- Base ---- */
-  --tt-ink: #171717; /* true black — text + comic outline */
-  --tt-ink-soft: #3f3f46; /* secondary text (AA on paper) */
-  --tt-paper: #ffffff; /* pure white cards */
-  --tt-cream: #fff8ee; /* warm paper — primary canvas */
+  /* ---- Base (Pop Atlas) ---- */
+  --tt-ink: #16141f; /* violet-black — all text on bright fills */
+  --tt-ink-soft: #4a4658; /* secondary text (AA on paper) */
+  --tt-paper: #ffffff; /* fresh white — pasted pages / cards */
+  --tt-cream: #fffaf0; /* paper — primary canvas */
 
-  /* ---- Section palette (tinted neutrals + soft accents) ---- */
-  --tt-sunrise: #d9ff62; /* acid lime — badges / stars only */
-  --tt-mint: #e5faf4; /* pale teal tint — treks / nature */
-  --tt-sky: #8fd8ff; /* sky blue — mountains / storytelling */
-  --tt-peach: #ffe0d8; /* soft coral tint */
-  --tt-lavender: #f3eefc; /* soft violet tint */
-  --tt-blush: #ffdfe9; /* soft pink */
-  --tt-sand: #f6efe6; /* warm neutral band */
+  /* ---- Section tints (light, never repeat adjacent) ---- */
+  --tt-sunrise: #fff1b8; /* sunshine */
+  --tt-mint: #cff7e5; /* mint */
+  --tt-sky: #b9e9fc; /* sky */
+  --tt-peach: #ffd9d4; /* coral */
+  --tt-lavender: #e6ddff; /* grape */
+  --tt-blush: #ffd6ec; /* pink */
+  --tt-sand: #ffe3c7; /* tangerine */
 
-  /* ---- Accents ---- */
-  --tt-tomato: #ff5b45; /* electric coral — THE primary action */
-  --tt-lemon: #d9ff62; /* acid lime — comic badges / emphasis */
-  --tt-coral: #ff5b45; /* alias of tomato */
-  --tt-mint-strong: #35d0ba; /* comic teal — treks / adventure */
-  --tt-sky-strong: #5ec4ef;
-  --tt-grape: #a78bfa; /* violet pop — featured / international */
-  --tt-berry: #ff8fab;
+  /* ---- Accents (bright fills — ink text only) ---- */
+  --tt-tomato: #ff6b5e; /* coral — THE primary action */
+  --tt-lemon: #ffd43b; /* sunshine — badges / emphasis */
+  --tt-coral: #ff6b5e; /* alias of tomato */
+  --tt-mint-strong: #5fe3b0;
+  --tt-sky-strong: #4fc3f7;
+  --tt-grape: #b8a1ff;
+  --tt-berry: #ff8fcb;
+  --tt-tangerine: #ff9f45;
+  --tt-lime: #bdef5a;
+  --tt-teal: #3ccfc4;
+  --tt-indigo: #2a2f7a; /* dark — white text only */
+  --tt-indigo-soft: #dce3ff;
+
+  /* ---- Journal ---- */
+  --tt-pen-blue: #23358b; /* handwritten margin notes (AA on paper) */
+  --tt-stamp-red: #d7263d; /* stamps, postmarks */
+  --tt-kraft: #e8d5b5; /* tape, luggage tags */
+  --tt-pencil: #6b6578; /* pencil doodles, captions */
 
   /* ---- Semantic ---- */
-  --tt-success: #0f8a6a;
-  --tt-warning: #d9ff62;
+  --tt-success: #0b6b52;
+  --tt-warning: #ffd43b;
   --tt-danger: #dc2626;
+
+  /* ---- Font roles (re-pointed by .font-theme-*) ---- */
+  --tt-font-script: var(--font-kaushan); /* H1 + H2 only, 40px+ */
+  --tt-font-hand: var(--font-caveat-brush); /* H3-, cards, labels, nav */
+  --tt-font-body: var(--font-nunito); /* 17px body copy */
 
   /* ---- Marker (highlighter underline) ---- */
   --tt-marker: var(--tt-lemon);
@@ -49,15 +65,46 @@
   --tt-bw-md: 3px;
   --tt-bw-lg: 4px;
 
-  /* ---- Halftone / dotted comic textures ---- */
-  --tt-halftone: radial-gradient(circle, rgb(23 23 23 / 0.14) 1px, transparent 1.5px);
-  --tt-dots: radial-gradient(circle, rgb(23 23 23 / 0.12) 1.2px, transparent 1.5px);
+  /* ---- Halftone / dotted journal textures ---- */
+  --tt-halftone: radial-gradient(circle, rgb(22 20 31 / 0.14) 1px, transparent 1.5px);
+  --tt-dots: radial-gradient(circle, rgb(22 20 31 / 0.12) 1.2px, transparent 1.5px);
+}
+
+/* ---- Font themes (admin setting: Site settings → Font theme) ----
+   Declared after :root so the equal-specificity class wins on <html>. */
+.font-theme-journal {
+  --tt-font-script: var(--font-kaushan);
+  --tt-font-hand: var(--font-caveat-brush);
+  --tt-font-body: var(--font-nunito);
+}
+.font-theme-retro {
+  --tt-font-script: var(--font-pacifico);
+  --tt-font-hand: var(--font-caveat);
+  --tt-font-body: var(--font-nunito);
+}
+.font-theme-elegant {
+  --tt-font-script: var(--font-yellowtail);
+  --tt-font-hand: var(--font-fraunces);
+  --tt-font-body: var(--font-inter);
+}
+/* Hindi / Devanagari pair — applied with lang="hi" (.font-lang-hi). */
+.font-lang-hi {
+  --tt-font-hand: var(--font-kalam);
+  --tt-font-body: var(--font-noto-devanagari);
+}
+/* Elegant theme sets the handwritten role in Fraunces italic. */
+.font-theme-elegant
+  :is(h3, h4, h5, h6, .font-hand, .font-display, .label-brutal, .sticker) {
+  font-style: italic;
 }
 
 @theme inline {
-  /* ---------- Fonts ---------- */
-  --font-display: var(--font-bungee), "Arial Black", "Helvetica Neue", sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* ---------- Fonts (role vars switch per fontTheme) ---------- */
+  --font-script: var(--tt-font-script), cursive;
+  --font-hand: var(--tt-font-hand), cursive;
+  --font-body: var(--tt-font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--tt-font-hand), cursive; /* legacy utility → handwritten */
+  --font-sans: var(--tt-font-body), ui-sans-serif, system-ui, sans-serif;
 
   /* ---------- Base palette ---------- */
   --color-ink: var(--tt-ink);
@@ -84,6 +131,18 @@
   --color-sky-strong: var(--tt-sky-strong);
   --color-grape: var(--tt-grape);
   --color-berry: var(--tt-berry);
+  --color-tangerine: var(--tt-tangerine);
+  --color-lime: var(--tt-lime);
+  --color-teal: var(--tt-teal);
+  --color-indigo: var(--tt-indigo);
+  --color-indigo-soft: var(--tt-indigo-soft);
+
+  /* ---------- Journal ---------- */
+  --color-pen-blue: var(--tt-pen-blue);
+  --color-stamp-red: var(--tt-stamp-red);
+  --color-kraft: var(--tt-kraft);
+  --color-pencil: var(--tt-pencil);
+  --color-sunshine: var(--tt-sunrise); /* brief naming alias */
 
   /* ---------- Semantic ---------- */
   --color-success: var(--tt-success);
@@ -111,36 +170,50 @@
   --radius-none: 0px;
   --radius-chip: 8px;
 
-  /* ---------- Type scale (fluid, mobile-first, 320px → 2560px) ---------- */
-  --text-display: clamp(2.5rem, 8vw + 0.5rem, 7.5rem);
-  --text-display--line-height: 0.9;
-  --text-display--letter-spacing: -0.02em;
+  /* ---------- Type scale (fluid, mobile-first, 320px → 2560px) ----------
+     Script (H1/H2) never gets letter-spacing; line-height 1.15–1.25 so
+     ascenders/descenders breathe. Min 40px for the script display role. */
+  --text-display: clamp(3rem, 9vw, 7rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: 0;
 
-  /* Hero headline — spec: clamp(2.5rem, 11vw, 4rem) on phones,
-     scales up on lg+ where the 12-column hero layout takes over. */
-  --text-hero: clamp(2.5rem, 11vw, 4rem);
-  --text-hero--line-height: 0.95;
-  --text-hero--letter-spacing: -0.02em;
-  --text-hero-lg: clamp(3.25rem, 5.5vw, 6.25rem);
-  --text-hero-lg--line-height: 0.95;
-  --text-hero-lg--letter-spacing: -0.02em;
+  /* Hero headline — spec: clamp(2.75rem, 11vw, 6rem). */
+  --text-hero: clamp(2.75rem, 11vw, 6rem);
+  --text-hero--line-height: 1.16;
+  --text-hero--letter-spacing: 0;
+  --text-hero-lg: clamp(3.25rem, 6vw, 7rem);
+  --text-hero-lg--line-height: 1.12;
+  --text-hero-lg--letter-spacing: 0;
 
-  --text-h1: clamp(2rem, 5vw + 0.75rem, 5.5rem);
-  --text-h1--line-height: 0.95;
-  --text-h1--letter-spacing: -0.015em;
+  --text-h1: clamp(2.75rem, 11vw, 6rem);
+  --text-h1--line-height: 1.16;
+  --text-h1--letter-spacing: 0;
 
-  --text-h2: clamp(1.85rem, 3.5vw + 0.55rem, 4.25rem);
-  --text-h2--line-height: 0.98;
-  --text-h2--letter-spacing: -0.01em;
+  /* H2 min is 2.5rem (40px) so the script role never drops below 40px. */
+  --text-h2: clamp(2.5rem, 7vw, 4rem);
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: 0;
 
-  --text-h3: clamp(1.3rem, 2vw + 0.8rem, 2.75rem);
-  --text-h3--line-height: 1.1;
+  --text-h3: clamp(1.5rem, 4.5vw, 2.25rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: 0;
 
-  --text-h4: clamp(1.05rem, 1.4vw + 0.5rem, 1.6rem);
-  --text-h4--line-height: 1.2;
+  --text-h4: clamp(1.15rem, 2vw + 0.75rem, 1.6rem);
+  --text-h4--line-height: 1.3;
+  --text-h4--letter-spacing: 0;
 
-  --text-lead: clamp(1.02rem, 1.5vw, 1.3rem);
-  --text-lead--line-height: 1.55;
+  /* Handwritten margin notes / annotations */
+  --text-note: clamp(1.125rem, 3vw, 1.5rem);
+  --text-note--line-height: 1.45;
+
+  --text-lead: clamp(1.0625rem, 1.4vw, 1.3rem);
+  --text-lead--line-height: 1.6;
+
+  /* 14px text floor (WCAG comfort) — xs no longer goes below it. */
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.45;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.55;
 }
 
 @theme {
@@ -230,22 +303,34 @@
   body {
     background-color: var(--tt-cream);
     color: var(--tt-ink);
-    font-family: var(--font-sans);
-    font-size: 1rem; /* 16px */
-    line-height: 1.6;
+    font-family: var(--tt-font-body), ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.0625rem; /* 17px journal body */
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
 
+  /* Script display: H1 + H2 only, sentence case, letter-spacing 0,
+     line-height 1.15–1.25 (never ALL CAPS, no stroke/shadow). */
   h1,
-  h2,
+  h2 {
+    font-family: var(--tt-font-script), cursive;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.16;
+    text-wrap: balance;
+  }
+
+  /* Handwritten: H3 and smaller headings, card titles. */
   h3,
   h4,
   h5,
   h6 {
-    font-family: var(--font-display);
-    font-weight: 400;
+    font-family: var(--tt-font-hand), cursive;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.28;
     text-wrap: balance;
   }
 
@@ -258,16 +343,18 @@
     color: var(--tt-ink);
   }
 
-  /* Brutalist focus rings — thick, visible, keyboard only */
+  /* Focus: 3px ink ring + 2px sunshine ring outside it (WCAG 2.4.7/1.4.11) */
   :focus-visible {
-    outline: var(--tt-bw-lg) solid var(--tt-ink);
-    outline-offset: 3px;
+    outline: 3px solid var(--tt-ink);
+    outline-offset: 0;
+    box-shadow: 0 0 0 5px var(--tt-lemon);
     border-radius: 0;
   }
 
   [data-theme-dark] :focus-visible,
   .bg-ink :focus-visible {
     outline-color: var(--tt-lemon);
+    box-shadow: 0 0 0 5px var(--tt-ink);
   }
 
   input,
@@ -290,15 +377,15 @@
 }
 
 @layer components {
-  /* Chunky uppercase label used across the site (eyebrow / chips) */
+  /* Chunky handwritten label used across the site (eyebrow / chips) */
   .label-brutal {
     display: inline-block;
-    font-family: var(--font-sans);
-    font-weight: 700;
+    font-family: var(--tt-font-hand), cursive;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.75rem;
-    line-height: 1;
+    letter-spacing: 0.06em;
+    font-size: 0.875rem; /* 14px floor */
+    line-height: 1.3;
   }
 
   /* Press-down interaction for interactive brutalist surfaces */
@@ -321,8 +408,8 @@
   /* Visible grid structure helper */
   .grid-lines {
     background-image:
-      linear-gradient(to right, rgb(23 23 23 / 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(23 23 23 / 0.06) 1px, transparent 1px);
+      linear-gradient(to right, rgb(22 20 31 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(22 20 31 / 0.06) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
@@ -369,7 +456,8 @@
   /* Simple rich-text rendering for admin-managed body copy */
   .brutal-prose {
     font-size: 1.0625rem;
-    line-height: 1.6;
+    line-height: 1.65;
+    max-width: 65ch;
     color: var(--tt-ink);
   }
   .brutal-prose p + p {
@@ -448,11 +536,12 @@
     border: var(--tt-bw-md) solid var(--tt-ink);
     background: var(--tt-lemon);
     padding: 0.45rem 0.85rem;
-    font-family: var(--font-display);
-    font-size: 0.7rem;
-    line-height: 1.1;
+    font-family: var(--tt-font-hand), cursive;
+    font-weight: 500;
+    font-size: 0.875rem; /* 14px floor */
+    line-height: 1.2;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     color: var(--tt-ink);
     box-shadow: var(--shadow-hard-xs);
     transform: rotate(-3deg);
@@ -485,7 +574,7 @@
     background-image: repeating-linear-gradient(
       -12deg,
       transparent 0 6px,
-      rgb(23 23 23 / 0.18) 6px 8px,
+      rgb(22 20 31 / 0.18) 6px 8px,
       transparent 8px 14px
     );
   }
@@ -535,6 +624,43 @@
       16% 100%, 12% calc(100% - 10px), 8% 100%, 4% calc(100% - 7px),
       0% 100%
     );
+  }
+
+  /* ---- Journal texture layers (CSS-only, tiny, opt-in) ---- */
+
+  /* Paper grain — SVG feTurbulence, ~400 bytes, very subtle */
+  .paper-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
+  }
+
+  /* Ruled notebook lines — selected panels only */
+  .ruled-lines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 31px,
+      rgb(35 53 139 / 0.13) 31px 32px
+    );
+    background-position: 0 0.75rem;
+  }
+
+  /* Washi/masking tape strip — decorative */
+  .tape-strip {
+    background: rgb(232 213 181 / 0.8);
+    border: 1px solid rgb(22 20 31 / 0.14);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.5) inset;
+  }
+
+  /* Coffee-ring stain accent — rare, decorative only */
+  .coffee-ring {
+    border: 3px solid rgb(139 90 43 / 0.16);
+    border-radius: 50%;
+  }
+
+  /* Reading measure — journal body copy width */
+  .measure {
+    max-width: 65ch;
   }
 }
 
@@ -610,7 +736,7 @@
   }
   .comic-panel-tomato {
     background: var(--tt-tomato);
-    color: var(--tt-cream);
+    color: var(--tt-ink); /* ink on bright fill (AA) */
   }
   .comic-panel-mint {
     background: var(--tt-mint-strong);
@@ -674,12 +800,12 @@
     }
   }
 
-  /* Word mask wrapper used by <AnimatedHeading> — descender-safe clip */
+  /* Word mask wrapper used by <AnimatedHeading> — script-descender-safe clip */
   .heading-mask {
     display: inline-block;
     overflow: hidden;
-    padding-bottom: 0.14em;
-    margin-bottom: -0.14em;
+    padding-bottom: 0.3em;
+    margin-bottom: -0.3em;
     vertical-align: bottom;
   }
 

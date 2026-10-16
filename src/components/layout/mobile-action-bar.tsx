@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import Link from "next/link";
@@ -77,7 +77,7 @@ export function MobileActionBar({ phone, className }: MobileActionBarProps) {
             className="flex min-h-14 flex-col items-center justify-center gap-1 border-r-[3px] border-ink bg-paper px-2 py-2 text-center transition-colors active:bg-butter"
           >
             <Phone aria-hidden="true" className="size-5" />
-            <span className="label-brutal text-[0.6rem]">Call</span>
+            <span className="label-brutal text-xs">Call</span>
           </a>
         ) : null}
 
@@ -86,7 +86,7 @@ export function MobileActionBar({ phone, className }: MobileActionBarProps) {
           className="flex min-h-14 flex-col items-center justify-center gap-1 bg-lemon px-2 py-2 text-center transition-colors active:bg-butter"
         >
           <PenLine aria-hidden="true" className="size-5" />
-          <span className="label-brutal text-[0.6rem]">Enquire</span>
+          <span className="label-brutal text-xs">Enquire</span>
         </Link>
       </div>
     </motion.div>

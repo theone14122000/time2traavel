@@ -357,7 +357,7 @@ export default async function AboutUsPage() {
           </span>
           <h2
             id="about-cta-heading"
-            className="max-w-[18ch] font-display text-h2 uppercase text-cream"
+            className="max-w-[18ch] text-h2 text-cream"
           >
             Let&apos;s plan your next <span className="marker">trip</span>
           </h2>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import { motion, useReducedMotion, type PanInfo } from "framer-motion";
@@ -157,7 +157,7 @@ export function Carousel({ items, label, tone = "paper", loop = false, className
           ))}
         </div>
 
-        <p aria-live="polite" className="label-brutal tabular-nums whitespace-nowrap text-[0.68rem]">
+        <p aria-live="polite" className="label-brutal tabular-nums whitespace-nowrap text-xs">
           {index + 1} / {count}
         </p>
       </div>

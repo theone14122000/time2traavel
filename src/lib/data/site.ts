@@ -4,10 +4,13 @@ import { prisma } from "@/lib/prisma";
 import { CONTENT_KEYS, SITE_IDENTITY } from "@/lib/constants";
 import { safeQuery } from "@/lib/data/safe";
 import { toSocialLinks, type SocialLink } from "@/lib/utils";
+import { parseFontTheme, type FontTheme } from "@/lib/font-theme";
 
 export type SiteSettingsShape = {
   siteName: string;
   tagline: string | null;
+  /** Type pairing selected in admin (Site settings → Font theme). */
+  fontTheme: FontTheme;
   phone: string | null;
   whatsapp: string | null;
   supportPhone: string | null;
@@ -55,6 +58,7 @@ export async function getSiteSettings(): Promise<SiteSettingsShape> {
   return {
     siteName: row?.siteName?.trim() || SITE_IDENTITY.name,
     tagline: row?.tagline?.trim() || null,
+    fontTheme: parseFontTheme(row?.fontTheme),
     phone: envOr(process.env.CONTACT_PHONE, row?.phone),
     whatsapp: envOr(process.env.CONTACT_WHATSAPP, row?.whatsapp),
     supportPhone: envOr(process.env.CONTACT_SUPPORT_PHONE, row?.supportPhone),

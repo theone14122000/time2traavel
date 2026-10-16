@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 
@@ -52,7 +52,7 @@ export function ColorTokens() {
             }`}
           >
             <span className="label-brutal">{token.name}</span>
-            <code className="text-[0.68rem] font-bold">{token.className}</code>
+            <code className="text-xs font-bold">{token.className}</code>
           </div>
         ))}
       </div>

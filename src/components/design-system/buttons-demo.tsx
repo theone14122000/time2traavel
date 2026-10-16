@@ -59,7 +59,7 @@ export function ButtonsDemo() {
               <tr key={variant}>
                 <th className="border-[3px] border-ink bg-paper px-3 py-3 align-middle">
                   <span className="block text-xs font-bold uppercase">{variant}</span>
-                  <span className="block text-[0.68rem] font-medium text-ink-soft">
+                  <span className="block text-xs font-medium text-ink-soft">
                     {VARIANT_CAPTION[variant]}
                   </span>
                 </th>

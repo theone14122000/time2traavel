@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/skeleton";
 import { GallerySection, Panel } from "@/components/design-system/gallery";
 import { ColorTokens } from "@/components/design-system/color-tokens";
+import { TypeThemes } from "@/components/design-system/type-themes";
 import {
   ShadowsAndBorders,
   TypeScale,
@@ -156,8 +157,14 @@ export default async function DesignSystemPage() {
         eyebrow="Foundations"
         title="Type scale"
         tone="cream"
-        description="Fluid clamp() sizes from display down to body, with the marker, label and outline utilities."
+        description="Fluid clamp() sizes from display down to body, all three font themes live, and every section background with its real contrast ratio."
       >
+        <Panel
+          label="Font themes A / B / C (fontTheme setting)"
+          note="script · handwritten · body"
+        >
+          <TypeThemes />
+        </Panel>
         <Panel label="Fluid type scale" note="clamp() labels">
           <TypeScale />
         </Panel>

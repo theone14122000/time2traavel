@@ -109,13 +109,7 @@ export function SectionHeading({
           {eyebrow}
         </span>
       ) : null}
-      <h2
-        id={id}
-        className={cn(
-          "max-w-[22ch] font-display text-h2 uppercase",
-          tone === "ink" ? "heading-hard-cream" : "heading-hard",
-        )}
-      >
+      <h2 id={id} className="max-w-[22ch] text-h2">
         {typeof title === "string" ? (
           <AnimatedHeading
             as="span"
