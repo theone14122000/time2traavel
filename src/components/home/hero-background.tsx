@@ -3,7 +3,6 @@
 import * as React from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
-import { useImageRotation } from "@/hooks/use-image-rotation";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -11,140 +10,129 @@ type HeroSlide = { src: string; alt: string };
 
 type HeroBackgroundProps = {
   slides: readonly HeroSlide[];
+  /** Index of the slide to display (controlled by the hero clock). */
+  index: number;
+  /** 0-1 fill of the current slide's progress segment. */
+  progress: number;
+  /** True while the rotation is paused. */
+  paused: boolean;
+  /** True when the user paused it explicitly. */
+  pausedByUser: boolean;
+  onTogglePause: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+  onGoTo: (index: number) => void;
 };
 
 const CROSSFADE_MS = 1200;
-const INTERVAL = 6000;
 
-export function HeroBackground({ slides }: HeroBackgroundProps) {
+/**
+ * Full-bleed hero background — auto-rotating photographs with a smooth
+ * 1.2s crossfade, Ken Burns 1→1.06 on desktop only, and an ink scrim
+ * (68% → 30% + bottom fade) so the heading text stays AA.
+ *
+ * Smoothness notes:
+ *  - every slide is stacked in the DOM and fades with a plain CSS opacity
+ *    transition, so the outgoing frame is still on screen while the
+ *    incoming one fades in — no black gap, no layout shift;
+ *  - frames are served through next/image (optimised, `sizes="100vw"`), so
+ *    five full-bleed photographs cost a fraction of their raw weight;
+ *  - the first frame is `priority` (preloaded, fetchPriority=high) and the
+ *    rest load lazily at low priority, keeping LCP on the headline.
+ *
+ * Stacking: the photo layer lives in its own `z-0` stacking context so the
+ * hero copy (z-10) always sits on top of it, while the playback controls
+ * (z-50) stay clickable above everything.
+ */
+export function HeroBackground({
+  slides,
+  index,
+  progress,
+  paused,
+  pausedByUser,
+  onTogglePause,
+  onNext,
+  onPrev,
+  onGoTo,
+}: HeroBackgroundProps) {
   const reduceMotion = useReducedMotion();
-  const [pausedByUser, setPausedByUser] = React.useState(false);
-  const [hovered, setHovered] = React.useState(false);
-  const [focused, setFocused] = React.useState(false);
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const [inView, setInView] = React.useState(true);
-  const [progress, setProgress] = React.useState(0);
-  const [touchStart, setTouchStart] = React.useState<number | null>(null);
+  const total = slides.length;
+  const touchStart = React.useRef<number | null>(null);
 
-  React.useEffect(() => {
-    const el = containerRef.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-    const obs = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.2 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+  const duration = reduceMotion ? 0 : CROSSFADE_MS;
 
-  const paused = pausedByUser || hovered || focused || !inView;
+  if (total === 0) return null;
 
-  const { index, goTo, next, prev, autoAdvance, total } = useImageRotation({
-    images: slides,
-    interval: INTERVAL,
-    paused: reduceMotion ? true : paused,
-  });
-
-  // progress fill
-  React.useEffect(() => {
-    if (reduceMotion || !autoAdvance || paused) {
-      setProgress(0);
-      return;
-    }
-    const start = performance.now();
-    let raf = 0;
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / INTERVAL);
-      setProgress(p);
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [index, reduceMotion, autoAdvance, paused]);
-
-  React.useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") next();
-      else if (e.key === "ArrowLeft") prev();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [next, prev]);
-
-  if (slides.length === 0) return null;
-
-  const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientX;
+  };
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStart == null) return;
-    const dx = e.changedTouches[0].clientX - touchStart;
-    if (dx < -50) next();
-    else if (dx > 50) prev();
-    setTouchStart(null);
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (start == null) return;
+    const dx = e.changedTouches[0].clientX - start;
+    if (dx < -50) onNext();
+    else if (dx > 50) onPrev();
   };
 
   return (
-    <div
-      ref={containerRef}
-      aria-hidden="true"
-      className="absolute inset-0 z-0 overflow-hidden bg-ink"
-      onPointerEnter={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      tabIndex={-1}
-    >
-      {slides.map((slide, i) => {
-        const isActive = i === index;
-        return (
-          <div
-            key={slide.src}
-            className={cn("absolute inset-0", isActive ? "z-10" : "z-0")}
-            style={{
-              opacity: isActive ? 1 : 0,
-              clipPath:
-                isActive && !reduceMotion
-                  ? "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
-                  : undefined,
-              transition: reduceMotion
-                ? "none"
-                : `opacity ${CROSSFADE_MS}ms ease-in-out`,
-            }}
-          >
-            <Image
-              src={slide.src}
-              alt=""
-              fill
-              sizes="100vw"
-              priority={i === 0}
-              {...(i === 0 ? { fetchPriority: "high" as const } : {})}
-              loading={i === 0 ? undefined : "lazy"}
-              decoding="async"
-              draggable={false}
-              className={cn(
-                "object-cover",
-                isActive && autoAdvance && !reduceMotion && "animate-kenburns",
-              )}
-            />
-          </div>
-        );
-      })}
-
-      {/* diagonal clip-path wipe layer on desktop (CSS-driven via animate-kenburns? use separate) */}
+    <>
+      {/* Photo layer — own stacking context, always beneath the hero copy. */}
       <div
-        className="pointer-events-none absolute inset-0 z-20"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(22,20,31,0.68) 0%, rgba(22,20,31,0.42) 45%, rgba(22,20,31,0.30) 70%, rgba(255,250,240,0.08) 100%)",
-        }}
-      />
+        aria-hidden="true"
+        className="absolute inset-0 z-0 overflow-hidden bg-ink"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {slides.map((slide, i) => {
+          const isActive = i === index;
+          return (
+            <div
+              key={slide.src}
+              className={cn("absolute inset-0", isActive ? "z-10" : "z-0")}
+              style={{
+                opacity: isActive ? 1 : 0,
+                transition: `opacity ${duration}ms ease-in-out`,
+                willChange: isActive ? "opacity, transform" : undefined,
+              }}
+            >
+              <Image
+                src={slide.src}
+                alt=""
+                fill
+                sizes="100vw"
+                priority={i === 0}
+                {...(i === 0 ? { fetchPriority: "high" as const } : {})}
+                loading={i === 0 ? undefined : "lazy"}
+                decoding="async"
+                draggable={false}
+                className={cn(
+                  "object-cover",
+                  isActive && !paused && !reduceMotion && "animate-kenburns",
+                )}
+              />
+            </div>
+          );
+        })}
 
-      {/* Controls */}
+        {/* Scrim: ink 68% top → 30% mid, bottom fade to cream */}
+        <div
+          className="pointer-events-none absolute inset-0 z-20"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(22,20,31,0.68) 0%, rgba(22,20,31,0.42) 45%, rgba(22,20,31,0.30) 70%, rgba(255,250,240,0.08) 100%)",
+          }}
+        />
+      </div>
+
+      {/* Pause/play + segment indicators — above the hero copy, still clickable. */}
       <div className="absolute bottom-4 right-4 z-50 flex items-center gap-2 sm:bottom-6 sm:right-6">
         <span className="label-brutal border-[2px] border-cream bg-ink/70 px-2 py-1 text-cream">
           {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </span>
         <button
           type="button"
-          onClick={() => setPausedByUser((p) => !p)}
+          onClick={onTogglePause}
           aria-label={pausedByUser ? "Play background slideshow" : "Pause background slideshow"}
           className="flex size-9 items-center justify-center border-[2px] border-cream bg-ink/70 text-cream hover:bg-cream hover:text-ink"
         >
@@ -152,7 +140,7 @@ export function HeroBackground({ slides }: HeroBackgroundProps) {
         </button>
         <button
           type="button"
-          onClick={prev}
+          onClick={onPrev}
           aria-label="Previous slide"
           className="flex size-9 items-center justify-center border-[2px] border-cream bg-ink/70 text-cream hover:bg-cream hover:text-ink"
         >
@@ -160,7 +148,7 @@ export function HeroBackground({ slides }: HeroBackgroundProps) {
         </button>
         <button
           type="button"
-          onClick={next}
+          onClick={onNext}
           aria-label="Next slide"
           className="flex size-9 items-center justify-center border-[2px] border-cream bg-ink/70 text-cream hover:bg-cream hover:text-ink"
         >
@@ -174,12 +162,12 @@ export function HeroBackground({ slides }: HeroBackgroundProps) {
           <button
             key={slide.src}
             type="button"
-            onClick={() => goTo(i)}
+            onClick={() => onGoTo(i)}
             aria-label={`Go to slide ${i + 1}`}
             className="h-1.5 w-10 overflow-hidden border border-cream/50 bg-cream/20"
           >
             <span
-              className="block h-full bg-lemon transition-[width]"
+              className="block h-full bg-lemon"
               style={{
                 width:
                   i < index
@@ -187,11 +175,12 @@ export function HeroBackground({ slides }: HeroBackgroundProps) {
                     : i === index
                       ? `${Math.round(progress * 100)}%`
                       : "0%",
+                transition: i === index ? "none" : "width 200ms linear",
               }}
             />
           </button>
         ))}
       </div>
-    </div>
+    </>
   );
 }

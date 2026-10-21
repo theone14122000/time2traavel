@@ -3,10 +3,13 @@
 import * as React from "react";
 import Link from "next/link";
 import {
+  ArrowLeft,
   ArrowRight,
   Compass,
   MapPin,
+  Pause,
   Plane,
+  Play,
   Plus,
   Sparkles,
 } from "lucide-react";
@@ -21,6 +24,8 @@ import { useTripPlanner } from "@/components/forms/trip-planner-context";
 import { EASE, stagger, fadeUp } from "@/lib/motion";
 import { parseHeadingAccent } from "@/lib/heading-accents";
 import { HeroBackground } from "@/components/home/hero-background";
+import { HeroFrameSlideshow } from "@/components/home/hero-frame-slideshow";
+import { useHeroSlideshow } from "@/hooks/use-hero-slideshow";
 
 export type HeroTile = { src: string | null; alt: string };
 
@@ -37,7 +42,7 @@ type HeroProps = {
   founderName?: string | null;
 };
 
-/** Accurate category chips â€” drawn from the site's real taxonomy. */
+/** Accurate category chips — drawn from the site's real taxonomy. */
 const CATEGORY_CHIPS = [
   { label: "Himachal", href: "/destinations" },
   { label: "Ladakh", href: "/destinations" },
@@ -47,7 +52,7 @@ const CATEGORY_CHIPS = [
 ] as const;
 
 /* ------------------------------------------------------------------ *
- * Illustrated mountain fallback â€” SVG silhouettes (no fake photos).   *
+ * Illustrated mountain fallback — SVG silhouettes (no fake photos).   *
  * ------------------------------------------------------------------ */
 function MountainIllustration() {
   return (
@@ -92,7 +97,7 @@ function MountainIllustration() {
 }
 
 /* ------------------------------------------------------------------ *
- * Flight-route decoration â€” dotted arc + paper plane.                 *
+ * Flight-route decoration — dotted arc + paper plane.                 *
  * ------------------------------------------------------------------ */
 function RouteDecoration({ className }: { className?: string }) {
   return (
@@ -123,7 +128,7 @@ function RouteDecoration({ className }: { className?: string }) {
 }
 
 /* ------------------------------------------------------------------ *
- * Star accent â€” small comic sparkle.                                  *
+ * Star accent — small comic sparkle.                                  *
  * ------------------------------------------------------------------ */
 function StarAccent({ className }: { className?: string }) {
   return (
@@ -187,11 +192,54 @@ function HeroHeading({ title, onDark = false }: { title: string; onDark?: boolea
 /* ------------------------------------------------------------------ *
  * Right-side layered composition.                                     *
  * ------------------------------------------------------------------ */
-function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
+type HeroCompositionProps = {
+  tiles: HeroTile[];
+  slides: readonly { src: string; alt: string }[];
+  largeIndex: number;
+  smallIndex: number;
+  progress: number;
+  paused: boolean;
+  pausedByUser: boolean;
+  total: number;
+  onTogglePause: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+  onGoTo: (index: number) => void;
+};
+
+function HeroComposition({
+  tiles,
+  slides,
+  largeIndex,
+  smallIndex,
+  progress,
+  paused,
+  pausedByUser,
+  total,
+  onTogglePause,
+  onNext,
+  onPrev,
+  onGoTo,
+}: HeroCompositionProps) {
   const reduceMotion = useReducedMotion();
   const primary = tiles[0] ?? null;
   const secondary = tiles[1] ?? null;
   const anim = !reduceMotion;
+  const hasSlides = slides.length > 0;
+  const touchStart = React.useRef<number | null>(null);
+
+  // Swipe on the large frame
+  const handleFrameTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientX;
+  };
+  const handleFrameTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (start == null) return;
+    const dx = e.changedTouches[0].clientX - start;
+    if (dx < -48) onNext();
+    else if (dx > 48) onPrev();
+  };
 
   const pop = (delay: number) =>
     anim
@@ -214,6 +262,8 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
       <motion.figure
         className="relative z-10 aspect-[5/4] overflow-hidden border-[3px] border-ink bg-paper shadow-brutal-sm sm:aspect-[4/3] sm:border-[4px] sm:shadow-brutal-md"
         style={{ rotate: "-1.5deg" }}
+        onTouchStart={handleFrameTouchStart}
+        onTouchEnd={handleFrameTouchEnd}
         {...(anim
           ? {
               initial: { opacity: 0, clipPath: "inset(8% 8% 8% 8%)" },
@@ -222,7 +272,18 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
             }
           : {})}
       >
-        {primary?.src ? (
+        {hasSlides ? (
+          <HeroFrameSlideshow
+            slides={slides}
+            index={largeIndex}
+            label="Hero destination photographs"
+            announceLabel="Hero photograph"
+            sizes="(min-width: 1024px) 45vw, 90vw"
+            priorityFirst
+            className="h-full w-full"
+            layerClassName="object-cover"
+          />
+        ) : primary?.src ? (
           <BrutalImage
             src={primary.src}
             alt={primary.alt}
@@ -244,16 +305,91 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
           aria-hidden="true"
           className="absolute -right-3 -top-3 h-5 w-12 rotate-[16deg] border-2 border-ink bg-lemon/80 sm:h-6 sm:w-16"
         />
+
+        {/* Playback controls — bottom-left so they never collide with the
+            speech bubble (top-right) or the sticker (bottom-right). */}
+        {hasSlides ? (
+          <div className="absolute inset-x-0 bottom-0 z-30 flex items-center gap-2 p-2 sm:p-3">
+            <button
+              type="button"
+              onClick={onTogglePause}
+              aria-label={pausedByUser ? "Play hero slideshow" : "Pause hero slideshow"}
+              className="flex size-9 items-center justify-center border-[2px] border-ink bg-paper/90 text-ink transition-colors hover:bg-lemon"
+            >
+              {pausedByUser ? <Play className="size-4" /> : <Pause className="size-4" />}
+            </button>
+
+            <div className="hidden items-center gap-1.5 opacity-0 transition-opacity duration-200 focus-within:opacity-100 group-hover:opacity-100 sm:flex">
+              <button
+                type="button"
+                onClick={onPrev}
+                aria-label="Previous hero photo"
+                className="flex size-9 items-center justify-center border-[2px] border-ink bg-paper/90 text-ink transition-colors hover:bg-lemon"
+              >
+                <ArrowLeft className="size-4" />
+              </button>
+              <button
+                type="button"
+                onClick={onNext}
+                aria-label="Next hero photo"
+                className="flex size-9 items-center justify-center border-[2px] border-ink bg-paper/90 text-ink transition-colors hover:bg-lemon"
+              >
+                <ArrowRight className="size-4" />
+              </button>
+            </div>
+
+            {/* Segmented progress */}
+            <div className="flex flex-1 items-center gap-1">
+              {slides.map((slide, i) => (
+                <button
+                  key={slide.src}
+                  type="button"
+                  onClick={() => onGoTo(i)}
+                  aria-label={`Go to hero photo ${i + 1}`}
+                  className="h-1.5 flex-1 overflow-hidden border border-ink/50 bg-paper/60"
+                >
+                  <span
+                    className="block h-full bg-ink"
+                    style={{
+                      width:
+                        i < largeIndex
+                          ? "100%"
+                          : i === largeIndex
+                            ? `${Math.round(progress * 100)}%`
+                            : "0%",
+                      transition: i === largeIndex ? "none" : "width 200ms linear",
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
+
+            <span className="label-brutal shrink-0 border-[2px] border-ink bg-paper/90 px-2 py-1 text-ink">
+              {String(largeIndex + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            </span>
+          </div>
+        ) : null}
       </motion.figure>
 
-      {/* overlapping mini card â€” secondary image or location chip card */}
+      {/* overlapping mini card — secondary image or location chip card */}
       <motion.div
         className="absolute -bottom-5 -left-1 z-20 w-[44%] max-w-[180px] sm:-bottom-6 sm:-left-6 sm:max-w-[210px]"
         {...pop(0.55)}
         style={{ rotate: "2.5deg" }}
       >
         <div className="border-[3px] border-ink bg-paper p-1.5 shadow-brutal-sm sm:p-2">
-          {secondary?.src ? (
+          {hasSlides ? (
+            <div className="aspect-[4/3] overflow-hidden border-2 border-ink">
+              <HeroFrameSlideshow
+                slides={slides}
+                index={smallIndex}
+                label="Hero destination photographs (small frame)"
+                sizes="210px"
+                className="h-full w-full"
+                layerClassName="object-cover"
+              />
+            </div>
+          ) : secondary?.src ? (
             <div className="aspect-[4/3] overflow-hidden border-2 border-ink">
               <BrutalImage
                 src={secondary.src}
@@ -299,7 +435,7 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         </span>
       </motion.div>
 
-      {/* speech bubble â€” tablet+ only */}
+      {/* speech bubble — tablet+ only */}
       <motion.div
         className="absolute -top-8 right-4 z-20 hidden sm:block"
         {...pop(0.7)}
@@ -312,7 +448,7 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
         </span>
       </motion.div>
 
-      {/* route + stars â€” tablet+ only */}
+      {/* route + stars — tablet+ only */}
       <motion.div
         className="absolute -top-6 left-6 z-20 hidden sm:block"
         {...pop(0.7)}
@@ -330,8 +466,8 @@ function HeroComposition({ tiles }: { tiles: HeroTile[] }) {
 }
 
 /* ------------------------------------------------------------------ *
- * Hero â€” "the world is your next comic book" magazine cover.          *
- * Mobile-first: copy â†’ illustration â†’ meta (chips/counts).            *
+ * Hero — "the world is your next comic book" magazine cover.          *
+ * Mobile-first: copy → illustration → meta (chips/counts).            *
  * Desktop (lg+): two-column magazine layout with meta under the CTAs. *
  * ------------------------------------------------------------------ */
 export function Hero({
@@ -349,14 +485,53 @@ export function Hero({
   const animate = !reduceMotion;
   const hasBackground = backgroundSlides.length > 0;
 
+  const hero = useHeroSlideshow({
+    slides: backgroundSlides,
+    interval: 5000,
+    lag: 1500,
+  });
+  const {
+    setContainer,
+    backgroundIndex,
+    largeIndex,
+    smallIndex,
+    progress,
+    paused,
+    pausedByUser,
+    total: heroTotal,
+    next: heroNext,
+    prev: heroPrev,
+    goTo: heroGoTo,
+    togglePause: heroTogglePause,
+    setHovered: heroSetHovered,
+    setFocused: heroSetFocused,
+  } = hero;
+
   const container = stagger(0.1);
   const showCounts = Boolean(
     counts && (counts.destinations > 0 || counts.packages > 0),
   );
 
+  // Left/right arrows drive the hero rotation when the frames have focus.
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      heroNext();
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      heroPrev();
+    }
+  };
+
   return (
     <section
+      ref={setContainer}
       aria-labelledby="hero-heading"
+      onPointerEnter={() => heroSetHovered(true)}
+      onPointerLeave={() => heroSetHovered(false)}
+      onFocusCapture={() => heroSetFocused(true)}
+      onBlurCapture={() => heroSetFocused(false)}
+      onKeyDown={onKeyDown}
       className={
         hasBackground
           ? "relative w-full overflow-hidden border-b-[3px] border-ink bg-ink text-cream clip-x"
@@ -364,7 +539,17 @@ export function Hero({
       }
     >
       {hasBackground ? (
-        <HeroBackground slides={backgroundSlides} />
+        <HeroBackground
+          slides={backgroundSlides}
+          index={backgroundIndex}
+          progress={progress}
+          paused={paused}
+          pausedByUser={pausedByUser}
+          onTogglePause={heroTogglePause}
+          onNext={heroNext}
+          onPrev={heroPrev}
+          onGoTo={heroGoTo}
+        />
       ) : (
         <>
           <span aria-hidden="true" className="grid-lines absolute inset-0" />
@@ -396,7 +581,7 @@ export function Hero({
             <motion.div variants={fadeUp} className="mt-0 lg:mt-5">
               <span className="label-brutal inline-flex w-fit max-w-full flex-wrap items-center gap-x-2 gap-y-1 border-[3px] border-ink bg-lemon px-2 py-1.5 text-xs leading-snug shadow-hard-xs sm:px-3 sm:py-2 sm:text-xs">
                 <Sparkles aria-hidden="true" className="size-3.5 shrink-0" />
-                <span className="min-w-0">Issue No. 01 â€” the world awaits</span>
+                <span className="min-w-0">Issue No. 01 — the world awaits</span>
               </span>
             </motion.div>
 
@@ -445,7 +630,20 @@ export function Hero({
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <HeroComposition tiles={visibleTiles} />
+            <HeroComposition
+              tiles={visibleTiles}
+              slides={backgroundSlides}
+              largeIndex={largeIndex}
+              smallIndex={smallIndex}
+              progress={progress}
+              paused={paused}
+              pausedByUser={pausedByUser}
+              total={heroTotal}
+              onTogglePause={heroTogglePause}
+              onNext={heroNext}
+              onPrev={heroPrev}
+              onGoTo={heroGoTo}
+            />
             {instruction ? (
               <p className="label-brutal mt-8 text-center text-ink-soft lg:mt-8">
                 <Plane aria-hidden="true" className="mr-1.5 inline size-3.5 -translate-y-0.5" />
