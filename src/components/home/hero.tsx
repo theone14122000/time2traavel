@@ -15,9 +15,12 @@ import { Container } from "@/components/shared/container";
 import { CountUp } from "@/components/shared/motion";
 import { Button } from "@/components/ui/button";
 import { BrutalImage } from "@/components/ui/brutal-image";
+import { GradientWord } from "@/components/ui/gradient-word";
 import { Wordmark } from "@/components/brand/wordmark";
 import { useTripPlanner } from "@/components/forms/trip-planner-context";
 import { EASE, stagger, fadeUp } from "@/lib/motion";
+import { parseHeadingAccent } from "@/lib/heading-accents";
+import { HeroBackground } from "@/components/home/hero-background";
 
 export type HeroTile = { src: string | null; alt: string };
 
@@ -27,8 +30,10 @@ type HeroProps = {
   instruction: string;
   /** Real database counts only (never invented). */
   counts?: { destinations: number; packages: number };
-  /** Destination images from the database â€” empty list renders the illustrated fallback. */
+  /** Destination images from the database — empty list renders the illustrated fallback. */
   tiles?: HeroTile[];
+  /** Full-bleed background slides from the image library (domestic landscapes). */
+  backgroundSlides?: readonly { src: string; alt: string }[];
   founderName?: string | null;
 };
 
@@ -129,26 +134,12 @@ function StarAccent({ className }: { className?: string }) {
 }
 
 /* ------------------------------------------------------------------ *
- * Hero heading â€” comic cover lettering.                               *
- * 5+ words â†’ 3 lines with the final word in a coral block.            *
+ * Hero heading — word-mask entrance + one GradientWord accent.        *
  * ------------------------------------------------------------------ */
-function HeroHeading({ title }: { title: string }) {
+function HeroHeading({ title, onDark = false }: { title: string; onDark?: boolean }) {
   const reduceMotion = useReducedMotion();
-  const words = title.trim().split(/\s+/).filter(Boolean);
+  const { words, accentIndex } = parseHeadingAccent(title);
   if (words.length === 0) return null;
-
-  const lastWord = words[words.length - 1];
-  const rest = words.slice(0, -1);
-
-  let lines: string[][];
-  if (rest.length >= 4) {
-    const a = Math.ceil(rest.length / 2);
-    lines = [rest.slice(0, a), rest.slice(a), [lastWord]];
-  } else if (rest.length >= 2) {
-    lines = [rest.slice(0, 1), rest.slice(1), [lastWord]];
-  } else {
-    lines = [[...rest, lastWord].filter(Boolean)];
-  }
 
   const rise = (delay: number) =>
     reduceMotion
@@ -159,34 +150,36 @@ function HeroHeading({ title }: { title: string }) {
           transition: { duration: 0.55, ease: EASE, delay },
         };
 
-  const line = (content: React.ReactNode, delay: number, key: string) => (
-    <span key={key} className="block overflow-hidden pb-[0.22em] -mb-[0.22em]">
-      <motion.span className="block" {...rise(delay)}>
-        {content}
-      </motion.span>
-    </span>
-  );
-
   return (
     <h1
       id="hero-heading"
-      aria-label={lines.flat().join(" ")}
-      className="mt-3 max-w-[13ch] text-h1 leading-[1.12] text-ink sm:mt-4"
+      aria-label={words.join(" ")}
+      className={
+        onDark
+          ? "mt-3 max-w-[13ch] text-h1 leading-[1.12] text-cream sm:mt-4"
+          : "mt-3 max-w-[13ch] text-h1 leading-[1.12] text-ink sm:mt-4"
+      }
     >
-      {lines.map((lineWords, i) => {
-        const isLast = i === lines.length - 1 && lines.length >= 3;
-        const delay = 0.12 + i * 0.1;
-        if (isLast) {
-          return line(
-            <span className="comic-panel comic-panel-tomato max-w-full">
-              {lineWords.join(" ")}
-            </span>,
-            delay,
-            `l${i}`,
+      <span className="block">
+        {words.map((word, i) => {
+          const isAccent = i === accentIndex;
+          const delay = 0.12 + i * 0.04;
+          return (
+            <span key={`${word}-${i}`}>
+              <span className="inline-block overflow-hidden pb-[0.22em] -mb-[0.22em] align-bottom">
+                <motion.span className="inline-block" {...rise(delay)}>
+                  {isAccent ? (
+                    <GradientWord tone={onDark ? "onDark" : "ink"}>{word}</GradientWord>
+                  ) : (
+                    word
+                  )}
+                </motion.span>
+              </span>
+              {i < words.length - 1 ? " " : null}
+            </span>
           );
-        }
-        return line(lineWords.join(" "), delay, `l${i}`);
-      })}
+        })}
+      </span>
     </h1>
   );
 }
@@ -347,12 +340,14 @@ export function Hero({
   instruction,
   counts,
   tiles = [],
+  backgroundSlides = [],
   founderName,
 }: HeroProps) {
   const { openPlanner } = useTripPlanner();
   const reduceMotion = useReducedMotion();
   const visibleTiles: HeroTile[] = tiles.slice(0, 2);
   const animate = !reduceMotion;
+  const hasBackground = backgroundSlides.length > 0;
 
   const container = stagger(0.1);
   const showCounts = Boolean(
@@ -362,19 +357,29 @@ export function Hero({
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative w-full overflow-hidden border-b-[3px] border-ink bg-cream clip-x"
+      className={
+        hasBackground
+          ? "relative w-full overflow-hidden border-b-[3px] border-ink bg-ink text-cream clip-x"
+          : "relative w-full overflow-hidden border-b-[3px] border-ink bg-cream clip-x"
+      }
     >
-      <span aria-hidden="true" className="grid-lines absolute inset-0" />
-      <span
-        aria-hidden="true"
-        className="absolute -right-24 -top-24 size-56 rounded-full bg-sky/40 blur-[2px] sm:size-72 lg:size-96"
-      />
-      <span
-        aria-hidden="true"
-        className="absolute -bottom-16 -left-12 size-36 rotate-12 border-[3px] border-ink bg-mint sm:size-48 lg:size-64"
-      />
+      {hasBackground ? (
+        <HeroBackground slides={backgroundSlides} />
+      ) : (
+        <>
+          <span aria-hidden="true" className="grid-lines absolute inset-0" />
+          <span
+            aria-hidden="true"
+            className="absolute -right-24 -top-24 size-56 rounded-full bg-sky/40 blur-[2px] sm:size-72 lg:size-96"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute -bottom-16 -left-12 size-36 rotate-12 border-[3px] border-ink bg-mint sm:size-48 lg:size-64"
+          />
+        </>
+      )}
 
-      <Container className="relative px-5 pb-10 pt-8 sm:px-6 sm:pb-12 sm:pt-10 lg:px-10 lg:py-20 xl:px-12">
+      <Container className="relative z-10 px-5 pb-10 pt-8 sm:px-6 sm:pb-12 sm:pt-10 lg:px-10 lg:py-20 xl:px-12">
         <motion.div
           initial={animate ? "hidden" : "show"}
           animate="show"
@@ -395,11 +400,15 @@ export function Hero({
               </span>
             </motion.div>
 
-            <HeroHeading title={title} />
+            <HeroHeading title={title} onDark={hasBackground} />
 
             <motion.p
               variants={fadeUp}
-              className="mt-4 max-w-xl text-[0.95rem] leading-relaxed text-ink-soft sm:mt-5 sm:text-base lg:text-lead"
+              className={
+                hasBackground
+                  ? "mt-4 max-w-xl text-[0.95rem] leading-relaxed text-cream/85 sm:mt-5 sm:text-base lg:text-lead"
+                  : "mt-4 max-w-xl text-[0.95rem] leading-relaxed text-ink-soft sm:mt-5 sm:text-base lg:text-lead"
+              }
             >
               {subtitle}
             </motion.p>
@@ -467,23 +476,29 @@ export function Hero({
             </ul>
 
             {showCounts ? (
-              <dl className="mt-5 flex flex-wrap gap-5 border-t-[3px] border-ink/15 pt-5 sm:gap-6 sm:pt-6">
+              <dl
+                className={
+                  hasBackground
+                    ? "mt-5 flex flex-wrap gap-5 border-t-[3px] border-cream/20 pt-5 sm:gap-6 sm:pt-6"
+                    : "mt-5 flex flex-wrap gap-5 border-t-[3px] border-ink/15 pt-5 sm:gap-6 sm:pt-6"
+                }
+              >
                 <div>
-                  <dt className="label-brutal text-ink-soft">Destinations</dt>
-                  <dd className="mt-1 font-display text-2xl leading-none text-ink sm:text-3xl">
+                  <dt className={hasBackground ? "label-brutal text-cream/70" : "label-brutal text-ink-soft"}>Destinations</dt>
+                  <dd className={hasBackground ? "mt-1 font-display text-2xl leading-none text-cream sm:text-3xl" : "mt-1 font-display text-2xl leading-none text-ink sm:text-3xl"}>
                     <CountUp value={counts!.destinations} />
                   </dd>
                 </div>
                 <div>
-                  <dt className="label-brutal text-ink-soft">Packages</dt>
-                  <dd className="mt-1 font-display text-2xl leading-none text-ink sm:text-3xl">
+                  <dt className={hasBackground ? "label-brutal text-cream/70" : "label-brutal text-ink-soft"}>Packages</dt>
+                  <dd className={hasBackground ? "mt-1 font-display text-2xl leading-none text-cream sm:text-3xl" : "mt-1 font-display text-2xl leading-none text-ink sm:text-3xl"}>
                     <CountUp value={counts!.packages} />
                   </dd>
                 </div>
                 {founderName ? (
                   <div className="min-w-0">
-                    <dt className="label-brutal text-ink-soft">Founded by</dt>
-                    <dd className="mt-1 text-sm font-bold text-ink">{founderName}</dd>
+                    <dt className={hasBackground ? "label-brutal text-cream/70" : "label-brutal text-ink-soft"}>Founded by</dt>
+                    <dd className={hasBackground ? "mt-1 text-sm font-bold text-cream" : "mt-1 text-sm font-bold text-ink"}>{founderName}</dd>
                   </div>
                 ) : null}
               </dl>

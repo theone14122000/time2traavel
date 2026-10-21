@@ -23,6 +23,8 @@ import {
   type DividerTone,
   type DividerVariant,
 } from "@/components/ui/dividers";
+import { getHeroTileFallbacks } from "@/lib/home-fallback-images";
+import { getHeroSlides } from "@/lib/hero-slides";
 import {
   getAnnouncement,
   getSiteSettings,
@@ -102,6 +104,7 @@ type HomeBands = {
     instruction: string;
     counts: { destinations: number; packages: number };
     tiles: { src: string; alt: string }[];
+    backgroundSlides: { src: string; alt: string }[];
     founderName: string | null;
   };
 };
@@ -152,6 +155,24 @@ async function loadHomeBands(): Promise<HomeBands> {
       alt: row.imageAlt?.trim() || row.name,
     }));
 
+  // Fallback tiles from local image library when DB has no destination images.
+  const finalTiles =
+    tiles.length >= 2
+      ? tiles
+      : [
+          ...tiles,
+          ...getHeroTileFallbacks()
+            .slice(0, 2 - tiles.length)
+            .map((img) => ({ src: img.src, alt: img.alt })),
+        ];
+
+  // Hero background slides: the five curated photographs in
+  // /public/images/hero (slide-1 … slide-5).
+  const backgroundSlides = getHeroSlides().map((slide) => ({
+    src: slide.src,
+    alt: slide.alt,
+  }));
+
   return {
     sections: sections.map(({ key, enabled }) => ({ key, enabled })),
     announcement,
@@ -160,7 +181,8 @@ async function loadHomeBands(): Promise<HomeBands> {
       subtitle,
       instruction,
       counts: { destinations: destinationCount, packages: packageResult.total },
-      tiles,
+      tiles: finalTiles,
+      backgroundSlides,
       founderName: founder?.name ?? null,
     },
   };
@@ -187,6 +209,7 @@ export default async function HomePage() {
         instruction={hero.instruction}
         counts={hero.counts}
         tiles={hero.tiles}
+        backgroundSlides={hero.backgroundSlides}
         founderName={hero.founderName}
       />
     ),
