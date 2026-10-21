@@ -82,7 +82,7 @@ function TripTypeTile({
 
   return (
     <li className="h-full">
-      <article className="relative flex h-full flex-col border-[3px] border-ink bg-paper shadow-hard transition-transform duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-lg">
+      <article className="group relative flex h-full flex-col rounded-sm border-[3px] border-ink bg-paper shadow-hard transition-[transform,box-shadow] duration-150 hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg">
         <div
           className={cn(
             "relative aspect-[3/2] overflow-hidden border-b-[3px] border-ink",
@@ -104,6 +104,11 @@ function TripTypeTile({
               <Icon aria-hidden="true" className="size-16 text-ink" strokeWidth={2} />
             </div>
           )}
+
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-[6px] border-2 border-ink/80"
+          />
 
           <span className="absolute left-3 top-3 z-[2]">
             <Stamp rotate={-6} variant="tomato">

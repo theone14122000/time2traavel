@@ -1,11 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Clock3 } from "lucide-react";
-import {
-  BrutalCard,
-  BrutalCardBody,
-  BrutalCardFooter,
-  BrutalCardMedia,
-} from "@/components/ui/brutal-card";
+import { CardSurface as Card, CardBody, CardMedia } from "@/components/ui/card";
 import { BrutalImage } from "@/components/ui/brutal-image";
 import { Badge, Stamp } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -74,13 +69,8 @@ export function HomePackageCard({
   ) : null;
 
   return (
-    <BrutalCard
-      variant="package"
-      sticker={sticker}
-      badge={priceBadge}
-      className={cn("flex h-full flex-col", className)}
-    >
-      <BrutalCardMedia aspect="package">
+    <Card variant="media" accent="lemon" className="flex h-full flex-col">
+      <CardMedia aspect="16/10">
         <BrutalImage
           src={pkg.image}
           alt={pkg.imageAlt?.trim() || pkg.title}
@@ -88,9 +78,17 @@ export function HomePackageCard({
           className="h-full w-full border-0"
           sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
         />
-      </BrutalCardMedia>
+        {sticker ? (
+          <span className="absolute left-3 top-3 z-20 flex flex-col items-start gap-1.5">
+            {sticker}
+          </span>
+        ) : null}
+        {priceBadge ? (
+          <span className="absolute right-3 top-3 z-20">{priceBadge}</span>
+        ) : null}
+      </CardMedia>
 
-      <BrutalCardBody className="flex flex-1 flex-col gap-3 space-y-0">
+      <CardBody className="flex flex-1 flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2">
           {pkg.destination ? (
             <Badge variant="sky" size="sm">
@@ -105,7 +103,7 @@ export function HomePackageCard({
           ) : null}
         </div>
 
-        <h3 className="font-display text-[1.15rem] uppercase leading-tight tracking-tight sm:text-h3">
+        <h3 className="font-display text-[1.25rem] uppercase leading-tight tracking-tight sm:text-h3">
           {pkg.title}
         </h3>
 
@@ -120,9 +118,9 @@ export function HomePackageCard({
             +{highlightsCount} {pluralize(highlightsCount, "highlight")}
           </span>
         ) : null}
-      </BrutalCardBody>
+      </CardBody>
 
-      <BrutalCardFooter className="gap-2.5">
+      <div className="relative z-[1] flex flex-wrap items-center justify-between gap-2.5 border-t-[3px] border-ink px-4 py-3">
         <Link
           href={`/packages/${pkg.slug}`}
           className={cn(buttonVariants({ variant: "outline", size: "sm" }), "tap-44 flex-1")}
@@ -139,7 +137,7 @@ export function HomePackageCard({
         >
           Enquire
         </Button>
-      </BrutalCardFooter>
-    </BrutalCard>
+      </div>
+    </Card>
   );
 }

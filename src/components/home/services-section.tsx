@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { HomeSectionHeading } from "@/components/home/section-heading";
 import { BRUTAL_ICONS, DEFAULT_BRUTAL_ICON } from "@/components/home/icon-map";
 import { Button } from "@/components/ui/button";
+import { CardTexture } from "@/components/ui/card";
 import { getPublishedServices, type ServiceCard } from "@/lib/data/services";
 import { cn } from "@/lib/utils";
 
@@ -76,14 +77,17 @@ function ServiceTile({ service, index }: { service: ServiceCard; index: number }
       <Link
         href="/services"
         className={cn(
-          "press tap-44 group flex h-full flex-col gap-4 border-[3px] border-ink bg-paper p-5 shadow-hard",
+          "group flex h-full flex-col gap-4 rounded-sm border-[3px] border-ink bg-paper p-5 shadow-hard",
           "transition-[transform,box-shadow,background-color] duration-150",
+          "hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg",
+          "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ink",
         )}
       >
+        <CardTexture />
         <span
           aria-hidden="true"
           className={cn(
-            "flex size-14 shrink-0 items-center justify-center border-[3px] border-ink shadow-brutal-sm",
+            "relative z-[1] flex size-14 shrink-0 items-center justify-center border-[3px] border-ink shadow-brutal-sm",
             !usesHex && FALLBACK_TONES[index % FALLBACK_TONES.length],
           )}
           style={usesHex ? { backgroundColor: color as string } : undefined}
@@ -91,15 +95,17 @@ function ServiceTile({ service, index }: { service: ServiceCard; index: number }
           <Icon className="size-7" strokeWidth={2.5} />
         </span>
 
-        <h3 className="font-display text-h4 uppercase leading-tight">{service.title}</h3>
+        <h3 className="relative z-[1] font-display text-h4 uppercase leading-tight">
+          {service.title}
+        </h3>
 
         {service.shortDescription ? (
-          <p className="text-sm font-medium leading-relaxed text-ink-soft">
+          <p className="relative z-[1] text-sm font-medium leading-relaxed text-ink-soft">
             {service.shortDescription}
           </p>
         ) : null}
 
-        <span className="label-brutal mt-auto inline-flex items-center gap-1.5 pt-2 text-ink">
+        <span className="label-brutal relative z-[1] mt-auto inline-flex items-center gap-1.5 pt-2 text-ink">
           View services
           <ArrowRight aria-hidden="true" className="size-3.5" />
         </span>

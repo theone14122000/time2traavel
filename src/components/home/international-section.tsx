@@ -1,12 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Globe2 } from "lucide-react";
 import { HomeSectionHeading } from "@/components/home/section-heading";
-import { Stamp } from "@/components/ui/badge";
-import {
-  BrutalCard,
-  BrutalCardBody,
-  BrutalCardMedia,
-} from "@/components/ui/brutal-card";
+import { CardSurface as Card, CardCaption, CardMedia } from "@/components/ui/card";
 import { BrutalImage } from "@/components/ui/brutal-image";
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
@@ -98,18 +93,8 @@ export async function InternationalTrips() {
                     index === 0 && "sm:col-span-2",
                   )}
                 >
-                  <BrutalCard
-                    variant="destination"
-                    className="flex h-full flex-col"
-                    badge={
-                      <Stamp variant="soft" rotate={6}>
-                        {img.regionLabel}
-                      </Stamp>
-                    }
-                  >
-                    <BrutalCardMedia
-                      aspect={index === 0 ? "wide" : "destination"}
-                    >
+                  <Card variant="media" accent="sky" as="article">
+                    <CardMedia aspect={index === 0 ? "16/10" : "4/5"}>
                       <BrutalImage
                         src={img.src}
                         alt={img.alt}
@@ -121,28 +106,16 @@ export async function InternationalTrips() {
                             : "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
                         }
                       />
-                    </BrutalCardMedia>
-
-                    <BrutalCardBody className="flex flex-1 flex-col gap-3 py-5">
-                      <h3 className="font-display text-h3 uppercase leading-none">
-                        {img.caption}
-                      </h3>
-
-                      <div className="mt-auto pt-2">
-                        <Button
-                          asChild
-                          variant="outline"
-                          size="sm"
-                          className="tap-44 w-full sm:w-auto"
-                        >
-                          <Link href="/plan-my-trip">
-                            Plan a trip here
-                            <ArrowRight aria-hidden="true" className="size-4" />
-                          </Link>
-                        </Button>
-                      </div>
-                    </BrutalCardBody>
-                  </BrutalCard>
+                    </CardMedia>
+                    <CardCaption
+                      title={img.caption}
+                      badge={
+                        <span className="label-brutal border-[2px] border-ink bg-sky px-2 py-1 text-ink">
+                          {img.regionLabel}
+                        </span>
+                      }
+                    />
+                  </Card>
                 </article>
               ))}
             </div>
@@ -156,17 +129,9 @@ export async function InternationalTrips() {
                     index === 0 && destinations.length > 1 && "sm:col-span-2",
                   )}
                 >
-                  <BrutalCard
-                    variant="destination"
-                    className="flex h-full flex-col"
-                    badge={
-                      <Stamp variant="soft" rotate={6}>
-                        {destination.country?.trim() || "International"}
-                      </Stamp>
-                    }
-                  >
-                    <BrutalCardMedia
-                      aspect={index === 0 && destinations.length > 1 ? "wide" : "destination"}
+                  <Card variant="media" accent="sky" as="article">
+                    <CardMedia
+                      aspect={index === 0 && destinations.length > 1 ? "16/10" : "4/5"}
                     >
                       <BrutalImage
                         src={destination.image}
@@ -179,40 +144,18 @@ export async function InternationalTrips() {
                             : "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
                         }
                       />
-                    </BrutalCardMedia>
+                    </CardMedia>
 
-                    <BrutalCardBody className="flex flex-1 flex-col gap-3 py-5">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="label-brutal border-[2px] border-ink bg-paper px-2 py-1">
-                          {destination.state}
+                    <CardCaption
+                      title={destination.name}
+                      tagline={destination.summary ?? undefined}
+                      badge={
+                        <span className="label-brutal border-[2px] border-ink bg-sky px-2 py-1 text-ink">
+                          {destination.country?.trim() || "International"}
                         </span>
-                      </div>
-
-                      <h3 className="font-display text-h3 uppercase leading-none">
-                        {destination.name}
-                      </h3>
-
-                      {destination.summary ? (
-                        <p className="line-clamp-3 text-sm font-medium leading-relaxed text-ink-soft">
-                          {destination.summary}
-                        </p>
-                      ) : null}
-
-                      <div className="mt-auto pt-2">
-                        <Button
-                          asChild
-                          variant="outline"
-                          size="sm"
-                          className="tap-44 w-full sm:w-auto"
-                        >
-                          <Link href={`/destinations/${destination.slug}`}>
-                            Explore
-                            <ArrowRight aria-hidden="true" className="size-4" />
-                          </Link>
-                        </Button>
-                      </div>
-                    </BrutalCardBody>
-                  </BrutalCard>
+                      }
+                    />
+                  </Card>
                 </article>
               ))}
             </div>

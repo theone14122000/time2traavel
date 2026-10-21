@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { HomeSectionHeading } from "@/components/home/section-heading";
 import { StaggerGroup, StaggerItem } from "@/components/shared/reveal";
+import { CardSurface as Card, CardBadge, CardBody, CardTexture } from "@/components/ui/card";
 import { EASE, viewportOnce } from "@/lib/motion";
 
 const STEPS = [
@@ -74,21 +75,21 @@ export function HowItWorks() {
           <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4" staggerDelay={0.12}>
             {STEPS.map((step, index) => (
               <StaggerItem key={step.title} className="h-full">
-                <div className="flex h-full flex-col border-[3px] border-ink bg-paper p-5 shadow-hard">
-                  <span
-                    aria-hidden="true"
-                    className="relative z-[1] flex size-14 items-center justify-center border-[3px] border-ink bg-lemon font-display text-xl leading-none shadow-brutal-sm"
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+                <Card variant="info" accent="lemon" className="h-full">
+                  <CardTexture />
+                  <CardBody>
+                    <CardBadge accent="lemon">
+                      {String(index + 1).padStart(2, "0")}
+                    </CardBadge>
 
-                  <h3 className="mt-4 font-display text-h4 uppercase leading-tight">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm font-medium leading-relaxed text-ink-soft">
-                    {step.description}
-                  </p>
-                </div>
+                    <h3 className="mt-4 font-display text-h4 uppercase leading-tight">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 text-sm font-medium leading-relaxed text-ink-soft">
+                      {step.description}
+                    </p>
+                  </CardBody>
+                </Card>
               </StaggerItem>
             ))}
           </StaggerGroup>

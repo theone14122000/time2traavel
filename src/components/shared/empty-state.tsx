@@ -131,7 +131,7 @@ export function EmptyState({
     <div
       role="status"
       className={cn(
-        "relative flex flex-col items-center gap-4 border-[3px] border-dashed border-ink px-6 py-12 text-center shadow-hard sm:py-16",
+        "relative flex flex-col items-center gap-4 rounded-[6px] border-[3px] border-dashed border-ink px-6 py-12 text-center shadow-hard sm:py-16",
         tones[tone],
         className,
       )}

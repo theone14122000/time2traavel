@@ -2,7 +2,7 @@ import { Lightbulb } from "lucide-react";
 import { HomeSectionHeading } from "@/components/home/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { StaggerGroup, StaggerItem } from "@/components/shared/reveal";
-import { BrutalCard, BrutalCardBody } from "@/components/ui/brutal-card";
+import { CardSurface as Card, CardBadge, CardBody, CardTexture } from "@/components/ui/card";
 import { getWhyChooseItems } from "@/lib/data/site";
 
 /**
@@ -41,22 +41,20 @@ export async function WhyChooseUs() {
             <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {items.map((item, index) => (
                 <StaggerItem key={`${item.title}-${index}`} className="h-full">
-                  <BrutalCard variant="info" className="h-full">
-                    <BrutalCardBody className="pt-6">
-                      <span
-                        aria-hidden="true"
-                        className="inline-flex size-11 items-center justify-center border-[3px] border-ink bg-lemon font-display text-base leading-none shadow-brutal-sm"
-                      >
+                  <Card variant="info" accent="lemon" className="h-full">
+                    <CardTexture />
+                    <CardBody>
+                      <CardBadge accent="lemon">
                         {String(index + 1).padStart(2, "0")}
-                      </span>
+                      </CardBadge>
                       <h3 className="mt-4 font-display text-h4 uppercase leading-tight">
                         {item.title}
                       </h3>
                       <p className="mt-3 text-sm font-medium leading-relaxed text-ink-soft">
                         {item.description}
                       </p>
-                    </BrutalCardBody>
-                  </BrutalCard>
+                    </CardBody>
+                  </Card>
                 </StaggerItem>
               ))}
             </StaggerGroup>
