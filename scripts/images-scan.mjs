@@ -19,6 +19,9 @@ const REPORT_PATH = join(ROOT, "images-report.md");
 
 const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif", ".jfif"]);
 
+/** Folders that hold generated derivatives, not source photography. */
+const DERIVED_FOLDERS = new Set(["thumbs"]);
+
 /* ---------------- classification (inlined from image-keywords.ts) ---------------- */
 const REGION_KEYWORDS = [
   ["himachal", "himachal"], ["manali", "himachal"], ["shimla", "himachal"],
@@ -45,6 +48,22 @@ const REGION_KEYWORDS = [
   ["singapore", "international"], ["thailand", "international"],
   ["bali", "international"], ["malaysia", "international"],
 ];
+
+/**
+ * Exact filename-stem prefixes that must win over the generic keyword scan
+ * (the destination library uses short stems like "JK1" or "UP2").
+ */
+const PREFIX_REGIONS = [
+  ["jk", "kashmir"],
+  ["up", "uttarpradesh"],
+  ["gujrat", "gujarat"],
+  ["rajisthan", "rajasthan"],
+  ["tamil", "tamilnadu"],
+  ["assam", "northeast"],
+  ["himachal", "himachal"],
+  ["utrakhand", "uttarakhand"],
+  ["uttarakhand", "uttarakhand"],
+];
 const FOLDER_KEYWORDS = [
   ["domestic", "himachal"], ["india", "himachal"],
   ["international", "international"], ["foreign", "international"],
@@ -60,14 +79,46 @@ const TAG_KEYWORDS = [
   ["island", "island"],
   ["landscape", "landscape"], ["valley", "landscape"], ["river", "landscape"], ["lake", "landscape"],
 ];
-const DOMESTIC = new Set(["himachal","uttarakhand","kashmir","ladakh","sikkim","rajasthan","kerala","goa","northeast","andaman"]);
+const DOMESTIC = new Set([
+  "himachal","uttarakhand","kashmir","ladakh","sikkim","rajasthan",
+  "kerala","goa","northeast","andaman","gujarat","tamilnadu","uttarpradesh",
+]);
+
+/** Human-readable region names used for the alt suggestion. */
+const REGION_LABELS = {
+  himachal: "Himachal Pradesh",
+  uttarakhand: "Uttarakhand",
+  kashmir: "Jammu & Kashmir",
+  ladakh: "Ladakh",
+  sikkim: "Sikkim",
+  rajasthan: "Rajasthan",
+  kerala: "Kerala",
+  goa: "Goa",
+  northeast: "Northeast India",
+  andaman: "Andaman & Nicobar",
+  gujarat: "Gujarat",
+  tamilnadu: "Tamil Nadu",
+  uttarpradesh: "Uttar Pradesh",
+  international: "International",
+  UNASSIGNED: "On the road",
+};
 
 function classify(relPath) {
   const lower = relPath.toLowerCase().replace(/\\/g, "/");
   const parts = lower.split("/");
   const filename = parts[parts.length - 1] ?? lower;
+  const stem = filename.replace(/\.[^.]+$/, "");
+
   let region = null;
-  for (const [kw, r] of REGION_KEYWORDS) { if (filename.includes(kw)) { region = r; break; } }
+  // 1. Exact stem prefix wins (JK1, UP2, gujrat3, ...).
+  for (const [prefix, r] of PREFIX_REGIONS) {
+    if (stem === prefix || stem.startsWith(prefix)) { region = r; break; }
+  }
+  // 2. Generic filename keyword.
+  if (!region) {
+    for (const [kw, r] of REGION_KEYWORDS) { if (filename.includes(kw)) { region = r; break; } }
+  }
+  // 3. Folder keyword.
   if (!region) {
     for (const [kw, r] of FOLDER_KEYWORDS) { if (parts.some(p => p.includes(kw))) { region = r; break; } }
   }
@@ -86,7 +137,11 @@ function walk(dir, acc = []) {
   try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return acc; }
   for (const entry of entries) {
     const full = join(dir, entry.name);
-    if (entry.isDirectory()) { walk(full, acc); continue; }
+    if (entry.isDirectory()) {
+      if (DERIVED_FOLDERS.has(entry.name)) continue;
+      walk(full, acc);
+      continue;
+    }
     const ext = extname(entry.name).toLowerCase();
     if (!IMAGE_EXTENSIONS.has(ext)) continue;
     try {
@@ -103,6 +158,14 @@ const manifest = files.map(({ rel, bytes }) => {
   const { region, tags, isDomestic } = classify(rel);
   const url = `/images/${rel}`;
   const base = rel.replace(/\.[^.]+$/, "");
+  // Human-readable alt suggestion: the file stem without the folder and
+  // without the trailing index ("destinations/JK3" -> "Jammu & Kashmir").
+  const stem = base.split("/").pop() ?? base;
+  const label = REGION_LABELS[region] ?? "Travel";
+  const suggested =
+    region === "UNASSIGNED"
+      ? stem.replace(/[-_]+/g, " ").trim() || base
+      : label;
   return {
     url,
     filename: rel,
@@ -110,7 +173,7 @@ const manifest = files.map(({ rel, bytes }) => {
     region,
     tags,
     isDomestic,
-    suggestedAlt: base.replace(/[-_]+/g, " ").replace(/\d+$/, "").trim() || base,
+    suggestedAlt: suggested,
   };
 });
 
@@ -124,7 +187,7 @@ for (const item of manifest) {
 const unassigned = byRegion["UNASSIGNED"] ?? [];
 
 /* Write manifest */
-const ALL_REGIONS = ["himachal","uttarakhand","kashmir","ladakh","sikkim","rajasthan","kerala","goa","northeast","andaman","international","UNASSIGNED"];
+const ALL_REGIONS = ["himachal","uttarakhand","kashmir","ladakh","sikkim","rajasthan","kerala","goa","northeast","andaman","gujarat","tamilnadu","uttarpradesh","international","UNASSIGNED"];
 const regionCounts = {};
 for (const r of ALL_REGIONS) regionCounts[r] = (byRegion[r] ?? []).length;
 
@@ -133,6 +196,7 @@ const ts = `// AUTO-GENERATED by scripts/images-scan.ts — do not edit by hand.
 export type ManifestRegion =
   | "himachal" | "uttarakhand" | "kashmir" | "ladakh" | "sikkim"
   | "rajasthan" | "kerala" | "goa" | "northeast" | "andaman"
+  | "gujarat" | "tamilnadu" | "uttarpradesh"
   | "international" | "UNASSIGNED";
 
 export type ManifestTag =

@@ -48,6 +48,7 @@ for (const img of manifest) {
 const KNOWN_REGIONS = new Set([
   "himachal", "ladakh", "kashmir", "uttarakhand", "sikkim",
   "northeast", "andaman", "rajasthan", "kerala", "goa",
+  "gujarat", "tamilnadu", "uttarpradesh",
   "international", "UNASSIGNED",
 ]);
 for (const img of manifest) {

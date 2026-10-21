@@ -3,6 +3,7 @@
 export type ManifestRegion =
   | "himachal" | "uttarakhand" | "kashmir" | "ladakh" | "sikkim"
   | "rajasthan" | "kerala" | "goa" | "northeast" | "andaman"
+  | "gujarat" | "tamilnadu" | "uttarpradesh"
   | "international" | "UNASSIGNED";
 
 export type ManifestTag =
@@ -21,454 +22,472 @@ export type ImageManifestEntry = {
 
 export const IMAGE_MANIFEST: readonly ImageManifestEntry[] = [
   {
-    "url": "/images/andaman1.jpg",
-    "filename": "andaman1.jpg",
-    "bytes": 723485,
-    "region": "andaman",
+    "url": "/images/destinations/assam1.jpg",
+    "filename": "destinations/assam1.jpg",
+    "bytes": 6375130,
+    "region": "northeast",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "andaman"
+    "suggestedAlt": "Northeast India"
   },
   {
-    "url": "/images/andaman2.jpg",
-    "filename": "andaman2.jpg",
-    "bytes": 721740,
-    "region": "andaman",
+    "url": "/images/destinations/assam2.jpg",
+    "filename": "destinations/assam2.jpg",
+    "bytes": 5002674,
+    "region": "northeast",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "andaman"
+    "suggestedAlt": "Northeast India"
   },
   {
-    "url": "/images/andaman3.jpg",
-    "filename": "andaman3.jpg",
-    "bytes": 428522,
-    "region": "andaman",
+    "url": "/images/destinations/assam3.jpg",
+    "filename": "destinations/assam3.jpg",
+    "bytes": 3260431,
+    "region": "northeast",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "andaman"
+    "suggestedAlt": "Northeast India"
   },
   {
-    "url": "/images/andaman4.jpg",
-    "filename": "andaman4.jpg",
-    "bytes": 591113,
-    "region": "andaman",
+    "url": "/images/destinations/assam4.jpg",
+    "filename": "destinations/assam4.jpg",
+    "bytes": 1882582,
+    "region": "northeast",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "andaman"
+    "suggestedAlt": "Northeast India"
   },
   {
-    "url": "/images/bali.jpg",
-    "filename": "bali.jpg",
-    "bytes": 580916,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "bali"
-  },
-  {
-    "url": "/images/destinations/andaman.jpg",
-    "filename": "destinations/andaman.jpg",
-    "bytes": 723485,
-    "region": "andaman",
+    "url": "/images/destinations/assam5.jpg",
+    "filename": "destinations/assam5.jpg",
+    "bytes": 3800511,
+    "region": "northeast",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "destinations/andaman"
+    "suggestedAlt": "Northeast India"
   },
   {
-    "url": "/images/destinations/bali.jpg",
-    "filename": "destinations/bali.jpg",
-    "bytes": 580916,
-    "region": "international",
+    "url": "/images/destinations/gujrat1.jpg",
+    "filename": "destinations/gujrat1.jpg",
+    "bytes": 2563122,
+    "region": "gujarat",
     "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "destinations/bali"
+    "isDomestic": true,
+    "suggestedAlt": "Gujarat"
   },
   {
-    "url": "/images/destinations/bhutan.jpg",
-    "filename": "destinations/bhutan.jpg",
-    "bytes": 668883,
-    "region": "international",
+    "url": "/images/destinations/gujrat2.jpg",
+    "filename": "destinations/gujrat2.jpg",
+    "bytes": 1152201,
+    "region": "gujarat",
     "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "destinations/bhutan"
+    "isDomestic": true,
+    "suggestedAlt": "Gujarat"
   },
   {
-    "url": "/images/destinations/dubai.jpg",
-    "filename": "destinations/dubai.jpg",
-    "bytes": 1136013,
-    "region": "international",
+    "url": "/images/destinations/gujrat3.jpg",
+    "filename": "destinations/gujrat3.jpg",
+    "bytes": 1208409,
+    "region": "gujarat",
     "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "destinations/dubai"
+    "isDomestic": true,
+    "suggestedAlt": "Gujarat"
   },
   {
-    "url": "/images/destinations/himachal-pradesh.jpg",
-    "filename": "destinations/himachal-pradesh.jpg",
-    "bytes": 920835,
+    "url": "/images/destinations/gujrat4.jpg",
+    "filename": "destinations/gujrat4.jpg",
+    "bytes": 2604234,
+    "region": "gujarat",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Gujarat"
+  },
+  {
+    "url": "/images/destinations/gujrat5.jpg",
+    "filename": "destinations/gujrat5.jpg",
+    "bytes": 5397864,
+    "region": "gujarat",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Gujarat"
+  },
+  {
+    "url": "/images/destinations/gujrat6.jpg",
+    "filename": "destinations/gujrat6.jpg",
+    "bytes": 967538,
+    "region": "gujarat",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Gujarat"
+  },
+  {
+    "url": "/images/destinations/gujrat7.jpg",
+    "filename": "destinations/gujrat7.jpg",
+    "bytes": 1034715,
+    "region": "gujarat",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Gujarat"
+  },
+  {
+    "url": "/images/destinations/gujrat8.jpg",
+    "filename": "destinations/gujrat8.jpg",
+    "bytes": 3875590,
+    "region": "gujarat",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Gujarat"
+  },
+  {
+    "url": "/images/destinations/gujrat9.jpg",
+    "filename": "destinations/gujrat9.jpg",
+    "bytes": 1894843,
+    "region": "gujarat",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Gujarat"
+  },
+  {
+    "url": "/images/destinations/himachal1.jpg",
+    "filename": "destinations/himachal1.jpg",
+    "bytes": 1372276,
     "region": "himachal",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "destinations/himachal pradesh"
+    "suggestedAlt": "Himachal Pradesh"
   },
   {
-    "url": "/images/destinations/kashmir.jpg",
-    "filename": "destinations/kashmir.jpg",
-    "bytes": 1018400,
+    "url": "/images/destinations/himachal2.jpg",
+    "filename": "destinations/himachal2.jpg",
+    "bytes": 2142267,
+    "region": "himachal",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Himachal Pradesh"
+  },
+  {
+    "url": "/images/destinations/himachal3.jpg",
+    "filename": "destinations/himachal3.jpg",
+    "bytes": 6490261,
+    "region": "himachal",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Himachal Pradesh"
+  },
+  {
+    "url": "/images/destinations/himachal4.jpg",
+    "filename": "destinations/himachal4.jpg",
+    "bytes": 1599647,
+    "region": "himachal",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Himachal Pradesh"
+  },
+  {
+    "url": "/images/destinations/himachal5.jpg",
+    "filename": "destinations/himachal5.jpg",
+    "bytes": 2142267,
+    "region": "himachal",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Himachal Pradesh"
+  },
+  {
+    "url": "/images/destinations/JK1.jpg",
+    "filename": "destinations/JK1.jpg",
+    "bytes": 8260498,
     "region": "kashmir",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "destinations/kashmir"
+    "suggestedAlt": "Jammu & Kashmir"
   },
   {
-    "url": "/images/destinations/kinnaur.jpg",
-    "filename": "destinations/kinnaur.jpg",
-    "bytes": 435072,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "destinations/kinnaur"
-  },
-  {
-    "url": "/images/destinations/leh-ladakh.jpg",
-    "filename": "destinations/leh-ladakh.jpg",
-    "bytes": 844213,
-    "region": "ladakh",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "destinations/leh ladakh"
-  },
-  {
-    "url": "/images/destinations/malaysia.jpg",
-    "filename": "destinations/malaysia.jpg",
-    "bytes": 668883,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "destinations/malaysia"
-  },
-  {
-    "url": "/images/destinations/nepal.jpg",
-    "filename": "destinations/nepal.jpg",
-    "bytes": 580932,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "destinations/nepal"
-  },
-  {
-    "url": "/images/destinations/north-east.jpg",
-    "filename": "destinations/north-east.jpg",
-    "bytes": 655371,
-    "region": "northeast",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "destinations/north east"
-  },
-  {
-    "url": "/images/destinations/singapore.jpg",
-    "filename": "destinations/singapore.jpg",
-    "bytes": 507072,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "destinations/singapore"
-  },
-  {
-    "url": "/images/destinations/thailand.jpg",
-    "filename": "destinations/thailand.jpg",
-    "bytes": 867112,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "destinations/thailand"
-  },
-  {
-    "url": "/images/destinations/uttarakhand.jpg",
-    "filename": "destinations/uttarakhand.jpg",
-    "bytes": 35101,
-    "region": "uttarakhand",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "destinations/uttarakhand"
-  },
-  {
-    "url": "/images/dubai.jpg",
-    "filename": "dubai.jpg",
-    "bytes": 1136013,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "dubai"
-  },
-  {
-    "url": "/images/editorial/international.jpg",
-    "filename": "editorial/international.jpg",
-    "bytes": 577879,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "editorial/international"
-  },
-  {
-    "url": "/images/editorial/philosophy.jpg",
-    "filename": "editorial/philosophy.jpg",
-    "bytes": 850472,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "editorial/philosophy"
-  },
-  {
-    "url": "/images/gallery/andaman-1.jpg",
-    "filename": "gallery/andaman-1.jpg",
-    "bytes": 721740,
-    "region": "andaman",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "gallery/andaman"
-  },
-  {
-    "url": "/images/gallery/andaman-2.jpg",
-    "filename": "gallery/andaman-2.jpg",
-    "bytes": 428522,
-    "region": "andaman",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "gallery/andaman"
-  },
-  {
-    "url": "/images/gallery/andaman-3.jpg",
-    "filename": "gallery/andaman-3.jpg",
-    "bytes": 591113,
-    "region": "andaman",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "gallery/andaman"
-  },
-  {
-    "url": "/images/gallery/galler10.jpg",
-    "filename": "gallery/galler10.jpg",
-    "bytes": 68281,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/galler"
-  },
-  {
-    "url": "/images/gallery/gallery1.jpg",
-    "filename": "gallery/gallery1.jpg",
-    "bytes": 24820,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/gallery"
-  },
-  {
-    "url": "/images/gallery/gallery2.jpg",
-    "filename": "gallery/gallery2.jpg",
-    "bytes": 40542,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/gallery"
-  },
-  {
-    "url": "/images/gallery/gallery3.jpg",
-    "filename": "gallery/gallery3.jpg",
-    "bytes": 31575,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/gallery"
-  },
-  {
-    "url": "/images/gallery/gallery4.jpg",
-    "filename": "gallery/gallery4.jpg",
-    "bytes": 21091,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/gallery"
-  },
-  {
-    "url": "/images/gallery/gallery5.jpg",
-    "filename": "gallery/gallery5.jpg",
-    "bytes": 48873,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/gallery"
-  },
-  {
-    "url": "/images/gallery/gallery6.jpg",
-    "filename": "gallery/gallery6.jpg",
-    "bytes": 27510,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/gallery"
-  },
-  {
-    "url": "/images/gallery/gallery7.jpg",
-    "filename": "gallery/gallery7.jpg",
-    "bytes": 40228,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/gallery"
-  },
-  {
-    "url": "/images/gallery/gallery8.jpg",
-    "filename": "gallery/gallery8.jpg",
-    "bytes": 20884,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/gallery"
-  },
-  {
-    "url": "/images/gallery/gallery9.jpg",
-    "filename": "gallery/gallery9.jpg",
-    "bytes": 135981,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "gallery/gallery"
-  },
-  {
-    "url": "/images/gallery/himachal-1.jpg",
-    "filename": "gallery/himachal-1.jpg",
-    "bytes": 1027858,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "gallery/himachal"
-  },
-  {
-    "url": "/images/gallery/himachal-2.jpg",
-    "filename": "gallery/himachal-2.jpg",
-    "bytes": 1126147,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "gallery/himachal"
-  },
-  {
-    "url": "/images/gallery/himachal-3.jpg",
-    "filename": "gallery/himachal-3.jpg",
-    "bytes": 770328,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "gallery/himachal"
-  },
-  {
-    "url": "/images/gallery/kashmir-1.jpg",
-    "filename": "gallery/kashmir-1.jpg",
-    "bytes": 738287,
+    "url": "/images/destinations/JK2.jpg",
+    "filename": "destinations/JK2.jpg",
+    "bytes": 5537315,
     "region": "kashmir",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/kashmir"
+    "suggestedAlt": "Jammu & Kashmir"
   },
   {
-    "url": "/images/gallery/kashmir-2.jpg",
-    "filename": "gallery/kashmir-2.jpg",
-    "bytes": 376516,
+    "url": "/images/destinations/JK3.jpg",
+    "filename": "destinations/JK3.jpg",
+    "bytes": 1265483,
     "region": "kashmir",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/kashmir"
+    "suggestedAlt": "Jammu & Kashmir"
   },
   {
-    "url": "/images/gallery/kinnaur-1.jpg",
-    "filename": "gallery/kinnaur-1.jpg",
-    "bytes": 777457,
-    "region": "himachal",
+    "url": "/images/destinations/JK4.jpg",
+    "filename": "destinations/JK4.jpg",
+    "bytes": 2748134,
+    "region": "kashmir",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/kinnaur"
+    "suggestedAlt": "Jammu & Kashmir"
   },
   {
-    "url": "/images/gallery/leh-1.jpg",
-    "filename": "gallery/leh-1.jpg",
-    "bytes": 1279912,
-    "region": "ladakh",
+    "url": "/images/destinations/JK5.jpg",
+    "filename": "destinations/JK5.jpg",
+    "bytes": 4562069,
+    "region": "kashmir",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/leh"
+    "suggestedAlt": "Jammu & Kashmir"
   },
   {
-    "url": "/images/gallery/leh-2.jpg",
-    "filename": "gallery/leh-2.jpg",
-    "bytes": 552595,
-    "region": "ladakh",
+    "url": "/images/destinations/JK6.jpg",
+    "filename": "destinations/JK6.jpg",
+    "bytes": 1691155,
+    "region": "kashmir",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/leh"
+    "suggestedAlt": "Jammu & Kashmir"
   },
   {
-    "url": "/images/gallery/leh-3.jpg",
-    "filename": "gallery/leh-3.jpg",
-    "bytes": 1134882,
-    "region": "ladakh",
+    "url": "/images/destinations/JK7.jpg",
+    "filename": "destinations/JK7.jpg",
+    "bytes": 2200149,
+    "region": "kashmir",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/leh"
+    "suggestedAlt": "Jammu & Kashmir"
   },
   {
-    "url": "/images/gallery/north-east-1.jpg",
-    "filename": "gallery/north-east-1.jpg",
-    "bytes": 844058,
-    "region": "northeast",
+    "url": "/images/destinations/rajisthan1.jpg",
+    "filename": "destinations/rajisthan1.jpg",
+    "bytes": 4596279,
+    "region": "rajasthan",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/north east"
+    "suggestedAlt": "Rajasthan"
   },
   {
-    "url": "/images/gallery/north-east-2.jpg",
-    "filename": "gallery/north-east-2.jpg",
-    "bytes": 1143977,
-    "region": "northeast",
+    "url": "/images/destinations/rajisthan2.jpg",
+    "filename": "destinations/rajisthan2.jpg",
+    "bytes": 2550942,
+    "region": "rajasthan",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/north east"
+    "suggestedAlt": "Rajasthan"
   },
   {
-    "url": "/images/gallery/north-east-3.jpg",
-    "filename": "gallery/north-east-3.jpg",
-    "bytes": 383383,
-    "region": "northeast",
+    "url": "/images/destinations/rajisthan3.jpg",
+    "filename": "destinations/rajisthan3.jpg",
+    "bytes": 1009328,
+    "region": "rajasthan",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/north east"
+    "suggestedAlt": "Rajasthan"
   },
   {
-    "url": "/images/gallery/uttarakhand-1.jpg",
-    "filename": "gallery/uttarakhand-1.jpg",
-    "bytes": 21004,
+    "url": "/images/destinations/rajisthan4.jpg",
+    "filename": "destinations/rajisthan4.jpg",
+    "bytes": 576820,
+    "region": "rajasthan",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Rajasthan"
+  },
+  {
+    "url": "/images/destinations/rajisthan5.jpg",
+    "filename": "destinations/rajisthan5.jpg",
+    "bytes": 1013316,
+    "region": "rajasthan",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Rajasthan"
+  },
+  {
+    "url": "/images/destinations/rajisthan6.jpg",
+    "filename": "destinations/rajisthan6.jpg",
+    "bytes": 4376657,
+    "region": "rajasthan",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Rajasthan"
+  },
+  {
+    "url": "/images/destinations/rajisthan7.jpg",
+    "filename": "destinations/rajisthan7.jpg",
+    "bytes": 634495,
+    "region": "rajasthan",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Rajasthan"
+  },
+  {
+    "url": "/images/destinations/rajisthan8.jpg",
+    "filename": "destinations/rajisthan8.jpg",
+    "bytes": 2903395,
+    "region": "rajasthan",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Rajasthan"
+  },
+  {
+    "url": "/images/destinations/tamil1.jpg",
+    "filename": "destinations/tamil1.jpg",
+    "bytes": 3114772,
+    "region": "tamilnadu",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Tamil Nadu"
+  },
+  {
+    "url": "/images/destinations/tamil2.jpg",
+    "filename": "destinations/tamil2.jpg",
+    "bytes": 3069848,
+    "region": "tamilnadu",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Tamil Nadu"
+  },
+  {
+    "url": "/images/destinations/tamil3.jpg",
+    "filename": "destinations/tamil3.jpg",
+    "bytes": 3685333,
+    "region": "tamilnadu",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Tamil Nadu"
+  },
+  {
+    "url": "/images/destinations/tamil4.jpg",
+    "filename": "destinations/tamil4.jpg",
+    "bytes": 3280280,
+    "region": "tamilnadu",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Tamil Nadu"
+  },
+  {
+    "url": "/images/destinations/tamil5.jpg",
+    "filename": "destinations/tamil5.jpg",
+    "bytes": 2888714,
+    "region": "tamilnadu",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Tamil Nadu"
+  },
+  {
+    "url": "/images/destinations/tamil6.jpg",
+    "filename": "destinations/tamil6.jpg",
+    "bytes": 4201155,
+    "region": "tamilnadu",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Tamil Nadu"
+  },
+  {
+    "url": "/images/destinations/tamil7.jpg",
+    "filename": "destinations/tamil7.jpg",
+    "bytes": 4201155,
+    "region": "tamilnadu",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Tamil Nadu"
+  },
+  {
+    "url": "/images/destinations/UP1.jpg",
+    "filename": "destinations/UP1.jpg",
+    "bytes": 3915866,
+    "region": "uttarpradesh",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Uttar Pradesh"
+  },
+  {
+    "url": "/images/destinations/UP2.jpg",
+    "filename": "destinations/UP2.jpg",
+    "bytes": 1966934,
+    "region": "uttarpradesh",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Uttar Pradesh"
+  },
+  {
+    "url": "/images/destinations/UP3.jpg",
+    "filename": "destinations/UP3.jpg",
+    "bytes": 2689742,
+    "region": "uttarpradesh",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Uttar Pradesh"
+  },
+  {
+    "url": "/images/destinations/UP4.jpg",
+    "filename": "destinations/UP4.jpg",
+    "bytes": 613072,
+    "region": "uttarpradesh",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Uttar Pradesh"
+  },
+  {
+    "url": "/images/destinations/UP5.jpg",
+    "filename": "destinations/UP5.jpg",
+    "bytes": 436495,
+    "region": "uttarpradesh",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Uttar Pradesh"
+  },
+  {
+    "url": "/images/destinations/UP6.jpg",
+    "filename": "destinations/UP6.jpg",
+    "bytes": 1177333,
+    "region": "uttarpradesh",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Uttar Pradesh"
+  },
+  {
+    "url": "/images/destinations/UP7.jpg",
+    "filename": "destinations/UP7.jpg",
+    "bytes": 3059023,
+    "region": "uttarpradesh",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Uttar Pradesh"
+  },
+  {
+    "url": "/images/destinations/utrakhand1.jpg",
+    "filename": "destinations/utrakhand1.jpg",
+    "bytes": 936455,
     "region": "uttarakhand",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/uttarakhand"
+    "suggestedAlt": "Uttarakhand"
   },
   {
-    "url": "/images/gallery/uttarakhand-2.jpg",
-    "filename": "gallery/uttarakhand-2.jpg",
-    "bytes": 66883,
+    "url": "/images/destinations/utrakhand2.jpg",
+    "filename": "destinations/utrakhand2.jpg",
+    "bytes": 522047,
     "region": "uttarakhand",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/uttarakhand"
+    "suggestedAlt": "Uttarakhand"
   },
   {
-    "url": "/images/gallery/uttarakhand-3.jpg",
-    "filename": "gallery/uttarakhand-3.jpg",
-    "bytes": 53287,
+    "url": "/images/destinations/utrakhand3.jpg",
+    "filename": "destinations/utrakhand3.jpg",
+    "bytes": 515747,
     "region": "uttarakhand",
     "tags": [],
     "isDomestic": true,
-    "suggestedAlt": "gallery/uttarakhand"
+    "suggestedAlt": "Uttarakhand"
+  },
+  {
+    "url": "/images/destinations/utrakhand4.jpg",
+    "filename": "destinations/utrakhand4.jpg",
+    "bytes": 324315,
+    "region": "uttarakhand",
+    "tags": [],
+    "isDomestic": true,
+    "suggestedAlt": "Uttarakhand"
   },
   {
     "url": "/images/hero/slide-1.jpg",
@@ -477,7 +496,7 @@ export const IMAGE_MANIFEST: readonly ImageManifestEntry[] = [
     "region": "UNASSIGNED",
     "tags": [],
     "isDomestic": false,
-    "suggestedAlt": "hero/slide"
+    "suggestedAlt": "slide 1"
   },
   {
     "url": "/images/hero/slide-2.jpg",
@@ -486,7 +505,7 @@ export const IMAGE_MANIFEST: readonly ImageManifestEntry[] = [
     "region": "UNASSIGNED",
     "tags": [],
     "isDomestic": false,
-    "suggestedAlt": "hero/slide"
+    "suggestedAlt": "slide 2"
   },
   {
     "url": "/images/hero/slide-3.jpg",
@@ -495,7 +514,7 @@ export const IMAGE_MANIFEST: readonly ImageManifestEntry[] = [
     "region": "UNASSIGNED",
     "tags": [],
     "isDomestic": false,
-    "suggestedAlt": "hero/slide"
+    "suggestedAlt": "slide 3"
   },
   {
     "url": "/images/hero/slide-4.jpg",
@@ -504,7 +523,7 @@ export const IMAGE_MANIFEST: readonly ImageManifestEntry[] = [
     "region": "UNASSIGNED",
     "tags": [],
     "isDomestic": false,
-    "suggestedAlt": "hero/slide"
+    "suggestedAlt": "slide 4"
   },
   {
     "url": "/images/hero/slide-5.jpg",
@@ -513,284 +532,24 @@ export const IMAGE_MANIFEST: readonly ImageManifestEntry[] = [
     "region": "UNASSIGNED",
     "tags": [],
     "isDomestic": false,
-    "suggestedAlt": "hero/slide"
-  },
-  {
-    "url": "/images/himachal1.jpg",
-    "filename": "himachal1.jpg",
-    "bytes": 920835,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "himachal"
-  },
-  {
-    "url": "/images/himachal2.jpg",
-    "filename": "himachal2.jpg",
-    "bytes": 850472,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "himachal"
-  },
-  {
-    "url": "/images/himachal3.jpg",
-    "filename": "himachal3.jpg",
-    "bytes": 1027858,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "himachal"
-  },
-  {
-    "url": "/images/himachal4.jpg",
-    "filename": "himachal4.jpg",
-    "bytes": 1126147,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "himachal"
-  },
-  {
-    "url": "/images/himachal5.jpg",
-    "filename": "himachal5.jpg",
-    "bytes": 770328,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "himachal"
-  },
-  {
-    "url": "/images/kashmir.jpg",
-    "filename": "kashmir.jpg",
-    "bytes": 1018400,
-    "region": "kashmir",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "kashmir"
-  },
-  {
-    "url": "/images/kashmir2.jpg",
-    "filename": "kashmir2.jpg",
-    "bytes": 577879,
-    "region": "kashmir",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "kashmir"
-  },
-  {
-    "url": "/images/kashmir3.jpg",
-    "filename": "kashmir3.jpg",
-    "bytes": 738287,
-    "region": "kashmir",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "kashmir"
-  },
-  {
-    "url": "/images/kashmir4.jpg",
-    "filename": "kashmir4.jpg",
-    "bytes": 376516,
-    "region": "kashmir",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "kashmir"
-  },
-  {
-    "url": "/images/kinnaur1.jpg",
-    "filename": "kinnaur1.jpg",
-    "bytes": 435072,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "kinnaur"
-  },
-  {
-    "url": "/images/kinnaur2.jpg",
-    "filename": "kinnaur2.jpg",
-    "bytes": 777457,
-    "region": "himachal",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "kinnaur"
-  },
-  {
-    "url": "/images/landscape.jpg",
-    "filename": "landscape.jpg",
-    "bytes": 668883,
-    "region": "UNASSIGNED",
-    "tags": [
-      "landscape"
-    ],
-    "isDomestic": false,
-    "suggestedAlt": "landscape"
-  },
-  {
-    "url": "/images/leh1.jpg",
-    "filename": "leh1.jpg",
-    "bytes": 844213,
-    "region": "ladakh",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "leh"
-  },
-  {
-    "url": "/images/leh2.jpg",
-    "filename": "leh2.jpg",
-    "bytes": 1279912,
-    "region": "ladakh",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "leh"
-  },
-  {
-    "url": "/images/leh3.jpg",
-    "filename": "leh3.jpg",
-    "bytes": 552595,
-    "region": "ladakh",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "leh"
-  },
-  {
-    "url": "/images/leh4.jpg",
-    "filename": "leh4.jpg",
-    "bytes": 1134882,
-    "region": "ladakh",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "leh"
-  },
-  {
-    "url": "/images/logo.jpeg",
-    "filename": "logo.jpeg",
-    "bytes": 360801,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "logo"
-  },
-  {
-    "url": "/images/nepal.jpg",
-    "filename": "nepal.jpg",
-    "bytes": 580932,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "nepal"
-  },
-  {
-    "url": "/images/nort-east.jpg",
-    "filename": "nort-east.jpg",
-    "bytes": 655371,
-    "region": "northeast",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "nort east"
-  },
-  {
-    "url": "/images/north-east2.jpg",
-    "filename": "north-east2.jpg",
-    "bytes": 844058,
-    "region": "northeast",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "north east"
-  },
-  {
-    "url": "/images/north-east3.jpg",
-    "filename": "north-east3.jpg",
-    "bytes": 1143977,
-    "region": "northeast",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "north east"
-  },
-  {
-    "url": "/images/north-east4.jpg",
-    "filename": "north-east4.jpg",
-    "bytes": 383383,
-    "region": "northeast",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "north east"
-  },
-  {
-    "url": "/images/singapore.jpg",
-    "filename": "singapore.jpg",
-    "bytes": 507072,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "singapore"
-  },
-  {
-    "url": "/images/thailand.jpg",
-    "filename": "thailand.jpg",
-    "bytes": 867112,
-    "region": "international",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "thailand"
-  },
-  {
-    "url": "/images/uploads/1790708607592-0-gallery-test-photo.jpg",
-    "filename": "uploads/1790708607592-0-gallery-test-photo.jpg",
-    "bytes": 158,
-    "region": "UNASSIGNED",
-    "tags": [],
-    "isDomestic": false,
-    "suggestedAlt": "uploads/1790708607592 0 gallery test photo"
-  },
-  {
-    "url": "/images/utrakhand.jfif",
-    "filename": "utrakhand.jfif",
-    "bytes": 35101,
-    "region": "uttarakhand",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "utrakhand"
-  },
-  {
-    "url": "/images/utrakhand2.jfif",
-    "filename": "utrakhand2.jfif",
-    "bytes": 21004,
-    "region": "uttarakhand",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "utrakhand"
-  },
-  {
-    "url": "/images/utrakhand3.jfif",
-    "filename": "utrakhand3.jfif",
-    "bytes": 66883,
-    "region": "uttarakhand",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "utrakhand"
-  },
-  {
-    "url": "/images/utrakhand4.jfif",
-    "filename": "utrakhand4.jfif",
-    "bytes": 53287,
-    "region": "uttarakhand",
-    "tags": [],
-    "isDomestic": true,
-    "suggestedAlt": "utrakhand"
+    "suggestedAlt": "slide 5"
   }
 ] as const;
 
 export const REGION_COUNTS: Record<ManifestRegion, number> = {
-  "himachal": 13,
-  "uttarakhand": 8,
+  "himachal": 5,
+  "uttarakhand": 4,
   "kashmir": 7,
-  "ladakh": 8,
+  "ladakh": 0,
   "sikkim": 0,
-  "rajasthan": 0,
+  "rajasthan": 8,
   "kerala": 0,
   "goa": 0,
-  "northeast": 8,
-  "andaman": 8,
-  "international": 13,
-  "UNASSIGNED": 19
+  "northeast": 5,
+  "andaman": 0,
+  "gujarat": 9,
+  "tamilnadu": 7,
+  "uttarpradesh": 7,
+  "international": 0,
+  "UNASSIGNED": 5
 } as const;

@@ -24,7 +24,7 @@ export type FallbackImage = {
 const REGION_LABELS: Record<string, string> = {
   himachal: "Himachal Pradesh",
   uttarakhand: "Uttarakhand",
-  kashmir: "Kashmir",
+  kashmir: "Jammu & Kashmir",
   ladakh: "Ladakh",
   sikkim: "Sikkim",
   northeast: "Northeast India",
@@ -32,6 +32,9 @@ const REGION_LABELS: Record<string, string> = {
   rajasthan: "Rajasthan",
   kerala: "Kerala",
   goa: "Goa",
+  gujarat: "Gujarat",
+  tamilnadu: "Tamil Nadu",
+  uttarpradesh: "Uttar Pradesh",
   international: "International",
   UNASSIGNED: "On the road",
 };
@@ -44,26 +47,23 @@ function labelFor(entry: ImageManifestEntry): string {
  * Verified filename → place name. Each mapping comes straight from the
  * image filename (the file is photo OF that place). International files
  * get their specific place name; domestic files use their region.
+ *
+ * Keys are manifest filenames (folder included), e.g. "destinations/JK1.jpg".
  */
 const FILENAME_LABELS: Record<string, string> = {
-  "bali.jpg": "Bali",
-  "dubai.jpg": "Dubai",
-  "nepal.jpg": "Nepal",
-  "singapore.jpg": "Singapore",
-  "thailand.jpg": "Thailand",
-  "himachal1.jpg": "Himachal Pradesh",
-  "himachal2.jpg": "Himachal Pradesh",
-  "kashmir.jpg": "Kashmir",
-  "kashmir2.jpg": "Kashmir",
-  "leh1.jpg": "Ladakh",
-  "leh2.jpg": "Ladakh",
-  "utrakhand.jfif": "Uttarakhand",
-  "utrakhand2.jfif": "Uttarakhand",
-  "andaman1.jpg": "Andaman & Nicobar",
-  "andaman2.jpg": "Andaman & Nicobar",
-  "nort-east.jpg": "Northeast India",
-  "kinnaur1.jpg": "Himachal Pradesh",
-  "landscape.jpg": "On the road",
+  "hero/slide-1.jpg": "Himachal Pradesh",
+  "hero/slide-2.jpg": "Jammu & Kashmir",
+  "hero/slide-3.jpg": "Uttarakhand",
+  "hero/slide-4.jpg": "Bali",
+  "hero/slide-5.jpg": "Dubai",
+  "destinations/JK1.jpg": "Jammu & Kashmir",
+  "destinations/himachal1.jpg": "Himachal Pradesh",
+  "destinations/assam1.jpg": "Assam",
+  "destinations/gujrat1.jpg": "Gujarat",
+  "destinations/rajisthan1.jpg": "Rajasthan",
+  "destinations/tamil1.jpg": "Tamil Nadu",
+  "destinations/UP1.jpg": "Uttar Pradesh",
+  "destinations/utrakhand1.jpg": "Uttarakhand",
 };
 
 function placeNameFor(entry: ImageManifestEntry): string {
@@ -72,8 +72,10 @@ function placeNameFor(entry: ImageManifestEntry): string {
   // Generic fallback: human-readable region name.
   const regionLabel = labelFor(entry);
   if (regionLabel !== "On the road") return regionLabel;
-  // Last resort: prettified filename stem (never shown for curated picks).
-  return entry.filename.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ");
+  // Last resort: the file's own stem, never a folder path (an alt that
+  // reads "hero/slide 1" is meaningless to a screen reader).
+  const stem = entry.filename.split("/").pop() ?? entry.filename;
+  return stem.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ");
 }
 
 function pickByFilename(filenames: string[]): FallbackImage[] {
@@ -98,7 +100,10 @@ function pickByFilename(filenames: string[]): FallbackImage[] {
  * Curated from visually verified files (snow peaks + green valley).
  */
 export function getHeroTileFallbacks(): FallbackImage[] {
-  return pickByFilename(["himachal1.jpg", "kashmir.jpg"]).slice(0, 2);
+  return pickByFilename([
+    "destinations/himachal1.jpg",
+    "destinations/JK1.jpg",
+  ]).slice(0, 2);
 }
 
 /**
@@ -107,12 +112,14 @@ export function getHeroTileFallbacks(): FallbackImage[] {
  */
 export function getDomesticFallbacks(): FallbackImage[] {
   return pickByFilename([
-    "himachal1.jpg",
-    "kashmir.jpg",
-    "leh1.jpg",
-    "utrakhand.jfif",
-    "andaman1.jpg",
-    "nort-east.jpg",
+    "destinations/himachal1.jpg",
+    "destinations/JK1.jpg",
+    "destinations/utrakhand1.jpg",
+    "destinations/assam1.jpg",
+    "destinations/gujrat1.jpg",
+    "destinations/rajisthan1.jpg",
+    "destinations/tamil1.jpg",
+    "destinations/UP1.jpg",
   ]);
 }
 
@@ -122,11 +129,11 @@ export function getDomesticFallbacks(): FallbackImage[] {
  */
 export function getInternationalFallbacks(): FallbackImage[] {
   return pickByFilename([
-    "bali.jpg",
-    "dubai.jpg",
-    "nepal.jpg",
-    "singapore.jpg",
-    "thailand.jpg",
+    "hero/slide-4.jpg",
+    "hero/slide-5.jpg",
+    "hero/slide-3.jpg",
+    "hero/slide-1.jpg",
+    "hero/slide-2.jpg",
   ]);
 }
 
@@ -136,13 +143,13 @@ export function getInternationalFallbacks(): FallbackImage[] {
  */
 export function getGalleryFallbacks(): FallbackImage[] {
   return pickByFilename([
-    "himachal2.jpg",
-    "kashmir2.jpg",
-    "leh2.jpg",
-    "andaman2.jpg",
-    "nort-east.jpg",
-    "utrakhand2.jfif",
-    "landscape.jpg",
-    "kinnaur1.jpg",
+    "destinations/himachal2.jpg",
+    "destinations/JK2.jpg",
+    "destinations/utrakhand2.jpg",
+    "destinations/assam2.jpg",
+    "destinations/gujrat2.jpg",
+    "destinations/rajisthan2.jpg",
+    "destinations/tamil2.jpg",
+    "destinations/UP2.jpg",
   ]).slice(0, 8);
 }

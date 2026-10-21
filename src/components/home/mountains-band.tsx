@@ -29,7 +29,9 @@ export async function MountainsBand() {
   const picked = allocateImages(mountainPool, 6, "mountains-band-slideshow");
   const slides = picked.map((img) => ({
     src: img.url,
-    alt: img.suggestedAlt,
+    // Neutral alt: the pool spans several states and the photos are not
+    // matched to specific places.
+    alt: `Scenic travel view — ${img.region.replace(/^\w/, (c) => c.toUpperCase())}`,
   }));
 
   return (
