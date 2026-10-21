@@ -30,14 +30,14 @@ const VARIANT_CAPTION: Record<(typeof VARIANTS)[number], string> = {
   link: "underlined",
 };
 
-/** Every button variant Ã— size, plus interaction states. */
+/** Every button variant × size, plus interaction states. */
 export function ButtonsDemo() {
   return (
     <div className="grid gap-6">
       <div className="overflow-x-auto no-scrollbar">
         <table className="w-full min-w-[36rem] border-collapse text-left">
           <caption className="label-brutal mb-3 text-left text-ink-soft">
-            Variants Ã— sizes
+            Variants × sizes
           </caption>
           <thead>
             <tr>

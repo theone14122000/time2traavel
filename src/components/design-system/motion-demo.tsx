@@ -8,7 +8,7 @@ export function MotionDemo() {
   return (
     <div className="grid gap-6">
       <div className="grid gap-2 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
-        <span className="label-brutal text-ink-soft">RevealTitle â€” masked slide-up</span>
+        <span className="label-brutal text-ink-soft">RevealTitle — masked slide-up</span>
         <RevealTitle as="h3" className="font-display text-h3 uppercase">
           Scroll me into view
         </RevealTitle>
@@ -18,12 +18,12 @@ export function MotionDemo() {
       </div>
 
       <div className="grid gap-2 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
-        <span className="label-brutal text-ink-soft">CountUp â€” component demo only</span>
+        <span className="label-brutal text-ink-soft">CountUp — component demo only</span>
         <p className="font-display text-h2 text-tomato">
           <CountUp value={120} duration={1.2} suffix="+" />
         </p>
         <p className="text-sm font-medium text-ink-soft">
-          <strong className="font-bold">Component demo â€” real pages use DB values only.</strong>{" "}
+          <strong className="font-bold">Component demo — real pages use DB values only.</strong>{" "}
           The number above is an arbitrary sample, not a company statistic.
         </p>
       </div>

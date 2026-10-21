@@ -188,7 +188,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 </Select>
                 <FormDescription>
                   Switches the handwriting pairing across the whole site. All
-                  three pairings render live under Design system â†’ Type.
+                  three pairings render live under Design system → Type.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -205,7 +205,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="+91 â€¦" {...field} value={asStr(field.value)} />
+                    <Input type="tel" placeholder="+91 …" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -232,7 +232,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>Support phone</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="+91 â€¦" {...field} value={asStr(field.value)} />
+                    <Input type="tel" placeholder="+91 …" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormDescription>
                     {supportPhoneDisplay
@@ -263,7 +263,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>Working hours</FormLabel>
                   <FormControl>
-                    <Input placeholder="Monâ€“Sat, 10amâ€“7pm" {...field} value={asStr(field.value)} />
+                    <Input placeholder="Mon–Sat, 10am–7pm" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -306,11 +306,11 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormLabel>Map embed URL</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="https://www.google.com/maps?q=â€¦&output=embed"
+                    placeholder="https://www.google.com/maps?q=…&output=embed"
                     {...field} value={asStr(field.value)} />
                 </FormControl>
                 <FormDescription>
-                  The Google Maps embed src (â€¦&amp;output=embed).
+                  The Google Maps embed src (…&amp;output=embed).
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -350,7 +350,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                           <FormItem>
                             <FormLabel>URL</FormLabel>
                             <FormControl>
-                              <Input placeholder="https://â€¦" {...field} value={asStr(field.value)} />
+                              <Input placeholder="https://…" {...field} value={asStr(field.value)} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -403,7 +403,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>Default meta title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Time to Travel â€” Shimla" {...field} value={asStr(field.value)} />
+                    <Input placeholder="Time to Travel — Shimla" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -416,7 +416,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
                 <FormItem>
                   <FormLabel>OG image URL</FormLabel>
                   <FormControl>
-                    <Input placeholder="/og-image.svg or https://â€¦" {...field} value={asStr(field.value)} />
+                    <Input placeholder="/og-image.svg or https://…" {...field} value={asStr(field.value)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

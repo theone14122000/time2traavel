@@ -19,7 +19,7 @@ export function generateMetadata(): Metadata {
   return buildMetadata({
     title: "Destinations",
     description:
-      "Browse every published Time to Travel destination â€” filter by region, open a destination for details and related packages, and enquire from the card.",
+      "Browse every published Time to Travel destination — filter by region, open a destination for details and related packages, and enquire from the card.",
     path: "/destinations",
   });
 }
@@ -61,7 +61,7 @@ export default async function DestinationsPage() {
           id="destinations-grid-heading"
           eyebrow="Explore"
           title="All destinations"
-          description="Pick a region chip to narrow the list â€” enquire opens a pre-filled form for that destination."
+          description="Pick a region chip to narrow the list — enquire opens a pre-filled form for that destination."
         />
 
         <div className="mt-8">
@@ -100,7 +100,7 @@ export default async function DestinationsPage() {
                 </h2>
                 <p className="mt-4 max-w-xl text-lead font-medium text-ink-soft">
                   If none of the destinations above match what you have in mind, send us a
-                  quick message with your dates and group â€” we&apos;ll take it from there.
+                  quick message with your dates and group — we&apos;ll take it from there.
                 </p>
               </div>
 

@@ -17,7 +17,7 @@ const DEFAULT_ITEMS = [
   "Plan My Trip",
   "Enquire Now",
   "Travel Guides",
-  "Kasumpti Â· Shimla",
+  "Kasumpti · Shimla",
 ];
 
 /**

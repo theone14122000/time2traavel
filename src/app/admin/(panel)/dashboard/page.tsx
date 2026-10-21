@@ -33,7 +33,7 @@ export default async function AdminDashboardPage() {
       <AdminPageHeader
         eyebrow="Overview"
         title="Dashboard"
-        description="Live counts from the database â€” no estimates, no vanity metrics."
+        description="Live counts from the database — no estimates, no vanity metrics."
         actions={
           <Badge variant="dark" size="lg">
             {stats.inquiries.new} new {stats.inquiries.new === 1 ? "enquiry" : "enquiries"}
@@ -57,7 +57,7 @@ export default async function AdminDashboardPage() {
         <StatCard
           label="Reviews pending"
           value={stats.reviews.pending}
-          hint={`${stats.reviews.approved} approved Â· ${stats.reviews.rejected} rejected`}
+          hint={`${stats.reviews.approved} approved · ${stats.reviews.rejected} rejected`}
           tone="lavender"
         />
         <StatCard
@@ -127,7 +127,7 @@ export default async function AdminDashboardPage() {
                       <div className="min-w-0">
                         <p className="truncate font-bold">{row.name}</p>
                         <p className="truncate text-xs text-ink-soft">
-                          {row.typeLabel} Â· {row.subject}
+                          {row.typeLabel} · {row.subject}
                         </p>
                         <p className="mt-1 text-xs font-semibold uppercase text-ink-soft">
                           {row.createdAt}
@@ -186,7 +186,7 @@ export default async function AdminDashboardPage() {
                         {row.name}
                         {row.context ? (
                           <span className="ml-2 text-xs font-semibold text-ink-soft">
-                            Â· {row.context}
+                            · {row.context}
                           </span>
                         ) : null}
                       </p>
@@ -194,7 +194,7 @@ export default async function AdminDashboardPage() {
                         {row.comment}
                       </p>
                       <p className="mt-1 text-xs font-semibold uppercase text-ink-soft">
-                        {row.rating}/5 Â· {row.createdAt}
+                        {row.rating}/5 · {row.createdAt}
                       </p>
                     </div>
                     <Badge variant="lavender" size="sm">

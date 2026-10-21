@@ -9,7 +9,7 @@ import {
 import { Badge, Stamp } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-/** Four card variants with placeholder media â€” no real inventory shown. */
+/** Four card variants with placeholder media — no real inventory shown. */
 export function CardsDemo() {
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -31,7 +31,7 @@ export function CardsDemo() {
         </BrutalCardHeader>
         <BrutalCardBody>
           <p className="text-sm font-medium leading-relaxed text-ink-soft">
-            Placeholder body copy for the gallery â€” real cards render database content.
+            Placeholder body copy for the gallery — real cards render database content.
           </p>
         </BrutalCardBody>
         <BrutalCardFooter>
@@ -60,7 +60,7 @@ export function CardsDemo() {
         </BrutalCardHeader>
         <BrutalCardBody>
           <p className="text-sm font-medium leading-relaxed text-ink-soft">
-            Placeholder body copy â€” no prices or durations are shown on this demo page.
+            Placeholder body copy — no prices or durations are shown on this demo page.
           </p>
         </BrutalCardBody>
         <BrutalCardFooter>
@@ -74,7 +74,7 @@ export function CardsDemo() {
           <p className="label-brutal text-ink-soft">review</p>
           <p className="font-display text-h4 uppercase">Sample review card</p>
           <p className="text-sm font-medium leading-relaxed text-ink-soft">
-            Placeholder quote slot â€” this gallery never attributes words to real people.
+            Placeholder quote slot — this gallery never attributes words to real people.
           </p>
         </BrutalCardBody>
       </BrutalCard>
@@ -86,7 +86,7 @@ export function CardsDemo() {
         badge={<Badge variant="sky-strong">Badge slot</Badge>}
       >
         <BrutalCardBody className="pt-8">
-          <p className="label-brutal text-ink-soft">info â€” sticker + badge slots</p>
+          <p className="label-brutal text-ink-soft">info — sticker + badge slots</p>
           <h3 className="font-display text-h4 uppercase">Slot demo</h3>
           <p className="text-sm font-medium leading-relaxed text-ink-soft">
             Border-4 info card showing absolutely positioned sticker (top-left) and

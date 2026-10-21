@@ -50,7 +50,7 @@ export function HomeSectionsManager({
   if (sections.length === 0) {
     return (
       <p className="border-[3px] border-dashed border-ink bg-butter px-4 py-10 text-center text-sm font-bold uppercase">
-        No sections found â€” run the database seed to create the defaults.
+        No sections found — run the database seed to create the defaults.
       </p>
     );
   }
@@ -192,7 +192,7 @@ function HomeSectionRowForm({
                   />
                 </FormControl>
                 <FormDescription>
-                  Optional â€” must be valid JSON when filled in.
+                  Optional — must be valid JSON when filled in.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

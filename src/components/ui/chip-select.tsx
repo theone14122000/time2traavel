@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
  *   onChange={setInterests}
  * />
  *
- * // â€¦inside react-hook-form:
+ * // …inside react-hook-form:
  * <ChipMultiSelect
  *   label="Interests"
  *   options={INTEREST_OPTIONS}

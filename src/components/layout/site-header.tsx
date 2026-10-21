@@ -67,7 +67,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
   });
 
   // The drawer owns the full viewport, so page scrolling is locked while it is
-  // open (Radix locks it too â€” this keeps the inline style in sync for the
+  // open (Radix locks it too — this keeps the inline style in sync for the
   // SSR/no-JS-free mount and restores whatever was there before).
   React.useEffect(() => {
     if (!menuOpen) return;
@@ -350,7 +350,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                               />
                             ) : null}
                             <span>{link.label}</span>
-                            <span aria-hidden="true">â†’</span>
+                            <span aria-hidden="true">→</span>
                           </Link>
                         </motion.div>
                       );
@@ -400,7 +400,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
           </div>
         </div>
 
-        {/* Destinations mega panel â€” anchored to the full-width header and
+        {/* Destinations mega panel — anchored to the full-width header and
             centered on the viewport so it can never clip at any width. */}
         <AnimatePresence>
           {megaOpen ? (

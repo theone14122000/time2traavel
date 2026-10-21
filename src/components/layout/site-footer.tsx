@@ -156,7 +156,7 @@ export async function SiteFooter() {
                         href={social.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`${social.platform} â€” opens in a new tab`}
+                        aria-label={`${social.platform} — opens in a new tab`}
                         className="flex size-10 items-center justify-center border-[3px] border-cream bg-ink shadow-[4px_4px_0_var(--color-lemon)] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-lemon hover:text-ink"
                       >
                         {badge ? (
@@ -179,7 +179,7 @@ export async function SiteFooter() {
             <p className="label-brutal mb-3 text-lemon">Find us</p>
             <MapEmbed
               src={settings.mapEmbedUrl ?? ""}
-              title={`${settings.siteName} office â€” ${settings.address}`}
+              title={`${settings.siteName} office — ${settings.address}`}
               height="h-[240px] sm:h-[300px]"
             />
           </div>
@@ -187,7 +187,7 @@ export async function SiteFooter() {
 
         <div className="mt-10 flex flex-col gap-3 border-t-[3px] border-cream/30 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs font-semibold text-cream/80">
-            Â© {year} {settings.siteName}. All rights reserved.
+            © {year} {settings.siteName}. All rights reserved.
           </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-cream/80">
             <li>
@@ -203,7 +203,7 @@ export async function SiteFooter() {
             {founder ? <li>Founded by {founder.name}</li> : null}
             {supportDisplay ? (
               <li>
-                Website &amp; I.T support: {supportDisplay} â€” for website or technical issues
+                Website &amp; I.T support: {supportDisplay} — for website or technical issues
                 only.
               </li>
             ) : null}

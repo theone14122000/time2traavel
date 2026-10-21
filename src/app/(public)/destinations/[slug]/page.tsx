@@ -140,7 +140,7 @@ export default async function DestinationDetailPage({ params }: Props) {
 
       <PageHeader
         eyebrow={
-          destination.region ? `${destination.state} Â· ${destination.region}` : destination.state
+          destination.region ? `${destination.state} · ${destination.region}` : destination.state
         }
         title={destination.name}
         description={destination.summary}
@@ -247,7 +247,7 @@ export default async function DestinationDetailPage({ params }: Props) {
             <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
               <h3 className="font-display text-h4 uppercase">Plan this trip</h3>
               <p className="mt-3 text-sm font-medium leading-relaxed text-ink-soft">
-                Send your dates, group size and any must-dos â€” we&apos;ll reply with a
+                Send your dates, group size and any must-dos — we&apos;ll reply with a
                 plan built around {destination.name}.
               </p>
               <DestinationEnquiryButton
@@ -276,7 +276,7 @@ export default async function DestinationDetailPage({ params }: Props) {
               id="destination-gallery-heading"
               eyebrow="Gallery"
               title={`Photos of ${destination.name}`}
-              description="Hover an image to zoom â€” open the enquiry form if a shot sells the trip."
+              description="Hover an image to zoom — open the enquiry form if a shot sells the trip."
             />
 
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -315,7 +315,7 @@ export default async function DestinationDetailPage({ params }: Props) {
             <EmptyState
               eyebrow="Packages"
               title="No packages listed yet"
-              description={`We haven't published packages for ${destination.name} yet â€” send an enquiry and we'll plan one with you.`}
+              description={`We haven't published packages for ${destination.name} yet — send an enquiry and we'll plan one with you.`}
               tone="paper"
               icon={<Compass className="size-8" aria-hidden="true" />}
               action={
@@ -355,7 +355,7 @@ export default async function DestinationDetailPage({ params }: Props) {
                 Ready when you are
               </h2>
               <p className="mt-4 max-w-xl text-lead font-medium text-ink-soft">
-                Send your dates, group size and any must-dos for {destination.name} â€”
+                Send your dates, group size and any must-dos for {destination.name} —
                 we&apos;ll come back with a plan.
               </p>
             </div>

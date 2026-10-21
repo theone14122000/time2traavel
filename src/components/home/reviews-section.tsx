@@ -5,7 +5,7 @@ import { Marquee } from "@/components/shared/marquee";
 import { RatingStars } from "@/components/shared/rating-stars";
 import { ReviewForm } from "@/components/forms/review-form";
 import { getApprovedReviews, type ApprovedReview } from "@/lib/data/reviews";
-import { BrutalCard, BrutalCardBody } from "@/components/ui/brutal-card";
+import { CardSurface as Card, CardBody, CardTexture } from "@/components/ui/card";
 import { Badge, Stamp } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { cn, formatDate } from "@/lib/utils";
@@ -16,12 +16,13 @@ import { cn, formatDate } from "@/lib/utils";
  */
 function ReviewMiniCard({ review }: { review: ApprovedReview }) {
   return (
-    <BrutalCard
-      variant="review"
+    <Card
+      variant="quote"
+      accent="mint"
       disableHover
       className="w-[19rem] shrink-0 whitespace-normal normal-case tracking-normal text-left"
     >
-      <BrutalCardBody className="space-y-2.5 py-4">
+      <CardBody className="space-y-2.5 py-4">
         <div className="flex items-center justify-between gap-2">
           <RatingStars rating={review.rating} size="sm" />
           <Badge variant="mint" size="sm">
@@ -44,31 +45,28 @@ function ReviewMiniCard({ review }: { review: ApprovedReview }) {
             {formatDate(review.createdAt, { month: "short", year: "numeric" })}
           </span>
         </div>
-      </BrutalCardBody>
-    </BrutalCard>
+      </CardBody>
+    </Card>
   );
 }
 
 /** Larger highlight block for the first approved review. */
 function FeaturedReview({ review }: { review: ApprovedReview }) {
   return (
-    <BrutalCard
-      variant="review"
+    <Card
+      variant="quote"
+      accent="lemon"
       className="h-full"
-      sticker={
-        <Stamp rotate={-8} variant="tomato">
-          Featured
-        </Stamp>
-      }
     >
-      <BrutalCardBody className="space-y-4 py-6 pr-6 sm:pr-16">
-        <span
-          aria-hidden="true"
-          className="absolute right-4 top-4 flex size-10 items-center justify-center border-[3px] border-ink bg-lemon"
-        >
-          <Quote className="size-5" />
-        </span>
+      <CardTexture className="opacity-[0.03]" />
+      <span
+        aria-hidden="true"
+        className="absolute right-4 top-4 z-[2] flex size-10 items-center justify-center border-[3px] border-ink bg-lemon"
+      >
+        <Quote className="size-5" />
+      </span>
 
+      <CardBody className="space-y-4 py-6 pr-6 sm:pr-16">
         <RatingStars rating={review.rating} size="lg" />
 
         <blockquote className="text-lg font-medium leading-relaxed sm:text-xl">
@@ -97,13 +95,13 @@ function FeaturedReview({ review }: { review: ApprovedReview }) {
             Admin-approved
           </Badge>
         </div>
-      </BrutalCardBody>
-    </BrutalCard>
+      </CardBody>
+    </Card>
   );
 }
 
 /**
- * Reviews band â€” featured approved review + a two-row marquee wall of
+ * Reviews band — featured approved review + a two-row marquee wall of
  * approved-review mini-cards, plus a submission form that saves reviews
  * as PENDING for admin approval.
  */
@@ -139,7 +137,7 @@ export async function ReviewsSection() {
             <EmptyState
               eyebrow="Reviews"
               title="Be the first to review"
-              description="If you've travelled with us, share your experience â€” it will appear here after our team approves it."
+              description="If you've travelled with us, share your experience — it will appear here after our team approves it."
               tone="peach"
               illustration="luggage"
               action={

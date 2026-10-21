@@ -205,7 +205,7 @@ export default async function AdminInquiriesPage({
         <EmptyState
           eyebrow="Inbox"
           title="No enquiries match"
-          description="Adjust the filters â€” or wait for the first submission from the site."
+          description="Adjust the filters — or wait for the first submission from the site."
           icon={<Inbox aria-hidden="true" className="size-8" />}
         />
       ) : (
@@ -240,7 +240,7 @@ export default async function AdminInquiriesPage({
                   <p className="truncate">
                     {row.subject ||
                       row.message?.slice(0, 80) ||
-                      (row.packageTitle ? `Package: ${row.packageTitle}` : "â€”")}
+                      (row.packageTitle ? `Package: ${row.packageTitle}` : "—")}
                   </p>
                   {row.destinationName ? (
                     <span className="mt-0.5 block text-xs text-ink-soft">

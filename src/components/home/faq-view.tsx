@@ -116,7 +116,7 @@ export function FaqView({ faqs }: { faqs: FaqItem[] }) {
       <EmptyState
         eyebrow="FAQs"
         title="Questions coming soon"
-        description="Our FAQs are being written. If you have a question right now, send it over â€” we'll reply with an answer."
+        description="Our FAQs are being written. If you have a question right now, send it over — we'll reply with an answer."
         tone="lavender"
         illustration="search"
         icon={<CircleHelp className="size-8" aria-hidden="true" />}

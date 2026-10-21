@@ -35,7 +35,7 @@ const STAMPS = [
 
 const CHIPS = ["Beaches", "Hills", "Food", "Culture", "Wildlife"];
 
-/** Badge palette Ã— sizes, rotated stamps, ribbons and toggleable chips. */
+/** Badge palette × sizes, rotated stamps, ribbons and toggleable chips. */
 export function BadgesDemo() {
   const [active, setActive] = React.useState<string[]>(["Hills"]);
 
@@ -50,7 +50,7 @@ export function BadgesDemo() {
   return (
     <div className="grid gap-6">
       <div className="grid gap-3">
-        <span className="label-brutal text-ink-soft">Badge â€” variants Ã— sizes</span>
+        <span className="label-brutal text-ink-soft">Badge — variants × sizes</span>
         <div className="border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
           <ul className="grid gap-3">
             {BADGE_VARIANTS.map((variant) => (
@@ -74,7 +74,7 @@ export function BadgesDemo() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
-          <span className="label-brutal text-ink-soft">Stamp â€” rotations</span>
+          <span className="label-brutal text-ink-soft">Stamp — rotations</span>
           <div className="flex flex-wrap items-center gap-5 py-3">
             {STAMPS.map((stamp) => (
               <Stamp key={`${stamp.variant}-${stamp.rotate}`} variant={stamp.variant} rotate={stamp.rotate}>
@@ -85,7 +85,7 @@ export function BadgesDemo() {
         </div>
 
         <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
-          <span className="label-brutal text-ink-soft">Ribbon â€” edge callouts</span>
+          <span className="label-brutal text-ink-soft">Ribbon — edge callouts</span>
           <div className="flex flex-wrap items-end gap-4 py-3">
             <Ribbon variant="tomato">Demo</Ribbon>
             <Ribbon variant="mint">Demo</Ribbon>
@@ -97,7 +97,7 @@ export function BadgesDemo() {
 
       <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="label-brutal text-ink-soft">TagChip â€” interactive toggle</span>
+          <span className="label-brutal text-ink-soft">TagChip — interactive toggle</span>
           <span className="text-xs font-semibold text-ink-soft" aria-live="polite">
             {active.length} selected
           </span>

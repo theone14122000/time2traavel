@@ -45,7 +45,7 @@ export function Badge({ className, variant, size, ...props }: BadgeProps) {
   );
 }
 
-/** Rotated "sticker" badge â€” for DB flags only (e.g. featured â†’ "Popular"). */
+/** Rotated "sticker" badge — for DB flags only (e.g. featured → "Popular"). */
 export function Stamp({
   children,
   className,

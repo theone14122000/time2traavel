@@ -88,7 +88,7 @@ const FAQ_ITEMS = [
     value: "faq-one",
     question: "Demo question one?",
     answer:
-      "Generic demo answer copy. Real FAQ content is stored in the database and rendered here â€” this block exists only to show the accordion behaviour.",
+      "Generic demo answer copy. Real FAQ content is stored in the database and rendered here — this block exists only to show the accordion behaviour.",
   },
   {
     value: "faq-two",
@@ -100,7 +100,7 @@ const FAQ_ITEMS = [
     value: "faq-three",
     question: "Demo question three?",
     answer:
-      "Third demo answer â€” keyboard navigation, focus rings and reduced-motion behaviour all come from the Radix primitives underneath.",
+      "Third demo answer — keyboard navigation, focus rings and reduced-motion behaviour all come from the Radix primitives underneath.",
   },
 ];
 
@@ -192,7 +192,7 @@ export default async function DesignSystemPage() {
         tone="cream"
         description="Every variant across every size, plus loading, disabled, icon, magnetic and asChild states."
       >
-        <Panel label="Button" note="variant Ã— size matrix">
+        <Panel label="Button" note="variant × size matrix">
           <ButtonsDemo />
         </Panel>
       </GallerySection>
@@ -258,7 +258,7 @@ export default async function DesignSystemPage() {
         tone="paper"
         description="Four demo slides with drag, dots, arrow buttons and a live counter."
       >
-        <Panel label="Carousel" note="keyboard: â† / â†’ when focused">
+        <Panel label="Carousel" note="keyboard: ← / → when focused">
           <div className="grid grid-cols-1 gap-3">
             <Carousel
               label="Demo carousel"
@@ -274,8 +274,8 @@ export default async function DesignSystemPage() {
               ))}
             />
             <p className="text-sm font-medium text-ink-soft">
-              Focus the carousel (tab to it) and use â† / â†’ arrow keys, or drag on
-              touch. Focus lands on the region â€” controls are reachable by Tab.
+              Focus the carousel (tab to it) and use ← / → arrow keys, or drag on
+              touch. Focus lands on the region — controls are reachable by Tab.
             </p>
           </div>
         </Panel>
@@ -286,7 +286,7 @@ export default async function DesignSystemPage() {
         eyebrow="Components"
         title="Pagination"
         tone="cream"
-        description="Stateful demo â€” page 1 of 12."
+        description="Stateful demo — page 1 of 12."
       >
         <Panel label="Pagination" note="useState page">
           <PaginationDemo />
@@ -320,7 +320,7 @@ export default async function DesignSystemPage() {
         tone="cream"
         description="All four illustrations across tones, with and without a call to action."
       >
-        <Panel label="EmptyState" note="4 illustrations Ã— tones">
+        <Panel label="EmptyState" note="4 illustrations × tones">
           <div className="grid gap-6 lg:grid-cols-2">
             <EmptyState
               illustration="compass"
@@ -358,7 +358,7 @@ export default async function DesignSystemPage() {
               tone="peach"
               eyebrow="Demo label"
               title="Search empty state"
-              description="Without an action â€” title and copy only."
+              description="Without an action — title and copy only."
             />
           </div>
         </Panel>
@@ -369,7 +369,7 @@ export default async function DesignSystemPage() {
         eyebrow="Components"
         title="Accordion & tabs"
         tone="paper"
-        description="Demo Q&A in an accordion and a tab set â€” generic copy only."
+        description="Demo Q&A in an accordion and a tab set — generic copy only."
       >
         <div className="grid gap-6 lg:grid-cols-2">
           <Panel label="Accordion" note="demo Q&A">
@@ -392,7 +392,7 @@ export default async function DesignSystemPage() {
               </TabsList>
               <TabsContent value="tab-one">
                 <p className="text-sm font-medium leading-relaxed text-ink-soft">
-                  Generic demo panel content for tab one â€” the active trigger flips to
+                  Generic demo panel content for tab one — the active trigger flips to
                   the lemon highlight.
                 </p>
               </TabsContent>
@@ -435,9 +435,9 @@ export default async function DesignSystemPage() {
         eyebrow="Navigation"
         title="Section dividers"
         tone="paper"
-        description="All four variants stacked in every tone â€” purely decorative."
+        description="All four variants stacked in every tone — purely decorative."
       >
-        <Panel label="SectionDivider" note="4 variants Ã— 4 tones">
+        <Panel label="SectionDivider" note="4 variants × 4 tones">
           <div className="grid gap-5">
             {DIVIDER_VARIANTS.map((variant) => (
               <div key={variant} className="grid gap-2">
@@ -493,7 +493,7 @@ export default async function DesignSystemPage() {
         eyebrow="Feedback"
         title="Motion"
         tone="cream"
-        description="Scroll reveal, count-up and magnetic wrappers â€” all reduced-motion aware."
+        description="Scroll reveal, count-up and magnetic wrappers — all reduced-motion aware."
       >
         <Panel label="RevealTitle / CountUp / Magnetic" note="respects prefers-reduced-motion">
           <MotionDemo />
@@ -524,7 +524,7 @@ export default async function DesignSystemPage() {
             <p className="text-base font-medium leading-relaxed">
               Press{" "}
               <kbd className="label-brutal border-[2px] border-ink bg-butter px-2 py-1.5 shadow-hard-xs">
-                âŒ˜K
+                ⌘K
               </kbd>{" "}
               or{" "}
               <kbd className="label-brutal border-[2px] border-ink bg-butter px-2 py-1.5 shadow-hard-xs">
@@ -535,7 +535,7 @@ export default async function DesignSystemPage() {
             <p className="text-sm font-medium text-ink-soft">
               <code className="font-bold">CommandPaletteProvider</code> is wrapped
               around the app in <code className="font-bold">src/app/layout.tsx</code>,
-              alongside the <code className="font-bold">Toaster</code> â€” there is
+              alongside the <code className="font-bold">Toaster</code> — there is
               nothing to mount per page.
             </p>
           </div>
