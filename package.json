@@ -6,18 +6,23 @@
   "description": "Time to Travel — neo-brutalist travel agency website (Next.js, Prisma, MySQL)",
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/check-contrast.mjs && prisma generate && next build",
+    "build": "node scripts/check-contrast.mjs && node scripts/check-images.mjs && prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "check:contrast": "node scripts/check-contrast.mjs",
+    "check:images": "node scripts/check-images.mjs",
     "postinstall": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "images:scan": "node scripts/images-scan.mjs",
+    "images:prep": "node scripts/images-prep.mjs",
+    "thumbs": "node scripts/generate-destination-thumbs.mjs",
+    "validate:images": "node scripts/validate-destination-images.mjs"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -62,6 +67,7 @@
     "eslint": "^10.12.0",
     "eslint-config-next": "^16.4.0",
     "prisma": "^6.19.3",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3"
