@@ -25,6 +25,8 @@ export default async function AdminMediaPage() {
     url: asset.url,
     alt: asset.alt,
     provider: asset.provider,
+    region: asset.region ?? "UNASSIGNED",
+    tags: asset.tags ?? "[]",
     createdAt: asset.createdAt.toISOString(),
   }));
 

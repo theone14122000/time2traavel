@@ -17,6 +17,8 @@ export type MediaRow = {
   url: string;
   alt: string;
   provider: "LOCAL" | "CLOUDINARY";
+  region: string;
+  tags: string;
   createdAt: string;
 };
 
@@ -24,6 +26,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
   const router = useRouter();
   const [file, setFile] = React.useState<File | null>(null);
   const [alt, setAlt] = React.useState("");
+  const [region, setRegion] = React.useState("UNASSIGNED");
   const [pending, startTransition] = React.useTransition();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -36,6 +39,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
     const formData = new FormData();
     formData.set("file", file);
     formData.set("alt", alt);
+    formData.set("region", region);
 
     startTransition(async () => {
       const result = await uploadMediaAction(formData);
@@ -91,6 +95,31 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
               placeholder="Describe the image for screen readers"
             />
           </div>
+          <div className="grid gap-1.5">
+            <Label htmlFor="media-region">Region</Label>
+            <select
+              id="media-region"
+              value={region}
+              onChange={(event) => setRegion(event.target.value)}
+              className="h-12 w-full border-[3px] border-ink bg-paper px-3 py-2 text-sm font-medium"
+            >
+              <option value="UNASSIGNED">Unassigned (generic)</option>
+              <option value="himachal">Himachal</option>
+              <option value="ladakh">Ladakh</option>
+              <option value="kashmir">Kashmir</option>
+              <option value="uttarakhand">Uttarakhand</option>
+              <option value="sikkim">Sikkim</option>
+              <option value="northeast">Northeast</option>
+              <option value="andaman">Andaman</option>
+              <option value="rajasthan">Rajasthan</option>
+              <option value="kerala">Kerala</option>
+              <option value="goa">Goa</option>
+              <option value="international">International</option>
+            </select>
+            <p className="text-xs font-semibold text-ink-soft">
+              Domestic images are only used on domestic placements.
+            </p>
+          </div>
         </div>
         <div>
           <Button type="submit" loading={pending}>
@@ -137,6 +166,9 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
                 <div className="flex items-center justify-between gap-2">
                   <Badge variant="soft" size="sm">
                     {asset.provider}
+                  </Badge>
+                  <Badge variant="soft" size="sm">
+                    {asset.region}
                   </Badge>
                   <span className="text-xs font-semibold text-ink-soft">
                     {formatDate(asset.createdAt, {

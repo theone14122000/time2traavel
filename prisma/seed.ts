@@ -2,6 +2,7 @@ import "dotenv/config";
 import { hash } from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 import { SITE_IDENTITY } from "../src/lib/constants";
+import { IMAGE_MANIFEST } from "../src/lib/image-manifest";
 
 const prisma = new PrismaClient();
 
@@ -22,6 +23,42 @@ async function seedSiteSettings() {
     },
   });
   console.log("[seed] Created SiteSettings singleton with factual defaults.");
+}
+
+async function seedMediaAssets() {
+  let created = 0;
+  let updated = 0;
+  for (const entry of IMAGE_MANIFEST) {
+    const existing = await prisma.mediaAsset.findFirst({
+      where: { url: entry.url },
+      select: { id: true },
+    });
+    if (existing) {
+      await prisma.mediaAsset.update({
+        where: { id: existing.id },
+        data: {
+          alt: entry.suggestedAlt,
+          region: entry.region,
+          tags: JSON.stringify(entry.tags),
+          provider: "LOCAL",
+        },
+      });
+      updated += 1;
+    } else {
+      await prisma.mediaAsset.create({
+        data: {
+          url: entry.url,
+          alt: entry.suggestedAlt,
+          region: entry.region,
+          tags: JSON.stringify(entry.tags),
+          publicId: entry.filename,
+          provider: "LOCAL",
+        },
+      });
+      created += 1;
+    }
+  }
+  console.log(`[seed] MediaAsset: ${created} created, ${updated} updated.`);
 }
 
 async function seedAdminUser() {
@@ -62,6 +99,7 @@ async function main() {
   await seedDraftServices();
   await seedTripTypes();
   await seedHomeSections();
+  await seedMediaAssets();
   console.log("[seed] Done.");
 }
 

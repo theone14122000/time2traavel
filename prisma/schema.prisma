@@ -232,14 +232,20 @@ model PageContent {
 }
 
 model MediaAsset {
-  id        String        @id @default(cuid())
-  url       String
-  alt       String
-  width     Int?
-  height    Int?
-  provider  MediaProvider @default(LOCAL)
-  publicId  String?
-  createdAt DateTime      @default(now())
+  id           String        @id @default(cuid())
+  url          String
+  alt          String
+  width        Int?
+  height       Int?
+  provider     MediaProvider @default(LOCAL)
+  publicId     String?
+  region       String        @default("UNASSIGNED")
+  tags         String        @default("[]")
+  blurDataURL  String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([region])
 }
 
 model Service {

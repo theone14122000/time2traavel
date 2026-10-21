@@ -40,6 +40,7 @@ export async function uploadMediaAction(
   await requireAdmin();
 
   const alt = String(formData.get("alt") ?? "").trim();
+  const region = String(formData.get("region") ?? "UNASSIGNED").trim() || "UNASSIGNED";
   const file = formData.get("file");
 
   if (!(file instanceof File) || file.size === 0) {
@@ -73,6 +74,7 @@ export async function uploadMediaAction(
       data: {
         url,
         alt: alt || originalBase.replace(/-/g, " "),
+        region,
         provider: "LOCAL",
         publicId: filename,
       },
