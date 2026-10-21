@@ -10,6 +10,8 @@ import { FaqSection } from "@/components/home/faq-section";
 import { Reveal } from "@/components/shared/reveal";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { getPublishedDestinations } from "@/lib/data/destinations";
+import { DomesticDestinationsGrid } from "@/components/destinations/domestic-destinations-grid";
+import { getDomesticDestinations } from "@/lib/data/domestic-destinations";
 import { pluralize } from "@/lib/utils";
 import { buildMetadata } from "@/lib/seo";
 
@@ -24,6 +26,7 @@ export function generateMetadata(): Metadata {
 
 export default async function DestinationsPage() {
   const destinations = await getPublishedDestinations();
+  const domestic = await getDomesticDestinations();
 
   return (
     <>
@@ -60,6 +63,10 @@ export default async function DestinationsPage() {
           title="All destinations"
           description="Pick a region chip to narrow the list â€” enquire opens a pre-filled form for that destination."
         />
+
+        <div className="mt-8">
+          <DomesticDestinationsGrid destinations={domestic} />
+        </div>
 
         <div className="mt-8">
           <DestinationHubTabs active="all" />

@@ -16,14 +16,40 @@ import { DestinationEnquiryButton } from "@/components/destinations/destination-
 import { WeatherWidget } from "@/components/destinations/weather-widget";
 import { PackageGrid } from "@/components/packages/package-grid";
 import { getDestinationBySlug } from "@/lib/data/destinations";
+import { DomesticDestinationDetail } from "@/components/destinations/domestic-destination-detail";
+import { getDomesticDestinationBySlug } from "@/lib/data/domestic-destinations";
+import { originalUrl } from "@/lib/domestic-destinations";
 import { getPackagesByDestination } from "@/lib/data/packages";
 import { toGallery } from "@/lib/utils";
 import { buildBreadcrumbJsonLd, buildMetadata, JsonLd } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
+export function generateStaticParams() {
+  return [
+    "jammu-and-kashmir",
+    "assam",
+    "gujarat",
+    "himachal-pradesh",
+    "rajasthan",
+    "tamil-nadu",
+    "uttar-pradesh",
+    "uttarakhand",
+  ].map((slug) => ({ slug }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const domestic = await getDomesticDestinationBySlug(slug);
+  if (domestic) {
+    const cover = domestic.images[Math.min(domestic.coverIndex, domestic.images.length - 1)] ?? domestic.images[0];
+    return buildMetadata({
+      title: `${domestic.name} — Domestic Destination`,
+      description: domestic.overview,
+      path: `/destinations/${domestic.slug}`,
+      image: cover ? originalUrl(cover) : null,
+    });
+  }
   const destination = await getDestinationBySlug(slug);
 
   if (!destination) {
@@ -78,6 +104,11 @@ function BandHeading({
 
 export default async function DestinationDetailPage({ params }: Props) {
   const { slug } = await params;
+  const domestic = await getDomesticDestinationBySlug(slug);
+  if (domestic) {
+    return <DomesticDestinationDetail slug={slug} />;
+  }
+
   const destination = await getDestinationBySlug(slug);
   if (!destination) notFound();
 
