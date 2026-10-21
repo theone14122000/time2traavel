@@ -49,7 +49,8 @@ export function HowItWorks() {
         <HomeSectionHeading
           id="how-it-works-heading"
           eyebrow="Your adventure, your rules"
-          title="How it works"
+          title="How it [[works]]"
+          gradientTone="ink"
           description="The same four steps whether you're booking a weekend break or a multi-stop trip."
         />
 

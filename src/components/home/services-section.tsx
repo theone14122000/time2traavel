@@ -44,7 +44,8 @@ export async function ServicesSection() {
           <HomeSectionHeading
             id="services-heading"
             eyebrow="Services"
-            title="What we can book for you"
+            title="What we can [[book]] for you"
+            gradientTone="forest"
             description="Published by our team from the admin panel — pick a service to see what's included."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

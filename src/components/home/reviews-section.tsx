@@ -127,9 +127,8 @@ export async function ReviewsSection() {
         <HomeSectionHeading
           id="reviews-heading"
           eyebrow="From the road"
-          title="Traveller stories"
-          panelWords={2}
-          panelTone="peach"
+          title="Traveller [[stories]]"
+          gradientTone="plum"
           description="Only reviews approved by our team are shown here."
         />
 

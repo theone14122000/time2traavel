@@ -425,25 +425,6 @@
     background-size: 22px 22px;
   }
 
-  /* Highlighter marker for key words inside display headings */
-  .marker {
-    background-image: linear-gradient(
-      to bottom,
-      transparent 58%,
-      var(--tt-marker) 58%,
-      var(--tt-marker) 94%,
-      transparent 94%
-    );
-    background-repeat: no-repeat;
-    padding-inline: 0.08em;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-  }
-
-  .marker-hot {
-    --tt-marker: var(--tt-marker-hot);
-  }
-
   /* Diagonal thick-stripe divider band */
   .divider-stripe {
     background-image: repeating-linear-gradient(
@@ -717,62 +698,6 @@
     text-shadow: 3px 3px 0 var(--tt-ink);
   }
 
-  /* Comic panel: last words of a heading sit in a solid colour block */
-  .comic-panel {
-    display: inline-block;
-    max-width: 100%;
-    padding: 0.08em 0.28em 0.12em;
-    border: 3px solid var(--tt-ink);
-    box-shadow: 4px 4px 0 var(--tt-ink);
-    line-height: 1;
-    vertical-align: baseline;
-    overflow-wrap: break-word;
-  }
-  @media (max-width: 359px) {
-    .comic-panel {
-      box-shadow: 3px 3px 0 var(--tt-ink);
-      padding-inline: 0.2em;
-    }
-  }
-  .comic-panel-tomato {
-    background: var(--tt-tomato);
-    color: var(--tt-ink); /* ink on bright fill (AA) */
-  }
-  .comic-panel-mint {
-    background: var(--tt-mint-strong);
-    color: var(--tt-ink);
-  }
-  .comic-panel-lemon {
-    background: var(--tt-lemon);
-    color: var(--tt-ink);
-  }
-  .comic-panel-sky {
-    background: var(--tt-sky);
-    color: var(--tt-ink);
-  }
-  .comic-panel-paper {
-    background: var(--tt-paper);
-    color: var(--tt-ink);
-  }
-
-  /* Comic underline — thick offset bar under a word */
-  .comic-underline {
-    background-image: linear-gradient(
-      to top,
-      var(--tt-lemon) 0,
-      var(--tt-lemon) 0.22em,
-      transparent 0.22em
-    );
-    padding-inline: 0.08em;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-  }
-
-  .comic-panel-peach {
-    background: var(--tt-peach);
-    color: var(--tt-ink);
-  }
-
   /* Gentle idle float for decorative stickers/illustrations */
   @keyframes float-gentle {
     0%,
@@ -815,19 +740,7 @@
     will-change: transform;
   }
 
-  /* Highlight block sits behind the word (ink text on palette = AA) */
-  .heading-highlight {
-    position: relative;
-    isolation: isolate;
-  }
-  .heading-highlight > .heading-highlight-fill {
-    position: absolute;
-    inset: -0.04em -0.14em;
-    z-index: -1;
-    transform-origin: left center;
-  }
-
-  /* Desktop pointers only: lift 2px, shadow grows, tone cycles the palette */
+  /* Desktop pointer hover: lift + hard shadow */
   @media (hover: hover) and (pointer: fine) {
     .heading-word {
       transition:
@@ -845,29 +758,88 @@
         4px 4px 0 var(--tt-ink),
         7px 7px 0 var(--tt-ink);
     }
-    .heading-highlight:hover > .heading-highlight-fill {
-      animation: tone-cycle 1.6s steps(1, end) infinite;
+  }
+
+  /* ---- Ken Burns slow zoom (hero background) ---- */
+  @keyframes kenburns {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+  .animate-kenburns {
+    animation: kenburns 12s ease-out forwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-kenburns { animation: none !important; }
+  }
+
+  /* ---- Gradient accent word (one per heading) ---- */
+  .hg-word {
+    color: var(--hg-fallback, var(--tt-ink));
+    background-image: var(--hg, linear-gradient(110deg, var(--tt-ink), var(--tt-indigo), var(--tt-pen-blue)));
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+    padding-block: 0.08em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .hg-word {
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+  @keyframes hg-shift {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+  }
+  .hg-word[data-animate="true"] {
+    animation: hg-shift 7s ease-in-out infinite alternate;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hg-word { animation: none !important; }
+  }
+  @media (forced-colors: active), print {
+    .hg-word {
+      background: none;
+      -webkit-text-fill-color: currentColor;
+      color: CanvasText;
     }
   }
 
-  /* Palette colour shift for highlight blocks (flat solid colours only) */
-  @keyframes tone-cycle {
-    0%,
-    24% {
-      background-color: var(--t1);
-    }
-    25%,
-    49% {
-      background-color: var(--t2);
-    }
-    50%,
-    74% {
-      background-color: var(--t3);
-    }
-    75%,
-    100% {
-      background-color: var(--t4);
-    }
+  /* Tone presets — stops derived from --tt-* tokens, each ≥3:1 on its section bg */
+  .hg-ink {
+    --hg: linear-gradient(110deg, var(--tt-ink) 0%, var(--tt-indigo) 50%, var(--tt-pen-blue) 100%);
+    --hg-fallback: var(--tt-ink);
+  }
+  .hg-ocean {
+    --hg: linear-gradient(110deg, var(--tt-pen-blue) 0%, var(--tt-indigo) 50%, var(--tt-ink) 100%);
+    --hg-fallback: var(--tt-pen-blue);
+  }
+  .hg-flame {
+    --hg: linear-gradient(110deg, var(--tt-stamp-red) 0%, var(--tt-ink) 50%, var(--tt-indigo) 100%);
+    --hg-fallback: var(--tt-stamp-red);
+  }
+  .hg-forest {
+    --hg: linear-gradient(110deg, var(--tt-success) 0%, var(--tt-ink-soft) 50%, var(--tt-ink) 100%);
+    --hg-fallback: var(--tt-success);
+  }
+  .hg-plum {
+    --hg: linear-gradient(110deg, var(--tt-indigo) 0%, var(--tt-pen-blue) 50%, var(--tt-stamp-red) 100%);
+    --hg-fallback: var(--tt-indigo);
+  }
+  .hg-onDark {
+    --hg: linear-gradient(110deg, var(--tt-lemon) 0%, var(--tt-tangerine) 50%, var(--tt-tomato) 100%);
+    --hg-fallback: var(--tt-lemon);
+  }
+  .hg-aurora {
+    --hg: linear-gradient(110deg, var(--tt-mint-strong) 0%, var(--tt-sky-strong) 50%, var(--tt-grape) 100%);
+    --hg-fallback: var(--tt-mint-strong);
+  }
+  .hg-rose {
+    --hg: linear-gradient(110deg, var(--tt-berry) 0%, var(--tt-tangerine) 50%, var(--tt-lemon) 100%);
+    --hg-fallback: var(--tt-berry);
   }
 
   /* Right-edge clip so rotated/oversized decor can never cause

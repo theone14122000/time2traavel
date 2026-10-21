@@ -28,9 +28,8 @@ export async function GuidesTeaser() {
           <HomeSectionHeading
             id="guides-heading"
             eyebrow="Field notes"
-            title="Reading for the road."
-            panelWords={2}
-            panelTone="mint"
+            title="Reading for the [[road]]."
+            gradientTone="ocean"
             description="Destination guides, trekking tips and travel inspiration from the Time2Travel team."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

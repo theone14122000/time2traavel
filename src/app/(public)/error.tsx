@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { GradientWord } from "@/components/ui/gradient-word";
 
 type PublicPageError = {
   error: Error & { digest?: string };
@@ -19,7 +20,7 @@ export default function PublicError({ reset }: PublicPageError) {
         <p className="label-brutal text-ink">Page error</p>
 
         <h1 className="mt-3 text-h2">
-          Something broke
+          Something <GradientWord tone="ink">broke</GradientWord>
         </h1>
 
         <p className="mt-4 font-medium leading-relaxed">

@@ -1,6 +1,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
+import { renderHeading } from "@/lib/render-heading";
+import type { HeadingGradientTone } from "@/lib/heading-accents";
 
 export function PageHeader({
   eyebrow,
@@ -8,6 +10,7 @@ export function PageHeader({
   description,
   children,
   tone = "butter",
+  gradientTone = "ink",
   className,
 }: {
   eyebrow?: string;
@@ -15,6 +18,7 @@ export function PageHeader({
   description?: React.ReactNode;
   children?: React.ReactNode;
   tone?: "butter" | "mint" | "sky" | "peach" | "lavender" | "cream" | "ink";
+  gradientTone?: HeadingGradientTone;
   className?: string;
 }) {
   const toneClasses = {
@@ -43,7 +47,9 @@ export function PageHeader({
               {eyebrow}
             </span>
           ) : null}
-          <h1 className="max-w-[16ch] text-h1">{title}</h1>
+          <h1 className="max-w-[16ch] text-h1">
+            {typeof title === "string" ? renderHeading(title, gradientTone) : title}
+          </h1>
           {description ? (
             <p className="max-w-2xl text-lead font-medium text-ink-soft">{description}</p>
           ) : null}

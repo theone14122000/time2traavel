@@ -5,17 +5,44 @@ import { Badge } from "@/components/ui/badge";
 import { BrutalImage } from "@/components/ui/brutal-image";
 import { Button } from "@/components/ui/button";
 import { getGalleryItems } from "@/lib/data/gallery";
+import { getGalleryFallbacks } from "@/lib/home-fallback-images";
 
 const ASPECTS = ["landscape", "square", "portrait", "wide"] as const;
 
+type GalleryFigure = {
+  key: string;
+  url: string;
+  alt: string;
+  caption: string;
+  category: string;
+};
+
 /**
  * Gallery band — latest six gallery items in a masonry-style column layout.
- * Hides itself completely when the admin hasn't uploaded anything yet.
+ * Falls back to curated local photos from public/images when the admin
+ * hasn't uploaded anything yet, so the band never disappears.
  */
 export async function GalleryTeaser() {
   const items = await getGalleryItems({ limit: 6 });
+  const usingFallback = items.length === 0;
 
-  if (items.length === 0) return null;
+  const figures: GalleryFigure[] = usingFallback
+    ? getGalleryFallbacks().map((img, i) => ({
+        key: `fallback-${i}`,
+        url: img.src,
+        alt: img.alt,
+        caption: img.caption,
+        category: img.regionLabel,
+      }))
+    : items.map((item) => ({
+        key: item.id,
+        url: item.url,
+        alt: item.alt,
+        caption: item.caption?.trim() || item.alt,
+        category: item.category,
+      }));
+
+  if (figures.length === 0) return null;
 
   return (
     <section
@@ -30,8 +57,13 @@ export async function GalleryTeaser() {
           <HomeSectionHeading
             id="gallery-heading"
             eyebrow="Gallery"
-            title="Snapshots from the road"
-            description="Photos uploaded by our team — destinations, stays and moments from the road."
+            title="Snapshots from the [[road]]"
+            gradientTone="ink"
+            description={
+              usingFallback
+                ? "A look at the places we plan trips to — Himalayan passes, green valleys, and island shores."
+                : "Photos uploaded by our team — destinations, stays and moments from the road."
+            }
           />
           <Button asChild variant="outline" size="md" className="shrink-0">
             <Link href="/gallery">
@@ -42,24 +74,24 @@ export async function GalleryTeaser() {
         </div>
 
         <div className="mt-8 columns-1 gap-6 sm:columns-2 lg:columns-3">
-          {items.map((item, index) => (
+          {figures.map((figure, index) => (
             <figure
-              key={item.id}
+              key={figure.key}
               className="mb-6 break-inside-avoid border-[3px] border-ink bg-paper shadow-hard"
             >
               <BrutalImage
-                src={item.url}
-                alt={item.alt}
+                src={figure.url}
+                alt={figure.alt}
                 aspect={ASPECTS[index % ASPECTS.length]}
                 sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
                 className="border-0 border-b-[3px]"
               />
               <figcaption className="flex flex-wrap items-center justify-between gap-2 p-3">
                 <span className="text-xs font-semibold text-ink-soft">
-                  {item.caption?.trim() || item.alt}
+                  {figure.caption}
                 </span>
                 <Badge variant="soft" size="sm">
-                  {item.category}
+                  {figure.category}
                 </Badge>
               </figcaption>
             </figure>

@@ -1,20 +1,36 @@
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, Mountain, Route } from "lucide-react";
-import { getPublishedDestinations } from "@/lib/data/destinations";
+import { Mountain, Route } from "lucide-react";
 import { HomeSectionHeading } from "@/components/home/section-heading";
-import { BrutalImage } from "@/components/ui/brutal-image";
+import { CardSlideshow } from "@/components/ui/card-slideshow";
 import { Button } from "@/components/ui/button";
 import { MountainParallax } from "@/components/home/mountain-parallax";
+import { allocateImages } from "@/lib/image-allocator";
+import { IMAGE_MANIFEST } from "@/lib/image-manifest";
 
 /**
  * Signature band — "Into the Mountains".
- * Layered navy/teal silhouettes + real published destinations.
- * Decorative layers only; no invented trek data.
+ * Layered navy/teal silhouettes + auto-toggling CardSlideshow of
+ * domestic mountain-region photos from the image library.
  */
 export async function MountainsBand() {
-  const destinations = await getPublishedDestinations({ limit: 3 });
-  const withImages = destinations.filter((d) => d.image && d.image.trim().length > 0);
+  // Pool: domestic mountain-region images from the manifest.
+  const mountainPool = IMAGE_MANIFEST.filter(
+    (img) =>
+      img.isDomestic &&
+      (img.region === "himachal" ||
+        img.region === "ladakh" ||
+        img.region === "kashmir" ||
+        img.region === "uttarakhand" ||
+        img.region === "sikkim" ||
+        img.region === "northeast"),
+  );
+
+  const picked = allocateImages(mountainPool, 6, "mountains-band-slideshow");
+  const slides = picked.map((img) => ({
+    src: img.url,
+    alt: img.suggestedAlt,
+  }));
 
   return (
     <section
@@ -32,9 +48,8 @@ export async function MountainsBand() {
               id="mountains-heading"
               eyebrow="No signal. All adventure."
               tone="ink"
-              title="The Himalayas are calling!"
-              panelWords={2}
-              panelTone="mint"
+              title="The [[Himalayas]] are calling!"
+              gradientTone="onDark"
               description="Pick up the adventure — winding roads, hidden valleys, and unforgettable high-country escapes."
             />
 
@@ -59,54 +74,13 @@ export async function MountainsBand() {
             </div>
           </div>
 
-          {/* real destination snapshots */}
-          {withImages.length > 0 ? (
-            <ul className="grid gap-4 sm:grid-cols-3 lg:col-span-7">
-              {withImages.map((dest, index) => (
-                <li key={dest.id} className={index === 0 ? "sm:col-span-2" : undefined}>
-                  <Link
-                    href={`/destinations/${dest.slug}`}
-                    className="group block focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-lemon"
-                  >
-                    <figure className="relative aspect-[4/3] overflow-hidden border-[3px] border-cream/90 bg-ink shadow-brutal-sm transition-transform duration-200 group-hover:-translate-y-1 sm:aspect-[3/4]">
-                      <BrutalImage
-                        src={dest.image}
-                        alt={dest.imageAlt?.trim() || dest.name}
-                        decorative={false}
-                        aspect="free"
-                        sizes="(max-width: 640px) 90vw, 28vw"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <figcaption className="absolute inset-x-0 bottom-0 border-t-[3px] border-cream/90 bg-ink/85 px-3 py-2">
-                        <span className="label-brutal text-lemon">{dest.name}</span>
-                        {dest.state ? (
-                          <span className="mt-1 block text-xs font-medium text-cream/80">
-                            {dest.state}
-                          </span>
-                        ) : null}
-                      </figcaption>
-                    </figure>
-                  </Link>
-                </li>
-              ))}
-              <li className="flex items-end sm:col-span-3">
-                <Link
-                  href="/destinations"
-                  className="label-brutal inline-flex min-h-11 items-center gap-1.5 text-lemon underline-offset-4 hover:underline"
-                >
-                  All mountain destinations
-                  <ArrowRight aria-hidden="true" className="size-3.5" />
-                </Link>
-              </li>
-            </ul>
-          ) : (
-            <div className="flex items-center justify-center lg:col-span-7">
-              <p className="max-w-md border-[3px] border-cream/40 p-6 text-center text-cream/70">
-                Himalayan destination photos will appear here once published
-                from the admin.
-              </p>
-            </div>
-          )}
+          <div className="lg:col-span-7">
+            <CardSlideshow
+              images={slides}
+              label="Himalayan destination photos"
+              className="mx-auto max-w-md lg:max-w-none"
+            />
+          </div>
         </div>
       </div>
     </section>

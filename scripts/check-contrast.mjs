@@ -113,6 +113,25 @@ const PAIRS = [
   ["--tt-paper", "--tt-danger", 4.5, "white on danger button"],
   ["--tt-paper", "--tt-success", 4.5, "white on success fill"],
   ["--tt-ink", "--tt-danger", 3.0, "ink on danger (large/UI)"],
+
+  // Gradient accent stops — each must pass ≥3:1 (large/UI) on its section bg
+  // Light tones (used on cream/mint/sky/peach/lavender/sand/paper sections)
+  ...SECTION_TINTS.flatMap((bg) => [
+    ["--tt-ink", bg, 3.0, "hg-ink stop on light tint"],
+    ["--tt-indigo", bg, 3.0, "hg-ink/flame/plum stop on light tint"],
+    ["--tt-pen-blue", bg, 3.0, "hg-ink/ocean stop on light tint"],
+    ["--tt-stamp-red", bg, 3.0, "hg-flame stop on light tint"],
+    ["--tt-success", bg, 3.0, "hg-forest stop on light tint"],
+    ["--tt-ink-soft", bg, 3.0, "hg-forest stop on light tint"],
+  ]),
+  // Dark-section tones (used on ink background only)
+  ["--tt-lemon", "--tt-ink", 3.0, "hg-onDark stop on ink"],
+  ["--tt-tangerine", "--tt-ink", 3.0, "hg-onDark/aurora stop on ink"],
+  ["--tt-tomato", "--tt-ink", 3.0, "hg-onDark stop on ink"],
+  ["--tt-mint-strong", "--tt-ink", 3.0, "hg-aurora stop on ink"],
+  ["--tt-sky-strong", "--tt-ink", 3.0, "hg-aurora stop on ink"],
+  ["--tt-grape", "--tt-ink", 3.0, "hg-aurora stop on ink"],
+  ["--tt-berry", "--tt-ink", 3.0, "hg-rose stop on ink"],
 ];
 
 /* ---------------- run ---------------- */

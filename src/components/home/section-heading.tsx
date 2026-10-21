@@ -1,11 +1,11 @@
 import * as React from "react";
 import { RevealTitle } from "@/components/shared/motion";
 import { cn } from "@/lib/utils";
+import type { HeadingGradientTone } from "@/lib/heading-accents";
 
 /**
- * Home-section eyebrow + comic display heading.
- * Optional `panelWords` wraps the final N words in a solid comic panel
- * (one clear focal point per heading — never every word).
+ * Home-section eyebrow + display heading with exactly one gradient accent word.
+ * No panel backgrounds behind words — GradientWord handles the accent.
  */
 export function HomeSectionHeading({
   id,
@@ -14,8 +14,7 @@ export function HomeSectionHeading({
   description,
   align = "left",
   tone = "cream",
-  panelWords = 0,
-  panelTone = "tomato",
+  gradientTone = "ink",
 }: {
   id: string;
   eyebrow?: string;
@@ -24,16 +23,10 @@ export function HomeSectionHeading({
   align?: "left" | "center";
   /** "ink" = heading sits on a dark band (cream text). */
   tone?: "cream" | "ink";
-  /** Wrap the last N words of a string title in a comic panel (0 = off). */
-  panelWords?: number;
-  panelTone?: "tomato" | "mint" | "lemon" | "sky" | "paper" | "peach";
+  /** Gradient tone for the accent word. */
+  gradientTone?: HeadingGradientTone;
 }) {
   const onDark = tone === "ink";
-
-  const headingNode =
-    panelWords > 0 && typeof title === "string"
-      ? renderPanelTitle(title, panelWords, panelTone)
-      : title;
 
   return (
     <div
@@ -59,12 +52,13 @@ export function HomeSectionHeading({
         <RevealTitle
           as="h2"
           onDark={onDark}
+          gradientTone={gradientTone}
           className={cn(
             "max-w-[22ch] text-h2",
             onDark && "text-cream",
           )}
         >
-          {headingNode}
+          {title}
         </RevealTitle>
       </div>
 
@@ -79,32 +73,5 @@ export function HomeSectionHeading({
         </p>
       ) : null}
     </div>
-  );
-}
-
-/** Split a string title so the last `count` words sit in a comic panel. */
-function renderPanelTitle(
-  title: string,
-  count: number,
-  panelTone: "tomato" | "mint" | "lemon" | "sky" | "paper" | "peach",
-) {
-  const words = title.trim().split(/\s+/).filter(Boolean);
-  if (words.length <= count) {
-    return (
-      <span className={cn("comic-panel", `comic-panel-${panelTone}`)}>
-        {words.join(" ")}
-      </span>
-    );
-  }
-  const cut = words.length - count;
-  const head = words.slice(0, cut).join(" ");
-  const tail = words.slice(cut).join(" ");
-  return (
-    <>
-      {head}{" "}
-      <span className={cn("comic-panel", `comic-panel-${panelTone}`)}>
-        {tail}
-      </span>
-    </>
   );
 }

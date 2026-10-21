@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Globe2 } from "lucide-react";
 import { HomeSectionHeading } from "@/components/home/section-heading";
-import { EmptyState } from "@/components/shared/empty-state";
 import { Stamp } from "@/components/ui/badge";
 import {
   BrutalCard,
@@ -13,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { safeQuery } from "@/lib/data/safe";
 import { cn } from "@/lib/utils";
+import { getInternationalFallbacks } from "@/lib/home-fallback-images";
 
 type InternationalDestination = {
   id: string;
@@ -73,9 +73,8 @@ export async function InternationalTrips() {
           <HomeSectionHeading
             id="international-heading"
             eyebrow="No borders"
-            title="Your next chapter has no borders!"
-            panelWords={2}
-            panelTone="sky"
+            title="Your next chapter has no [[borders]]!"
+            gradientTone="ocean"
             description="Discover exciting destinations, different cultures, and journeys that take you beyond the familiar."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">
@@ -88,19 +87,65 @@ export async function InternationalTrips() {
 
         <div className="mt-8">
           {destinations.length === 0 ? (
-            <EmptyState
-              eyebrow="International"
-              title="International trips coming soon"
-              description="We haven't published any international destinations yet — tell us where you'd like to go and we'll plan it with you."
-              tone="sky"
-              illustration="map"
-              className="py-8 sm:py-10"
-              action={
-                <Button asChild variant="default" size="md">
-                  <Link href="/plan-my-trip">Plan a custom trip</Link>
-                </Button>
-              }
-            />
+            /* Local photo showcase — real international photos from
+               public/images when no CMS destinations are published yet. */
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {getInternationalFallbacks().map((img, index) => (
+                <article
+                  key={img.src}
+                  className={cn(
+                    "h-full",
+                    index === 0 && "sm:col-span-2",
+                  )}
+                >
+                  <BrutalCard
+                    variant="destination"
+                    className="flex h-full flex-col"
+                    badge={
+                      <Stamp variant="soft" rotate={6}>
+                        {img.regionLabel}
+                      </Stamp>
+                    }
+                  >
+                    <BrutalCardMedia
+                      aspect={index === 0 ? "wide" : "destination"}
+                    >
+                      <BrutalImage
+                        src={img.src}
+                        alt={img.alt}
+                        aspect="free"
+                        className="h-full w-full border-0"
+                        sizes={
+                          index === 0
+                            ? "(max-width: 1024px) 92vw, 62vw"
+                            : "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
+                        }
+                      />
+                    </BrutalCardMedia>
+
+                    <BrutalCardBody className="flex flex-1 flex-col gap-3 py-5">
+                      <h3 className="font-display text-h3 uppercase leading-none">
+                        {img.caption}
+                      </h3>
+
+                      <div className="mt-auto pt-2">
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="sm"
+                          className="tap-44 w-full sm:w-auto"
+                        >
+                          <Link href="/plan-my-trip">
+                            Plan a trip here
+                            <ArrowRight aria-hidden="true" className="size-4" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </BrutalCardBody>
+                  </BrutalCard>
+                </article>
+              ))}
+            </div>
           ) : (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {destinations.map((destination, index) => (

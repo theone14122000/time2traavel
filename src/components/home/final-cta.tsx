@@ -4,7 +4,6 @@ import { ContactForm } from "@/components/forms/contact-form";
 import { getContactDetails } from "@/lib/data/site";
 import { Reveal } from "@/components/shared/reveal";
 import { HomeSectionHeading } from "@/components/home/section-heading";
-import { HighlightedTitle } from "@/components/home/highlight-title";
 import { Stamp } from "@/components/ui/badge";
 
 /**
@@ -51,7 +50,8 @@ export async function FinalCta() {
                 id="enquire-heading"
                 eyebrow="Stop scrolling"
                 tone="ink"
-                title={<HighlightedTitle text="Start exploring!" />}
+                title="Start [[exploring]]!"
+                gradientTone="onDark"
                 description="Your next unforgettable story could begin with one simple decision. Tell us where you're dreaming of — we'll help plan the rest."
               />
               <Stamp

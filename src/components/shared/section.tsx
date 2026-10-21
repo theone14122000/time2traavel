@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 import { AnimatedHeading } from "@/components/ui/animated-heading";
+import type { HeadingGradientTone } from "@/lib/heading-accents";
 
 type SectionTone =
   | "cream"
@@ -82,6 +83,7 @@ export function SectionHeading({
   id,
   className,
   tone = "cream",
+  gradientTone = "ink",
 }: {
   eyebrow?: string;
   title: React.ReactNode;
@@ -90,6 +92,7 @@ export function SectionHeading({
   id?: string;
   className?: string;
   tone?: "ink" | "cream";
+  gradientTone?: HeadingGradientTone;
 }) {
   return (
     <div
@@ -117,6 +120,7 @@ export function SectionHeading({
             variant="section"
             hard={false}
             onDark={tone === "ink"}
+            gradientTone={gradientTone}
             className="text-inherit"
           />
         ) : (
@@ -125,6 +129,7 @@ export function SectionHeading({
             variant="section"
             hard={false}
             onDark={tone === "ink"}
+            gradientTone={gradientTone}
             className="text-inherit"
           >
             {title}

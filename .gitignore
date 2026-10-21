@@ -19,3 +19,6 @@ next-env.d.ts
 !/public/uploads/.gitkeep
 
 .vercel
+
+# generated image audit report
+images-report.md

@@ -22,9 +22,8 @@ export async function WhyChooseUs() {
         <HomeSectionHeading
           id="why-us-heading"
           eyebrow="The good stuff"
-          title="Why roll with us?"
-          panelWords={3}
-          panelTone="paper"
+          title="Why roll with [[us]]?"
+          gradientTone="plum"
           description="Personalised planning, adventure-first experiences, and support from first enquiry to final itinerary."
         />
 

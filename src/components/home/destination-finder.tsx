@@ -21,7 +21,8 @@ export async function DestinationFinder() {
         <HomeSectionHeading
           id="trip-finder-heading"
           eyebrow="Trip finder"
-          title="Find trips that fit"
+          title="Find [[trips]] that fit"
+          gradientTone="ocean"
           description="Filter our published destinations and packages by month, trip type and budget band."
         />
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { GradientWord } from "@/components/ui/gradient-word";
 
 /**
  * Root-level error boundary. Copy stays generic on purpose — no stack traces,
@@ -18,7 +19,7 @@ export default function RootError({
         <p className="label-brutal text-ink">Error</p>
 
         <h1 className="mt-3 text-h2">
-          Something broke
+          Something <GradientWord tone="ink">broke</GradientWord>
         </h1>
 
         <p className="mt-4 font-medium leading-relaxed">

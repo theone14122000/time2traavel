@@ -59,9 +59,8 @@ export async function PackagesSection() {
           <HomeSectionHeading
             id="packages-heading"
             eyebrow="Less planning stress"
-            title="More adventure!"
-            panelWords={1}
-            panelTone="lemon"
+            title="More [[adventure]]!"
+            gradientTone="flame"
             description="Find a journey that matches your travel style and turns your next holiday into something unforgettable."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

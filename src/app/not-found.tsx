@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { EmptyState } from "@/components/shared/empty-state";
 import { buttonVariants } from "@/components/ui/button-variants";
+import { GradientWord } from "@/components/ui/gradient-word";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -34,7 +35,7 @@ export default function NotFound() {
         </p>
 
         <h1 id="not-found-heading" className="max-w-[16ch] text-h1 text-ink">
-          404 / Page not found
+          404 / Page not <GradientWord tone="ink">found</GradientWord>
         </h1>
 
         <EmptyState

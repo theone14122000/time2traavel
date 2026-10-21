@@ -16,9 +16,8 @@ export async function FaqSection() {
         <HomeSectionHeading
           id="faq-heading"
           eyebrow="Ask away"
-          title="Questions, answered."
-          panelWords={1}
-          panelTone="lemon"
+          title="Questions, [[answered]]."
+          gradientTone="ink"
           description="Published by our team from the admin panel — search below or jump straight to a question."
         />
 

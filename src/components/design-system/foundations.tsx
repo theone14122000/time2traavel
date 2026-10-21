@@ -1,4 +1,5 @@
 ﻿import { Input } from "@/components/ui/input";
+import { GradientWord } from "@/components/ui/gradient-word";
 
 /** Type scale specimens with their fluid clamp() definitions.
  *  Script (display/h1/h2) is never uppercase; handwritten for h3 and below. */
@@ -77,15 +78,14 @@ export function TypeScale() {
   );
 }
 
-/** Highlighter markers, chunky labels and stroked outline type. */
+/** Gradient accent word, chunky labels and stroked outline type. */
 export function TypeUtilities() {
   return (
     <div className="grid gap-6 md:grid-cols-2">
       <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs sm:p-5">
-        <span className="label-brutal text-ink-soft">.marker / .marker-hot</span>
+        <span className="label-brutal text-ink-soft">GradientWord accent</span>
         <p className="font-display text-h3 uppercase leading-tight">
-          Highlighted with <span className="marker">marker</span> and{" "}
-          <span className="marker-hot">marker-hot</span> words.
+          Highlighted with <GradientWord tone="ink">accent</GradientWord> word.
         </p>
       </div>
 

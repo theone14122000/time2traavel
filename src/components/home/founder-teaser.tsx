@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Building2, MapPin, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TeamAvatar } from "@/components/about/team-avatar";
+import { GradientWord } from "@/components/ui/gradient-word";
 import { getSiteSettings } from "@/lib/data/site";
 import { getFounder } from "@/lib/data/team";
 
@@ -52,7 +53,7 @@ export async function FounderTeaser() {
               className="mt-4 flex items-start gap-3 text-h2 text-cream"
             >
               <UserRound aria-hidden="true" className="mt-1 size-7 shrink-0 text-lemon" />
-              Founded by {founder.name}
+              Founded by <GradientWord tone="aurora">{founder.name}</GradientWord>
             </h2>
 
             <p className="mt-3 flex items-start gap-2 text-sm font-semibold text-cream/80 sm:text-base">

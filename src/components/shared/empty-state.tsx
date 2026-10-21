@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { renderHeading } from "@/lib/render-heading";
 
 type EmptyStateIllustration = "compass" | "luggage" | "map" | "search" | "default";
 
@@ -152,7 +153,9 @@ export function EmptyState({
         {eyebrow}
       </span>
 
-      <h3 className="max-w-[18ch] font-display text-h3 uppercase text-ink">{title}</h3>
+      <h3 className="max-w-[18ch] font-display text-h3 uppercase text-ink">
+        {renderHeading(title, "ink")}
+      </h3>
 
       {description ? (
         <p className="max-w-md text-sm font-medium leading-relaxed text-ink-soft sm:text-base">

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { EASE, DURATION, maskReveal, viewportOnce } from "@/lib/motion";
 import { AnimatedHeading } from "@/components/ui/animated-heading";
+import type { HeadingGradientTone } from "@/lib/heading-accents";
 
 /* ------------------------------------------------------------------ *
  * Magnetic wrapper — desktop pointers only, off for reduced motion.   *
@@ -121,6 +122,7 @@ export function RevealTitle({
   delay = 0,
   as: Tag = "div",
   onDark = false,
+  gradientTone,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -128,6 +130,8 @@ export function RevealTitle({
   as?: "div" | "span" | "h1" | "h2" | "h3";
   /** Cream hard-shadow for titles on ink backgrounds. */
   onDark?: boolean;
+  /** Gradient tone for the accent word. */
+  gradientTone?: HeadingGradientTone;
 }) {
   const reduceMotion = useReducedMotion();
 
@@ -139,6 +143,7 @@ export function RevealTitle({
         variant="section"
         delay={delay}
         onDark={onDark}
+        gradientTone={gradientTone}
         animate={!reduceMotion}
         className={className}
       />

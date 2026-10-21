@@ -2,123 +2,252 @@
 
 import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { EASE, headingFadeUp, headingWord, highlightWipe, outlineFill, stagger } from "@/lib/motion";
+import { EASE, headingFadeUp, headingWord, stagger } from "@/lib/motion";
 import { viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { GradientWord } from "@/components/ui/gradient-word";
+import { parseHeadingAccent, type HeadingGradientTone } from "@/lib/heading-accents";
 
 /* ================================================================== *
- * Palette — flat solid colours only (no gradients/blur/glow).        *
- * Ink text on every tone keeps WCAG AA (ink on tomato ≈ 6.4:1).      *
+ * AnimatedHeading — the single heading component for the whole site. *
+ * Word-mask entrance + exactly one GradientWord accent per heading.   *
+ * No background fills, markers or highlight blocks behind words.      *
  * ================================================================== */
-export type HeadingTone =
-  | "sunrise"
-  | "mint"
-  | "sky"
-  | "peach"
-  | "lavender"
-  | "blush"
-  | "tomato";
+type HeadingTag = "h1" | "h2" | "h3" | "h4" | "p" | "div" | "span";
 
-const TONE_VAR: Record<HeadingTone, string> = {
-  sunrise: "var(--tt-sunrise)",
-  mint: "var(--tt-mint)",
-  sky: "var(--tt-sky)",
-  peach: "var(--tt-peach)",
-  lavender: "var(--tt-lavender)",
-  blush: "var(--tt-blush)",
-  tomato: "var(--tt-tomato)",
+type AnimatedHeadingBase = {
+  as?: HeadingTag;
+  id?: string;
+  className?: string;
+  /** Base delay before the first word moves. */
+  delay?: number;
+  /** Gradient tone for the accent word (defaults via onDark). */
+  gradientTone?: HeadingGradientTone;
+  /** Hard-shadow for headings on ink backgrounds. */
+  onDark?: boolean;
+  /** Opt-in hard text-shadow (sub-headings, tight spaces). */
+  hard?: boolean;
+  /** Render final state immediately (also used for children mode). */
+  animate?: boolean;
 };
 
-const TONE_ORDER: HeadingTone[] = [
-  "tomato",
-  "sky",
-  "mint",
-  "blush",
-  "lavender",
-  "peach",
-  "sunrise",
-];
+type AnimatedHeadingProps = AnimatedHeadingBase &
+  (
+    | {
+        /** Plain string — full word-splitting treatment. Supports [[accent]]. */
+        text: string;
+        children?: never;
+        variant?: "hero" | "section" | "sub";
+        /** Hero only — split into N lines (default 3). */
+        lines?: number;
+        /** Hero only — underline a word with the drawn scribble. */
+        scribble?: number | null;
+        /** Small decorative sticker in the heading corner. */
+        sticker?: boolean;
+      }
+    | {
+        /** React node titles (rich copy) — container-level treatment only. */
+        children: React.ReactNode;
+        text?: never;
+        variant?: "section" | "sub";
+        lines?: never;
+        scribble?: never;
+        sticker?: boolean;
+      }
+  );
 
-/** Deterministic per-heading tone (stable across server/client renders). */
-function pickTone(text: string): HeadingTone {
-  let hash = 0;
-  for (let i = 0; i < text.length; i++) {
-    hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
-  }
-  return TONE_ORDER[hash % TONE_ORDER.length];
-}
-
-/** Next tones in the palette rotation — drives the hover tone-cycle. */
-function toneCycleVars(tone: HeadingTone): React.CSSProperties {
-  const start = TONE_ORDER.indexOf(tone);
-  const at = (n: number) => TONE_VAR[TONE_ORDER[(start + n) % TONE_ORDER.length]];
-  return {
-    ["--t1" as string]: TONE_VAR[tone],
-    ["--t2" as string]: at(1),
-    ["--t3" as string]: at(2),
-    ["--t4" as string]: at(3),
-  } as React.CSSProperties;
-}
-
-function splitWords(text: string): string[] {
-  return text.trim().split(/\s+/).filter(Boolean);
-}
-
-/** Front-loaded even chunk so "a b c d" → ["a b", "c", "d"] (3 lines). */
-function chunkLines(words: string[], lineCount: number): string[][] {
-  if (words.length <= lineCount) return words.map((w) => [w]);
-  const base = Math.floor(words.length / lineCount);
-  const remainder = words.length % lineCount;
-  const sizes = Array.from({ length: lineCount }, (_, i) => base + (i < remainder ? 1 : 0));
-  const lines: string[][] = [];
-  let cursor = 0;
-  for (const size of sizes) {
-    lines.push(words.slice(cursor, cursor + size));
-    cursor += size;
-  }
-  return lines;
-}
-
-/* ================================================================== *
- * HighlightWord — a single word with a wipe-in palette block.        *
- * ================================================================== */
-export function HighlightWord({
-  children,
-  tone = "sunrise",
+export function AnimatedHeading({
+  as: Tag = "h2",
+  id,
   className,
-  index = 0,
-  animate = true,
-}: {
-  children: string;
-  tone?: HeadingTone;
-  className?: string;
-  index?: number;
-  animate?: boolean;
-}) {
-  return (
-    <span className="heading-mask">
-      <motion.span
-        className={cn("heading-word heading-highlight", className)}
-        custom={index}
-        initial={animate ? "hidden" : "visible"}
-        variants={headingWord}
-        style={{ color: "var(--tt-ink)" }}
-      >
+  delay = 0,
+  gradientTone,
+  onDark = false,
+  hard,
+  animate,
+  variant = "section",
+  text,
+  children,
+  lines,
+  scribble,
+  sticker = false,
+}: AnimatedHeadingProps) {
+  const reduceMotion = useReducedMotion();
+  const anim = animate ?? !reduceMotion;
+
+  const resolvedTone: HeadingGradientTone = gradientTone ?? (onDark ? "onDark" : "ink");
+
+  const hardClass =
+    hard ?? false
+      ? onDark
+        ? "heading-hard-cream"
+        : variant === "hero"
+          ? "heading-hard-lg"
+          : "heading-hard"
+      : null;
+
+  const isHeadingTag = Tag === "h1" || Tag === "h2" || Tag === "h3" || Tag === "h4";
+
+  const shellClass = cn(
+    "[hyphens:none]",
+    !isHeadingTag && (variant === "sub" ? "font-hand" : "font-script"),
+    hardClass,
+    className,
+  );
+
+  /* ---------------- Children mode (ReactNode titles) ---------------- */
+  if (children !== undefined) {
+    if (!anim) {
+      return (
+        <Tag id={id} className={shellClass}>
+          {children}
+        </Tag>
+      );
+    }
+    return (
+      <Tag id={id} className={shellClass}>
         <motion.span
-          aria-hidden="true"
-          className="heading-highlight-fill block"
-          style={{ backgroundColor: TONE_VAR[tone], ...toneCycleVars(tone) }}
-          custom={index}
-          variants={highlightWipe}
-        />
-        <span className="relative">{children}</span>
+          className="block"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={headingFadeUp}
+          transition={{ delay }}
+        >
+          {children}
+        </motion.span>
+      </Tag>
+    );
+  }
+
+  if (!text) return null;
+  const { words, accentIndex } = parseHeadingAccent(text);
+  if (words.length === 0) return null;
+
+  /* ---------------- Hero mode — 3 treated lines ---------------- */
+  if (variant === "hero") {
+    const lineCount = Math.min(lines ?? 3, Math.max(words.length, 1));
+    const wordLines = chunkLines(words, lineCount);
+    const offsetFor = (lineIdx: number) =>
+      wordLines.slice(0, lineIdx).reduce((sum, line) => sum + line.length, 0);
+
+    return (
+      <Tag id={id} className={cn("relative", shellClass)}>
+        {sticker ? <HeadingSticker /> : null}
+        <motion.span
+          className="block"
+          initial={anim ? "hidden" : "visible"}
+          animate="visible"
+          variants={stagger(0.08)}
+          transition={{ delayChildren: delay }}
+        >
+          {wordLines.map((lineWords, lineIdx) => {
+            const offset = offsetFor(lineIdx);
+            return (
+              <span key={`line-${lineIdx}`} className="block">
+                {lineWords.map((word, wi) => {
+                  const globalIndex = offset + wi;
+                  const isAccent = globalIndex === accentIndex;
+                  const scribbleHere = scribble === globalIndex;
+                  return (
+                    <React.Fragment key={`${word}-${wi}`}>
+                      {wi > 0 ? " " : null}
+                      <span
+                        className={cn("heading-mask", scribbleHere && "pb-3 -mb-3")}
+                      >
+                        <motion.span
+                          className="heading-word"
+                          custom={globalIndex}
+                          initial={anim ? "hidden" : "visible"}
+                          variants={headingWord}
+                        >
+                          <span className="relative inline-block">
+                            {isAccent ? (
+                              <GradientWord tone={resolvedTone}>{word}</GradientWord>
+                            ) : (
+                              word
+                            )}
+                            {scribbleHere ? <ScribbleUnderline /> : null}
+                          </span>
+                        </motion.span>
+                      </span>
+                    </React.Fragment>
+                  );
+                })}
+              </span>
+            );
+          })}
+        </motion.span>
+      </Tag>
+    );
+  }
+
+  /* ---------------- Section / sub mode — words + one gradient accent ---- */
+  if (!anim) {
+    return (
+      <Tag id={id} className={shellClass}>
+        {words.map((word, i) => (
+          <React.Fragment key={`${word}-${i}`}>
+            {i > 0 ? " " : null}
+            <span className="heading-mask">
+              <span className="heading-word">
+                {i === accentIndex ? (
+                  <GradientWord tone={resolvedTone}>{word}</GradientWord>
+                ) : (
+                  word
+                )}
+              </span>
+            </span>
+          </React.Fragment>
+        ))}
+      </Tag>
+    );
+  }
+
+  return (
+    <Tag id={id} className={cn("relative", shellClass)}>
+      {sticker ? <HeadingSticker /> : null}
+      <motion.span
+        className="block"
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        variants={stagger(0.06)}
+        transition={{ delayChildren: delay }}
+      >
+        {words.map((word, i) => {
+          const isAccent = i === accentIndex;
+          const scribbleHere = scribble === i;
+          return (
+            <React.Fragment key={`${word}-${i}`}>
+              {i > 0 ? " " : null}
+              <span className={cn("heading-mask", scribbleHere && "pb-3 -mb-3")}>
+                <motion.span
+                  className="heading-word"
+                  custom={i}
+                  variants={headingWord}
+                >
+                  <span className="relative inline-block">
+                    {isAccent ? (
+                      <GradientWord tone={resolvedTone}>{word}</GradientWord>
+                    ) : (
+                      word
+                    )}
+                    {scribbleHere ? <ScribbleUnderline /> : null}
+                  </span>
+                </motion.span>
+              </span>
+            </React.Fragment>
+          );
+        })}
       </motion.span>
-    </span>
+    </Tag>
   );
 }
 
 /* ================================================================== *
  * ScribbleUnderline — hand-drawn SVG line that draws itself in view. *
+ * (Underline stroke, not a filled block — allowed by the spec.)       *
  * ================================================================== */
 export function ScribbleUnderline({ className }: { className?: string }) {
   const reduceMotion = useReducedMotion();
@@ -164,367 +293,6 @@ function HeadingSticker() {
 }
 
 /* ================================================================== *
- * AnimatedHeading — the single heading component for the whole site. *
- * Driven by props: variant, highlight (index/none/auto), tone, delay. *
- * ================================================================== */
-type HeadingTag = "h1" | "h2" | "h3" | "h4" | "p" | "div" | "span";
-
-type AnimatedHeadingBase = {
-  as?: HeadingTag;
-  id?: string;
-  className?: string;
-  /** Base delay before the first word moves. */
-  delay?: number;
-  /** Cream hard-shadow for headings on ink backgrounds. */
-  onDark?: boolean;
-  /** Skip the hard text-shadow (sub-headings, tight spaces). */
-  hard?: boolean;
-  /** Render final state immediately (also used for children mode). */
-  animate?: boolean;
-};
-
-type AnimatedHeadingProps = AnimatedHeadingBase &
-  (
-    | {
-        /** Plain string — full word-splitting treatment. */
-        text: string;
-        children?: never;
-        variant?: "hero" | "section" | "sub";
-        /** Word index, "auto" (longest word), or "none". Default: auto. */
-        highlight?: number | "auto" | "none";
-        highlightTone?: HeadingTone | "auto";
-        /** Hero only — split into N lines (default 3) with line treatments. */
-        lines?: number;
-        /** Hero only — underline a word with the drawn scribble. */
-        scribble?: number | null;
-        /** Small decorative sticker in the heading corner. */
-        sticker?: boolean;
-      }
-    | {
-        /** React node titles (rich copy) — container-level treatment only. */
-        children: React.ReactNode;
-        text?: never;
-        variant?: "section" | "sub";
-        highlight?: never;
-        highlightTone?: never;
-        lines?: never;
-        scribble?: never;
-        sticker?: boolean;
-      }
-  );
-
-export function AnimatedHeading({
-  as: Tag = "h2",
-  id,
-  className,
-  delay = 0,
-  onDark = false,
-  hard,
-  animate,
-  variant = "section",
-  text,
-  children,
-  highlight,
-  highlightTone,
-  lines,
-  scribble,
-  sticker = false,
-}: AnimatedHeadingProps) {
-  const reduceMotion = useReducedMotion();
-  const anim = animate ?? !reduceMotion;
-
-  /* Journal rule: hard shadows off by default (heavy shadows clash with
-     handwritten script) — opt in per heading with the `hard` prop. */
-  const hardClass =
-    hard ?? false
-      ? onDark
-        ? "heading-hard-cream"
-        : variant === "hero"
-          ? "heading-hard-lg"
-          : "heading-hard"
-      : null;
-
-  /* h1/h2 inherit the script face from the base layer; h3/h4 handwritten.
-     Non-heading tags (p/div/span titles) get an explicit role so they
-     never fall back to the body face: sub → handwritten, otherwise script. */
-  const isHeadingTag = Tag === "h1" || Tag === "h2" || Tag === "h3" || Tag === "h4";
-
-  const shellClass = cn(
-    "[hyphens:none]",
-    !isHeadingTag && (variant === "sub" ? "font-hand" : "font-script"),
-    hardClass,
-    className,
-  );
-
-  /* ---------------- Children mode (ReactNode titles) ---------------- */
-  if (children !== undefined) {
-    if (!anim) {
-      return (
-        <Tag id={id} className={shellClass}>
-          {children}
-        </Tag>
-      );
-    }
-    return (
-      <Tag id={id} className={shellClass}>
-        <motion.span
-          className="block"
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={headingFadeUp}
-          transition={{ delay }}
-        >
-          {children}
-        </motion.span>
-      </Tag>
-    );
-  }
-
-  if (!text) return null;
-  const words = splitWords(text);
-  if (words.length === 0) return null;
-
-  /* ---------------- Hero mode — 3 treated lines ---------------- */
-  if (variant === "hero") {
-    const lineCount = Math.min(lines ?? 3, Math.max(words.length, 1));
-    const wordLines = chunkLines(words, lineCount);
-    const displayLines = wordLines.map((line) => line.join(" "));
-    /* Running word index across lines — pure offset, no render mutation. */
-    const offsetFor = (lineIdx: number) =>
-      wordLines.slice(0, lineIdx).reduce((sum, line) => sum + line.length, 0);
-
-    return (
-      <Tag id={id} className={cn("relative", shellClass)}>
-        {sticker ? <HeadingSticker /> : null}
-        <motion.span
-          className="block"
-          initial={anim ? "hidden" : "visible"}
-          animate="visible"
-          variants={stagger(0.08)}
-          transition={{ delayChildren: delay }}
-        >
-          {displayLines.map((line, lineIdx) => {
-            const isMiddle = lineIdx === 1 && wordLines.length >= 3;
-            const isLast = lineIdx === wordLines.length - 1 && wordLines.length >= 2;
-
-            /* Line treatments: 1) solid ink 2) tomato block, white text
-               3) outline that fills on scroll. */
-            if (isMiddle) {
-              const lineWords = wordLines[lineIdx];
-              return (
-                <span key={`line-${lineIdx}`} className="block">
-                  {lineWords.map((word, wi) => {
-                    const globalIndex = offsetFor(lineIdx) + wi;
-                    return (
-                      <React.Fragment key={`${word}-${wi}`}>
-                        {wi > 0 ? " " : null}
-                        <span className="heading-mask">
-                          <motion.span
-                            className="heading-word heading-highlight"
-                            style={{ color: "var(--tt-ink)" }}
-                            custom={globalIndex}
-                            initial={anim ? "hidden" : "visible"}
-                            variants={headingWord}
-                          >
-                            <motion.span
-                              aria-hidden="true"
-                              className="heading-highlight-fill block"
-                              style={{
-                                backgroundColor: TONE_VAR.tomato,
-                                ...toneCycleVars("tomato"),
-                              }}
-                              custom={globalIndex}
-                              variants={highlightWipe}
-                            />
-                            <span className="relative">{word}</span>
-                          </motion.span>
-                        </span>
-                      </React.Fragment>
-                    );
-                  })}
-                </span>
-              );
-            }
-
-            if (isLast && wordLines.length >= 3) {
-              /* Outline line — fills with a palette colour on scroll. */
-              const lineWords = wordLines[lineIdx];
-              return (
-                <span key={`line-${lineIdx}`} className="block">
-                  {lineWords.map((word, wi) => {
-                    const localIndex = offsetFor(lineIdx) + wi;
-                    return (
-                      <React.Fragment key={`${word}-${wi}`}>
-                        {wi > 0 ? " " : null}
-                        <span className="heading-mask">
-                          <motion.span
-                            className="heading-word"
-                            custom={localIndex}
-                            initial={anim ? "hidden" : "visible"}
-                            variants={headingWord}
-                          >
-                            <span className="relative inline-block">
-                              <span className="text-outline">{word}</span>
-                              <motion.span
-                                aria-hidden="true"
-                                className="absolute inset-0 block"
-                                style={{ color: "var(--tt-stamp-red)" }}
-                                initial={anim ? "hidden" : "visible"}
-                                variants={outlineFill}
-                              >
-                                {word}
-                              </motion.span>
-                            </span>
-                          </motion.span>
-                        </span>
-                      </React.Fragment>
-                    );
-                  })}
-                </span>
-              );
-            }
-
-            /* Solid ink line (line 1) */
-            const lineWords = wordLines[lineIdx];
-            return (
-              <span key={`line-${lineIdx}`} className="block">
-                {lineWords.map((word, wi) => {
-                  const localIndex = offsetFor(lineIdx) + wi;
-                  const scribbleHere = scribble === localIndex;
-                  return (
-                    <React.Fragment key={`${word}-${wi}`}>
-                      {wi > 0 ? " " : null}
-                      <span
-                        className={cn(
-                          "heading-mask",
-                          scribbleHere && "pb-3 -mb-3",
-                        )}
-                      >
-                        <motion.span
-                          className="heading-word"
-                          custom={localIndex}
-                          initial={anim ? "hidden" : "visible"}
-                          variants={headingWord}
-                        >
-                          <span className="relative inline-block">
-                            {word}
-                            {scribbleHere ? <ScribbleUnderline /> : null}
-                          </span>
-                        </motion.span>
-                      </span>
-                    </React.Fragment>
-                  );
-                })}
-              </span>
-            );
-          })}
-        </motion.span>
-      </Tag>
-    );
-  }
-
-  /* ---------------- Section / sub mode — words + one highlight -------- */
-  const autoIndex = words.reduce(
-    (best, word, i) => (word.length > words[best].length ? i : best),
-    0,
-  );
-  const highlightIndex =
-    highlight === undefined || highlight === "auto"
-      ? variant === "section"
-        ? autoIndex
-        : -1
-      : highlight === "none"
-        ? -1
-        : highlight;
-
-  const tone: HeadingTone =
-    !highlightTone || highlightTone === "auto"
-      ? pickTone(text)
-      : highlightTone;
-
-  if (!anim) {
-    return (
-      <Tag id={id} className={shellClass}>
-        {words.map((word, i) => (
-          <React.Fragment key={`${word}-${i}`}>
-            {i > 0 ? " " : null}
-            <span className="heading-mask">
-              {i === highlightIndex ? (
-                <span
-                  className="heading-word heading-highlight"
-                  style={{ color: "var(--tt-ink)" }}
-                >
-                  <span
-                    aria-hidden="true"
-                    className="heading-highlight-fill block"
-                    style={{ backgroundColor: TONE_VAR[tone] }}
-                  />
-                  <span className="relative">{word}</span>
-                </span>
-              ) : (
-                <span className="heading-word">{word}</span>
-              )}
-            </span>
-          </React.Fragment>
-        ))}
-      </Tag>
-    );
-  }
-
-  return (
-    <Tag id={id} className={cn("relative", shellClass)}>
-      {sticker ? <HeadingSticker /> : null}
-      <motion.span
-        className="block"
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
-        variants={stagger(0.06)}
-        transition={{ delayChildren: delay }}
-      >
-        {words.map((word, i) => {
-          const isHighlight = i === highlightIndex;
-          const scribbleHere = scribble === i;
-          return (
-            <React.Fragment key={`${word}-${i}`}>
-              {i > 0 ? " " : null}
-              <span
-                className={cn("heading-mask", scribbleHere && "pb-3 -mb-3")}
-              >
-                <motion.span
-                  className={cn(
-                    "heading-word",
-                    isHighlight && "heading-highlight",
-                  )}
-                  style={isHighlight ? { color: "var(--tt-ink)" } : undefined}
-                  custom={i}
-                  variants={headingWord}
-                >
-                  {isHighlight ? (
-                    <motion.span
-                      aria-hidden="true"
-                      className="heading-highlight-fill block"
-                      style={{ backgroundColor: TONE_VAR[tone], ...toneCycleVars(tone) }}
-                      custom={i}
-                      variants={highlightWipe}
-                    />
-                  ) : null}
-                  <span className="relative inline-block">
-                    {word}
-                    {scribbleHere ? <ScribbleUnderline /> : null}
-                  </span>
-                </motion.span>
-              </span>
-            </React.Fragment>
-          );
-        })}
-      </motion.span>
-    </Tag>
-  );
-}
-
-/* ================================================================== *
  * WordSwapper — rotating structural words in a slide-up mask.        *
  * Pauses on hover/focus; static first word under reduced motion.     *
  * ================================================================== */
@@ -533,13 +301,11 @@ export function WordSwapper({
   prefix,
   intervalMs = 2200,
   className,
-  tone = "mint",
 }: {
   words: readonly string[];
   prefix?: string;
   intervalMs?: number;
   className?: string;
-  tone?: HeadingTone;
 }) {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = React.useState(0);
@@ -580,21 +346,30 @@ export function WordSwapper({
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={`${list[index]}-${index}`}
-            className="heading-highlight absolute left-0 top-0 whitespace-nowrap"
+            className="absolute left-0 top-0 whitespace-nowrap"
             initial={reduceMotion ? false : { y: "110%", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { y: "-110%", opacity: 0 }}
             transition={{ duration: 0.32, ease: EASE }}
           >
-            <span
-              aria-hidden="true"
-              className="heading-highlight-fill block"
-              style={{ backgroundColor: TONE_VAR[tone], ...toneCycleVars(tone) }}
-            />
-            <span className="relative">{list[index]}</span>
+            {list[index]}
           </motion.span>
         </AnimatePresence>
       </span>
     </p>
   );
+}
+
+function chunkLines(words: string[], lineCount: number): string[][] {
+  if (words.length <= lineCount) return words.map((w) => [w]);
+  const base = Math.floor(words.length / lineCount);
+  const remainder = words.length % lineCount;
+  const sizes = Array.from({ length: lineCount }, (_, i) => base + (i < remainder ? 1 : 0));
+  const lines: string[][] = [];
+  let cursor = 0;
+  for (const size of sizes) {
+    lines.push(words.slice(cursor, cursor + size));
+    cursor += size;
+  }
+  return lines;
 }

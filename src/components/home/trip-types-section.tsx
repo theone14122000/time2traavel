@@ -45,9 +45,8 @@ export async function TripTypesSection() {
           <HomeSectionHeading
             id="trip-types-heading"
             eyebrow="Choose your next quest"
-            title="Pick your next adventure!"
-            panelWords={1}
-            panelTone="tomato"
+            title="Pick your next [[adventure]]!"
+            gradientTone="flame"
             description="Mountain trails, peaceful valleys, international escapes, and unforgettable road trips. Your next story starts here."
           />
           <Button asChild variant="outline" size="md" className="shrink-0">

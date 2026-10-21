@@ -9,6 +9,7 @@ import { SectionDivider } from "@/components/ui/dividers";
 import { Stamp } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BrutalImage } from "@/components/ui/brutal-image";
+import { GradientWord } from "@/components/ui/gradient-word";
 import { TeamSection } from "@/components/about/team";
 import { ContactBlock } from "@/components/about/contact-block";
 import { HeroShapes } from "@/components/about/hero-shapes";
@@ -155,7 +156,7 @@ export default async function AboutUsPage() {
               id="about-hero-heading"
               className="mt-5 max-w-[14ch] font-display text-display uppercase"
             >
-              About <span className="marker">Us</span>
+              About <GradientWord tone="ink">Us</GradientWord>
             </h1>
 
             {heroSubtitle ? (
@@ -359,7 +360,7 @@ export default async function AboutUsPage() {
             id="about-cta-heading"
             className="max-w-[18ch] text-h2 text-cream"
           >
-            Let&apos;s plan your next <span className="marker">trip</span>
+            Let&apos;s plan your next <GradientWord tone="onDark">trip</GradientWord>
           </h2>
           <p className="max-w-xl text-lead font-medium text-butter">
             Tell us where you&apos;d like to go, when, and who&apos;s travelling —

@@ -168,7 +168,7 @@ export default async function DesignSystemPage() {
         <Panel label="Fluid type scale" note="clamp() labels">
           <TypeScale />
         </Panel>
-        <Panel label="Type utilities" note=".marker / .marker-hot / .text-outline">
+        <Panel label="Type utilities" note="GradientWord accent / .text-outline">
           <TypeUtilities />
         </Panel>
       </GallerySection>
