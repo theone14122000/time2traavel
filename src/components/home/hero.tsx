@@ -205,6 +205,8 @@ type HeroCompositionProps = {
   onNext: () => void;
   onPrev: () => void;
   onGoTo: (index: number) => void;
+  liveMode: "off" | "polite";
+  onSlideReady: (src: string) => void;
 };
 
 function HeroComposition({
@@ -220,6 +222,8 @@ function HeroComposition({
   onNext,
   onPrev,
   onGoTo,
+  liveMode,
+  onSlideReady,
 }: HeroCompositionProps) {
   const reduceMotion = useReducedMotion();
   const primary = tiles[0] ?? null;
@@ -282,6 +286,8 @@ function HeroComposition({
             priorityFirst
             className="h-full w-full"
             layerClassName="object-cover"
+            liveMode={liveMode}
+            onSlideReady={onSlideReady}
           />
         ) : primary?.src ? (
           <BrutalImage
@@ -384,9 +390,12 @@ function HeroComposition({
                 slides={slides}
                 index={smallIndex}
                 label="Hero destination photographs (small frame)"
+                announceLabel="Hero photograph"
                 sizes="210px"
                 className="h-full w-full"
                 layerClassName="object-cover"
+                liveMode={liveMode}
+                onSlideReady={onSlideReady}
               />
             </div>
           ) : secondary?.src ? (
@@ -505,6 +514,8 @@ export function Hero({
     togglePause: heroTogglePause,
     setHovered: heroSetHovered,
     setFocused: heroSetFocused,
+    liveMode: heroLiveMode,
+    markSlideReady: heroMarkSlideReady,
   } = hero;
 
   const container = stagger(0.1);
@@ -549,6 +560,8 @@ export function Hero({
           onNext={heroNext}
           onPrev={heroPrev}
           onGoTo={heroGoTo}
+          liveMode={heroLiveMode}
+          onSlideReady={heroMarkSlideReady}
         />
       ) : (
         <>
@@ -643,6 +656,8 @@ export function Hero({
               onNext={heroNext}
               onPrev={heroPrev}
               onGoTo={heroGoTo}
+              liveMode={heroLiveMode}
+              onSlideReady={heroMarkSlideReady}
             />
             {instruction ? (
               <p className="label-brutal mt-8 text-center text-ink-soft lg:mt-8">

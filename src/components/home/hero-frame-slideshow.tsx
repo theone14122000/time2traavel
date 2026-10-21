@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { ImageWithFallback } from "@/components/ui/image-with-fallback";
 
 export type FrameSlide = { src: string; alt: string };
 
@@ -27,6 +27,10 @@ type Props = {
   poster?: React.ReactNode;
   /** Prefix for the screen-reader announcement. */
   announceLabel?: string;
+  /** "off" while auto-advancing, "polite" once paused or manually changed. */
+  liveMode?: "off" | "polite";
+  /** Called with the src of a slide that finished loading. */
+  onSlideReady?: (src: string) => void;
 };
 
 const CROSSFADE_MS = 1100;
@@ -36,9 +40,9 @@ const CROSSFADE_MS = 1100;
  *
  * All slides stay mounted and stacked (absolute, inset-0); only the
  * opacity/transform of the active layer changes — no unmount, no blank gap
- * between slides. A broken slide falls back to the next candidate and,
- * when every candidate fails, the poster art takes over, so a failed image
- * never shows its alt text.
+ * between slides. Every layer renders through `ImageWithFallback`, so a
+ * broken photo falls through to the next candidate and finally to the
+ * poster art instead of ever showing its alt text.
  */
 export function HeroFrameSlideshow({
   slides,
@@ -51,9 +55,10 @@ export function HeroFrameSlideshow({
   layerClassName,
   poster,
   announceLabel,
+  liveMode = "off",
+  onSlideReady,
 }: Props) {
   const reduceMotion = useReducedMotion();
-  const [failed, setFailed] = React.useState<Record<string, boolean>>({});
   const total = slides.length;
 
   return (
@@ -75,7 +80,11 @@ export function HeroFrameSlideshow({
       >
         {slides.map((slide, i) => {
           const isActive = i === index;
-          const isBroken = failed[slide.src];
+          // Fallback chain: this slide, then the remaining slides, so a
+          // broken photo is replaced by another real one.
+          const fallbackSrcs = slides
+            .filter((s) => s.src !== slide.src)
+            .map((s) => s.src);
           return (
             <div
               key={slide.src}
@@ -89,37 +98,30 @@ export function HeroFrameSlideshow({
               }}
               aria-hidden={!isActive}
             >
-              {isBroken ? null : (
-                <Image
-                  src={slide.src}
-                  alt={isActive ? slide.alt : ""}
-                  fill
-                  sizes={sizes}
-                  quality={quality}
-                  priority={priorityFirst && i === 0}
-                  loading={priorityFirst && i === 0 ? undefined : "lazy"}
-                  decoding="async"
-                  draggable={false}
-                  data-frame-slide={i}
-                  onError={() =>
-                    setFailed((prev) => ({ ...prev, [slide.src]: true }))
-                  }
-                  className={cn(
-                    "object-cover",
-                    isActive && !reduceMotion && "animate-kenburns",
-                    layerClassName,
-                  )}
-                />
-              )}
+              <ImageWithFallback
+                src={slide.src}
+                alt={isActive ? slide.alt : ""}
+                fallbackSrcs={fallbackSrcs}
+                poster={poster}
+                sizes={sizes}
+                quality={quality}
+                priority={priorityFirst && i === 0}
+                blurDataURL={undefined}
+                className="h-full w-full"
+                imageClassName={cn(
+                  "object-cover",
+                  isActive && !reduceMotion && "animate-kenburns",
+                  layerClassName,
+                )}
+                onLoaded={(loadedSrc) => onSlideReady?.(loadedSrc)}
+              />
             </div>
           );
         })}
-
-        {slides.every((slide) => failed[slide.src]) && poster ? poster : null}
       </div>
 
       {/* Screen-reader announcements */}
-      <div className="sr-only" aria-live="off">
+      <div className="sr-only" aria-live={liveMode}>
         {announceLabel
           ? `${announceLabel} ${index + 1} of ${total}`
           : `Image ${index + 1} of ${total}`}

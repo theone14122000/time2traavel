@@ -22,6 +22,10 @@ type HeroBackgroundProps = {
   onNext: () => void;
   onPrev: () => void;
   onGoTo: (index: number) => void;
+  /** "off" while auto-advancing, "polite" once paused or manually changed. */
+  liveMode?: "off" | "polite";
+  /** Called with the src of a slide that finished loading. */
+  onSlideReady?: (src: string) => void;
 };
 
 const CROSSFADE_MS = 1200;
@@ -54,6 +58,8 @@ export function HeroBackground({
   onNext,
   onPrev,
   onGoTo,
+  liveMode = "off",
+  onSlideReady,
 }: HeroBackgroundProps) {
   const reduceMotion = useReducedMotion();
   const total = slides.length;
@@ -106,6 +112,7 @@ export function HeroBackground({
                 loading={i === 0 ? undefined : "lazy"}
                 decoding="async"
                 draggable={false}
+                onLoad={() => onSlideReady?.(slide.src)}
                 className={cn(
                   "object-cover",
                   isActive && !paused && !reduceMotion && "animate-kenburns",
@@ -154,6 +161,11 @@ export function HeroBackground({
         >
           <ArrowRight className="size-4" />
         </button>
+      </div>
+
+      {/* Screen-reader announcements for the background layer */}
+      <div className="sr-only" aria-live={liveMode}>
+        Background photo {index + 1} of {total}
       </div>
 
       {/* Segmented progress indicators */}

@@ -28,8 +28,8 @@ type Props = {
   className?: string;
   /** Extra classes for the `<img>` itself. */
   imageClassName?: string;
-  /** Called once a source has successfully loaded. */
-  onLoaded?: () => void;
+  /** Called with the src of the source that successfully loaded. */
+  onLoaded?: (src: string) => void;
 };
 
 /**
@@ -85,8 +85,8 @@ export function ImageWithFallback({
 
   const handleLoad = React.useCallback(() => {
     setLoaded(true);
-    onLoaded?.();
-  }, [onLoaded]);
+    if (active) onLoaded?.(active);
+  }, [onLoaded, active]);
 
   return (
     <span

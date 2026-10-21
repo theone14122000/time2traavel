@@ -62,10 +62,58 @@ export function useHeroSlideshow({
     containerRef.current = node;
   }, []);
 
+  /**
+   * Slides whose bitmap is already decoded. The rotation waits for the
+   * next slide to be ready, so a crossfade never reveals a half-loaded
+   * photograph.
+   */
+  const decoded = React.useRef<Set<string>>(new Set());
+
+  const markSlideReady = React.useCallback((src: string) => {
+    decoded.current.add(src);
+  }, []);
+
+  /** Decode the slide that is about to be shown. */
+  const preloadSlide = React.useCallback(
+    async (src: string) => {
+      if (typeof window === "undefined") return true;
+      if (decoded.current.has(src)) return true;
+      try {
+        const img = new window.Image();
+        img.src = src;
+        if (typeof img.decode === "function") {
+          await img.decode();
+        } else {
+          await new Promise<void>((resolve, reject) => {
+            img.onload = () => resolve();
+            img.onerror = () => reject(new Error("decode failed"));
+          });
+        }
+        decoded.current.add(src);
+        return true;
+      } catch {
+        // The file could not be decoded (missing or corrupt). Remember it so
+        // the rotation does not stall on it forever; the frame itself falls
+        // back to the next candidate.
+        decoded.current.add(src);
+        return true;
+      }
+    },
+    [],
+  );
+
   const rotation = useImageRotation({
     images: slides,
     interval,
     paused: reduceMotion ? true : paused,
+    beforeAdvance: React.useCallback(
+      (nextIndex: number) => {
+        const slide = slides[nextIndex];
+        if (!slide) return true;
+        return preloadSlide(slide.src);
+      },
+      [slides, preloadSlide],
+    ),
   });
 
   const { index: masterIndex, next, prev, goTo, autoAdvance } = rotation;
@@ -120,6 +168,41 @@ export function useHeroSlideshow({
   const at = (offset: number) =>
     total > 0 ? (masterIndex + offset + total * 2) % total : 0;
 
+  /**
+   * Screen-reader live mode: "off" while the slideshow auto-advances
+   * (a moving target is not announced), "polite" once it is paused or the
+   * visitor drives it manually.
+   */
+  const [manuallyChanged, setManuallyChanged] = React.useState(false);
+  const liveMode: "off" | "polite" =
+    pausedByUser || manuallyChanged || !autoAdvance ? "polite" : "off";
+
+  // The manual flag lapses shortly after, so the region goes quiet again
+  // while the rotation is still running.
+  React.useEffect(() => {
+    if (!manuallyChanged) return;
+    const timer = window.setTimeout(() => setManuallyChanged(false), 4000);
+    return () => window.clearTimeout(timer);
+  }, [manuallyChanged]);
+
+  const goNext = React.useCallback(() => {
+    setManuallyChanged(true);
+    next();
+  }, [next]);
+
+  const goPrev = React.useCallback(() => {
+    setManuallyChanged(true);
+    prev();
+  }, [prev]);
+
+  const goToSlide = React.useCallback(
+    (i: number) => {
+      setManuallyChanged(true);
+      goTo(i);
+    },
+    [goTo],
+  );
+
   return {
     /** Attach to the hero section so offscreen pausing works. */
     setContainer,
@@ -131,12 +214,15 @@ export function useHeroSlideshow({
     largeIndex: at(largeOffset),
     /** Index for the small polaroid frame. */
     smallIndex,
-    next,
-    prev,
-    goTo,
+    next: goNext,
+    prev: goPrev,
+    goTo: goToSlide,
     progress,
     paused,
     pausedByUser,
+    liveMode,
+    /** Records a slide whose bitmap is decoded and ready to be shown. */
+    markSlideReady,
     togglePause: React.useCallback(() => setPausedByUser((p) => !p), []),
     autoAdvance,
     setHovered,
