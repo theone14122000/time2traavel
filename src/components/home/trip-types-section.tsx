@@ -4,7 +4,8 @@ import { HomeSectionHeading } from "@/components/home/section-heading";
 import { BRUTAL_ICONS, DEFAULT_BRUTAL_ICON } from "@/components/home/icon-map";
 import { Stamp } from "@/components/ui/badge";
 import { BrutalImage } from "@/components/ui/brutal-image";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { getPublishedTripTypes, type TripTypeCard } from "@/lib/data/trip-types";
 import { cn } from "@/lib/utils";
 

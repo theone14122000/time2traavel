@@ -19,7 +19,7 @@ import { Z_HEADER } from "@/lib/z-index";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
-import { Wordmark } from "@/components/brand/wordmark";
+import { Logo } from "@/components/brand/logo";
 import { useTripPlanner } from "@/components/forms/trip-planner-context";
 import type { SiteSettingsShape } from "@/lib/data/site";
 
@@ -181,13 +181,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
             scrolled ? "h-14 lg:h-16" : "h-16 lg:h-20",
           )}
         >
-          <Wordmark
-            size="md"
-            className={cn(
-              "origin-left transition-transform duration-300 ease-out",
-              scrolled && "scale-90",
-            )}
-          />
+            <Logo height={32} priority className="block" />
 
           <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
             {NAV_LINKS.map((link) => {
@@ -315,7 +309,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                   className="flex min-h-full flex-col bg-paper pb-[env(safe-area-inset-bottom)]"
                 >
                   <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b-[3px] border-ink bg-lemon px-4 pb-3 pt-[calc(0.75rem_+_env(safe-area-inset-top))]">
-                    <Wordmark size="md" onClick={() => setMenuOpen(false)} />
+                    <Logo height={28} onClick={() => setMenuOpen(false)} />
 
                     <button
                       type="button"

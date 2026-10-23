@@ -26,6 +26,8 @@ import {
   GALLERY_THUMBS_DIR,
   GENERATED_FILE,
   IMAGES_DIR,
+  INTERNATIONAL_DESTINATIONS,
+  INTERNATIONAL_IMAGES_DIR,
   allReferencedFiles,
   parseDestinations,
 } from "./lib/parse-destinations.mjs";
@@ -39,6 +41,12 @@ const BLUR_WIDTH = 16;
 
 const destinations = parseDestinations();
 const referenced = allReferencedFiles(destinations);
+
+// Add international destinations to the processing list
+const allDestinations = [
+  ...destinations,
+  ...INTERNATIONAL_DESTINATIONS,
+];
 
 await mkdir(CARD_THUMBS_DIR, { recursive: true });
 await mkdir(GALLERY_THUMBS_DIR, { recursive: true });
@@ -90,6 +98,7 @@ const manifest = {};
 let cardCount = 0;
 let galleryCount = 0;
 
+// Process domestic images (existing)
 for (const file of referenced) {
   const source = join(IMAGES_DIR, file);
   if (!existsSync(source)) {
@@ -119,6 +128,59 @@ for (const file of referenced) {
   console.log(
     `  OK  ${file.padEnd(20)} ${String(meta.width).padStart(5)}x${String(meta.height).padEnd(5)} -> ${galleryName}`,
   );
+}
+
+// Process international images
+for (const dest of INTERNATIONAL_DESTINATIONS) {
+  for (const file of dest.images) {
+    const source = join(INTERNATIONAL_IMAGES_DIR, file);
+    if (!existsSync(source)) {
+      console.error(`  SKIP  international/${file} — not found on disk`);
+      continue;
+    }
+
+    const meta = await sharp(source).metadata();
+    const blur = await blurDataURL(source);
+
+    const galleryName = `${baseName(file)}.webp`;
+    const galleryBuffer = await sharp(source)
+      .resize({ width: GALLERY_WIDTH, withoutEnlargement: true })
+      .webp({ quality: GALLERY_QUALITY })
+      .toBuffer();
+    await writeFile(join(GALLERY_THUMBS_DIR, galleryName), galleryBuffer);
+    galleryCount += 1;
+
+    const manifestKey = `international/${file}`;
+    manifest[manifestKey] = {
+      width: meta.width ?? 0,
+      height: meta.height ?? 0,
+      blurDataURL: blur,
+      thumbSmall: `/images/destinations/thumbs/gallery/${galleryName}`,
+    };
+
+    console.log(
+      `  OK  international/${file.padEnd(12)} ${String(meta.width).padStart(5)}x${String(meta.height).padEnd(5)} -> ${galleryName}`,
+    );
+  }
+
+  // Card thumbnail for international destination
+  const coverFile = dest.images[Math.min(dest.coverIndex, dest.images.length - 1)] ?? dest.images[0];
+  const cardSource = join(INTERNATIONAL_IMAGES_DIR, coverFile);
+  if (existsSync(cardSource)) {
+    const buffer = await cardThumbnail(cardSource);
+    const cardName = `${dest.slug}.webp`;
+    await writeFile(join(CARD_THUMBS_DIR, cardName), buffer);
+    cardCount += 1;
+
+    const cardBlur = await blurDataURL(buffer);
+    const manifestKey = `international/${coverFile}`;
+    if (manifest[manifestKey]) {
+      manifest[manifestKey].thumb = `/images/destinations/thumbs/card/${cardName}`;
+      manifest[manifestKey].thumbBlurDataURL = cardBlur;
+    }
+
+    console.log(`  CARD ${dest.slug.padEnd(20)} -> ${cardName}`);
+  }
 }
 
 // Card thumbnail per destination (from its cover image).

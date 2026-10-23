@@ -20,6 +20,7 @@ import { fileURLToPath } from "node:url";
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 export const DATA_FILE = join(ROOT, "src", "lib", "domestic-destinations.ts");
 export const IMAGES_DIR = join(ROOT, "public", "images", "destinations");
+export const INTERNATIONAL_IMAGES_DIR = join(IMAGES_DIR, "international");
 export const THUMBS_DIR = join(IMAGES_DIR, "thumbs");
 export const CARD_THUMBS_DIR = join(THUMBS_DIR, "card");
 export const GALLERY_THUMBS_DIR = join(THUMBS_DIR, "gallery");
@@ -29,6 +30,14 @@ export const GENERATED_FILE = join(
   "lib",
   "destination-images.generated.json",
 );
+
+export const INTERNATIONAL_DESTINATIONS = [
+  { slug: "dubai", name: "Dubai (UAE)", images: ["dubai1.jpg","dubai2.jpg","dubai3.jpg","dubai4.jpg"], coverIndex: 0 },
+  { slug: "nepal", name: "Nepal", images: ["nepal1.jpg","nepal2.jpg","nepal3.jpg","nepal4.jpg","nepal5.jpg"], coverIndex: 0 },
+  { slug: "bhutan", name: "Bhutan", images: ["bhutan1.jpg","bhutan2.jpg","bhutan3.jpg","bhutan4.jpg","bhutan5.jpg","bhutan6.jpg"], coverIndex: 0 },
+  { slug: "singapore", name: "Singapore", images: ["singapore1.jpg","singapore2.jpg","singapore3.jpg","singapore4.jpg","singapore5.jpg"], coverIndex: 0 },
+  { slug: "sri-lanka", name: "Sri Lanka", images: ["lanka1.jpg","lanka2.jpg","lanka3.jpg","lanka4.jpg","lanka5.jpg","lanka6.jpg"], coverIndex: 0 },
+];
 
 /** @typedef {{ slug: string, images: string[], coverIndex: number }} ParsedDestination */
 
