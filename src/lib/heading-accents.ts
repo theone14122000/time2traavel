@@ -65,8 +65,8 @@ export function parseHeadingAccent(text: string): ParsedHeading {
     const accentWords = match[1].trim().split(/\s+/).filter(Boolean);
     const afterWords = after ? after.split(/\s+/).filter(Boolean) : [];
     const words = [...beforeWords, ...accentWords, ...afterWords];
-    return { words, accentIndex: beforeWords.length };
+    return { words, accentIndex: Math.max(0, words.length - 1) };
   }
   const words = text.trim().split(/\s+/).filter(Boolean);
-  return { words, accentIndex: pickAccentIndex(words) };
+  return { words, accentIndex: Math.max(0, words.length - 1) };
 }
