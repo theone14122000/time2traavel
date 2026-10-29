@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useImageRotation } from "@/hooks/use-image-rotation";
+import { renderHeading } from "@/lib/render-heading";
 
 type Slide = { src: string; alt: string };
 
@@ -112,7 +113,7 @@ export function DestinationHeroGallery({ images, title, tagline }: Props) {
             Domestic
           </p>
           <h1 className="mt-3 max-w-[18ch] font-display text-h1 leading-[1.05] text-cream">
-            {title}
+            {renderHeading(title, "onDark")}
           </h1>
           <p className="mt-2 max-w-xl text-base font-medium text-cream/90 sm:text-lg">
             {tagline}

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/hooks/use-wishlist";
 import type { DestinationCard as DestinationData } from "@/lib/data/destinations";
 import type { PackageCard as PackageData } from "@/lib/data/packages";
+import { GradientWord } from "@/components/ui/gradient-word";
 
 /**
  * Client-side saved-items view: reads wishlist ids from localStorage,
@@ -134,8 +135,8 @@ export function SavedView() {
       ) : (
         <>
           <section aria-labelledby="saved-destinations-heading" className="grid gap-6">
-            <h2 id="saved-destinations-heading" className="font-display text-h3 uppercase">
-              Destinations ({destinationIds.length})
+            <h2 id="saved-destinations-heading" className="font-display text-h3">
+              <GradientWord tone="ocean">Destinations</GradientWord> ({destinationIds.length})
             </h2>
             {destinationIds.length === 0 ? (
               <p className="text-sm font-medium text-ink-soft">
@@ -170,8 +171,8 @@ export function SavedView() {
           </section>
 
           <section aria-labelledby="saved-packages-heading" className="grid gap-6">
-            <h2 id="saved-packages-heading" className="font-display text-h3 uppercase">
-              Packages ({packageIds.length})
+            <h2 id="saved-packages-heading" className="font-display text-h3">
+              <GradientWord tone="forest">Packages</GradientWord> ({packageIds.length})
             </h2>
             {packageIds.length === 0 ? (
               <p className="text-sm font-medium text-ink-soft">

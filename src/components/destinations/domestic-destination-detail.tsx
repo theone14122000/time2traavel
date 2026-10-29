@@ -17,6 +17,8 @@ import { getPackagesByDestination } from "@/lib/data/packages";
 import { originalUrl } from "@/lib/domestic-destinations";
 import { absoluteUrl } from "@/lib/utils";
 import { JsonLd } from "@/lib/seo";
+import { renderHeading } from "@/lib/render-heading";
+import { GradientWord } from "@/components/ui/gradient-word";
 
 type Props = { slug: string };
 
@@ -110,8 +112,8 @@ export async function DomesticDestinationDetail({ slug }: Props) {
       >
         <div className="grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-12">
           <div>
-            <h2 id="overview-heading" className="font-display text-h2 uppercase">
-              Overview
+            <h2 id="overview-heading" className="font-display text-h2">
+              {renderHeading("The [[overview]]", "ocean")}
             </h2>
             <p className="mt-4 max-w-3xl text-base font-medium leading-relaxed text-ink-soft">
               {destination.overview}
@@ -199,8 +201,8 @@ export async function DomesticDestinationDetail({ slug }: Props) {
         aria-labelledby="gallery-heading"
         containerClassName="py-12 sm:py-16"
       >
-        <h2 id="gallery-heading" className="font-display text-h2 uppercase">
-          Photo gallery
+        <h2 id="gallery-heading" className="font-display text-h2">
+          {renderHeading("Photo [[gallery]]", "forest")}
         </h2>
         <p className="mt-2 text-sm font-medium text-ink-soft">
           {destination.name} travel photos.
@@ -217,8 +219,8 @@ export async function DomesticDestinationDetail({ slug }: Props) {
           aria-labelledby="packages-heading"
           containerClassName="py-12 sm:py-16"
         >
-          <h2 id="packages-heading" className="font-display text-h2 uppercase">
-            Trips covering {destination.name}
+          <h2 id="packages-heading" className="font-display text-h2">
+            Trips covering <GradientWord tone="ocean">{destination.name}</GradientWord>
           </h2>
           <div className="mt-6">
             <PackageGrid packages={related} />
@@ -232,8 +234,8 @@ export async function DomesticDestinationDetail({ slug }: Props) {
         aria-labelledby="more-heading"
         containerClassName="py-12 sm:py-16"
       >
-        <h2 id="more-heading" className="font-display text-h2 uppercase">
-          Explore more destinations
+        <h2 id="more-heading" className="font-display text-h2">
+          {renderHeading("Explore more [[destinations]]", "flame")}
         </h2>
         <div className="mt-6">
           <DomesticDestinationsGrid destinations={others} />

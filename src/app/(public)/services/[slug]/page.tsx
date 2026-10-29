@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CircleHelp, ListChecks, Mail } from "lucide-react";
@@ -24,6 +24,7 @@ import {
 import { getPackagesBySlugs, type PackageCard as PackageCardData } from "@/lib/data/packages";
 import { PackageGrid } from "@/components/packages/package-grid";
 import { buildBreadcrumbJsonLd, buildMetadata, JsonLd } from "@/lib/seo";
+import { GradientWord } from "@/components/ui/gradient-word";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -241,7 +242,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 id="service-enquire-heading"
                 className="mt-5 max-w-[16ch] text-h2"
               >
-                Ask about {service.title}
+                Ask about <GradientWord tone="ocean">{service.title}</GradientWord>
               </h2>
               <p className="mt-4 max-w-xl text-lead font-medium text-ink-soft">
                 Tell us your dates and what you need — we&apos;ll reply with what&apos;s

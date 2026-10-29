@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ClipboardList, Compass, Mail } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
@@ -8,6 +8,7 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { TrackInquiryForm } from "./track-inquiry-form";
 import { buildMetadata } from "@/lib/seo";
+import { renderHeading } from "@/lib/render-heading";
 
 export function generateMetadata(): Metadata {
   return buildMetadata({
@@ -72,7 +73,7 @@ export default async function TrackInquiryPage() {
               id="track-form-heading"
               className="mt-5 max-w-[16ch] text-h2"
             >
-              Three quick steps
+              {renderHeading("Three quick [[steps]]", "ocean")}
             </h2>
 
             <ol className="mt-6 grid gap-4">

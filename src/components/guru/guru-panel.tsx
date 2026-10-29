@@ -27,7 +27,7 @@ type ChatMessage = {
   local?: boolean;
 };
 
-type Failure = { kind: "not_configured" | "rate_limited" | "network" | "upstream"; retryAfter?: number };
+type Failure = { kind: "not_configured" | "rate_limited" | "busy" | "network" | "upstream"; retryAfter?: number };
 
 const STARTERS = [
   "Plan a trip to Himachal Pradesh",
@@ -266,6 +266,7 @@ export function GuruPanel({
         if (!response.ok) {
           const body = (await response.json().catch(() => ({}))) as { error?: string; retryAfterSeconds?: number };
           if (body.error === "not_configured") setFailure({ kind: "not_configured" });
+          else if (body.error === "busy") setFailure({ kind: "busy" });
           else if (body.error === "rate_limited") setFailure({ kind: "rate_limited", retryAfter: body.retryAfterSeconds });
           else setFailure({ kind: "upstream" });
           return;
@@ -429,14 +430,18 @@ export function GuruPanel({
             <p className="font-semibold">
               {failure.kind === "not_configured"
                 ? "GURU isn't switched on yet."
-                : failure.kind === "rate_limited"
+                : failure.kind === "busy"
+                  ? "GURU is very busy right now."
+                  : failure.kind === "rate_limited"
                   ? "You're sending messages quickly."
                   : "GURU couldn't answer just now."}
             </p>
             <p className="mt-1 text-ink-soft">
               {failure.kind === "not_configured"
                 ? "The AI service hasn't been configured on this site. You can still reach the Time2Travel team directly."
-                : failure.kind === "rate_limited"
+                : failure.kind === "busy"
+                  ? "Lots of travellers are chatting with GURU. Give it a minute and try again, or message the team directly."
+                  : failure.kind === "rate_limited"
                   ? `Please wait${failure.retryAfter ? ` about ${failure.retryAfter} seconds` : " a moment"} and try again.`
                   : failure.kind === "network"
                     ? "Check your connection and try again."

@@ -1,4 +1,4 @@
-﻿import * as React from "react";
+import * as React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPinned, Send } from "lucide-react";
@@ -14,6 +14,7 @@ import { DomesticDestinationsGrid } from "@/components/destinations/domestic-des
 import { getDomesticDestinations } from "@/lib/data/domestic-destinations";
 import { pluralize } from "@/lib/utils";
 import { buildMetadata } from "@/lib/seo";
+import { renderHeading } from "@/lib/render-heading";
 
 export function generateMetadata(): Metadata {
   return buildMetadata({
@@ -96,7 +97,7 @@ export default async function DestinationsPage() {
                   id="destinations-cta-heading"
                   className="mt-5 max-w-[16ch] text-h2"
                 >
-                  Tell us the vibe, we&apos;ll find the place
+                  {renderHeading("Tell us the vibe, we'll find the [[place]]", "forest")}
                 </h2>
                 <p className="mt-4 max-w-xl text-lead font-medium text-ink-soft">
                   If none of the destinations above match what you have in mind, send us a

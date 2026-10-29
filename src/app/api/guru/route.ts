@@ -1,27 +1,23 @@
 import { NextResponse } from "next/server";
 import { getClientIp, rateLimit } from "@/lib/rate-limit";
 import { getBusinessContext } from "@/lib/guru/business-context";
-import { buildSystemPrompt, GURU_TOOLS } from "@/lib/guru/prompt";
+import { buildSystemPrompt } from "@/lib/guru/prompt";
+import { completeChat, extractJsonObject } from "@/lib/guru/provider";
 import {
   guruActionSchema,
   guruRequestSchema,
-  linksActionSchema,
   type GuruAction,
   type GuruResponse,
 } from "@/lib/guru/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 90;
 
-/** Provider settings — all server-side, all overridable from the environment. */
-const API_URL = process.env.GURU_API_URL?.trim() || "https://api.anthropic.com/v1/messages";
-const MODEL = process.env.GURU_MODEL?.trim() || "claude-haiku-5-5";
-const MAX_TOKENS = Math.min(Math.max(Number(process.env.GURU_MAX_TOKENS) || 900, 200), 2000);
-const TIMEOUT_MS = 30_000;
 /** Messages sent to the model (older turns are dropped to cap cost and context). */
 const MODEL_HISTORY = 10;
 
-type ErrorCode = "not_configured" | "rate_limited" | "invalid" | "upstream" | "timeout" | "forbidden";
+type ErrorCode = "not_configured" | "rate_limited" | "invalid" | "upstream" | "timeout" | "forbidden" | "busy";
 
 function fail(code: ErrorCode, status: number, extra?: Record<string, unknown>) {
   return NextResponse.json({ error: code, ...extra }, { status, headers: { "Cache-Control": "no-store" } });
@@ -48,22 +44,24 @@ function originAllowed(request: Request): boolean {
   return allowed.has(originHost);
 }
 
-type ProviderBlock =
-  | { type: "text"; text: string }
-  | { type: "tool_use"; name: string; input: unknown }
-  | { type: string };
-
 /** Keep text plain: drop control characters and cap length. HTML is never rendered client-side either. */
 function cleanReply(text: string): string {
   // eslint-disable-next-line no-control-regex
   return text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim().slice(0, 4000);
 }
 
+function asString(value: unknown): string | null {
+  return typeof value === "string" && value.trim() ? value : null;
+}
+
+/** Strips reasoning blocks some open models leak into their content. */
+function stripThinking(text: string): string {
+  return text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+}
+
 export async function POST(request: Request) {
   if (!originAllowed(request)) return fail("forbidden", 403);
-
-  const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
-  if (!apiKey) return fail("not_configured", 503);
+  if (process.env.GURU_ENABLED === "false") return fail("not_configured", 503);
 
   const ip = await getClientIp(request.headers);
   const burst = rateLimit({ key: "guru:burst", limit: 8, windowMs: 60_000, ip });
@@ -108,89 +106,67 @@ export async function POST(request: Request) {
     };
   }
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-  const started = Date.now();
+  const result = await completeChat([
+    { role: "system", content: buildSystemPrompt(context.text, path) },
+    ...messages.slice(-MODEL_HISTORY).map((m) => ({ role: m.role, content: m.content })),
+  ]);
+  if (!result.ok) {
+    if (result.reason === "busy") return fail("busy", 503);
+    return result.reason === "timeout" ? fail("timeout", 504) : fail("upstream", 502);
+  }
 
-  try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      signal: controller.signal,
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: MAX_TOKENS,
-        system: buildSystemPrompt(context.text, path),
-        tools: GURU_TOOLS,
-        messages: messages.slice(-MODEL_HISTORY).map((m) => ({ role: m.role, content: m.content })),
-      }),
-    });
+  const raw = stripThinking(result.text);
+  const json = extractJsonObject(raw) as Record<string, unknown> | null;
 
-    if (!response.ok) {
-      // Status only — never log message content or the key.
-      console.error(`[guru] provider returned ${response.status} after ${Date.now() - started}ms`);
-      return fail("upstream", 502);
-    }
+  let reply: string;
+  const actions: GuruAction[] = [];
+  let followups: string[] = [];
 
-    const data = (await response.json()) as { content?: ProviderBlock[] };
-    const blocks = Array.isArray(data.content) ? data.content : [];
+  if (json && asString(json.reply)) {
+    reply = cleanReply(asString(json.reply) as string);
 
-    let reply = "";
-    const actions: GuruAction[] = [];
-    let followups: string[] = [];
-
-    for (const block of blocks) {
-      if (block.type === "text" && "text" in block) {
-        reply += `${block.text}\n`;
-      } else if (block.type === "tool_use" && "name" in block) {
-        const input = (block.input ?? {}) as Record<string, unknown>;
-        if (block.name === "prepare_trip_inquiry" || block.name === "offer_whatsapp") {
-          if (actions.some((a) => a.type === "prepare_trip_inquiry" || a.type === "offer_whatsapp")) continue;
-          const candidate = guruActionSchema.safeParse({
-            ...input,
-            type: block.name,
-            // The model may emit nulls/strings for numbers; coerce what is safe.
-            adults: input.adults != null ? Number(input.adults) : undefined,
-            children: input.children != null ? Number(input.children) : undefined,
-          });
-          if (candidate.success) actions.push(candidate.data);
-        } else if (block.name === "show_links") {
-          const candidate = linksActionSchema.safeParse({ ...input, type: "show_links" });
-          if (candidate.success) {
-            const links = candidate.data.links.filter((l) => context.allowedPaths.has(l.path));
-            if (links.length > 0) actions.push({ type: "show_links", links });
-          }
-        } else if (block.name === "suggest_followups") {
-          const questions = Array.isArray(input.questions) ? input.questions : [];
-          followups = questions
-            .filter((q): q is string => typeof q === "string")
-            .map((q) => q.trim().slice(0, 60))
-            .filter(Boolean)
-            .slice(0, 3);
+    const rawActions = Array.isArray(json.actions) ? json.actions.slice(0, 4) : [];
+    for (const item of rawActions) {
+      if (!item || typeof item !== "object") continue;
+      const input = item as Record<string, unknown>;
+      const type = input.type;
+      if (type === "prepare_trip_inquiry" || type === "offer_whatsapp") {
+        if (actions.some((a) => a.type === "prepare_trip_inquiry" || a.type === "offer_whatsapp")) continue;
+        const candidate = guruActionSchema.safeParse({
+          ...input,
+          // Open models sometimes emit numbers as strings.
+          adults: input.adults != null && input.adults !== "" ? Number(input.adults) : undefined,
+          children: input.children != null && input.children !== "" ? Number(input.children) : undefined,
+        });
+        if (candidate.success) actions.push(candidate.data);
+      } else if (type === "show_links") {
+        const candidate = guruActionSchema.safeParse(input);
+        if (candidate.success && candidate.data.type === "show_links") {
+          const links = candidate.data.links.filter((l) => context.allowedPaths.has(l.path));
+          if (links.length > 0) actions.push({ type: "show_links", links });
         }
       }
     }
 
-    reply = cleanReply(reply);
-    if (!reply) {
-      console.error("[guru] provider returned no text");
-      return fail("upstream", 502);
-    }
-
-    console.info(`[guru] ok model=${MODEL} ms=${Date.now() - started} actions=${actions.length}`);
-    const payload: GuruResponse = { reply, actions, followups };
-    return NextResponse.json(payload, { headers: { "Cache-Control": "no-store" } });
-  } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") return fail("timeout", 504);
-    console.error("[guru] request failed:", error instanceof Error ? error.message : "unknown");
-    return fail("upstream", 502);
-  } finally {
-    clearTimeout(timer);
+    followups = (Array.isArray(json.followups) ? json.followups : [])
+      .filter((q): q is string => typeof q === "string")
+      .map((q) => q.trim().slice(0, 60))
+      .filter(Boolean)
+      .slice(0, 3);
+  } else {
+    // The model ignored the JSON contract: still show its words, never raw JSON-ish fragments.
+    const plain = raw.replace(/```[a-z]*\n?|```/gi, "").trim();
+    reply = cleanReply(plain.startsWith("{") ? "" : plain);
   }
+
+  if (!reply) {
+    console.error("[guru] model returned no usable reply");
+    return fail("upstream", 502);
+  }
+
+  console.info(`[guru] ok provider=${result.endpoint} actions=${actions.length}`);
+  const payload: GuruResponse = { reply, actions, followups };
+  return NextResponse.json(payload, { headers: { "Cache-Control": "no-store" } });
 }
 
 /** Anything but POST is not part of the API. */

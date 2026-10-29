@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarRange, Compass, Send, Sun } from "lucide-react";
@@ -22,6 +22,7 @@ import { originalUrl } from "@/lib/domestic-destinations";
 import { getPackagesByDestination } from "@/lib/data/packages";
 import { toGallery } from "@/lib/utils";
 import { buildBreadcrumbJsonLd, buildMetadata, JsonLd } from "@/lib/seo";
+import { renderHeading } from "@/lib/render-heading";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -352,7 +353,7 @@ export default async function DestinationDetailPage({ params }: Props) {
                 id="destination-plan-heading"
                 className="mt-5 max-w-[18ch] text-h2"
               >
-                Ready when you are
+                {renderHeading("Ready when you [[are]]", "ocean")}
               </h2>
               <p className="mt-4 max-w-xl text-lead font-medium text-ink-soft">
                 Send your dates, group size and any must-dos for {destination.name} —

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -36,6 +36,7 @@ import { getDestinationBySlug } from "@/lib/data/destinations";
 import { getPackageBySlug, getPackagesByDestination } from "@/lib/data/packages";
 import { durationLabel, formatPrice, toGallery, toStringArray } from "@/lib/utils";
 import { buildBreadcrumbJsonLd, buildProductJsonLd, buildMetadata, JsonLd } from "@/lib/seo";
+import { renderHeading } from "@/lib/render-heading";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -513,7 +514,7 @@ export default async function PackageDetailPage({ params }: Props) {
                 id="package-plan-heading"
                 className="mt-5 max-w-[18ch] text-h2 md:ml-auto"
               >
-                Want this trip?
+                {renderHeading("Want this [[trip]]?", "forest")}
               </h2>
               <p className="mt-4 max-w-xl text-lead font-medium text-ink-soft md:ml-auto">
                 Send an enquiry and we&apos;ll come back with availability, pricing and any

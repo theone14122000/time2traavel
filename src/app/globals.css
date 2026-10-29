@@ -579,6 +579,45 @@
     -webkit-backdrop-filter: blur(18px) saturate(140%);
   }
 
+  /* ---- Hero reel: Ken Burns pans, progress fill, label swap ---- */
+  .hero-pan-a { animation: hero-pan-a 9s ease-out forwards; }
+  .hero-pan-b { animation: hero-pan-b 9s ease-out forwards; }
+  .hero-pan-c { animation: hero-pan-c 9s ease-out forwards; }
+  @keyframes hero-pan-a {
+    from { transform: scale(1.02) translate3d(0, 0, 0); }
+    to { transform: scale(1.12) translate3d(-1.5%, -1%, 0); }
+  }
+  @keyframes hero-pan-b {
+    from { transform: scale(1.12) translate3d(-1.5%, 0, 0); }
+    to { transform: scale(1.02) translate3d(1%, 1%, 0); }
+  }
+  @keyframes hero-pan-c {
+    from { transform: scale(1.04) translate3d(1.5%, 1%, 0); }
+    to { transform: scale(1.12) translate3d(-1%, -0.5%, 0); }
+  }
+  .hero-progress {
+    width: 100%;
+    transform-origin: left center;
+    animation-name: hero-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  @keyframes hero-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  .hero-label {
+    display: inline-block;
+    animation: hero-label 600ms var(--tt-ease) both;
+  }
+  @keyframes hero-label {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-pan-a, .hero-pan-b, .hero-pan-c, .hero-label { animation: none; }
+  }
+
   /* ---- GURU assistant ---- */
   .guru-enter {
     animation: guru-in 520ms var(--tt-ease) 600ms both;
@@ -782,9 +821,6 @@
     from { background-position: 0% 50%; }
     to { background-position: 100% 50%; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .hg-word { animation: none !important; }
-  }
   @media (forced-colors: active), print {
     .hg-word {
       background: none;
@@ -867,5 +903,10 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  /* The heading colour cycle is a slow colour fade (no movement), so it stays on. */
+  .hg-word {
+    animation-duration: 14s !important;
+    animation-iteration-count: infinite !important;
   }
 }

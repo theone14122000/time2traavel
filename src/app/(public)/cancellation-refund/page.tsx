@@ -10,6 +10,7 @@ import { buttonVariants } from "@/components/ui/button-variants";
 import { getPageContent } from "@/lib/data/site";
 import { CONTENT_KEYS, SITE_IDENTITY } from "@/lib/constants";
 import { buildBreadcrumbJsonLd, buildMetadata, JsonLd } from "@/lib/seo";
+import { renderHeading } from "@/lib/render-heading";
 
 /**
  * Page-content key for the cancellation & refund policy. Cast keeps this
@@ -104,7 +105,7 @@ export default async function CancellationRefundPage() {
           )}
 
           <div className="mt-10 border border-line bg-butter p-5 shadow-brutal-md sm:p-6">
-            <h2 className="font-display text-h4 uppercase">Questions about a booking?</h2>
+            <h2 className="font-display text-h4">{renderHeading("Questions about a [[booking]]?", "flame")}</h2>
             <p className="mt-2 max-w-2xl text-sm font-medium leading-relaxed text-ink-soft">
               If you already have an enquiry with us, reference it when you write so we can
               find it quickly.

@@ -4,6 +4,11 @@ import { getDomesticDestinations } from "@/lib/data/domestic-destinations";
 import { getPublishedDestinations } from "@/lib/data/destinations";
 import { getPackages, type PackageCard } from "@/lib/data/packages";
 import { getPublishedTripTypes } from "@/lib/data/trip-types";
+import { getPublishedServices } from "@/lib/data/services";
+import { getPublishedGuides } from "@/lib/data/guides";
+import { getPublishedFaqs } from "@/lib/data/reviews";
+import { getPageContent } from "@/lib/data/site";
+import { SITE_IDENTITY } from "@/lib/constants";
 import { formatPhoneDisplay } from "@/lib/contact";
 
 /** Fixed site pages GURU may link to. Detail pages are added from live data. */
@@ -42,19 +47,27 @@ function clip(text: string | null | undefined, max: number): string {
 async function load() {
   if (cache && Date.now() - cache.at < CACHE_MS) return cache.value;
 
-  const [settings, domestic, dbDestinations, pkgs, tripTypes] = await Promise.all([
-    getSiteSettings(),
-    getDomesticDestinations(),
-    getPublishedDestinations({ limit: 60 }),
-    getPackages({ sort: "popular", page: 1, pageSize: 60 }),
-    getPublishedTripTypes(),
-  ]);
+  const [settings, domestic, dbDestinations, pkgs, tripTypes, services, guides, faqs, refund, story] =
+    await Promise.all([
+      getSiteSettings(),
+      getDomesticDestinations(),
+      getPublishedDestinations({ limit: 60 }),
+      getPackages({ sort: "popular", page: 1, pageSize: 60 }),
+      getPublishedTripTypes(),
+      getPublishedServices(),
+      getPublishedGuides({ limit: 30 }),
+      getPublishedFaqs(),
+      getPageContent("legal.cancellationRefund" as never),
+      getPageContent("about.story" as never),
+    ]);
 
   const allowedPaths = new Set<string>(STATIC_PATHS);
   for (const d of domestic) allowedPaths.add(`/destinations/${d.slug}`);
   for (const d of dbDestinations) allowedPaths.add(`/destinations/${d.slug}`);
   for (const p of pkgs.items) allowedPaths.add(`/packages/${p.slug}`);
   for (const t of tripTypes) allowedPaths.add(`/trip-types/${t.slug}`);
+  for (const sv of services) allowedPaths.add(`/services/${sv.slug}`);
+  for (const g of guides) allowedPaths.add(`/travel-guides/${g.slug}`);
 
   const lines: string[] = [];
   lines.push(`Business: ${settings.siteName}${settings.tagline ? ` — ${settings.tagline}` : ""}`);
@@ -73,7 +86,7 @@ async function load() {
   lines.push("DESTINATIONS FEATURED ON THE TIME2TRAVEL WEBSITE (verified):");
   for (const d of domestic) {
     lines.push(
-      `- ${d.name} [/destinations/${d.slug}] — ${clip(d.tagline, 110)}; known for: ${d.knownFor.slice(0, 4).join(", ")}; best time (site guidance): ${clip(d.bestTime, 90)}`,
+      `- ${d.name} [/destinations/${d.slug}] — ${clip(d.tagline, 120)}. Overview: ${clip(d.overview, 260)} Known for: ${d.knownFor.join(", ")}. Best time (site guidance): ${clip(d.bestTime, 110)}`,
     );
   }
   const domesticSlugs = new Set(domestic.map((d) => d.slug));
@@ -89,9 +102,44 @@ async function load() {
       : "PUBLISHED PACKAGES: none are currently published on the website. Do not claim any package exists; offer a custom plan instead.",
   );
 
+  if (services.length > 0) {
+    lines.push("");
+    lines.push("SERVICES TIME2TRAVEL OFFERS (verified):");
+    for (const sv of services) {
+      lines.push(`- ${sv.title} [/services/${sv.slug}]${sv.shortDescription ? ` — ${clip(sv.shortDescription, 160)}` : ""}`);
+    }
+  }
+
+  if (faqs.length > 0) {
+    lines.push("");
+    lines.push("FREQUENTLY ASKED QUESTIONS ON THE WEBSITE (verified answers):");
+    for (const f of faqs.slice(0, 20)) lines.push(`- Q: ${clip(f.question, 120)} A: ${clip(f.answer, 240)}`);
+  }
+
+  if (refund?.body?.trim()) {
+    lines.push("");
+    lines.push(`CANCELLATION & REFUND POLICY (as published, summarised): ${clip(refund.body, 700)} [/cancellation-refund]`);
+  } else {
+    lines.push("");
+    lines.push("CANCELLATION & REFUND POLICY: not published online. Do not state terms; direct the visitor to the team.");
+  }
+
+  if (story?.body?.trim()) {
+    lines.push("");
+    lines.push(`ABOUT ${SITE_IDENTITY.name.toUpperCase()}: ${clip(story.body, 500)} [/about-us]`);
+  }
+
+  if (guides.length > 0) {
+    lines.push("");
+    lines.push("TRAVEL GUIDES ON THE WEBSITE:");
+    for (const g of guides.slice(0, 15)) {
+      lines.push(`- ${g.title} (${g.category}) [/travel-guides/${g.slug}]${g.excerpt ? ` — ${clip(g.excerpt, 120)}` : ""}`);
+    }
+  }
+
   if (tripTypes.length > 0) {
     lines.push("");
-    lines.push(`TRIP TYPES ON THE WEBSITE: ${tripTypes.map((t) => `${t.name} [/trip-types/${t.slug}]`).join(", ")}`);
+    lines.push(`TRIP TYPES ON THE WEBSITE: ${tripTypes.map((t) => `${t.name}${t.description ? ` (${clip(t.description, 90)})` : ""} [/trip-types/${t.slug}]`).join("; ")}`);
   }
 
   const value = {

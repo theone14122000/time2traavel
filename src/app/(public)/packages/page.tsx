@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Compass, PackageSearch, Send } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
@@ -15,6 +15,7 @@ import { getPackages, getPackageFilterOptions, type PackageFilters as FiltersInp
 import { PAGE_SIZE } from "@/lib/constants";
 import { pluralize } from "@/lib/utils";
 import { buildMetadata } from "@/lib/seo";
+import { renderHeading } from "@/lib/render-heading";
 
 export function generateMetadata(): Metadata {
   return buildMetadata({
@@ -212,7 +213,7 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
                   id="packages-cta-heading"
                   className="mt-5 max-w-[16ch] text-h2"
                 >
-                  We build trips around your dates
+                  {renderHeading("We build trips around your [[dates]]", "flame")}
                 </h2>
                 <p className="mt-4 max-w-xl text-lead font-medium text-ink-soft">
                   None of these quite right? Send us your destination, travel window and
