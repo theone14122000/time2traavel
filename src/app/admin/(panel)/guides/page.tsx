@@ -126,7 +126,7 @@ export default async function AdminGuidesPage() {
                       </Link>
                     </Button>
                     <ConfirmDeleteButton
-                      onAction={() => deleteGuidePostAction(row.id)}
+                      onAction={deleteGuidePostAction.bind(null, row.id)}
                       confirmTitle={`Delete ${row.title}?`}
                       confirmDescription="The guide is removed from the site permanently."
                     />

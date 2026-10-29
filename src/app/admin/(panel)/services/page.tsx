@@ -120,7 +120,7 @@ export default async function AdminServicesPage() {
                       </Link>
                     </Button>
                     <ConfirmDeleteButton
-                      onAction={() => deleteServiceAction(row.id)}
+                      onAction={deleteServiceAction.bind(null, row.id)}
                       confirmTitle={`Delete ${row.title}?`}
                       confirmDescription="The service is removed from the site permanently."
                     />

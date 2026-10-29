@@ -93,12 +93,12 @@ export default async function AdminNewslettersPage() {
                     <AsyncButton
                       variant="soft"
                       size="sm"
-                      onAction={() => toggleSubscriberAction(row.id)}
+                      onAction={toggleSubscriberAction.bind(null, row.id)}
                     >
                       {row.active ? "Pause" : "Resume"}
                     </AsyncButton>
                     <ConfirmDeleteButton
-                      onAction={() => deleteSubscriberAction(row.id)}
+                      onAction={deleteSubscriberAction.bind(null, row.id)}
                       confirmTitle={`Remove ${row.email}?`}
                       confirmDescription="They will be deleted from the list — they can re-subscribe via the site."
                     />

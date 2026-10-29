@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Metadata } from "next";
 import { CinematicHero } from "@/components/home/cinematic-hero";
+import { Marquee } from "@/components/shared/marquee";
 import { AnnouncementBar } from "@/components/home/announcement-bar";
 import { DestinationsSection } from "@/components/home/destinations-section";
 import { MountainsBand } from "@/components/home/mountains-band";
@@ -187,7 +188,20 @@ export default async function HomePage() {
     hero: () => (
       <CinematicHero slides={hero.backgroundSlides} counts={hero.counts} />
     ),
-    marquee: () => null,
+    marquee: () => (
+      <Marquee
+        tone="lemon"
+        slow
+        items={[
+          "Himalayan treks",
+          "Kashmir valleys",
+          "Ladakh high passes",
+          "Himachal escapes",
+          "Island getaways",
+          "Tailor-made journeys",
+        ]}
+      />
+    ),
     domestic: () => <DestinationsSection />,
     mountains: () => <MountainsBand />,
     international: () => <InternationalTrips />,

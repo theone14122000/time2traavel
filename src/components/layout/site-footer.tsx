@@ -4,7 +4,6 @@ import { Container } from "@/components/shared/container";
 import { Logo } from "@/components/brand/logo";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
 import { MapEmbed } from "@/components/shared/map-embed";
-import { SectionDivider } from "@/components/ui/dividers";
 import { getSiteSettings } from "@/lib/data/site";
 import { getFounder } from "@/lib/data/team";
 import { formatPhoneDisplay, mailtoHref, telHref } from "@/lib/contact";
@@ -44,17 +43,13 @@ export async function SiteFooter() {
 
   return (
     <footer className="border-t border-line bg-ink text-cream">
-      <SectionDivider variant="stripe" tone="lemon" />
 
       <Container className="pt-8 sm:pt-12">
-        <Logo height={48} priority={false} />
 
         <div className="mt-8 grid gap-8 lg:grid-cols-12">
           {/* Brand + newsletter */}
           <div className="flex flex-col gap-4 lg:col-span-4">
-            <span className="inline-flex w-fit items-center rounded-xl bg-cream px-4 py-3">
-              <Logo height={30} href={null} />
-            </span>
+            <Logo height={40} tone="light" />
 
             {settings.tagline ? (
               <p className="max-w-sm text-sm font-medium leading-relaxed text-cream/85">

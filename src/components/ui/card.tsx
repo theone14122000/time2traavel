@@ -110,7 +110,7 @@ export function CardSurface({
   return (
     <Component
       className={cn(
-        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-paper",
+        "group card-shine relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-paper",
         "shadow-hard-sm transition-[transform,box-shadow] duration-300",
         // Hover lift only where a real pointer exists; motion-reduce kills it.
         !disableHover &&

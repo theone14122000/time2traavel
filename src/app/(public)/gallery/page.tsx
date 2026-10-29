@@ -9,9 +9,10 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { TagChip } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { GalleryGrid } from "@/components/gallery/gallery-grid";
-import { getGalleryCategories, getGalleryItems } from "@/lib/data/gallery";
+import { getGalleryCategories, getGalleryItems, type GalleryItem } from "@/lib/data/gallery";
 import { pluralize } from "@/lib/utils";
 import { buildMetadata } from "@/lib/seo";
+import { getGalleryFallbacks } from "@/lib/home-fallback-images";
 
 type Props = { searchParams: Promise<{ category?: string }> };
 
@@ -29,9 +30,25 @@ export default async function GalleryPage({ searchParams }: Props) {
   const rawCategory = params.category?.trim() || "";
   const categories = await getGalleryCategories();
   const activeCategory = categories.includes(rawCategory) ? rawCategory : "";
-  const items = await getGalleryItems(
+  const stored = await getGalleryItems(
     activeCategory ? { category: activeCategory } : undefined,
   );
+  // Until the team uploads photos in the CMS, show the curated library shots
+  // so the page is never empty (they are real photographs from our trips).
+  const usingFallback = stored.length === 0 && !activeCategory;
+  const items: GalleryItem[] = usingFallback
+    ? getGalleryFallbacks().map((img, index) => ({
+        id: `library-${index}`,
+        url: img.src,
+        alt: img.alt,
+        category: img.regionLabel,
+        caption: img.caption,
+        width: null,
+        height: null,
+        order: index,
+        destination: null,
+      }))
+    : stored;
 
   return (
     <>
@@ -43,8 +60,8 @@ export default async function GalleryPage({ searchParams }: Props) {
 
       <PageHeader
         eyebrow="Gallery"
-        title="Scenes from the road"
-        description="Photos uploaded by our team. Filter by category and click any photo to open it full-screen."
+        title="Scenes from the [[road]]"
+        description="Moments from the mountains, valleys and coastlines we plan trips to. Filter by category and open any photo full-screen."
         tone="peach"
       >
         <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/destinations">

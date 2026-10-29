@@ -122,7 +122,7 @@ export function BrutalImage({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-xl bg-sand",
+        "group skeleton relative overflow-hidden rounded-xl",
         aspectClasses[aspect],
         rounded && "rounded-chip",
         className,

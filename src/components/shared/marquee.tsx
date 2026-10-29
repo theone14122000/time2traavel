@@ -1,4 +1,4 @@
-﻿import * as React from "react";
+import * as React from "react";
 import { Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,13 +34,13 @@ export function Marquee({
 }: MarqueeProps) {
   const toneClasses =
     tone === "lemon"
-      ? "bg-lemon text-ink"
+      ? "bg-sand text-ink"
       : tone === "coral"
-        ? "bg-coral text-ink"
+        ? "bg-gold/30 text-ink"
         : "bg-ink text-cream";
 
   const sep = separator ?? (
-    <Sparkles aria-hidden="true" className="size-4 shrink-0" />
+    <Sparkles aria-hidden="true" className="size-3.5 shrink-0 text-gold" />
   );
 
   const renderGroup = (groupKey: string) => (

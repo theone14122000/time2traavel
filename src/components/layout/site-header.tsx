@@ -181,7 +181,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
             scrolled ? "h-14 lg:h-16" : "h-16 lg:h-20",
           )}
         >
-            <Logo height={32} priority className="block" />
+            <Logo height={34} priority />
 
           <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
             {NAV_LINKS.map((link) => {
@@ -309,7 +309,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                   className="flex min-h-full flex-col bg-paper pb-[env(safe-area-inset-bottom)]"
                 >
                   <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-line bg-cream px-4 pb-3 pt-[calc(0.75rem_+_env(safe-area-inset-top))]">
-                    <Logo height={28} onClick={() => setMenuOpen(false)} />
+                    <Logo height={30} onClick={() => setMenuOpen(false)} />
 
                     <button
                       type="button"

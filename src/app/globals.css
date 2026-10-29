@@ -419,15 +419,6 @@
     border: 0 !important;
     box-shadow: none !important;
   }
-  .grid-lines,
-  .halftone,
-  .dots-field,
-  .motion-lines,
-  .starburst,
-  .coffee-ring,
-  .tape-strip {
-    display: none !important;
-  }
 
   .brutal-prose {
     font-size: 1.0625rem;
@@ -535,6 +526,66 @@
 
   .measure {
     max-width: 65ch;
+  }
+
+  /* ---- Shimmer: image skeleton that sits behind the photo until it paints ---- */
+  .skeleton {
+    position: relative;
+    isolation: isolate;
+    background-color: var(--tt-sand);
+  }
+  .skeleton::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(100deg, transparent 20%, rgb(255 255 255 / 0.65) 50%, transparent 80%);
+    transform: translateX(-100%);
+    animation: shimmer-x 1.8s ease-in-out infinite;
+  }
+  @keyframes shimmer-x {
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  /* ---- Shine: soft light sweep across a card on hover / focus ---- */
+  .card-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .card-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 15;
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 38%, rgb(255 255 255 / 0.32) 50%, transparent 62%);
+    transform: translateX(-130%);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card-shine:hover::after,
+    .card-shine:focus-visible::after {
+      transform: translateX(130%);
+      transition: transform 900ms var(--tt-ease);
+    }
+  }
+
+  /* Glass surface for floating panels */
+  .glass {
+    background: rgb(255 255 255 / 0.12);
+    border: 1px solid rgb(255 255 255 / 0.28);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+
+  /* Slow vertical bob for the scroll cue */
+  @keyframes cue {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(6px); opacity: 1; }
+  }
+  .scroll-cue {
+    animation: cue 2.2s ease-in-out infinite;
   }
 
   /* ---- Luxury primitives ---- */
@@ -673,9 +724,10 @@
 
   /* ---- Gradient accent word (one per heading) ---- */
   .hg-word {
+    animation: hg-shift 9s ease-in-out infinite alternate;
     color: var(--hg-fallback, var(--tt-ink));
     background-image: var(--hg, linear-gradient(110deg, var(--tt-ink), var(--tt-indigo), var(--tt-pen-blue)));
-    background-size: 200% 100%;
+    background-size: 300% 100%;
     background-position: 0% 50%;
     padding-block: 0.08em;
     -webkit-box-decoration-break: clone;
@@ -709,21 +761,21 @@
   .hg-ink,
   .hg-ocean,
   .hg-plum {
-    --hg: linear-gradient(105deg, #101d2c 0%, #2f6f8f 55%, #3f7f86 100%);
+    --hg: linear-gradient(100deg, #101d2c 0%, #2f6f8f 20%, #2f8a8a 40%, #2f6b57 60%, #a67c3a 80%, #2f6f8f 100%);
     --hg-fallback: #2f5f7a;
   }
   .hg-forest {
-    --hg: linear-gradient(105deg, #173d35 0%, #2f6b57 55%, #0f6b4f 100%);
+    --hg: linear-gradient(100deg, #173d35 0%, #2f6b57 25%, #2f8a8a 50%, #1e6f8f 75%, #173d35 100%);
     --hg-fallback: #1e5a4a;
   }
   .hg-flame,
   .hg-rose {
-    --hg: linear-gradient(105deg, #9a7430 0%, #b98d4a 50%, #7a5a2b 100%);
+    --hg: linear-gradient(100deg, #8a6420 0%, #b98d4a 25%, #a35a3a 50%, #b98d4a 75%, #8a6420 100%);
     --hg-fallback: #8a6420;
   }
   .hg-onDark,
   .hg-champagne {
-    --hg: linear-gradient(105deg, #e6cf9f 0%, #c7a56a 55%, #b98d4a 100%);
+    --hg: linear-gradient(100deg, #f1dcae 0%, #c7a56a 25%, #9fd3d6 50%, #c7a56a 75%, #f1dcae 100%);
     --hg-fallback: #d8bc84;
   }
   .hg-aurora {

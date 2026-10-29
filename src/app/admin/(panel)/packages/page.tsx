@@ -144,7 +144,7 @@ export default async function AdminPackagesPage() {
                       </Link>
                     </Button>
                     <ConfirmDeleteButton
-                      onAction={() => deletePackageAction(row.id)}
+                      onAction={deletePackageAction.bind(null, row.id)}
                       confirmTitle={`Delete ${row.title}?`}
                       confirmDescription="The package and its itinerary days are removed permanently."
                     />

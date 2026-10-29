@@ -120,7 +120,7 @@ export default async function AdminTripTypesPage() {
                       </Link>
                     </Button>
                     <ConfirmDeleteButton
-                      onAction={() => deleteTripTypeAction(row.id)}
+                      onAction={deleteTripTypeAction.bind(null, row.id)}
                       confirmTitle={`Delete ${row.name}?`}
                       confirmDescription="The trip type is removed from the site permanently."
                     />

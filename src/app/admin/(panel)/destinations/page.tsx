@@ -131,7 +131,7 @@ export default async function AdminDestinationsPage() {
                       </Link>
                     </Button>
                     <ConfirmDeleteButton
-                      onAction={() => deleteDestinationAction(row.id)}
+                      onAction={deleteDestinationAction.bind(null, row.id)}
                       confirmTitle={`Delete ${row.name}?`}
                       confirmDescription="The destination is removed from the site. Packages keep existing but lose the link."
                     />

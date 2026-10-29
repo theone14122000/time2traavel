@@ -9,7 +9,7 @@ import {
   type GalleryItemCreateInput,
   type GalleryItemUpdateInput,
 } from "@/schemas/admin";
-import { uploadMediaAction } from "@/actions/admin/media";
+import { storeUpload } from "@/lib/uploads";
 import {
   failure,
   ok,
@@ -45,15 +45,9 @@ export async function uploadGalleryItemAction(
     });
   }
 
-  const upload = await uploadMediaAction(formData);
-  if (!upload.ok) return upload;
-
-  // uploadMediaAction reports success as `Uploaded <filename>.`
-  const match = /^Uploaded (.+)\.$/.exec(upload.message);
-  if (!match?.[1]) {
-    return failure("Upload succeeded but the file name couldn't be read — try again.");
-  }
-  const url = `/uploads/${match[1]}`;
+  const stored = await storeUpload(formData.get("file"), { alt, region: category });
+  if (!stored.ok) return failure(stored.error);
+  const url = stored.url;
 
   try {
     await prisma.galleryItem.create({

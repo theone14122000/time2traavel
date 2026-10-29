@@ -160,7 +160,7 @@ export default async function AdminTeamPage() {
                       size="icon-sm"
                       aria-label={row.published ? `Unpublish ${row.name}` : `Publish ${row.name}`}
                       title={row.published ? "Unpublish" : "Publish"}
-                      onAction={() => toggleTeamMemberAction(row.id, "published")}
+                      onAction={toggleTeamMemberAction.bind(null, row.id, "published")}
                     >
                       {row.published ? (
                         <Eye aria-hidden="true" className="size-4" />
@@ -177,7 +177,7 @@ export default async function AdminTeamPage() {
                           : `Make ${row.name} the founder`
                       }
                       title={row.isFounder ? "Unset founder" : "Make founder"}
-                      onAction={() => toggleTeamMemberAction(row.id, "isFounder")}
+                      onAction={toggleTeamMemberAction.bind(null, row.id, "isFounder")}
                     >
                       <Crown aria-hidden="true" className="size-4" />
                     </AsyncButton>
@@ -187,7 +187,7 @@ export default async function AdminTeamPage() {
                       aria-label={`Move ${row.name} up`}
                       title="Move up"
                       disabled={index === 0}
-                      onAction={() => reorderTeamMemberAction(swapped(index, "up"))}
+                      onAction={reorderTeamMemberAction.bind(null, swapped(index, "up"))}
                     >
                       <ArrowUp aria-hidden="true" className="size-4" />
                     </AsyncButton>
@@ -197,7 +197,7 @@ export default async function AdminTeamPage() {
                       aria-label={`Move ${row.name} down`}
                       title="Move down"
                       disabled={index === members.length - 1}
-                      onAction={() => reorderTeamMemberAction(swapped(index, "down"))}
+                      onAction={reorderTeamMemberAction.bind(null, swapped(index, "down"))}
                     >
                       <ArrowDown aria-hidden="true" className="size-4" />
                     </AsyncButton>
@@ -208,7 +208,7 @@ export default async function AdminTeamPage() {
                       </Link>
                     </Button>
                     <ConfirmDeleteButton
-                      onAction={() => deleteTeamMemberAction(row.id)}
+                      onAction={deleteTeamMemberAction.bind(null, row.id)}
                       confirmTitle={`Delete ${row.name}?`}
                       confirmDescription="The member is removed from the team list on the site."
                     />

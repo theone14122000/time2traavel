@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, ChevronDown, MapPin, Search } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { GradientWord } from "@/components/ui/gradient-word";
 import { useTripPlanner } from "@/components/forms/trip-planner-context";
@@ -19,6 +19,79 @@ type CinematicHeroProps = {
 };
 
 const SLIDE_MS = 6500;
+
+/** Suggestions only — the planner accepts any destination text. */
+const QUICK_DESTINATIONS = ["Himachal Pradesh", "Ladakh", "Kashmir", "Uttarakhand", "Bali", "Dubai"];
+
+/** Glass quick-start card: hands its answers to the same planner every CTA opens. */
+function HeroQuickPlan() {
+  const { openPlanner } = useTripPlanner();
+  const [destination, setDestination] = React.useState("");
+  const [date, setDate] = React.useState("");
+  const today = React.useMemo(() => {
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().slice(0, 10);
+  }, []);
+
+  return (
+    <form
+      aria-label="Quick trip planner"
+      onSubmit={(event) => {
+        event.preventDefault();
+        openPlanner({
+          destination: destination.trim() || undefined,
+          travelDate: date || undefined,
+        });
+      }}
+      className="glass hidden w-full max-w-sm rounded-3xl p-6 text-white lg:block"
+    >
+      <p className="lux-eyebrow text-[#e6cf9f]">Start planning</p>
+      <h2 className="mt-3 font-display text-2xl leading-tight">Where would you like to go?</h2>
+
+      <label className="mt-5 block text-xs font-medium uppercase tracking-[0.12em] text-white/75" htmlFor="hero-dest">
+        Destination
+      </label>
+      <div className="relative mt-1.5">
+        <Search aria-hidden="true" className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-white/70" />
+        <input
+          id="hero-dest"
+          list="hero-destinations"
+          value={destination}
+          onChange={(e) => setDestination(e.target.value)}
+          placeholder="Ladakh, Bali, Kashmir…"
+          autoComplete="off"
+          className="h-12 w-full rounded-xl border border-white/25 bg-white/10 pl-10 pr-3 text-sm text-white placeholder:text-white/55 focus:border-white/70 focus:outline-none"
+        />
+        <datalist id="hero-destinations">
+          {QUICK_DESTINATIONS.map((d) => (
+            <option key={d} value={d} />
+          ))}
+        </datalist>
+      </div>
+
+      <label className="mt-4 block text-xs font-medium uppercase tracking-[0.12em] text-white/75" htmlFor="hero-date">
+        Travelling from
+      </label>
+      <input
+        id="hero-date"
+        type="date"
+        min={today}
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+        className="mt-1.5 h-12 w-full rounded-xl border border-white/25 bg-white/10 px-3 text-sm text-white [color-scheme:dark] focus:border-white/70 focus:outline-none"
+      />
+
+      <button
+        type="submit"
+        className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gold text-sm font-semibold text-ink transition-all hover:brightness-105 active:scale-[0.99]"
+      >
+        Plan this trip
+        <ArrowRight aria-hidden="true" className="size-4" />
+      </button>
+    </form>
+  );
+}
 
 /**
  * Full-bleed cinematic hero. One photograph at a time crossfades behind an
@@ -93,8 +166,9 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
         className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/60 via-transparent to-transparent"
       />
 
-      <div className="lux-container pb-10 pt-28 sm:pb-14 lg:pb-20">
-        <div className="max-w-3xl">
+      <div className="lux-container pb-10 pt-28 sm:pb-14 lg:pb-16">
+        <div className="grid items-end gap-10 lg:grid-cols-12">
+        <div className="lg:col-span-7">
           <motion.p
             {...rise(0.05)}
             className="lux-eyebrow text-[#e6cf9f]"
@@ -140,6 +214,11 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
               Plan Your Journey
             </button>
           </motion.div>
+        </div>
+
+        <motion.div {...rise(0.5)} className="lg:col-span-4 lg:col-start-9">
+          <HeroQuickPlan />
+        </motion.div>
         </div>
 
         {/* Supporting strip */}
@@ -194,6 +273,14 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
           ) : null}
         </motion.div>
       </div>
+
+      <a
+        href="#domestic-destinations"
+        aria-label="Scroll to destinations"
+        className="scroll-cue absolute bottom-3 left-1/2 hidden -translate-x-1/2 text-white/80 hover:text-white sm:block"
+      >
+        <ChevronDown aria-hidden="true" className="size-6" />
+      </a>
     </section>
   );
 }

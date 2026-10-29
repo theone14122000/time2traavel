@@ -83,7 +83,7 @@ function TripTypeTile({
 
   return (
     <li className="h-full">
-      <article className="group relative flex h-full flex-col rounded-sm border border-line bg-paper shadow-hard transition-[transform,box-shadow] duration-150 hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg">
+      <article className="group card-shine relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-paper shadow-hard-sm transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-hard-lg">
         <div
           className={cn(
             "relative aspect-[3/2] overflow-hidden border-b border-line",
