@@ -125,14 +125,14 @@ export default async function DesignSystemPage() {
 
       <nav
         aria-label="Design system sections"
-        className="sticky top-14 z-30 border-b-[3px] border-ink bg-lemon lg:top-16"
+        className="sticky top-14 z-30 border-b border-line bg-lemon lg:top-16"
       >
         <Container className="flex gap-2 overflow-x-auto py-2.5 no-scrollbar">
           {INDEX_LINKS.map((link) => (
             <a
               key={link.id}
               href={`#${link.id}`}
-              className="label-brutal tap-44 inline-flex shrink-0 items-center border-[2px] border-ink bg-paper px-3 py-2 shadow-hard-xs transition-colors hover:bg-butter"
+              className="label-brutal tap-44 inline-flex shrink-0 items-center border border-line bg-paper px-3 py-2 shadow-hard-xs transition-colors hover:bg-butter"
             >
               {link.label}
             </a>
@@ -180,7 +180,7 @@ export default async function DesignSystemPage() {
         tone="paper"
         description="Hard offset shadows, the three border weights and the radius demo."
       >
-        <Panel label="Shadows, borders, radius" note="border-2 / 3 / 4">
+        <Panel label="Shadows, borders, radius" note="border / 3 / 4">
           <ShadowsAndBorders />
         </Panel>
       </GallerySection>
@@ -265,7 +265,7 @@ export default async function DesignSystemPage() {
               items={CAROUSEL_SLIDES.map((slide) => (
                 <div
                   key={slide.label}
-                  className={`flex min-h-52 items-center justify-center border-b-[3px] border-ink p-8 ${slide.tone}`}
+                  className={`flex min-h-52 items-center justify-center border-b border-line p-8 ${slide.tone}`}
                 >
                   <span className="font-display text-display uppercase">
                     {slide.label}
@@ -305,7 +305,7 @@ export default async function DesignSystemPage() {
             <Marquee />
             <Marquee tone="lemon" reverse slow />
           </div>
-          <p className="border-t-[3px] border-ink p-4 text-sm font-medium text-ink-soft sm:p-5">
+          <p className="border-t border-line p-4 text-sm font-medium text-ink-soft sm:p-5">
             Hovering (or focusing inside) the strip pauses it via{" "}
             <code className="font-bold">.marquee-pause</code>; the duplicate track is
             aria-hidden and reduced motion disables the animation.
@@ -442,7 +442,7 @@ export default async function DesignSystemPage() {
             {DIVIDER_VARIANTS.map((variant) => (
               <div key={variant} className="grid gap-2">
                 <span className="label-brutal text-ink-soft">{variant}</span>
-                <div className="border-[3px] border-ink bg-sand">
+                <div className="border border-line bg-sand">
                   {DIVIDER_TONES.map((tone) => (
                     <SectionDivider key={`${variant}-${tone}`} variant={variant} tone={tone} />
                   ))}
@@ -477,7 +477,7 @@ export default async function DesignSystemPage() {
             <SkeletonCard />
           </Panel>
           <Panel label="SkeletonTitle / SkeletonLine">
-            <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
+            <div className="grid gap-3 border border-line bg-paper p-4 shadow-hard-xs">
               <SkeletonTitle />
               <SkeletonLine />
               <SkeletonLine className="w-5/6" />
@@ -523,11 +523,11 @@ export default async function DesignSystemPage() {
           <div className="grid gap-3">
             <p className="text-base font-medium leading-relaxed">
               Press{" "}
-              <kbd className="label-brutal border-[2px] border-ink bg-butter px-2 py-1.5 shadow-hard-xs">
+              <kbd className="label-brutal border border-line bg-butter px-2 py-1.5 shadow-hard-xs">
                 ⌘K
               </kbd>{" "}
               or{" "}
-              <kbd className="label-brutal border-[2px] border-ink bg-butter px-2 py-1.5 shadow-hard-xs">
+              <kbd className="label-brutal border border-line bg-butter px-2 py-1.5 shadow-hard-xs">
                 Ctrl+K
               </kbd>{" "}
               anywhere on the site to open the search palette.

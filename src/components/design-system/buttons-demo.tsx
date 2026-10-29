@@ -41,13 +41,13 @@ export function ButtonsDemo() {
           </caption>
           <thead>
             <tr>
-              <th className="label-brutal border-[3px] border-ink bg-butter px-3 py-2">
+              <th className="label-brutal border border-line bg-butter px-3 py-2">
                 Variant
               </th>
               {SIZES.map((size) => (
                 <th
                   key={size}
-                  className="label-brutal border-[3px] border-ink bg-butter px-3 py-2"
+                  className="label-brutal border border-line bg-butter px-3 py-2"
                 >
                   {size}
                 </th>
@@ -57,14 +57,14 @@ export function ButtonsDemo() {
           <tbody>
             {VARIANTS.map((variant) => (
               <tr key={variant}>
-                <th className="border-[3px] border-ink bg-paper px-3 py-3 align-middle">
+                <th className="border border-line bg-paper px-3 py-3 align-middle">
                   <span className="block text-xs font-bold uppercase">{variant}</span>
                   <span className="block text-xs font-medium text-ink-soft">
                     {VARIANT_CAPTION[variant]}
                   </span>
                 </th>
                 {SIZES.map((size) => (
-                  <td key={size} className="border-[3px] border-ink bg-paper px-3 py-3">
+                  <td key={size} className="border border-line bg-paper px-3 py-3">
                     <Button variant={variant} size={size}>
                       Demo
                     </Button>
@@ -77,14 +77,14 @@ export function ButtonsDemo() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="grid gap-2 border-[3px] border-ink bg-butter p-4">
+        <div className="grid gap-2 border border-line bg-butter p-4">
           <span className="label-brutal text-ink-soft">loading</span>
           <div>
             <Button loading>Sending demo</Button>
           </div>
         </div>
 
-        <div className="grid gap-2 border-[3px] border-ink bg-butter p-4">
+        <div className="grid gap-2 border border-line bg-butter p-4">
           <span className="label-brutal text-ink-soft">disabled</span>
           <div className="flex flex-wrap gap-2">
             <Button disabled>Disabled demo</Button>
@@ -94,7 +94,7 @@ export function ButtonsDemo() {
           </div>
         </div>
 
-        <div className="grid gap-2 border-[3px] border-ink bg-butter p-4">
+        <div className="grid gap-2 border border-line bg-butter p-4">
           <span className="label-brutal text-ink-soft">with icon</span>
           <div className="flex flex-wrap gap-2">
             <Button>
@@ -108,7 +108,7 @@ export function ButtonsDemo() {
           </div>
         </div>
 
-        <div className="grid gap-2 border-[3px] border-ink bg-butter p-4">
+        <div className="grid gap-2 border border-line bg-butter p-4">
           <span className="label-brutal text-ink-soft">magnetic (desktop hover)</span>
           <div>
             <Button magnetic variant="dark">
@@ -117,7 +117,7 @@ export function ButtonsDemo() {
           </div>
         </div>
 
-        <div className="grid gap-2 border-[3px] border-ink bg-butter p-4">
+        <div className="grid gap-2 border border-line bg-butter p-4">
           <span className="label-brutal text-ink-soft">asChild (link)</span>
           <div>
             <Button asChild variant="outline">
@@ -126,7 +126,7 @@ export function ButtonsDemo() {
           </div>
         </div>
 
-        <div className="grid gap-2 border-[3px] border-ink bg-butter p-4">
+        <div className="grid gap-2 border border-line bg-butter p-4">
           <span className="label-brutal text-ink-soft">sizes as links</span>
           <div className="flex flex-wrap items-center gap-2">
             <Button asChild size="sm" variant="soft">

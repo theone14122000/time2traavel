@@ -49,7 +49,7 @@ export function HomeSectionsManager({
 }) {
   if (sections.length === 0) {
     return (
-      <p className="border-[3px] border-dashed border-ink bg-butter px-4 py-10 text-center text-sm font-bold uppercase">
+      <p className="border border-dashed border-line bg-butter px-4 py-10 text-center text-sm font-bold uppercase">
         No sections found — run the database seed to create the defaults.
       </p>
     );
@@ -116,14 +116,14 @@ function HomeSectionRowForm({
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         noValidate
-        className="grid gap-3 border-[3px] border-ink bg-paper p-3 shadow-hard sm:p-4"
+        className="grid gap-3 border border-line bg-paper p-3 shadow-hard sm:p-4"
       >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-display text-sm uppercase tracking-wide">
               {KEY_LABELS[section.key] ?? section.key}
             </span>
-            <code className="border-[2px] border-ink bg-cream px-1.5 py-0.5 text-xs font-bold">
+            <code className="border border-line bg-cream px-1.5 py-0.5 text-xs font-bold">
               {section.key}
             </code>
             <Badge

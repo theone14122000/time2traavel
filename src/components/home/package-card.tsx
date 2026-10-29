@@ -114,13 +114,13 @@ export function HomePackageCard({
         ) : null}
 
         {highlightsCount > 0 ? (
-          <span className="label-brutal mt-auto w-fit border-[2px] border-ink bg-lemon px-2.5 py-1">
+          <span className="label-brutal mt-auto w-fit border border-line bg-lemon px-2.5 py-1">
             +{highlightsCount} {pluralize(highlightsCount, "highlight")}
           </span>
         ) : null}
       </CardBody>
 
-      <div className="relative z-[1] flex flex-wrap items-center justify-between gap-2.5 border-t-[3px] border-ink px-4 py-3">
+      <div className="relative z-[1] flex flex-wrap items-center justify-between gap-2.5 border-t border-line px-4 py-3">
         <Link
           href={`/packages/${pkg.slug}`}
           className={cn(buttonVariants({ variant: "outline", size: "sm" }), "tap-44 flex-1")}

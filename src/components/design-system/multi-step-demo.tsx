@@ -59,7 +59,7 @@ export function MultiStepDemo() {
         contentClassName="min-h-44"
       >
         {current === 0 ? (
-          <div className="grid gap-4 border-[3px] border-ink bg-butter p-4">
+          <div className="grid gap-4 border border-line bg-butter p-4">
             <p className="label-brutal text-ink-soft">Step 1 — fake field slots</p>
             <FloatingInput
               label="Demo name"
@@ -77,7 +77,7 @@ export function MultiStepDemo() {
         ) : null}
 
         {current === 1 ? (
-          <div className="grid gap-4 border-[3px] border-ink bg-sky p-4">
+          <div className="grid gap-4 border border-line bg-sky p-4">
             <p className="label-brutal text-ink-soft">Step 2 — fake field slots</p>
             <Input aria-label="Demo city" placeholder="Demo city (not a real place list)" />
             <Input aria-label="Demo note" placeholder="Demo note" />
@@ -85,14 +85,14 @@ export function MultiStepDemo() {
         ) : null}
 
         {current === 2 ? (
-          <div className="grid gap-4 border-[3px] border-ink bg-mint p-4">
+          <div className="grid gap-4 border border-line bg-mint p-4">
             <p className="label-brutal text-ink-soft">Step 3 — review slots</p>
             <dl className="grid gap-2 text-sm">
-              <div className="flex justify-between gap-3 border-b-2 border-ink/30 pb-1.5">
+              <div className="flex justify-between gap-3 border-b border-line pb-1.5">
                 <dt className="font-bold">Demo name</dt>
                 <dd className="font-medium">{name || "—"}</dd>
               </div>
-              <div className="flex justify-between gap-3 border-b-2 border-ink/30 pb-1.5">
+              <div className="flex justify-between gap-3 border-b border-line pb-1.5">
                 <dt className="font-bold">Demo reference</dt>
                 <dd className="font-medium">{reference || "—"}</dd>
               </div>

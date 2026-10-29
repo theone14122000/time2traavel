@@ -47,7 +47,7 @@ export function Media({
   return (
     <div
       className={cn(
-        "relative overflow-hidden border-b-[3px] border-ink bg-butter",
+        "relative overflow-hidden border-b border-line bg-butter",
         ratios[ratio],
         className,
       )}
@@ -70,7 +70,7 @@ export function Media({
         >
           <span
             aria-hidden="true"
-            className="flex size-12 items-center justify-center border-[3px] border-ink bg-paper font-display text-lg shadow-hard-xs"
+            className="flex size-12 items-center justify-center border border-line bg-paper font-display text-lg shadow-hard-xs"
           >
             {(label ?? "?").trim().charAt(0).toUpperCase() || "?"}
           </span>

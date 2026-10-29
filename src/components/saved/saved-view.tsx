@@ -77,7 +77,7 @@ export function SavedView() {
 
   if (!ready) {
     return (
-      <div className="flex items-center gap-2 border-4 border-ink bg-paper p-6 shadow-brutal-md">
+      <div className="flex items-center gap-2 border border-line bg-paper p-6 shadow-brutal-md">
         <Loader2 aria-hidden="true" className="size-5 animate-spin" />
         <p className="text-sm font-semibold">Loading your saved items…</p>
       </div>
@@ -106,7 +106,7 @@ export function SavedView() {
       {error ? (
         <p
           role="alert"
-          className="border-[3px] border-ink bg-danger px-4 py-3 text-sm font-semibold text-paper"
+          className="border border-line bg-danger px-4 py-3 text-sm font-semibold text-paper"
         >
           {error}
         </p>
@@ -142,7 +142,7 @@ export function SavedView() {
                 No saved destinations yet — tap a heart on any destination card.
               </p>
             ) : loading && destinations.length === 0 ? (
-              <div className="flex items-center gap-2 border-4 border-ink bg-paper p-6 shadow-brutal-md">
+              <div className="flex items-center gap-2 border border-line bg-paper p-6 shadow-brutal-md">
                 <Loader2 aria-hidden="true" className="size-5 animate-spin" />
                 <p className="text-sm font-semibold">Loading destinations…</p>
               </div>
@@ -159,7 +159,7 @@ export function SavedView() {
                       type="button"
                       onClick={() => toggleDestination(destination.id)}
                       aria-label={`Remove ${destination.name} from saved`}
-                      className="tap-44 absolute right-3 top-3 flex size-11 items-center justify-center border-[3px] border-ink bg-paper text-tomato shadow-hard-xs transition-colors hover:bg-lemon"
+                      className="tap-44 absolute right-3 top-3 flex size-11 items-center justify-center border border-line bg-paper text-tomato shadow-hard-xs transition-colors hover:bg-lemon"
                     >
                       <Heart aria-hidden="true" className="size-5 fill-current" />
                     </button>
@@ -178,7 +178,7 @@ export function SavedView() {
                 No saved packages yet — tap a heart on any package card.
               </p>
             ) : loading && packages.length === 0 ? (
-              <div className="flex items-center gap-2 border-4 border-ink bg-paper p-6 shadow-brutal-md">
+              <div className="flex items-center gap-2 border border-line bg-paper p-6 shadow-brutal-md">
                 <Loader2 aria-hidden="true" className="size-5 animate-spin" />
                 <p className="text-sm font-semibold">Loading packages…</p>
               </div>
@@ -195,7 +195,7 @@ export function SavedView() {
                       type="button"
                       onClick={() => togglePackage(pkg.id)}
                       aria-label={`Remove ${pkg.title} from saved`}
-                      className="tap-44 absolute right-3 top-3 flex size-11 items-center justify-center border-[3px] border-ink bg-paper text-tomato shadow-hard-xs transition-colors hover:bg-lemon"
+                      className="tap-44 absolute right-3 top-3 flex size-11 items-center justify-center border border-line bg-paper text-tomato shadow-hard-xs transition-colors hover:bg-lemon"
                     >
                       <Heart aria-hidden="true" className="size-5 fill-current" />
                     </button>

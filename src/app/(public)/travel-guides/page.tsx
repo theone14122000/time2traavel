@@ -26,9 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 function GuideCardTile({ guide }: { guide: GuideCard }) {
   return (
-    <article className="flex h-full flex-col border-4 border-ink bg-paper shadow-brutal-md transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg">
+    <article className="flex h-full flex-col border border-line bg-paper shadow-brutal-md transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg">
       <Link href={`/travel-guides/${guide.slug}`} className="group block">
-        <div className="relative aspect-video w-full overflow-hidden border-b-[3px] border-ink bg-butter">
+        <div className="relative aspect-video w-full overflow-hidden border-b border-line bg-butter">
           {guide.coverImage ? (
             <Image
               src={guide.coverImage}
@@ -39,7 +39,7 @@ function GuideCardTile({ guide }: { guide: GuideCard }) {
             />
           ) : (
             <div className="grid-lines absolute inset-0 flex items-center justify-center bg-butter">
-              <span className="label-brutal border-[3px] border-ink bg-paper px-3 py-1.5">
+              <span className="label-brutal border border-line bg-paper px-3 py-1.5">
                 {guide.category}
               </span>
             </div>
@@ -49,7 +49,7 @@ function GuideCardTile({ guide }: { guide: GuideCard }) {
 
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="label-brutal border-[2px] border-ink bg-lemon px-2 py-1">
+          <span className="label-brutal border border-line bg-lemon px-2 py-1">
             {guide.category}
           </span>
           <span className="inline-flex items-center gap-1 text-xs font-semibold text-ink-soft">
@@ -96,7 +96,7 @@ export default async function TravelGuidesPage({ searchParams }: Props) {
 
   return (
     <>
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Travel Guides" }]} />
         </Container>

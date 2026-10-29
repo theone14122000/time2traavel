@@ -23,7 +23,7 @@ export const RadioGroupItem = React.forwardRef<
   <RadioGroupPrimitive.Item
     ref={ref}
     className={cn(
-      "size-5 shrink-0 rounded-full border-[3px] border-ink bg-paper shadow-hard-xs transition-all",
+      "size-5 shrink-0 rounded-full border border-line bg-paper shadow-hard-xs transition-all",
       "hover:bg-butter focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink",
       "data-[state=checked]:shadow-none data-[state=checked]:ring-[3px] data-[state=checked]:ring-ink data-[state=checked]:ring-offset-2 data-[state=checked]:ring-offset-paper data-[state=checked]:bg-lemon",
       "disabled:cursor-not-allowed disabled:opacity-50",

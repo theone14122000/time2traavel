@@ -10,7 +10,7 @@ export const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "relative border-[3px] border-ink bg-paper shadow-hard",
+      "relative border border-line bg-paper shadow-hard",
       className,
     )}
     {...props}
@@ -21,7 +21,7 @@ Card.displayName = "Card";
 export function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("flex flex-col gap-1.5 border-b-[3px] border-ink p-4 sm:p-5", className)}
+      className={cn("flex flex-col gap-1.5 border-b border-line p-4 sm:p-5", className)}
       {...props}
     />
   );
@@ -53,7 +53,7 @@ export function CardFooter({ className, ...props }: React.HTMLAttributes<HTMLDiv
   return (
     <div
       className={cn(
-        "flex flex-wrap items-center gap-3 border-t-[3px] border-ink p-4 sm:p-5",
+        "flex flex-wrap items-center gap-3 border-t border-line p-4 sm:p-5",
         className,
       )}
       {...props}
@@ -110,12 +110,11 @@ export function CardSurface({
   return (
     <Component
       className={cn(
-        "group relative flex h-full flex-col border-[3px] border-ink bg-paper",
-        variant === "quote" ? "rounded-[6px]" : "rounded-sm",
-        "shadow-hard transition-[transform,box-shadow] duration-200",
+        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-paper",
+        "shadow-hard-sm transition-[transform,box-shadow] duration-300",
         // Hover lift only where a real pointer exists; motion-reduce kills it.
         !disableHover &&
-          "[@media(hover:hover)]:hover:-translate-x-0.5 [@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:shadow-hard-lg",
+          "[@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:shadow-hard-lg",
         "motion-reduce:transition-none motion-reduce:hover:translate-x-0 motion-reduce:hover:translate-y-0",
         variant === "info" && "overflow-hidden",
         className,
@@ -152,10 +151,6 @@ export function CardMedia({
       )}
     >
       {children}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-[6px] border-2 border-ink/80"
-      />
     </div>
   );
 }
@@ -182,7 +177,7 @@ export function CardCaption({
       {badge ? <span className="absolute left-3 top-3 z-20">{badge}</span> : null}
       <div
         className={cn(
-          "relative z-10 -mt-8 border-[3px] border-ink bg-paper p-4 sm:p-5",
+          "relative z-10 bg-paper p-4 sm:p-5",
           className,
         )}
       >
@@ -190,7 +185,7 @@ export function CardCaption({
           <div className="min-w-0">
             <h3
               className={cn(
-                "font-display text-[1.5rem] uppercase leading-none sm:text-[1.75rem]",
+                "font-display text-[1.35rem] leading-tight sm:text-[1.6rem]",
                 accent === "tomato" ? "text-ink" : "text-ink",
               )}
             >
@@ -222,7 +217,7 @@ export function CardArrow({
     <span
       aria-hidden="true"
       className={cn(
-        "flex size-11 shrink-0 items-center justify-center rounded-full border-[3px] border-ink transition-colors duration-200",
+        "flex size-11 shrink-0 items-center justify-center rounded-full border border-line transition-colors duration-200",
         accentFill[accent],
         "group-hover:bg-tomato",
         className,
@@ -247,7 +242,7 @@ export function CardBadge({
     <span
       aria-hidden="true"
       className={cn(
-        "flex size-14 shrink-0 items-center justify-center border-[3px] border-ink font-display text-xl leading-none shadow-brutal-sm",
+        "flex size-14 shrink-0 items-center justify-center border border-line font-display text-xl leading-none shadow-brutal-sm",
         accentFill[accent],
         className,
       )}

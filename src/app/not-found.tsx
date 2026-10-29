@@ -22,15 +22,15 @@ export default function NotFound() {
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
       <span
         aria-hidden="true"
-        className="absolute -left-10 -top-10 hidden size-40 rotate-12 border-[3px] border-ink bg-lemon sm:block"
+        className="absolute -left-10 -top-10 hidden size-40 rotate-12 border border-line bg-lemon sm:block"
       />
       <span
         aria-hidden="true"
-        className="absolute -bottom-10 -right-10 hidden size-40 -rotate-6 border-[3px] border-ink bg-sky sm:block"
+        className="absolute -bottom-10 -right-10 hidden size-40 -rotate-6 border border-line bg-sky sm:block"
       />
 
       <div className="relative flex w-full max-w-2xl flex-col items-center gap-5">
-        <p className="label-brutal border-[3px] border-ink bg-ink px-3 py-2 text-cream">
+        <p className="label-brutal border border-line bg-ink px-3 py-2 text-cream">
           Error 404
         </p>
 

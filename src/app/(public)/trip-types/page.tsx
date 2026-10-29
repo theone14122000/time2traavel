@@ -39,8 +39,8 @@ function typeAccent(color: string | null): string {
 
 function TripTypeTile({ tripType }: { tripType: TripTypeCard }) {
   return (
-    <article className="flex h-full flex-col border-4 border-ink bg-paper shadow-brutal-md transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg">
-      <div className={cn("relative border-b-[3px] border-ink", typeAccent(tripType.color))}>
+    <article className="flex h-full flex-col border border-line bg-paper shadow-brutal-md transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg">
+      <div className={cn("relative border-b border-line", typeAccent(tripType.color))}>
         <BrutalImage
           src={tripType.coverImage}
           alt={tripType.coverImageAlt || tripType.name}
@@ -48,7 +48,7 @@ function TripTypeTile({ tripType }: { tripType: TripTypeCard }) {
           sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
         />
         {tripType.icon ? (
-          <span className="absolute left-3 top-3 flex size-10 items-center justify-center border-[3px] border-ink bg-paper font-display text-lg shadow-hard-xs">
+          <span className="absolute left-3 top-3 flex size-10 items-center justify-center border border-line bg-paper font-display text-lg shadow-hard-xs">
             {tripType.icon}
           </span>
         ) : null}
@@ -81,7 +81,7 @@ export default async function TripTypesPage() {
 
   return (
     <>
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Trip Types" }]} />
         </Container>

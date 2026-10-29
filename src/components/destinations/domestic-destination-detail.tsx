@@ -56,7 +56,7 @@ export async function DomesticDestinationDetail({ slug }: Props) {
           image: cover ? absoluteUrl(originalUrl(cover)) : undefined,
         }}
       />
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs
             items={[
@@ -122,7 +122,7 @@ export async function DomesticDestinationDetail({ slug }: Props) {
               {destination.knownFor.map((item) => (
                 <li
                   key={item}
-                  className="flex items-center gap-2 border-[2px] border-ink bg-paper px-3 py-2 text-sm font-medium"
+                  className="flex items-center gap-2 border border-line bg-paper px-3 py-2 text-sm font-medium"
                 >
                   <span aria-hidden="true" className="size-2 bg-ink" />
                   {item}
@@ -144,9 +144,9 @@ export async function DomesticDestinationDetail({ slug }: Props) {
           </div>
 
           <aside className="grid content-start gap-6">
-            <div className="border-4 border-ink bg-mint p-5 shadow-brutal-md">
+            <div className="border border-line bg-mint p-5 shadow-brutal-md">
               <div className="flex items-center gap-2">
-                <span aria-hidden="true" className="flex size-9 items-center justify-center border-[3px] border-ink bg-paper">
+                <span aria-hidden="true" className="flex size-9 items-center justify-center border border-line bg-paper">
                   <Sun className="size-4" />
                 </span>
                 <h3 className="font-display text-h4 uppercase">Best time to visit</h3>
@@ -159,7 +159,7 @@ export async function DomesticDestinationDetail({ slug }: Props) {
               </p>
             </div>
 
-            <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
+            <div className="border border-line bg-paper p-5 shadow-brutal-md">
               <h3 className="font-display text-h4 uppercase">Plan this trip</h3>
               <p className="mt-3 text-sm font-medium leading-relaxed text-ink-soft">
                 Send your dates, group size and any must-dos — we&apos;ll reply with a plan built around {destination.name}.

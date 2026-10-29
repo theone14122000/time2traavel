@@ -51,12 +51,12 @@ export function BadgesDemo() {
     <div className="grid gap-6">
       <div className="grid gap-3">
         <span className="label-brutal text-ink-soft">Badge — variants × sizes</span>
-        <div className="border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
+        <div className="border border-line bg-paper p-4 shadow-hard-xs">
           <ul className="grid gap-3">
             {BADGE_VARIANTS.map((variant) => (
               <li
                 key={variant}
-                className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-dashed border-ink/40 pb-3 last:border-0 last:pb-0"
+                className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-dashed border-line pb-3 last:border-0 last:pb-0"
               >
                 <code className="w-28 shrink-0 text-xs font-bold text-ink-soft">
                   {variant}
@@ -73,7 +73,7 @@ export function BadgesDemo() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
+        <div className="grid gap-3 border border-line bg-paper p-4 shadow-hard-xs">
           <span className="label-brutal text-ink-soft">Stamp — rotations</span>
           <div className="flex flex-wrap items-center gap-5 py-3">
             {STAMPS.map((stamp) => (
@@ -84,7 +84,7 @@ export function BadgesDemo() {
           </div>
         </div>
 
-        <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
+        <div className="grid gap-3 border border-line bg-paper p-4 shadow-hard-xs">
           <span className="label-brutal text-ink-soft">Ribbon — edge callouts</span>
           <div className="flex flex-wrap items-end gap-4 py-3">
             <Ribbon variant="tomato">Demo</Ribbon>
@@ -95,7 +95,7 @@ export function BadgesDemo() {
         </div>
       </div>
 
-      <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
+      <div className="grid gap-3 border border-line bg-paper p-4 shadow-hard-xs">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="label-brutal text-ink-soft">TagChip — interactive toggle</span>
           <span className="text-xs font-semibold text-ink-soft" aria-live="polite">

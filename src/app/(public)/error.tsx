@@ -16,7 +16,7 @@ type PublicPageError = {
 export default function PublicError({ reset }: PublicPageError) {
   return (
     <main className="flex min-h-[60vh] w-full items-center justify-center bg-paper p-4">
-      <div className="w-full max-w-xl border-4 border-ink bg-peach p-6 text-center shadow-brutal-lg sm:p-8">
+      <div className="w-full max-w-xl border border-line bg-peach p-6 text-center shadow-brutal-lg sm:p-8">
         <p className="label-brutal text-ink">Page error</p>
 
         <h1 className="mt-3 text-h2">

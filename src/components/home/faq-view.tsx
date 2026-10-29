@@ -157,7 +157,7 @@ export function FaqView({ faqs }: { faqs: FaqItem[] }) {
                 type="button"
                 onClick={clearSearch}
                 aria-label="Clear FAQ search"
-                className="absolute right-1 top-1/2 flex size-11 -translate-y-1/2 items-center justify-center border-[2px] border-ink bg-lemon"
+                className="absolute right-1 top-1/2 flex size-11 -translate-y-1/2 items-center justify-center border border-line bg-lemon"
               >
                 <X aria-hidden="true" className="size-3.5" />
               </button>
@@ -243,7 +243,7 @@ export function FaqView({ faqs }: { faqs: FaqItem[] }) {
         )}
       </div>
 
-      <aside className="border-4 border-ink bg-lemon p-5 shadow-brutal-md lg:w-64">
+      <aside className="border border-line bg-lemon p-5 shadow-brutal-md lg:w-64">
         <p className="font-display text-h4 uppercase leading-tight">Still have questions?</p>
         <p className="mt-2 text-sm font-medium">
           Tell us your dates and we&apos;ll answer with an actual plan.

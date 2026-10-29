@@ -5,7 +5,7 @@ export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivEl
     <div
       aria-hidden="true"
       className={cn(
-        "animate-pulse border-[2px] border-ink/15 bg-paper",
+        "animate-pulse border border-line bg-paper",
         className,
       )}
       {...props}
@@ -25,8 +25,8 @@ export function SkeletonTitle({ className }: { className?: string }) {
 
 export function SkeletonCard({ className }: { className?: string }) {
   return (
-    <div className={cn("border-[3px] border-ink bg-paper shadow-hard", className)}>
-      <Skeleton className="aspect-[4/3] w-full border-0 border-b-[3px] border-ink/15 bg-sand/60" />
+    <div className={cn("border border-line bg-paper shadow-hard", className)}>
+      <Skeleton className="aspect-[4/3] w-full border-0 border-b border-line bg-sand/60" />
       <div className="space-y-3 p-4">
         <Skeleton className="h-4 w-1/3" />
         <Skeleton className="h-6 w-4/5" />

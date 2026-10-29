@@ -84,7 +84,7 @@ export function Timeline({ milestones }: { milestones: TimelineMilestone[] }) {
               >
                 <span
                   aria-hidden="true"
-                  className="absolute left-0 top-3 size-6 border-[3px] border-ink bg-lemon shadow-hard-xs lg:left-1/2 lg:-translate-x-1/2"
+                  className="absolute left-0 top-3 size-6 border border-line bg-lemon shadow-hard-xs lg:left-1/2 lg:-translate-x-1/2"
                 />
 
                 <StaggerItem
@@ -94,13 +94,13 @@ export function Timeline({ milestones }: { milestones: TimelineMilestone[] }) {
                       : "lg:col-start-2 lg:w-full lg:max-w-xl"
                   }
                 >
-                  <article className="border-[3px] border-ink bg-paper p-5 shadow-brutal-md sm:p-6">
+                  <article className="border border-line bg-paper p-5 shadow-brutal-md sm:p-6">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="label-brutal border-[2px] border-ink bg-ink px-2 py-1.5 text-cream">
+                      <span className="label-brutal border border-line bg-ink px-2 py-1.5 text-cream">
                         {String(index + 1).padStart(2, "0")}
                       </span>
                       {milestone.year ? (
-                        <span className="label-brutal border-[2px] border-ink bg-lemon px-2 py-1.5 text-ink">
+                        <span className="label-brutal border border-line bg-lemon px-2 py-1.5 text-ink">
                           {milestone.year}
                         </span>
                       ) : null}

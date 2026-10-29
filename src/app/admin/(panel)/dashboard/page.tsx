@@ -211,21 +211,21 @@ export default async function AdminDashboardPage() {
       <div className="mt-8 flex flex-wrap gap-3">
         <Link
           href="/admin/destinations/new"
-          className="inline-flex items-center gap-2 border-[3px] border-ink bg-lemon px-4 py-3 text-xs font-bold uppercase shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 border border-line bg-lemon px-4 py-3 text-xs font-bold uppercase shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
         >
           <MapPin aria-hidden="true" className="size-4" />
           New destination
         </Link>
         <Link
           href="/admin/packages/new"
-          className="inline-flex items-center gap-2 border-[3px] border-ink bg-mint px-4 py-3 text-xs font-bold uppercase shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 border border-line bg-mint px-4 py-3 text-xs font-bold uppercase shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
         >
           <Package aria-hidden="true" className="size-4" />
           New package
         </Link>
         <Link
           href="/admin/inquiries"
-          className="inline-flex items-center gap-2 border-[3px] border-ink bg-sky px-4 py-3 text-xs font-bold uppercase shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 border border-line bg-sky px-4 py-3 text-xs font-bold uppercase shadow-hard-sm hover:-translate-x-0.5 hover:-translate-y-0.5"
         >
           <Inbox aria-hidden="true" className="size-4" />
           Open enquiries

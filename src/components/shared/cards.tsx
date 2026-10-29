@@ -23,7 +23,7 @@ export function DestinationCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col border-[3px] border-ink bg-paper shadow-hard transition-[transform,box-shadow] duration-200",
+        "group relative flex h-full flex-col border border-line bg-paper shadow-hard transition-[transform,box-shadow] duration-200",
         "hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg",
         className,
       )}
@@ -62,7 +62,7 @@ export function DestinationCard({
           <div className="flex items-center gap-2 text-xs font-semibold text-ink-soft">
             <MapPin
               aria-hidden="true"
-              className="size-4 shrink-0 border-[2px] border-ink bg-mint-strong p-0.5"
+              className="size-4 shrink-0 border border-line bg-mint-strong p-0.5"
             />
             <span>{destination.state}</span>
           </div>
@@ -107,7 +107,7 @@ export function PackageCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col border-[3px] border-ink bg-paper shadow-hard transition-[transform,box-shadow] duration-200",
+        "group relative flex h-full flex-col border border-line bg-paper shadow-hard transition-[transform,box-shadow] duration-200",
         "hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg",
         className,
       )}
@@ -145,7 +145,7 @@ export function PackageCard({
           </p>
         ) : null}
 
-        <div className="mt-auto flex items-end justify-between gap-3 border-t-[3px] border-ink pt-3">
+        <div className="mt-auto flex items-end justify-between gap-3 border-t border-line pt-3">
           <div>
             <span className="label-brutal block text-ink-soft">Price</span>
             <span className="font-display text-lg leading-tight">

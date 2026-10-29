@@ -2,128 +2,130 @@
 @config "../../tailwind.config.ts";
 
 /* ============================================================
-   TIME2TRAVEL — TRAVEL-JOURNAL DESIGN TOKENS (Tailwind v4)
+   TIME2TRAVEL — MODERN LUXURY TRAVEL DESIGN TOKENS (Tailwind v4)
    ------------------------------------------------------------
-   "Pop Atlas" palette + journal tokens: warm paper canvas,
-   violet-black ink, sunshine yellow, coral/mint/sky/grape fills,
-   pen-blue handwriting, stamp-red postmarks, kraft tape.
-   Variable names (--tt-*) are stable; values carry the brand.
+   Midnight navy + deep forest on warm ivory, champagne-gold
+   details, editorial serif display + clean sans UI.
+   Variable names (--tt-*) and utility names (ink, cream, paper,
+   tomato, lemon, mint …) are kept stable so every component
+   inherits the new look; the values carry the brand.
    ============================================================ */
 
 :root {
-  /* ---- Base (Pop Atlas) ---- */
-  --tt-ink: #16141f; /* violet-black — all text on bright fills */
-  --tt-ink-soft: #4a4658; /* secondary text (AA on paper) */
-  --tt-paper: #ffffff; /* fresh white — pasted pages / cards */
-  --tt-cream: #fffaf0; /* paper — primary canvas */
+  /* ---- Base ---- */
+  --tt-ink: #101d2c; /* midnight navy — text + dark sections */
+  --tt-ink-soft: #55616e; /* muted slate (AA on ivory + stone) */
+  --tt-paper: #ffffff; /* pure white — cards */
+  --tt-cream: #faf8f3; /* warm ivory — primary canvas */
+  --tt-line: rgb(16 29 44 / 0.14); /* hairline borders */
+  --tt-line-strong: rgb(16 29 44 / 0.28);
 
-  /* ---- Section tints (light, never repeat adjacent) ---- */
-  --tt-sunrise: #fff1b8; /* sunshine */
-  --tt-mint: #cff7e5; /* mint */
-  --tt-sky: #b9e9fc; /* sky */
-  --tt-peach: #ffd9d4; /* coral */
-  --tt-lavender: #e6ddff; /* grape */
-  --tt-blush: #ffd6ec; /* pink */
-  --tt-sand: #ffe3c7; /* tangerine */
+  /* ---- Quiet section tints (neutral rhythm, never loud) ---- */
+  --tt-sunrise: #f4efe3; /* warm stone tint */
+  --tt-mint: #e6ede5; /* sage tint */
+  --tt-sky: #e8f0f3; /* mist blue */
+  --tt-peach: #f1ece2;
+  --tt-lavender: #ecf0f1;
+  --tt-blush: #f3eee6;
+  --tt-sand: #e9e5dc; /* soft stone */
 
-  /* ---- Accents (bright fills — ink text only) ---- */
-  --tt-tomato: #ff6b5e; /* coral — THE primary action */
-  --tt-lemon: #ffd43b; /* sunshine — badges / emphasis */
-  --tt-coral: #ff6b5e; /* alias of tomato */
-  --tt-mint-strong: #5fe3b0;
-  --tt-sky-strong: #4fc3f7;
-  --tt-grape: #b8a1ff;
-  --tt-berry: #ff8fcb;
-  --tt-tangerine: #ff9f45;
-  --tt-lime: #bdef5a;
-  --tt-teal: #3ccfc4;
-  --tt-indigo: #2a2f7a; /* dark — white text only */
-  --tt-indigo-soft: #dce3ff;
+  /* ---- Accents ---- */
+  --tt-forest: #173d35; /* deep forest — primary action */
+  --tt-forest-hover: #0f2e28;
+  --tt-gold: #c7a56a; /* champagne gold — premium details */
+  --tt-bronze: #8a6a35;
+  --tt-tomato: #c7a56a; /* legacy alias → champagne gold */
+  --tt-lemon: #c7a56a; /* legacy alias → champagne gold */
+  --tt-coral: #c7a56a;
+  --tt-mint-strong: #a9b9a6; /* sage */
+  --tt-sky-strong: #5b8da8; /* ocean blue */
+  --tt-grape: #a9b9a6;
+  --tt-berry: #c7a56a;
+  --tt-tangerine: #b98d4a;
+  --tt-lime: #a9b9a6;
+  --tt-teal: #5fa3a8;
+  --tt-indigo: #101d2c; /* navy — white text only */
+  --tt-indigo-soft: #dfe7ec;
 
-  /* ---- Journal ---- */
-  --tt-pen-blue: #23358b; /* handwritten margin notes (AA on paper) */
-  --tt-stamp-red: #d7263d; /* stamps, postmarks */
-  --tt-kraft: #e8d5b5; /* tape, luggage tags */
-  --tt-pencil: #6b6578; /* pencil doodles, captions */
+  /* ---- Supporting ---- */
+  --tt-pen-blue: #2f5f7a;
+  --tt-stamp-red: #8a6420;
+  --tt-kraft: #e9e5dc;
+  --tt-pencil: #66707b;
 
   /* ---- Semantic ---- */
-  --tt-success: #0b6b52;
-  --tt-warning: #ffd43b;
-  --tt-danger: #dc2626;
+  --tt-success: #1e5a4a;
+  --tt-warning: #c7a56a;
+  --tt-danger: #c8372d;
 
-  /* ---- Font roles (re-pointed by .font-theme-*) ---- */
-  --tt-font-script: var(--font-kaushan); /* H1 + H2 only, 40px+ */
-  --tt-font-hand: var(--font-caveat-brush); /* H3-, cards, labels, nav */
-  --tt-font-body: var(--font-nunito); /* 17px body copy */
+  /* ---- Font roles ---- */
+  --tt-font-script: var(--font-display-serif); /* H1–H4, display */
+  --tt-font-hand: var(--font-inter); /* nav, labels, buttons */
+  --tt-font-body: var(--font-inter);
 
-  /* ---- Marker (highlighter underline) ---- */
-  --tt-marker: var(--tt-lemon);
-  --tt-marker-hot: var(--tt-tomato);
+  --tt-marker: var(--tt-gold);
+  --tt-marker-hot: var(--tt-gold);
 
-  /* ---- Borders: 2px small · 3px card · 4px hero/feature ---- */
-  --tt-bw-sm: 2px;
-  --tt-bw-md: 3px;
-  --tt-bw-lg: 4px;
+  /* ---- Borders: hairlines ---- */
+  --tt-bw-sm: 1px;
+  --tt-bw-md: 1px;
+  --tt-bw-lg: 1px;
 
-  /* ---- Halftone / dotted journal textures ---- */
-  --tt-halftone: radial-gradient(circle, rgb(22 20 31 / 0.14) 1px, transparent 1.5px);
-  --tt-dots: radial-gradient(circle, rgb(22 20 31 / 0.12) 1.2px, transparent 1.5px);
+  --tt-halftone: none;
+  --tt-dots: none;
+
+  /* ---- Spacing / layout tokens ---- */
+  --tt-container: 80rem;
+  --tt-gutter: clamp(1rem, 4vw, 2.5rem);
+  --tt-section-y: clamp(3rem, 7vw, 6.5rem);
+  --tt-radius: 14px;
+  --tt-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ---- Font themes (admin setting: Site settings → Font theme) ----
-   Declared after :root so the equal-specificity class wins on <html>. */
-.font-theme-journal {
-  --tt-font-script: var(--font-kaushan);
-  --tt-font-hand: var(--font-caveat-brush);
-  --tt-font-body: var(--font-nunito);
-}
-.font-theme-retro {
-  --tt-font-script: var(--font-pacifico);
-  --tt-font-hand: var(--font-caveat);
-  --tt-font-body: var(--font-nunito);
-}
+/* Admin "font theme" setting stays valid but all themes resolve to the
+   luxury pairing — one coherent identity. */
+.font-theme-journal,
+.font-theme-retro,
 .font-theme-elegant {
-  --tt-font-script: var(--font-yellowtail);
-  --tt-font-hand: var(--font-fraunces);
+  --tt-font-script: var(--font-display-serif);
+  --tt-font-hand: var(--font-inter);
   --tt-font-body: var(--font-inter);
 }
-/* Hindi / Devanagari pair — applied with lang="hi" (.font-lang-hi). */
 .font-lang-hi {
-  --tt-font-hand: var(--font-kalam);
+  --tt-font-script: var(--font-noto-devanagari);
+  --tt-font-hand: var(--font-noto-devanagari);
   --tt-font-body: var(--font-noto-devanagari);
-}
-/* Elegant theme sets the handwritten role in Fraunces italic. */
-.font-theme-elegant
-  :is(h3, h4, h5, h6, .font-hand, .font-display, .label-brutal, .sticker) {
-  font-style: italic;
 }
 
 @theme inline {
-  /* ---------- Fonts (role vars switch per fontTheme) ---------- */
-  --font-script: var(--tt-font-script), cursive;
-  --font-hand: var(--tt-font-hand), cursive;
+  /* ---------- Fonts ---------- */
+  --font-script: var(--tt-font-script), Georgia, serif;
+  --font-hand: var(--tt-font-hand), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--tt-font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--tt-font-hand), cursive; /* legacy utility → handwritten */
+  --font-display: var(--tt-font-script), Georgia, serif;
   --font-sans: var(--tt-font-body), ui-sans-serif, system-ui, sans-serif;
 
-  /* ---------- Base palette ---------- */
+  /* ---------- Palette ---------- */
   --color-ink: var(--tt-ink);
   --color-ink-soft: var(--tt-ink-soft);
   --color-paper: var(--tt-paper);
   --color-cream: var(--tt-cream);
+  --color-line: var(--tt-line);
+  --color-line-strong: var(--tt-line-strong);
+  --color-forest: var(--tt-forest);
+  --color-gold: var(--tt-gold);
+  --color-bronze: var(--tt-bronze);
 
-  /* ---------- Section palette (no adjacent repeats) ---------- */
   --color-sunrise: var(--tt-sunrise);
-  --color-butter: var(--tt-sunrise); /* legacy name → sunrise yellow */
+  --color-butter: var(--tt-sunrise);
   --color-mint: var(--tt-mint);
   --color-sky: var(--tt-sky);
   --color-peach: var(--tt-peach);
   --color-lavender: var(--tt-lavender);
   --color-blush: var(--tt-blush);
-  --color-pink: var(--tt-blush); /* legacy name → blush */
+  --color-pink: var(--tt-blush);
   --color-sand: var(--tt-sand);
 
-  /* ---------- Accents ---------- */
   --color-tomato: var(--tt-tomato);
   --color-lemon: var(--tt-lemon);
   --color-coral: var(--tt-coral);
@@ -137,80 +139,74 @@
   --color-indigo: var(--tt-indigo);
   --color-indigo-soft: var(--tt-indigo-soft);
 
-  /* ---------- Journal ---------- */
   --color-pen-blue: var(--tt-pen-blue);
   --color-stamp-red: var(--tt-stamp-red);
   --color-kraft: var(--tt-kraft);
   --color-pencil: var(--tt-pencil);
-  --color-sunshine: var(--tt-sunrise); /* brief naming alias */
+  --color-sunshine: var(--tt-sunrise);
 
-  /* ---------- Semantic ---------- */
   --color-success: var(--tt-success);
   --color-warning: var(--tt-warning);
   --color-danger: var(--tt-danger);
 
-  /* ---------- Hard offset shadows (no blur) ----------
-     Canonical brutal scale: 3 / 6 / 10 px.
-     Legacy hard-* names kept so nothing breaks. */
-  --shadow-brutal-sm: 3px 3px 0 var(--tt-ink);
-  --shadow-brutal-md: 6px 6px 0 var(--tt-ink);
-  --shadow-brutal-lg: 10px 10px 0 var(--tt-ink);
+  /* ---------- Soft elevation (replaces hard offset shadows) ---------- */
+  --shadow-brutal-sm: 0 1px 2px rgb(16 29 44 / 0.06), 0 2px 8px rgb(16 29 44 / 0.05);
+  --shadow-brutal-md: 0 2px 4px rgb(16 29 44 / 0.05), 0 12px 28px -10px rgb(16 29 44 / 0.18);
+  --shadow-brutal-lg: 0 4px 8px rgb(16 29 44 / 0.05), 0 24px 48px -16px rgb(16 29 44 / 0.28);
 
-  --shadow-hard-xs: 2px 2px 0 var(--tt-ink);
-  --shadow-hard-sm: 4px 4px 0 var(--tt-ink);
-  --shadow-hard: 6px 6px 0 var(--tt-ink);
-  --shadow-hard-lg: 10px 10px 0 var(--tt-ink);
-  --shadow-hard-xl: 16px 16px 0 var(--tt-ink);
-  --shadow-hard-2xl: 24px 24px 0 var(--tt-ink);
-  --shadow-hard-lemon: 6px 6px 0 var(--tt-lemon);
-  --shadow-hard-coral: 6px 6px 0 var(--tt-coral);
-  --shadow-hard-tomato: 6px 6px 0 var(--tt-tomato);
+  --shadow-hard-xs: 0 1px 2px rgb(16 29 44 / 0.06);
+  --shadow-hard-sm: 0 1px 2px rgb(16 29 44 / 0.06), 0 2px 8px rgb(16 29 44 / 0.05);
+  --shadow-hard: 0 2px 4px rgb(16 29 44 / 0.05), 0 12px 28px -10px rgb(16 29 44 / 0.18);
+  --shadow-hard-lg: 0 4px 8px rgb(16 29 44 / 0.05), 0 24px 48px -16px rgb(16 29 44 / 0.28);
+  --shadow-hard-xl: 0 8px 16px rgb(16 29 44 / 0.06), 0 32px 64px -20px rgb(16 29 44 / 0.32);
+  --shadow-hard-2xl: 0 12px 24px rgb(16 29 44 / 0.08), 0 40px 80px -24px rgb(16 29 44 / 0.36);
+  --shadow-hard-lemon: 0 12px 28px -10px rgb(199 165 106 / 0.45);
+  --shadow-hard-coral: 0 12px 28px -10px rgb(199 165 106 / 0.45);
+  --shadow-hard-tomato: 0 12px 28px -10px rgb(199 165 106 / 0.45);
 
-  /* ---------- Radius: 0 by default, 8px max (chips/inputs) ---------- */
+  /* ---------- Radius ---------- */
   --radius-none: 0px;
-  --radius-chip: 8px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-chip: 10px;
 
-  /* ---------- Type scale (fluid, mobile-first, 320px → 2560px) ----------
-     Script (H1/H2) never gets letter-spacing; line-height 1.15–1.25 so
-     ascenders/descenders breathe. Min 40px for the script display role. */
-  --text-display: clamp(3rem, 9vw, 7rem);
-  --text-display--line-height: 1.08;
-  --text-display--letter-spacing: 0;
+  /* ---------- Type scale (fluid, mobile-first) ---------- */
+  --text-display: clamp(2.5rem, 7vw, 5.5rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.02em;
 
-  /* Hero headline — spec: clamp(2.75rem, 11vw, 6rem). */
-  --text-hero: clamp(2.75rem, 11vw, 6rem);
-  --text-hero--line-height: 1.16;
-  --text-hero--letter-spacing: 0;
-  --text-hero-lg: clamp(3.25rem, 6vw, 7rem);
-  --text-hero-lg--line-height: 1.12;
-  --text-hero-lg--letter-spacing: 0;
+  --text-hero: clamp(2.5rem, 8.5vw, 5.75rem);
+  --text-hero--line-height: 1.04;
+  --text-hero--letter-spacing: -0.02em;
+  --text-hero-lg: clamp(3rem, 6vw, 6rem);
+  --text-hero-lg--line-height: 1.04;
+  --text-hero-lg--letter-spacing: -0.02em;
 
-  --text-h1: clamp(2.75rem, 11vw, 6rem);
-  --text-h1--line-height: 1.16;
-  --text-h1--letter-spacing: 0;
+  --text-h1: clamp(2.25rem, 6vw, 4.5rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.02em;
 
-  /* H2 min is 2.5rem (40px) so the script role never drops below 40px. */
-  --text-h2: clamp(2.5rem, 7vw, 4rem);
-  --text-h2--line-height: 1.2;
-  --text-h2--letter-spacing: 0;
+  --text-h2: clamp(1.875rem, 4.2vw, 3.25rem);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.015em;
 
-  --text-h3: clamp(1.5rem, 4.5vw, 2.25rem);
-  --text-h3--line-height: 1.25;
-  --text-h3--letter-spacing: 0;
+  --text-h3: clamp(1.4rem, 2.6vw, 2rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.01em;
 
-  --text-h4: clamp(1.15rem, 2vw + 0.75rem, 1.6rem);
-  --text-h4--line-height: 1.3;
-  --text-h4--letter-spacing: 0;
+  --text-h4: clamp(1.15rem, 1.5vw + 0.7rem, 1.45rem);
+  --text-h4--line-height: 1.25;
+  --text-h4--letter-spacing: -0.005em;
 
-  /* Handwritten margin notes / annotations */
-  --text-note: clamp(1.125rem, 3vw, 1.5rem);
-  --text-note--line-height: 1.45;
+  --text-note: clamp(1rem, 2vw, 1.15rem);
+  --text-note--line-height: 1.5;
 
-  --text-lead: clamp(1.0625rem, 1.4vw, 1.3rem);
-  --text-lead--line-height: 1.6;
+  --text-lead: clamp(1.0625rem, 1.3vw, 1.25rem);
+  --text-lead--line-height: 1.65;
 
-  /* 14px text floor (WCAG comfort) — xs no longer goes below it. */
-  --text-xs: 0.875rem;
+  --text-xs: 0.8125rem;
   --text-xs--line-height: 1.45;
   --text-sm: 0.9375rem;
   --text-sm--line-height: 1.55;
@@ -291,7 +287,7 @@
   *,
   ::before,
   ::after {
-    border-color: var(--tt-ink);
+    border-color: var(--tt-line);
   }
 
   html {
@@ -304,8 +300,8 @@
     background-color: var(--tt-cream);
     color: var(--tt-ink);
     font-family: var(--tt-font-body), ui-sans-serif, system-ui, sans-serif;
-    font-size: 1.0625rem; /* 17px journal body */
-    line-height: 1.65;
+    font-size: 1rem;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
@@ -314,12 +310,15 @@
   /* Script display: H1 + H2 only, sentence case, letter-spacing 0,
      line-height 1.15–1.25 (never ALL CAPS, no stroke/shadow). */
   h1,
-  h2 {
-    font-family: var(--tt-font-script), cursive;
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1.16;
+  h2,
+  h3,
+  h4 {
+    font-family: var(--tt-font-script), Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.12;
     text-wrap: balance;
+    text-transform: none !important;
   }
 
   /* Handwritten: H3 and smaller headings, card titles. */
@@ -327,11 +326,17 @@
   h4,
   h5,
   h6 {
-    font-family: var(--tt-font-hand), cursive;
-    font-weight: 500;
+    font-family: var(--tt-font-hand), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
     letter-spacing: 0;
-    line-height: 1.28;
+    line-height: 1.3;
     text-wrap: balance;
+    text-transform: none !important;
+  }
+
+  .font-display {
+    text-transform: none !important;
+    letter-spacing: -0.01em;
   }
 
   p {
@@ -339,22 +344,19 @@
   }
 
   ::selection {
-    background-color: var(--tt-lemon);
+    background-color: var(--tt-gold);
     color: var(--tt-ink);
   }
 
   /* Focus: 3px ink ring + 2px sunshine ring outside it (WCAG 2.4.7/1.4.11) */
   :focus-visible {
-    outline: 3px solid var(--tt-ink);
-    outline-offset: 0;
-    box-shadow: 0 0 0 5px var(--tt-lemon);
-    border-radius: 0;
+    outline: 2px solid var(--tt-sky-strong);
+    outline-offset: 3px;
   }
 
   [data-theme-dark] :focus-visible,
   .bg-ink :focus-visible {
-    outline-color: var(--tt-lemon);
-    box-shadow: 0 0 0 5px var(--tt-ink);
+    outline-color: var(--tt-gold);
   }
 
   input,
@@ -377,67 +379,59 @@
 }
 
 @layer components {
-  /* Chunky handwritten label used across the site (eyebrow / chips) */
+  /* Small-caps eyebrow / label */
   .label-brutal {
     display: inline-block;
-    font-family: var(--tt-font-hand), cursive;
-    font-weight: 500;
+    font-family: var(--tt-font-hand), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.875rem; /* 14px floor */
-    line-height: 1.3;
+    letter-spacing: 0.14em;
+    font-size: 0.75rem;
+    line-height: 1.4;
   }
 
-  /* Press-down interaction for interactive brutalist surfaces */
+  /* Interactive surfaces: gentle lift */
   .press {
     transition:
-      transform 120ms ease,
-      box-shadow 120ms ease,
-      background-color 120ms ease;
+      transform 220ms var(--tt-ease),
+      box-shadow 220ms var(--tt-ease),
+      background-color 220ms ease;
   }
   .press:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: calc(var(--press-x, 6px) + 2px) calc(var(--press-y, 6px) + 2px)
-      0 var(--tt-ink);
+    transform: translateY(-2px);
   }
   .press:active {
-    transform: translate(var(--press-x, 6px), var(--press-y, 6px));
-    box-shadow: 0 0 0 var(--tt-ink);
+    transform: translateY(0);
   }
 
-  /* Visible grid structure helper */
-  .grid-lines {
-    background-image:
-      linear-gradient(to right, rgb(22 20 31 / 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(22 20 31 / 0.06) 1px, transparent 1px);
-    background-size: 48px 48px;
+  /* Legacy texture helpers are intentionally inert in the luxury theme */
+  .grid-lines,
+  .halftone,
+  .dots-field,
+  .divider-stripe,
+  .motion-lines,
+  .starburst,
+  .paper-grain,
+  .ruled-lines,
+  .tape-strip,
+  .coffee-ring {
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  .grid-lines,
+  .halftone,
+  .dots-field,
+  .motion-lines,
+  .starburst,
+  .coffee-ring,
+  .tape-strip {
+    display: none !important;
   }
 
-  /* Subtle halftone dots — comic texture without noise */
-  .halftone {
-    background-image: var(--tt-halftone);
-    background-size: 14px 14px;
-  }
-
-  /* Sparse dotted field — hero / card backdrops */
-  .dots-field {
-    background-image: var(--tt-dots);
-    background-size: 22px 22px;
-  }
-
-  /* Diagonal thick-stripe divider band */
-  .divider-stripe {
-    background-image: repeating-linear-gradient(
-      -45deg,
-      var(--tt-ink) 0 12px,
-      transparent 12px 26px
-    );
-  }
-
-  /* Simple rich-text rendering for admin-managed body copy */
   .brutal-prose {
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.75;
     max-width: 65ch;
     color: var(--tt-ink);
   }
@@ -445,16 +439,17 @@
     margin-top: 1rem;
   }
   .brutal-prose a {
-    font-weight: 700;
+    font-weight: 600;
+    color: var(--tt-forest);
     text-decoration: underline;
     text-underline-offset: 3px;
-    text-decoration-thickness: 2px;
+    text-decoration-thickness: 1px;
   }
   .brutal-prose a:hover {
-    background-color: var(--tt-lemon);
+    text-decoration-thickness: 2px;
   }
   .brutal-prose ul {
-    list-style: square;
+    list-style: disc;
     padding-left: 1.25rem;
     margin-top: 0.75rem;
   }
@@ -467,33 +462,32 @@
     margin-top: 0.35rem;
   }
   .brutal-prose strong {
-    font-weight: 800;
+    font-weight: 700;
   }
   .brutal-prose h3 {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     margin-top: 1.75rem;
     margin-bottom: 0.5rem;
   }
   .brutal-prose blockquote {
-    border-left: var(--tt-bw-lg) solid var(--tt-ink);
+    border-left: 2px solid var(--tt-gold);
     padding-left: 1rem;
-    font-weight: 600;
+    font-family: var(--tt-font-script), Georgia, serif;
+    font-size: 1.2rem;
     margin: 1.25rem 0;
   }
 
-  /* Skip-to-content link (visible only on keyboard focus) */
   .skip-link {
     position: fixed;
     left: 1rem;
     top: -100%;
     z-index: 100;
-    border: var(--tt-bw-md) solid var(--tt-ink);
-    background: var(--tt-lemon);
+    border-radius: 999px;
+    background: var(--tt-forest);
+    color: #fff;
     padding: 0.75rem 1.25rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.75rem;
+    font-weight: 600;
+    font-size: 0.875rem;
     box-shadow: var(--shadow-brutal-md);
     transition: top 120ms ease;
   }
@@ -501,147 +495,73 @@
     top: 1rem;
   }
 
-  /* Ticker pauses while hovered (pointer devices) */
   .marquee-pause:hover .marquee-track,
   .marquee-pause:focus-within .marquee-track {
     animation-play-state: paused;
   }
 
-  /* ---- Comic visual language primitives ---- */
-
-  /* Adventure sticker — rotated die-cut label */
+  /* Pill label (formerly the rotated comic sticker) */
   .sticker {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: var(--tt-bw-md) solid var(--tt-ink);
-    background: var(--tt-lemon);
-    padding: 0.45rem 0.85rem;
-    font-family: var(--tt-font-hand), cursive;
-    font-weight: 500;
-    font-size: 0.875rem; /* 14px floor */
+    border-radius: 999px;
+    border: 1px solid var(--tt-line-strong);
+    background: rgb(255 255 255 / 0.9);
+    padding: 0.35rem 0.85rem;
+    font-weight: 600;
+    font-size: 0.75rem;
     line-height: 1.2;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
     color: var(--tt-ink);
-    box-shadow: var(--shadow-hard-xs);
-    transform: rotate(-3deg);
   }
 
-  /* Speech bubble with comic tail (down-left) */
   .speech-bubble {
     position: relative;
-    border: var(--tt-bw-md) solid var(--tt-ink);
+    border: 1px solid var(--tt-line);
     background: var(--tt-paper);
     padding: 0.75rem 1rem;
-    box-shadow: var(--shadow-hard-sm);
+    box-shadow: var(--shadow-brutal-sm);
     border-radius: 14px;
   }
   .speech-bubble::after {
-    content: "";
-    position: absolute;
-    left: 1.25rem;
-    bottom: -12px;
-    width: 16px;
-    height: 16px;
-    background: var(--tt-paper);
-    border-right: var(--tt-bw-md) solid var(--tt-ink);
-    border-bottom: var(--tt-bw-md) solid var(--tt-ink);
-    transform: rotate(45deg);
+    display: none;
   }
 
-  /* Motion lines — speed accent (decorative) */
-  .motion-lines {
-    background-image: repeating-linear-gradient(
-      -12deg,
-      transparent 0 6px,
-      rgb(22 20 31 / 0.18) 6px 8px,
-      transparent 8px 14px
-    );
-  }
-
-  /* Comic starburst behind badges */
-  .starburst {
-    background:
-      radial-gradient(circle at 50% 50%, var(--tt-lemon) 0 42%, transparent 43%),
-      conic-gradient(
-        from 0deg,
-        var(--tt-lemon) 0deg 12deg,
-        transparent 12deg 30deg,
-        var(--tt-lemon) 30deg 42deg,
-        transparent 42deg 60deg,
-        var(--tt-lemon) 60deg 72deg,
-        transparent 72deg 90deg,
-        var(--tt-lemon) 90deg 102deg,
-        transparent 102deg 120deg,
-        var(--tt-lemon) 120deg 132deg,
-        transparent 132deg 150deg,
-        var(--tt-lemon) 150deg 162deg,
-        transparent 162deg 180deg,
-        var(--tt-lemon) 180deg 192deg,
-        transparent 192deg 210deg,
-        var(--tt-lemon) 210deg 222deg,
-        transparent 222deg 240deg,
-        var(--tt-lemon) 240deg 252deg,
-        transparent 252deg 270deg,
-        var(--tt-lemon) 270deg 282deg,
-        transparent 282deg 300deg,
-        var(--tt-lemon) 300deg 312deg,
-        transparent 312deg 330deg,
-        var(--tt-lemon) 330deg 342deg,
-        transparent 342deg 360deg
-      );
-  }
-
-  /* Torn-paper bottom edge for magazine bands */
   .torn-edge {
-    clip-path: polygon(
-      0% 0%, 100% 0%, 100% calc(100% - 10px),
-      96% 100%, 92% calc(100% - 8px), 88% 100%, 84% calc(100% - 6px),
-      80% 100%, 76% calc(100% - 10px), 72% 100%, 68% calc(100% - 7px),
-      64% 100%, 60% calc(100% - 9px), 56% 100%, 52% calc(100% - 6px),
-      48% 100%, 44% calc(100% - 10px), 40% 100%, 36% calc(100% - 7px),
-      32% 100%, 28% calc(100% - 9px), 24% 100%, 20% calc(100% - 6px),
-      16% 100%, 12% calc(100% - 10px), 8% 100%, 4% calc(100% - 7px),
-      0% 100%
-    );
+    clip-path: none;
   }
 
-  /* ---- Journal texture layers (CSS-only, tiny, opt-in) ---- */
-
-  /* Paper grain — SVG feTurbulence, ~400 bytes, very subtle */
-  .paper-grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 180px 180px;
-  }
-
-  /* Ruled notebook lines — selected panels only */
-  .ruled-lines {
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent 0 31px,
-      rgb(35 53 139 / 0.13) 31px 32px
-    );
-    background-position: 0 0.75rem;
-  }
-
-  /* Washi/masking tape strip — decorative */
-  .tape-strip {
-    background: rgb(232 213 181 / 0.8);
-    border: 1px solid rgb(22 20 31 / 0.14);
-    box-shadow: 0 1px 0 rgb(255 255 255 / 0.5) inset;
-  }
-
-  /* Coffee-ring stain accent — rare, decorative only */
-  .coffee-ring {
-    border: 3px solid rgb(139 90 43 / 0.16);
-    border-radius: 50%;
-  }
-
-  /* Reading measure — journal body copy width */
   .measure {
     max-width: 65ch;
+  }
+
+  /* ---- Luxury primitives ---- */
+  .lux-container {
+    width: 100%;
+    max-width: var(--tt-container);
+    margin-inline: auto;
+    padding-inline: var(--tt-gutter);
+  }
+  .lux-section {
+    padding-block: var(--tt-section-y);
+  }
+  .lux-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tt-bronze);
+  }
+  .lux-eyebrow::before {
+    content: "";
+    width: 2rem;
+    height: 1px;
+    background: currentColor;
   }
 }
 
@@ -677,25 +597,15 @@
   /* ---- Animated-heading effects (flat, brutalist — no blur/gradient) ---- */
 
   /* Stacked hard offset text-shadow (2 layers, ink) */
-  .heading-hard {
-    text-shadow:
-      2px 2px 0 var(--tt-ink),
-      4px 4px 0 var(--tt-ink);
-  }
-  .heading-hard-lg {
-    text-shadow:
-      3px 3px 0 var(--tt-ink),
-      6px 6px 0 var(--tt-ink);
-  }
+  .heading-hard,
+  .heading-hard-lg,
   .heading-hard-cream {
-    text-shadow:
-      2px 2px 0 var(--tt-cream),
-      4px 4px 0 var(--tt-cream);
+    text-shadow: none;
   }
 
   /* Single-layer offset shadow for large cream display type on ink bands */
   .heading-offset {
-    text-shadow: 3px 3px 0 var(--tt-ink);
+    text-shadow: 0 2px 24px rgb(16 29 44 / 0.35);
   }
 
   /* Gentle idle float for decorative stickers/illustrations */
@@ -747,17 +657,6 @@
         transform 180ms ease,
         text-shadow 180ms ease;
     }
-    .heading-word:hover {
-      transform: translateY(-2px);
-      text-shadow:
-        2px 2px 0 var(--tt-ink),
-        4px 4px 0 var(--tt-ink);
-    }
-    .heading-hard .heading-word:hover {
-      text-shadow:
-        4px 4px 0 var(--tt-ink),
-        7px 7px 0 var(--tt-ink);
-    }
   }
 
   /* ---- Ken Burns slow zoom (hero background) ---- */
@@ -794,9 +693,6 @@
     from { background-position: 0% 50%; }
     to { background-position: 100% 50%; }
   }
-  .hg-word[data-animate="true"] {
-    animation: hg-shift 7s ease-in-out infinite alternate;
-  }
   @media (prefers-reduced-motion: reduce) {
     .hg-word { animation: none !important; }
   }
@@ -808,38 +704,31 @@
     }
   }
 
-  /* Tone presets — stops derived from --tt-* tokens, each ≥3:1 on its section bg */
-  .hg-ink {
-    --hg: linear-gradient(110deg, var(--tt-ink) 0%, var(--tt-indigo) 50%, var(--tt-pen-blue) 100%);
-    --hg-fallback: var(--tt-ink);
-  }
-  .hg-ocean {
-    --hg: linear-gradient(110deg, var(--tt-pen-blue) 0%, var(--tt-indigo) 50%, var(--tt-ink) 100%);
-    --hg-fallback: var(--tt-pen-blue);
-  }
-  .hg-flame {
-    --hg: linear-gradient(110deg, var(--tt-stamp-red) 0%, var(--tt-ink) 50%, var(--tt-indigo) 100%);
-    --hg-fallback: var(--tt-stamp-red);
+  /* Tone presets — A: Ocean Luxury · B: Alpine Elegance · C: Champagne Accent.
+     Every stop is >=3:1 on ivory/white; *-onDark tones are lighter for navy. */
+  .hg-ink,
+  .hg-ocean,
+  .hg-plum {
+    --hg: linear-gradient(105deg, #101d2c 0%, #2f6f8f 55%, #3f7f86 100%);
+    --hg-fallback: #2f5f7a;
   }
   .hg-forest {
-    --hg: linear-gradient(110deg, var(--tt-success) 0%, var(--tt-ink-soft) 50%, var(--tt-ink) 100%);
-    --hg-fallback: var(--tt-success);
+    --hg: linear-gradient(105deg, #173d35 0%, #2f6b57 55%, #0f6b4f 100%);
+    --hg-fallback: #1e5a4a;
   }
-  .hg-plum {
-    --hg: linear-gradient(110deg, var(--tt-indigo) 0%, var(--tt-pen-blue) 50%, var(--tt-stamp-red) 100%);
-    --hg-fallback: var(--tt-indigo);
+  .hg-flame,
+  .hg-rose {
+    --hg: linear-gradient(105deg, #9a7430 0%, #b98d4a 50%, #7a5a2b 100%);
+    --hg-fallback: #8a6420;
   }
-  .hg-onDark {
-    --hg: linear-gradient(110deg, var(--tt-lemon) 0%, var(--tt-tangerine) 50%, var(--tt-tomato) 100%);
-    --hg-fallback: var(--tt-lemon);
+  .hg-onDark,
+  .hg-champagne {
+    --hg: linear-gradient(105deg, #e6cf9f 0%, #c7a56a 55%, #b98d4a 100%);
+    --hg-fallback: #d8bc84;
   }
   .hg-aurora {
-    --hg: linear-gradient(110deg, var(--tt-mint-strong) 0%, var(--tt-sky-strong) 50%, var(--tt-grape) 100%);
-    --hg-fallback: var(--tt-mint-strong);
-  }
-  .hg-rose {
-    --hg: linear-gradient(110deg, var(--tt-berry) 0%, var(--tt-tangerine) 50%, var(--tt-lemon) 100%);
-    --hg-fallback: var(--tt-berry);
+    --hg: linear-gradient(105deg, #bfe3d3 0%, #8fc7b0 50%, #7fb6c6 100%);
+    --hg-fallback: #a9d3c2;
   }
 
   /* Right-edge clip so rotated/oversized decor can never cause

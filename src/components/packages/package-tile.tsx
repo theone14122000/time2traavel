@@ -45,7 +45,7 @@ export function PackageTile({
       // featured is a real DB flag; no "New" stamp because card data has no createdAt.
       sticker={pkg.featured ? <Stamp>Popular</Stamp> : undefined}
     >
-      <div className="border-b-[3px] border-ink">
+      <div className="border-b border-line">
         <BrutalImage
           src={pkg.image}
           alt={pkg.imageAlt ?? pkg.title}
@@ -87,7 +87,7 @@ export function PackageTile({
         ) : null}
 
         {hasPriceBlock ? (
-          <div className="mt-auto border-[3px] border-ink bg-mint px-3 py-2 shadow-brutal-sm">
+          <div className="mt-auto border border-line bg-mint px-3 py-2 shadow-brutal-sm">
             <span className="label-brutal text-ink-soft">Price</span>
             <p className="mt-1 font-display text-lg leading-tight">
               {hasPrice ? `From ${formatPrice(pkg.price, pkg.currency)}` : pkg.priceNote}
@@ -120,14 +120,14 @@ export function PackageTile({
             aria-pressed={compared}
             onClick={() => compare.toggle(pkg)}
             className={cn(
-              "tap-44 flex w-full items-center gap-2 border-[2px] border-ink px-3 py-2 transition-colors",
+              "tap-44 flex w-full items-center gap-2 border border-line px-3 py-2 transition-colors",
               compared ? "bg-lemon" : "bg-paper hover:bg-butter",
             )}
           >
             <span
               aria-hidden="true"
               className={cn(
-                "flex size-5 shrink-0 items-center justify-center border-[3px] border-ink bg-paper",
+                "flex size-5 shrink-0 items-center justify-center border border-line bg-paper",
                 compared && "bg-lemon",
               )}
             >

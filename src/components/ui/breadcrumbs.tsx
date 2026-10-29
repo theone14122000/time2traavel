@@ -35,7 +35,7 @@ export function Breadcrumbs({
               {!isLast && item.href ? (
                 <Link
                   href={item.href}
-                  className="label-brutal tap-44 inline-flex items-center border-[2px] border-ink bg-paper px-2.5 py-1.5 transition-colors hover:bg-butter"
+                  className="label-brutal tap-44 inline-flex items-center border border-line bg-paper px-2.5 py-1.5 transition-colors hover:bg-butter"
                 >
                   {item.label}
                 </Link>
@@ -43,7 +43,7 @@ export function Breadcrumbs({
                 <span
                   aria-current={isLast ? "page" : undefined}
                   className={cn(
-                    "label-brutal border-[2px] border-ink bg-paper px-2.5 py-1.5",
+                    "label-brutal border border-line bg-paper px-2.5 py-1.5",
                     isLast && "bg-lemon",
                   )}
                 >

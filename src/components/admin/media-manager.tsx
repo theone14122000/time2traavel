@@ -68,7 +68,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
     <div className="grid gap-6">
       <form
         onSubmit={onSubmit}
-        className="grid gap-4 border-[3px] border-ink bg-paper p-4 shadow-hard sm:p-5"
+        className="grid gap-4 border border-line bg-paper p-4 shadow-hard sm:p-5"
       >
         <h2 className="font-display text-lg uppercase">Upload image</h2>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -80,7 +80,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
               type="file"
               accept="image/jpeg,image/png,image/webp,image/svg+xml"
               onChange={(event) => setFile(event.target.files?.[0] ?? null)}
-              className="h-12 w-full border-[3px] border-ink bg-paper px-3 py-2 text-sm font-medium file:mr-3 file:h-full file:border-0 file:border-r-[3px] file:border-ink file:bg-butter file:px-4 file:text-xs file:font-bold file:uppercase"
+              className="h-12 w-full border border-line bg-paper px-3 py-2 text-sm font-medium file:mr-3 file:h-full file:border-0 file:border-r file:border-line file:bg-butter file:px-4 file:text-xs file:font-bold file:uppercase"
             />
             <p className="text-xs font-semibold text-ink-soft">
               JPG, PNG, WEBP or SVG — max 4MB.
@@ -101,7 +101,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
               id="media-region"
               value={region}
               onChange={(event) => setRegion(event.target.value)}
-              className="h-12 w-full border-[3px] border-ink bg-paper px-3 py-2 text-sm font-medium"
+              className="h-12 w-full border border-line bg-paper px-3 py-2 text-sm font-medium"
             >
               <option value="UNASSIGNED">Unassigned (generic)</option>
               <option value="himachal">Himachal</option>
@@ -139,7 +139,7 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
       </form>
 
       {assets.length === 0 ? (
-        <p className="border-[3px] border-dashed border-ink bg-butter px-4 py-10 text-center text-sm font-bold uppercase">
+        <p className="border border-dashed border-line bg-butter px-4 py-10 text-center text-sm font-bold uppercase">
           No uploads yet — images you upload appear here.
         </p>
       ) : (
@@ -147,9 +147,9 @@ export function MediaManager({ assets }: { assets: MediaRow[] }) {
           {assets.map((asset) => (
             <figure
               key={asset.id}
-              className="flex flex-col border-[3px] border-ink bg-paper shadow-hard"
+              className="flex flex-col border border-line bg-paper shadow-hard"
             >
-              <div className="relative aspect-[4/3] border-b-[3px] border-ink bg-sand">
+              <div className="relative aspect-[4/3] border-b border-line bg-sand">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={asset.url}

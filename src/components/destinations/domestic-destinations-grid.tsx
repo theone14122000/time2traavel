@@ -77,7 +77,7 @@ export function DomesticDestinationsGrid({ destinations, className }: Props) {
           <span
             key={d.slug}
             className={cn(
-              "h-2 w-2 rounded-full border border-ink transition-colors",
+              "h-2 w-2 rounded-full border border-line transition-colors",
               i === active ? "bg-ink" : "bg-paper",
             )}
           />

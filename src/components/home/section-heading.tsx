@@ -36,16 +36,7 @@ export function HomeSectionHeading({
       )}
     >
       {eyebrow ? (
-        <span
-          className={cn(
-            "label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink px-3 py-2 shadow-hard-xs",
-            onDark
-              ? "border-cream bg-tomato text-ink"
-              : "bg-lemon text-ink",
-          )}
-        >
-          {eyebrow}
-        </span>
+        <span className={cn("lux-eyebrow", onDark && "text-[#e6cf9f]")}>{eyebrow}</span>
       ) : null}
 
       <div id={id}>

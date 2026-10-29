@@ -87,7 +87,7 @@ function BandHeading({
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <span className="label-brutal w-fit border-[3px] border-ink bg-lemon px-3 py-2">
+      <span className="label-brutal w-fit border border-line bg-lemon px-3 py-2">
         {eyebrow}
       </span>
       <div id={id}>
@@ -132,7 +132,7 @@ export default async function DestinationDetailPage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbLd} />
 
-      <div className="border-b-[3px] border-ink bg-paper">
+      <div className="border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs items={breadcrumbTrail} />
         </Container>
@@ -228,11 +228,11 @@ export default async function DestinationDetailPage({ params }: Props) {
             <WeatherWidget place={destination.name} />
 
             {destination.bestTimeToVisit ? (
-              <div className="border-4 border-ink bg-mint p-5 shadow-brutal-md">
+              <div className="border border-line bg-mint p-5 shadow-brutal-md">
                 <div className="flex items-center gap-2">
                   <span
                     aria-hidden="true"
-                    className="flex size-9 items-center justify-center border-[3px] border-ink bg-paper"
+                    className="flex size-9 items-center justify-center border border-line bg-paper"
                   >
                     <Sun className="size-4" />
                   </span>
@@ -244,7 +244,7 @@ export default async function DestinationDetailPage({ params }: Props) {
               </div>
             ) : null}
 
-            <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
+            <div className="border border-line bg-paper p-5 shadow-brutal-md">
               <h3 className="font-display text-h4 uppercase">Plan this trip</h3>
               <p className="mt-3 text-sm font-medium leading-relaxed text-ink-soft">
                 Send your dates, group size and any must-dos — we&apos;ll reply with a
@@ -338,13 +338,13 @@ export default async function DestinationDetailPage({ params }: Props) {
       <section
         id="destination-plan"
         aria-labelledby="destination-plan-heading"
-        className="relative w-full border-b-[3px] border-ink bg-peach"
+        className="relative w-full border-b border-line bg-peach"
       >
         <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
         <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
           <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <span className="label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2">
+              <span className="label-brutal inline-flex w-fit items-center gap-2 border border-line bg-lemon px-3 py-2">
                 <CalendarRange aria-hidden="true" className="size-3.5" />
                 Plan this trip
               </span>

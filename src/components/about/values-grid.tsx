@@ -81,7 +81,7 @@ function ValueIcon({ name }: { name?: string }) {
     return (
       <span
         aria-hidden="true"
-        className="block size-4 border-[3px] border-ink bg-ink"
+        className="block size-4 border border-line bg-ink"
       />
     );
   }
@@ -100,11 +100,11 @@ export function ValuesGrid({ values }: { values: ValueItem[] }) {
     <StaggerGroup className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {values.map((value, index) => (
         <StaggerItem key={`${value.title}-${index}`} className="h-full">
-          <article className="flex h-full flex-col border-[3px] border-ink bg-paper p-5 shadow-brutal-md transition-transform duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-brutal-lg sm:p-6">
+          <article className="flex h-full flex-col border border-line bg-paper p-5 shadow-brutal-md transition-transform duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-brutal-lg sm:p-6">
             <span
               aria-hidden="true"
               className={cn(
-                "flex size-12 shrink-0 items-center justify-center border-[3px] border-ink",
+                "flex size-12 shrink-0 items-center justify-center border border-line",
                 TILE_TONES[index % TILE_TONES.length],
               )}
             >

@@ -128,13 +128,11 @@ export function getDomesticFallbacks(): FallbackImage[] {
  * destinations exist. Each filename is a verified international place.
  */
 export function getInternationalFallbacks(): FallbackImage[] {
-  return pickByFilename([
-    "hero/slide-4.jpg",
-    "hero/slide-5.jpg",
-    "hero/slide-3.jpg",
-    "hero/slide-1.jpg",
-    "hero/slide-2.jpg",
-  ]);
+  // Only the two frames that are genuinely international (Bali, Dubai).
+  return pickByFilename(["hero/slide-4.jpg", "hero/slide-5.jpg"]).map((img) => ({
+    ...img,
+    regionLabel: "International",
+  }));
 }
 
 /**

@@ -65,16 +65,16 @@ export interface BudgetSliderProps {
 }
 
 const rangeInputClasses =
-  "h-4 w-full cursor-pointer appearance-none border-[3px] border-ink " +
+  "h-4 w-full cursor-pointer appearance-none border border-line " +
   "[&::-webkit-slider-runnable-track]:h-2.5 [&::-webkit-slider-runnable-track]:bg-transparent " +
   "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:[-webkit-appearance:none] " +
-  "[&::-webkit-slider-thumb]:box-border [&::-webkit-slider-thumb]:size-6 [&::-webkit-slider-thumb]:border-[3px] " +
-  "[&::-webkit-slider-thumb]:border-ink [&::-webkit-slider-thumb]:bg-lemon " +
-  "[&::-webkit-slider-thumb]:shadow-[2px_2px_0_var(--color-ink)] [&::-webkit-slider-thumb]:mt-[-7px] " +
+  "[&::-webkit-slider-thumb]:box-border [&::-webkit-slider-thumb]:size-6 [&::-webkit-slider-thumb]:border " +
+  "[&::-webkit-slider-thumb]:border-line [&::-webkit-slider-thumb]:bg-lemon " +
+  "[&::-webkit-slider-thumb]:shadow-hard [&::-webkit-slider-thumb]:mt-[-7px] " +
   "[&::-moz-range-track]:h-2.5 [&::-moz-range-track]:border-none [&::-moz-range-track]:bg-transparent " +
   "[&::-moz-range-thumb]:box-border [&::-moz-range-thumb]:size-6 [&::-moz-range-thumb]:rounded-none " +
-  "[&::-moz-range-thumb]:border-[3px] [&::-moz-range-thumb]:border-ink [&::-moz-range-thumb]:bg-lemon " +
-  "[&::-moz-range-thumb]:shadow-[2px_2px_0_var(--color-ink)]";
+  "[&::-moz-range-thumb]:border [&::-moz-range-thumb]:border-line [&::-moz-range-thumb]:bg-lemon " +
+  "[&::-moz-range-thumb]:shadow-hard";
 
 function fillStyle(percent: number): React.CSSProperties {
   return {
@@ -115,7 +115,7 @@ function RangeRow({
         <span id={rowId} className="label-brutal text-ink-soft">
           {rowLabel}
         </span>
-        <span className="rounded-chip border-2 border-ink bg-sunrise px-2 py-1 text-xs font-bold tabular-nums">
+        <span className="rounded-chip border border-line bg-sunrise px-2 py-1 text-xs font-bold tabular-nums">
           {formatValue(rowValue)}
         </span>
       </div>
@@ -206,13 +206,13 @@ export function BudgetSlider({
         ) : null}
         <output
           aria-live="polite"
-          className="rounded-chip border-[3px] border-ink bg-lemon px-2.5 py-1 text-xs font-bold tabular-nums shadow-hard-xs"
+          className="rounded-chip border border-line bg-lemon px-2.5 py-1 text-xs font-bold tabular-nums shadow-hard-xs"
         >
           {formatValue(selMin)} – {formatValue(selMax)}
         </output>
       </div>
 
-      <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-sm">
+      <div className="grid gap-3 border border-line bg-paper p-4 shadow-hard-sm">
         <RangeRow
           rowId={`${baseId}-min-label`}
           rowLabel={minLabel}

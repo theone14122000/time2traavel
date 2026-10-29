@@ -27,7 +27,7 @@ export function StatCard({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 border-[3px] border-ink p-4 shadow-hard",
+        "flex flex-col gap-1 border border-line p-4 shadow-hard",
         tones[tone],
         className,
       )}

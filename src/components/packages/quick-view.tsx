@@ -82,7 +82,7 @@ export function QuickViewButton({
               {pkg.destination ? (
                 <Link
                   href={`/destinations/${pkg.destination.slug}`}
-                  className="label-brutal tap-44 inline-flex items-center gap-1.5 border-[2px] border-ink bg-sky px-2.5 py-1.5 transition-colors hover:bg-sky-strong"
+                  className="label-brutal tap-44 inline-flex items-center gap-1.5 border border-line bg-sky px-2.5 py-1.5 transition-colors hover:bg-sky-strong"
                 >
                   <MapPin aria-hidden="true" className="size-3.5" />
                   {pkg.destination.name}
@@ -97,7 +97,7 @@ export function QuickViewButton({
               {pkg.featured ? <Badge variant="default">Popular</Badge> : null}
             </div>
 
-            <div className="border-[3px] border-ink bg-mint px-4 py-3 shadow-brutal-sm">
+            <div className="border border-line bg-mint px-4 py-3 shadow-brutal-sm">
               <span className="label-brutal text-ink-soft">Price</span>
               <p className="mt-1 font-display text-h4 uppercase leading-tight">
                 {priceText ? `From ${priceText}` : (pkg.priceNote ?? "On request")}
@@ -114,11 +114,11 @@ export function QuickViewButton({
                   {preview.map((item, index) => (
                     <li
                       key={`${item}-${index}`}
-                      className="flex items-start gap-2 border-[2px] border-ink bg-paper px-3 py-2 text-sm font-medium"
+                      className="flex items-start gap-2 border border-line bg-paper px-3 py-2 text-sm font-medium"
                     >
                       <span
                         aria-hidden="true"
-                        className="mt-0.5 size-3 shrink-0 border-[2px] border-ink bg-lemon"
+                        className="mt-0.5 size-3 shrink-0 border border-line bg-lemon"
                       />
                       {item}
                     </li>

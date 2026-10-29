@@ -37,7 +37,7 @@ export default async function DestinationsPage() {
         tone="mint"
       >
         {destinations.length > 0 ? (
-          <span className="label-brutal border-[3px] border-ink bg-paper px-3 py-2 text-ink">
+          <span className="label-brutal border border-line bg-paper px-3 py-2 text-ink">
             {pluralize(destinations.length, "published destination")}
           </span>
         ) : null}
@@ -82,14 +82,14 @@ export default async function DestinationsPage() {
       <section
         id="destinations-cta"
         aria-labelledby="destinations-cta-heading"
-        className="relative w-full border-b-[3px] border-ink bg-peach"
+        className="relative w-full border-b border-line bg-peach"
       >
         <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
         <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
           <Reveal>
             <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
               <div>
-                <span className="label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2">
+                <span className="label-brutal inline-flex w-fit items-center gap-2 border border-line bg-lemon px-3 py-2">
                   Not sure yet?
                 </span>
                 <h2

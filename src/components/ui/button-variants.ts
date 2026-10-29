@@ -3,35 +3,38 @@ import { cva } from "class-variance-authority";
 /** Server-safe variant map (no client hooks) — use with `<Link className={buttonVariants(...)}>`. */
 export const buttonVariants = cva(
   [
-    "relative inline-flex items-center justify-center gap-2 whitespace-nowrap",
-    "border-[3px] border-ink font-bold uppercase tracking-wide",
-    "shadow-hard-sm transition-[transform,box-shadow,background-color] duration-100 ease-out",
-    "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard",
-    "active:translate-x-1 active:translate-y-1 active:shadow-none",
+    "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full",
+    "border font-semibold tracking-wide",
+    "transition-[transform,box-shadow,background-color,border-color,color] duration-300 ease-out",
+    "hover:-translate-y-0.5 active:translate-y-0",
     "disabled:pointer-events-none disabled:opacity-50",
-    /* Focus ring comes from the global :focus-visible rule (3px ink + 2px lemon) */
     "aria-busy:opacity-80",
   ],
   {
     variants: {
       variant: {
-        // hot CTA accent
-        default: "bg-tomato text-ink hover:bg-tomato",
-        primary: "bg-tomato text-ink hover:bg-tomato",
-        secondary: "bg-lemon text-ink hover:bg-lemon",
-        dark: "bg-ink text-cream hover:bg-ink",
-        outline: "bg-paper text-ink hover:bg-butter",
-        soft: "bg-butter text-ink hover:bg-lemon",
-        danger: "bg-danger text-paper hover:bg-danger",
+        // primary action — deep forest
+        default:
+          "border-forest bg-forest text-white shadow-hard-sm hover:bg-[var(--tt-forest-hover)] hover:shadow-hard",
+        primary:
+          "border-forest bg-forest text-white shadow-hard-sm hover:bg-[var(--tt-forest-hover)] hover:shadow-hard",
+        // champagne accent
+        secondary:
+          "border-gold bg-gold text-ink shadow-hard-sm hover:brightness-105 hover:shadow-hard",
+        dark: "border-ink bg-ink text-cream hover:bg-[#0a1420]",
+        outline:
+          "border-line-strong bg-paper text-ink hover:border-ink hover:bg-cream",
+        soft: "border-transparent bg-sand text-ink hover:bg-[#dfd9cc]",
+        danger: "border-danger bg-danger text-paper hover:brightness-95",
         ghost:
-          "border-transparent bg-transparent text-ink shadow-none hover:border-ink hover:shadow-hard-xs",
-        link: "border-transparent bg-transparent text-ink shadow-none underline-offset-4 hover:translate-x-0 hover:translate-y-0 hover:shadow-none hover:underline",
+          "border-transparent bg-transparent text-ink hover:bg-ink/5",
+        link: "rounded-none border-transparent bg-transparent text-ink underline-offset-4 hover:translate-y-0 hover:underline",
       },
       size: {
-        sm: "h-9 px-3 text-xs min-w-[44px]",
-        md: "h-11 px-5 text-xs min-w-[44px]",
-        lg: "h-14 px-7 text-sm sm:text-base min-w-[44px]",
-        xl: "h-16 px-8 text-base sm:text-lg min-w-[44px]",
+        sm: "h-9 px-4 text-xs min-w-[44px]",
+        md: "h-11 px-6 text-sm min-w-[44px]",
+        lg: "h-13 px-8 text-sm sm:text-base min-w-[44px]",
+        xl: "h-14 px-9 text-base min-w-[44px]",
         icon: "size-11 p-0",
         "icon-sm": "size-9 p-0",
       },

@@ -12,15 +12,15 @@ export async function DestinationsSection() {
     <section
       id="domestic-destinations"
       aria-labelledby="domestic-destinations-heading"
-      className="relative w-full border-y-[3px] border-ink bg-cream"
+      className="relative w-full border-y border-line bg-cream"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="domestic-destinations-heading"
-            eyebrow="Domestic Destinations"
-            title="India is full of plot [[twists]]!"
+            eyebrow="Domestic destinations"
+            title="Discover [[India]], region by region."
             gradientTone="ink"
             description="From quiet Himalayan valleys to vibrant destinations, discover experiences across India."
           />

@@ -112,7 +112,7 @@ export function FormMessage({
       id={`${id}-error`}
       role="alert"
       className={cn(
-        "inline-block break-words border-[2px] border-ink bg-pink px-2 py-1 text-xs font-bold leading-snug text-ink",
+        "inline-block break-words border border-line bg-pink px-2 py-1 text-xs font-bold leading-snug text-ink",
         className,
       )}
       {...props}

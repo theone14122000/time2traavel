@@ -274,7 +274,7 @@ export function FloatingContactButtons({
             {!reduceMotion && pulseLive && reveal ? (
               <motion.span
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-full border-[3px]"
+                className="pointer-events-none absolute inset-0 rounded-full border"
                 style={{ borderColor: WHATSAPP_GREEN }}
                 initial={{ opacity: 0, scale: 1 }}
                 animate={{ opacity: [0, 0.7, 0], scale: [1, 1.5, 1.5] }}
@@ -289,7 +289,7 @@ export function FloatingContactButtons({
               />
             ) : null}
 
-            <span className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full border-[3px] border-ink bg-[#25D366] text-white shadow-[4px_4px_0_var(--color-ink)] transition-transform duration-100 group-hover:-translate-y-0.5 group-hover:shadow-hard group-active:translate-y-0 group-active:shadow-none">
+            <span className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full border border-line bg-[#25D366] text-white shadow-hard transition-transform duration-100 group-hover:-translate-y-0.5 group-hover:shadow-hard group-active:translate-y-0 group-active:shadow-none">
               <svg
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -324,7 +324,7 @@ export function FloatingContactButtons({
             transition={transition}
             onClick={() => trackClick("email_click")}
           >
-            <span className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full border-[3px] border-ink bg-sky text-ink shadow-[4px_4px_0_var(--color-ink)] transition-transform duration-100 group-hover:-translate-y-0.5 group-hover:shadow-hard group-active:translate-y-0 group-active:shadow-none">
+            <span className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full border border-line bg-sky text-ink shadow-hard transition-transform duration-100 group-hover:-translate-y-0.5 group-hover:shadow-hard group-active:translate-y-0 group-active:shadow-none">
               <Mail aria-hidden="true" className="size-6 shrink-0" />
               <span className="label-brutal hidden max-w-0 overflow-hidden whitespace-nowrap transition-all duration-300 group-hover:ml-2 group-hover:max-w-[96px] group-focus-visible:ml-2 group-focus-visible:max-w-[96px] sm:block">
                 Email us

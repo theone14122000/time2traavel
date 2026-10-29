@@ -16,11 +16,11 @@ export const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-12 w-full items-center justify-between gap-2 rounded-chip border-[3px] border-ink bg-paper px-3.5 py-2 text-base font-medium",
+      "flex h-12 w-full items-center justify-between gap-2 rounded-chip border border-line bg-paper px-3.5 py-2 text-base font-medium",
       "shadow-hard-xs transition-shadow placeholder:text-ink-soft/60",
-      "focus:outline-none focus-visible:shadow-[4px_4px_0_var(--color-ink)]",
+      "focus:outline-none focus-visible:shadow-hard",
       "disabled:cursor-not-allowed disabled:opacity-50",
-      "aria-[invalid=true]:border-danger aria-[invalid=true]:shadow-[4px_4px_0_var(--color-danger)]",
+      "aria-[invalid=true]:border-danger aria-[invalid=true]:shadow-hard",
       "[&>span]:truncate",
       className,
     )}
@@ -43,7 +43,7 @@ export const SelectContent = React.forwardRef<
       ref={ref}
       position={position}
       className={cn(
-        "relative z-50 max-h-72 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-chip border-[3px] border-ink bg-paper shadow-hard",
+        "relative z-50 max-h-72 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-chip border border-line bg-paper shadow-hard",
         position === "popper" &&
           "translate-y-1 data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1",
         className,
@@ -65,7 +65,7 @@ export const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-pointer select-none items-center gap-2 border-[2px] border-transparent py-2 pl-3 pr-8 text-sm font-semibold outline-none transition-colors hover:border-ink hover:bg-butter focus:bg-butter data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex w-full cursor-pointer select-none items-center gap-2 border border-transparent py-2 pl-3 pr-8 text-sm font-semibold outline-none transition-colors hover:border-line hover:bg-butter focus:bg-butter data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className,
     )}
     {...props}

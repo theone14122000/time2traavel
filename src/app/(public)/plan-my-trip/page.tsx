@@ -40,7 +40,7 @@ export default async function PlanMyTripPage() {
 
   return (
     <>
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Plan My Trip" }]} />
         </Container>
@@ -74,11 +74,11 @@ export default async function PlanMyTripPage() {
           </div>
 
           <aside className="grid content-start gap-6">
-            <div className="border-4 border-ink bg-mint p-5 shadow-brutal-md">
+            <div className="border border-line bg-mint p-5 shadow-brutal-md">
               <div className="flex items-center gap-2">
                 <span
                   aria-hidden="true"
-                  className="flex size-9 items-center justify-center border-[3px] border-ink bg-paper"
+                  className="flex size-9 items-center justify-center border border-line bg-paper"
                 >
                   <Sparkles className="size-4" />
                 </span>
@@ -86,7 +86,7 @@ export default async function PlanMyTripPage() {
               </div>
               <ul className="mt-4 grid gap-3">
                 {PROMISES.map((promise) => (
-                  <li key={promise.title} className="border-[3px] border-ink bg-paper p-3">
+                  <li key={promise.title} className="border border-line bg-paper p-3">
                     <p className="font-bold leading-snug">{promise.title}</p>
                     <p className="mt-1 text-sm font-medium leading-relaxed text-ink-soft">
                       {promise.body}
@@ -96,7 +96,7 @@ export default async function PlanMyTripPage() {
               </ul>
             </div>
 
-            <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
+            <div className="border border-line bg-paper p-5 shadow-brutal-md">
               <h3 className="font-display text-h4 uppercase">In a hurry?</h3>
               <p className="mt-2 text-sm font-medium leading-relaxed text-ink-soft">
                 You can also message us on WhatsApp from the contact page, or send a simple

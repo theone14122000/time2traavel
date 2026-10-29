@@ -55,7 +55,7 @@ export function FormLiveRegion({
       {message ? (
         <p
           className={cn(
-            "inline-flex items-start gap-2 border-[3px] border-ink px-3 py-2 text-sm font-bold leading-snug",
+            "inline-flex items-start gap-2 border border-line px-3 py-2 text-sm font-bold leading-snug",
             type === "error" && "bg-danger text-paper",
             type === "success" && "bg-mint text-ink",
             type === "info" && "bg-sky text-ink",
@@ -141,7 +141,7 @@ export function SubmitError({
     <div
       role="alert"
       className={cn(
-        "border-[3px] border-ink bg-danger p-4 text-paper shadow-brutal-sm",
+        "border border-line bg-danger p-4 text-paper shadow-brutal-sm",
         className,
       )}
     >

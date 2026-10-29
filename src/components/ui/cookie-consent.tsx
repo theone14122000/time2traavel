@@ -34,7 +34,7 @@ function readChoice(): ConsentChoice | null {
 }
 
 const buttonClass =
-  "tap-44 label-brutal inline-flex items-center justify-center border-[3px] border-cream px-4 py-3 text-ink transition-transform duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1";
+  "tap-44 label-brutal inline-flex items-center justify-center border border-cream px-4 py-3 text-ink transition-transform duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1";
 
 export function CookieConsent() {
   const reduceMotion = useReducedMotion();
@@ -69,7 +69,7 @@ export function CookieConsent() {
           variants={popIn}
           style={{ zIndex: Z_COOKIE }}
           className={cn(
-            "fixed bottom-24 left-4 right-4 border-4 border-ink bg-ink p-4 text-cream shadow-hard-xl lg:bottom-[calc(1.5rem_+_env(safe-area-inset-bottom))] sm:left-24 sm:right-6 sm:max-w-3xl",
+            "fixed bottom-24 left-4 right-4 border border-line bg-ink p-4 text-cream shadow-hard-xl lg:bottom-[calc(1.5rem_+_env(safe-area-inset-bottom))] sm:left-24 sm:right-6 sm:max-w-3xl",
           )}
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

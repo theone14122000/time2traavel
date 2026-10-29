@@ -30,7 +30,7 @@ export function DestinationHubTabs({ active }: { active: DestinationHubTab }) {
             href={tab.href}
             aria-current={isActive ? "page" : undefined}
             className={cn(
-              "label-brutal tap-44 inline-flex shrink-0 items-center border-[2px] border-ink px-3.5 py-2.5 transition-all",
+              "label-brutal tap-44 inline-flex shrink-0 items-center border border-line px-3.5 py-2.5 transition-all",
               isActive
                 ? "bg-lemon shadow-hard-xs"
                 : "bg-paper shadow-hard-xs hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-butter",

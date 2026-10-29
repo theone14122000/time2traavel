@@ -32,12 +32,12 @@ function Placeholder() {
     <svg
       aria-hidden="true"
       viewBox="0 0 120 90"
-      className="h-full w-full bg-butter"
+      className="h-full w-full bg-sky"
       preserveAspectRatio="xMidYMid slice"
     >
-      <circle cx="88" cy="26" r="14" fill="#FFE45E" stroke="#0a0a0a" strokeWidth={3} />
-      <polygon points="0,90 38,38 66,90" fill="#B8F2D0" stroke="#0a0a0a" strokeWidth={3} />
-      <polygon points="48,90 82,52 120,90" fill="#A9D8FF" stroke="#0a0a0a" strokeWidth={3} />
+      <circle cx="88" cy="26" r="10" fill="#C7A56A" opacity="0.7" />
+      <polygon points="0,90 38,38 66,90" fill="#173D35" opacity="0.85" />
+      <polygon points="48,90 82,52 120,90" fill="#5B8DA8" opacity="0.7" />
     </svg>
   );
 }
@@ -122,7 +122,7 @@ export function BrutalImage({
   return (
     <div
       className={cn(
-        "group relative border-[3px] border-ink bg-butter overflow-hidden",
+        "group relative overflow-hidden rounded-xl bg-sand",
         aspectClasses[aspect],
         rounded && "rounded-chip",
         className,

@@ -66,8 +66,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-[3px] border-ink bg-paper shadow-hard">
-      <h2 className="border-b-[3px] border-ink bg-lavender px-4 py-3 font-display text-sm uppercase tracking-wide">
+    <section className="border border-line bg-paper shadow-hard">
+      <h2 className="border-b border-line bg-lavender px-4 py-3 font-display text-sm uppercase tracking-wide">
         {title}
       </h2>
       <div className="grid gap-4 p-4 sm:p-5">{children}</div>
@@ -272,7 +272,7 @@ export function SettingsForm({ initial }: { initial: SettingsInput }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="label-brutal border-[2px] border-ink bg-cream px-2 py-1 text-xs">
+            <span className="label-brutal border border-line bg-cream px-2 py-1 text-xs">
               Test links
             </span>
             {testTelHref ? (

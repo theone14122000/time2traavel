@@ -88,16 +88,10 @@ export function CommandPaletteProvider({ children }: { children?: React.ReactNod
             onClick={() => setOpen(true)}
             aria-keyshortcuts="Meta+K Control+K"
             aria-label="Search destinations and packages"
-            className="press tap-44 fixed bottom-[calc(148px_+_env(safe-area-inset-bottom))] left-4 z-40 hidden items-center gap-2.5 border-[3px] border-ink bg-lemon px-4 shadow-brutal-sm sm:flex [@media(max-height:520px)]:!hidden"
+            className="tap-44 fixed bottom-[calc(148px_+_env(safe-area-inset-bottom))] right-4 z-40 hidden size-12 items-center justify-center rounded-full border border-line-strong bg-paper/95 text-ink shadow-hard backdrop-blur transition-colors hover:border-ink sm:flex [@media(max-height:520px)]:!hidden"
           >
-            <Search aria-hidden="true" className="size-4" />
-            <span className="label-brutal">Search</span>
-            <kbd
-              aria-hidden="true"
-              className="label-brutal border-[2px] border-ink bg-paper px-1.5 py-1"
-            >
-              {isMac ? "⌘" : "Ctrl"} K
-            </kbd>
+            <Search aria-hidden="true" className="size-5" />
+            <span className="sr-only">Search ({isMac ? "Cmd" : "Ctrl"} K)</span>
           </button>
           <CommandPaletteDialog open={open} onOpenChange={setOpen} />
         </>
@@ -277,7 +271,7 @@ function CommandPaletteDialog({
           transition={{ duration: DURATION.fast, ease: EASE }}
           className="grid"
         >
-          <div className="flex items-center gap-3 border-b-[3px] border-ink bg-butter px-4 py-3 pr-14">
+          <div className="flex items-center gap-3 border-b border-line bg-butter px-4 py-3 pr-14">
             <Search aria-hidden="true" className="size-4 shrink-0" />
             <input
               type="text"
@@ -294,7 +288,7 @@ function CommandPaletteDialog({
             {loading ? (
               <span
                 aria-hidden="true"
-                className="size-4 shrink-0 animate-spin border-2 border-ink border-t-transparent"
+                className="size-4 shrink-0 animate-spin border border-line border-t-transparent"
               />
             ) : null}
           </div>
@@ -343,7 +337,7 @@ function CommandPaletteDialog({
                 <li
                   key={row.key}
                   role="presentation"
-                  className="label-brutal sticky top-0 border-b-[2px] border-ink bg-paper px-4 py-2 text-ink-soft"
+                  className="label-brutal sticky top-0 border-b border-line bg-paper px-4 py-2 text-ink-soft"
                 >
                   {row.label}
                 </li>
@@ -357,14 +351,14 @@ function CommandPaletteDialog({
                     onMouseEnter={() => setActiveIndex(row.index)}
                     onClick={() => openHref(row.href)}
                     className={cn(
-                      "flex w-full items-center gap-3 border-b-[2px] border-ink/15 px-4 py-3 text-left transition-colors",
+                      "flex w-full items-center gap-3 border-b border-line px-4 py-3 text-left transition-colors",
                       row.index === activeIndex ? "bg-lemon" : "bg-paper hover:bg-butter",
                     )}
                   >
                     <span
                       aria-hidden="true"
                       className={cn(
-                        "flex size-8 shrink-0 items-center justify-center border-[2px] border-ink",
+                        "flex size-8 shrink-0 items-center justify-center border border-line",
                         row.icon === "destination" ? "bg-sky" : "bg-peach",
                       )}
                     >
@@ -394,7 +388,7 @@ function CommandPaletteDialog({
             )}
           </ul>
 
-          <div className="flex items-center justify-between gap-3 border-t-[3px] border-ink bg-paper px-4 py-2.5">
+          <div className="flex items-center justify-between gap-3 border-t border-line bg-paper px-4 py-2.5">
             <p className="label-brutal text-ink-soft">↑↓ · Enter to open · Esc to close</p>
             <p className="label-brutal text-ink-soft" aria-hidden="true">
               {itemCount} result{itemCount === 1 ? "" : "s"}

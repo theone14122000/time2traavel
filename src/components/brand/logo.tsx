@@ -29,7 +29,7 @@ export function Logo({
       height={height}
       priority={priority}
       sizes={`${width}px`}
-      className={cn("h-auto w-auto", className)}
+      className={cn("h-auto w-auto mix-blend-multiply", className)}
       style={{ height, width: "auto" }}
     />
   );

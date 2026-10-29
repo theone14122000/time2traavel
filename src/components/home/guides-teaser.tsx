@@ -19,7 +19,7 @@ export async function GuidesTeaser() {
     <section
       id="travel-guides"
       aria-labelledby="guides-heading"
-      className="relative w-full border-y-[3px] border-ink bg-cream"
+      className="relative w-full border-y border-line bg-cream"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
 
@@ -43,8 +43,8 @@ export async function GuidesTeaser() {
         <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {guides.map((guide) => (
             <li key={guide.id} className="h-full">
-              <article className="group relative flex h-full flex-col border-[3px] border-ink bg-paper shadow-hard transition-transform duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-lg">
-                <div className="relative aspect-[3/2] overflow-hidden border-b-[3px] border-ink bg-butter">
+              <article className="group relative flex h-full flex-col border border-line bg-paper shadow-hard transition-transform duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-hard-lg">
+                <div className="relative aspect-[3/2] overflow-hidden border-b border-line bg-butter">
                   <BrutalImage
                     src={guide.coverImage}
                     alt={guide.coverImageAlt?.trim() || guide.title}

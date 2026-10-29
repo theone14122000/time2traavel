@@ -63,7 +63,7 @@ const ROLE_SAMPLES: {
   {
     role: "Label / eyebrow",
     spec: "14px floor · handwritten",
-    cls: "label-brutal border-[2px] border-ink bg-lemon px-2.5 py-1.5",
+    cls: "label-brutal border border-line bg-lemon px-2.5 py-1.5",
     sample: "Choose your next quest",
   },
 ];
@@ -136,15 +136,15 @@ export function TypeThemes() {
           <section
             key={theme}
             className={cn(
-              "border-[3px] border-ink bg-paper shadow-hard-xs",
+              "border border-line bg-paper shadow-hard-xs",
               fontThemeClass(theme),
               active === theme && "shadow-hard",
             )}
             aria-label={FONT_THEME_LABELS[theme]}
           >
-            <header className="flex flex-wrap items-center justify-between gap-2 border-b-[3px] border-ink bg-lavender px-4 py-2.5">
+            <header className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-lavender px-4 py-2.5">
               <span className="label-brutal">{FONT_THEME_LABELS[theme]}</span>
-              <span className="label-brutal border-[2px] border-ink bg-paper px-2 py-1">
+              <span className="label-brutal border border-line bg-paper px-2 py-1">
                 {active === theme ? "Active now" : `Theme ${theme[0]}`}
               </span>
             </header>
@@ -154,7 +154,7 @@ export function TypeThemes() {
                   key={row.role}
                   className={cn(
                     "grid gap-2 px-4 py-4 sm:grid-cols-[10rem_1fr] sm:gap-4",
-                    i > 0 && "border-t-2 border-ink/25",
+                    i > 0 && "border-t border-line",
                   )}
                 >
                   <div className="grid gap-0.5">
@@ -176,8 +176,8 @@ export function TypeThemes() {
       </div>
 
       {/* ---- Ink on every section background, with ratios ---- */}
-      <section className="border-[3px] border-ink bg-paper shadow-hard-xs">
-        <header className="border-b-[3px] border-ink bg-lemon px-4 py-2.5">
+      <section className="border border-line bg-paper shadow-hard-xs">
+        <header className="border-b border-line bg-lemon px-4 py-2.5">
           <span className="label-brutal">
             Contrast — ink on every section fill (AA 4.5:1)
           </span>
@@ -191,7 +191,7 @@ export function TypeThemes() {
             return (
               <div
                 key={token}
-                className="grid gap-2 border-[3px] border-ink p-3"
+                className="grid gap-2 border border-line p-3"
                 style={{ backgroundColor: bg || undefined }}
               >
                 <span
@@ -214,10 +214,10 @@ export function TypeThemes() {
                 </p>
                 <span
                   className={cn(
-                    "label-brutal w-fit border-[2px] px-1.5 py-0.5 text-xs",
+                    "label-brutal w-fit border px-1.5 py-0.5 text-xs",
                     ok
-                      ? "border-ink bg-paper text-success"
-                      : "border-ink bg-paper text-danger",
+                      ? "border-line bg-paper text-success"
+                      : "border-line bg-paper text-danger",
                   )}
                 >
                   {ratio ? `${ratioLabel(ratio)} ${ok ? "AA pass" : "FAIL"}` : "…"}

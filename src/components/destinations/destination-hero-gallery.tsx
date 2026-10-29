@@ -69,7 +69,7 @@ export function DestinationHeroGallery({ images, title, tagline }: Props) {
       role="region"
       aria-roledescription="carousel"
       aria-label={`${title} photo gallery`}
-      className="relative w-full overflow-hidden border-[3px] border-ink bg-ink"
+      className="relative w-full overflow-hidden border border-line bg-ink"
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
       onFocus={() => setFocused(true)}
@@ -108,7 +108,7 @@ export function DestinationHeroGallery({ images, title, tagline }: Props) {
         {/* scrim + caption panel */}
         <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8">
-          <p className="label-brutal w-fit border-[2px] border-cream bg-ink/70 px-2 py-1 text-cream">
+          <p className="label-brutal w-fit border border-cream bg-ink/70 px-2 py-1 text-cream">
             Domestic
           </p>
           <h1 className="mt-3 max-w-[18ch] font-display text-h1 leading-[1.05] text-cream">
@@ -121,14 +121,14 @@ export function DestinationHeroGallery({ images, title, tagline }: Props) {
 
         {/* controls */}
         <div className="absolute right-4 top-4 z-20 flex items-center gap-2">
-          <span className="label-brutal border-[2px] border-cream bg-ink/70 px-2 py-1 text-cream">
+          <span className="label-brutal border border-cream bg-ink/70 px-2 py-1 text-cream">
             {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </span>
           <button
             type="button"
             onClick={() => setPausedByUser((p) => !p)}
             aria-label={pausedByUser ? "Play gallery" : "Pause gallery"}
-            className="flex size-9 items-center justify-center border-[2px] border-cream bg-ink/70 text-cream hover:bg-cream hover:text-ink"
+            className="flex size-9 items-center justify-center border border-cream bg-ink/70 text-cream hover:bg-cream hover:text-ink"
           >
             {pausedByUser ? <Play className="size-4" /> : <Pause className="size-4" />}
           </button>
@@ -136,7 +136,7 @@ export function DestinationHeroGallery({ images, title, tagline }: Props) {
             type="button"
             onClick={prev}
             aria-label="Previous image"
-            className="flex size-9 items-center justify-center border-[2px] border-cream bg-ink/70 text-cream hover:bg-cream hover:text-ink"
+            className="flex size-9 items-center justify-center border border-cream bg-ink/70 text-cream hover:bg-cream hover:text-ink"
           >
             <ArrowLeft className="size-4" />
           </button>
@@ -144,7 +144,7 @@ export function DestinationHeroGallery({ images, title, tagline }: Props) {
             type="button"
             onClick={next}
             aria-label="Next image"
-            className="flex size-9 items-center justify-center border-[2px] border-cream bg-ink/70 text-cream hover:bg-cream hover:text-ink"
+            className="flex size-9 items-center justify-center border border-cream bg-ink/70 text-cream hover:bg-cream hover:text-ink"
           >
             <ArrowRight className="size-4" />
           </button>
@@ -152,7 +152,7 @@ export function DestinationHeroGallery({ images, title, tagline }: Props) {
       </div>
 
       {/* thumbnail strip */}
-      <div className="flex gap-2 overflow-x-auto border-t-[3px] border-ink bg-paper p-2 no-scrollbar">
+      <div className="flex gap-2 overflow-x-auto border-t border-line bg-paper p-2 no-scrollbar">
         {images.map((slide, i) => (
           <button
             key={slide.src}
@@ -161,7 +161,7 @@ export function DestinationHeroGallery({ images, title, tagline }: Props) {
             aria-label={`Go to image ${i + 1}`}
             aria-current={i === index}
             className={cn(
-              "relative h-16 w-24 shrink-0 overflow-hidden border-[2px] border-ink",
+              "relative h-16 w-24 shrink-0 overflow-hidden border border-line",
               i === index ? "ring-2 ring-ink" : "opacity-70 hover:opacity-100",
             )}
           >

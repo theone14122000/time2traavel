@@ -4,7 +4,6 @@ import { Mountain, Route } from "lucide-react";
 import { HomeSectionHeading } from "@/components/home/section-heading";
 import { CardSlideshow } from "@/components/ui/card-slideshow";
 import { Button } from "@/components/ui/button";
-import { MountainParallax } from "@/components/home/mountain-parallax";
 import { allocateImages } from "@/lib/image-allocator";
 import { IMAGE_MANIFEST } from "@/lib/image-manifest";
 
@@ -38,25 +37,22 @@ export async function MountainsBand() {
     <section
       id="mountains"
       aria-labelledby="mountains-heading"
-      className="relative w-full overflow-hidden border-y-[3px] border-ink bg-ink text-cream clip-x"
+      className="relative w-full overflow-hidden border-y border-line bg-ink text-cream clip-x"
     >
-      {/* layered silhouettes — decorative, aria-hidden */}
-      <MountainParallax />
-
       <div className="relative z-10 mx-auto w-full max-w-[90rem] px-4 py-14 sm:px-6 sm:py-16 lg:px-10 lg:py-24 xl:px-14">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
             <HomeSectionHeading
               id="mountains-heading"
-              eyebrow="No signal. All adventure."
+              eyebrow="Mountains and high passes"
               tone="ink"
-              title="The [[Himalayas]] are calling!"
+              title="The [[Himalayas]] are calling."
               gradientTone="onDark"
               description="Pick up the adventure — winding roads, hidden valleys, and unforgettable high-country escapes."
             />
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg" className="w-full sm:w-auto">
+              <Button asChild size="lg" variant="secondary" className="w-full sm:w-auto">
                 <Link href="/destinations">
                   <Mountain aria-hidden="true" className="size-5" />
                   Enter the mountains
@@ -66,7 +62,7 @@ export async function MountainsBand() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="w-full border-cream bg-transparent text-cream hover:bg-cream hover:text-ink sm:w-auto"
+                className="w-full border-white/40 bg-transparent text-cream hover:border-cream hover:bg-white/10 hover:text-cream sm:w-auto"
               >
                 <Link href="/packages">
                   <Route aria-hidden="true" className="size-5" />

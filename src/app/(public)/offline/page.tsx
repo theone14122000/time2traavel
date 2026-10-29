@@ -49,10 +49,10 @@ export default async function OfflinePage() {
 
       <SectionWrapper tone="cream" bordered gridLines containerClassName="py-12 sm:py-16">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:items-start">
-          <div className="flex flex-col items-start gap-4 border-4 border-ink bg-paper p-6 shadow-brutal-md">
+          <div className="flex flex-col items-start gap-4 border border-line bg-paper p-6 shadow-brutal-md">
             <span
               aria-hidden="true"
-              className="flex size-14 items-center justify-center border-[3px] border-ink bg-butter"
+              className="flex size-14 items-center justify-center border border-line bg-butter"
             >
               <WifiOff className="size-6" />
             </span>
@@ -65,7 +65,7 @@ export default async function OfflinePage() {
 
           <ul className="grid gap-4 sm:grid-cols-3">
             {TIPS.map((tip) => (
-              <li key={tip.title} className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
+              <li key={tip.title} className="border border-line bg-paper p-5 shadow-brutal-md">
                 <h2 className="font-display text-h4 uppercase leading-tight">{tip.title}</h2>
                 <p className="mt-2 text-sm font-medium leading-relaxed text-ink-soft">
                   {tip.body}

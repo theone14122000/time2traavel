@@ -39,7 +39,7 @@ export function DestinationPhotoGallery({ images }: Props) {
             key={img.src}
             type="button"
             onClick={() => setOpenIndex(i)}
-            className="group relative aspect-square overflow-hidden border-[3px] border-ink bg-ink/10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ink"
+            className="group relative aspect-square overflow-hidden border border-line bg-ink/10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ink"
             aria-label={`Open photo ${i + 1} of ${images.length}`}
           >
             <Image
@@ -65,7 +65,7 @@ export function DestinationPhotoGallery({ images }: Props) {
             type="button"
             onClick={() => setOpenIndex(null)}
             aria-label="Close lightbox"
-            className="absolute right-4 top-4 flex size-10 items-center justify-center border-[2px] border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
+            className="absolute right-4 top-4 flex size-10 items-center justify-center border border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
           >
             <X className="size-5" />
           </button>
@@ -73,7 +73,7 @@ export function DestinationPhotoGallery({ images }: Props) {
             type="button"
             onClick={(e) => { e.stopPropagation(); setOpenIndex((i) => (i === null ? null : (i - 1 + images.length) % images.length)); }}
             aria-label="Previous photo"
-            className="absolute left-4 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center border-[2px] border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
+            className="absolute left-4 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center border border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -81,7 +81,7 @@ export function DestinationPhotoGallery({ images }: Props) {
             type="button"
             onClick={(e) => { e.stopPropagation(); setOpenIndex((i) => (i === null ? null : (i + 1) % images.length)); }}
             aria-label="Next photo"
-            className="absolute right-4 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center border-[2px] border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
+            className="absolute right-4 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center border border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
           >
             <ChevronRight className="size-5" />
           </button>

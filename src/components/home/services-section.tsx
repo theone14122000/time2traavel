@@ -36,7 +36,7 @@ export async function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="relative w-full border-y-[3px] border-ink bg-sand"
+      className="relative w-full border-y border-line bg-sand"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
 
@@ -77,7 +77,7 @@ function ServiceTile({ service, index }: { service: ServiceCard; index: number }
       <Link
         href="/services"
         className={cn(
-          "group flex h-full flex-col gap-4 rounded-sm border-[3px] border-ink bg-paper p-5 shadow-hard",
+          "group flex h-full flex-col gap-4 rounded-sm border border-line bg-paper p-5 shadow-hard",
           "transition-[transform,box-shadow,background-color] duration-150",
           "hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg",
           "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ink",
@@ -87,7 +87,7 @@ function ServiceTile({ service, index }: { service: ServiceCard; index: number }
         <span
           aria-hidden="true"
           className={cn(
-            "relative z-[1] flex size-14 shrink-0 items-center justify-center border-[3px] border-ink shadow-brutal-sm",
+            "relative z-[1] flex size-14 shrink-0 items-center justify-center border border-line shadow-brutal-sm",
             !usesHex && FALLBACK_TONES[index % FALLBACK_TONES.length],
           )}
           style={usesHex ? { backgroundColor: color as string } : undefined}

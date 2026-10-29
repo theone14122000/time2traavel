@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import * as React from "react";
 import Link from "next/link";
@@ -63,30 +63,30 @@ export function MobileActionBar({ phone, className }: MobileActionBarProps) {
           : { type: "spring", stiffness: 320, damping: 34, mass: 0.6 }
       }
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-40 border-t-[3px] border-ink bg-cream pb-[env(safe-area-inset-bottom)] lg:hidden",
+        "fixed bottom-0 left-0 right-0 z-40 border-t border-line bg-cream/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden",
         className,
       )}
     >
       <div
-        className="grid"
+        className="grid gap-2 p-2"
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
         {callUrl ? (
           <a
             href={callUrl}
-            className="flex min-h-14 flex-col items-center justify-center gap-1 border-r-[3px] border-ink bg-paper px-2 py-2 text-center transition-colors active:bg-butter"
+            className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-line-strong bg-paper px-3 text-center text-sm font-semibold transition-colors active:bg-sand"
           >
-            <Phone aria-hidden="true" className="size-5" />
-            <span className="label-brutal text-xs">Call</span>
+            <Phone aria-hidden="true" className="size-4" />
+            <span>Call us</span>
           </a>
         ) : null}
 
         <Link
-          href="/about-us#contact"
-          className="flex min-h-14 flex-col items-center justify-center gap-1 bg-lemon px-2 py-2 text-center transition-colors active:bg-butter"
+          href="/plan-my-trip"
+          className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-forest px-3 text-center text-sm font-semibold text-white transition-colors active:bg-[var(--tt-forest-hover)]"
         >
-          <PenLine aria-hidden="true" className="size-5" />
-          <span className="label-brutal text-xs">Enquire</span>
+          <PenLine aria-hidden="true" className="size-4" />
+          <span>Plan your trip</span>
         </Link>
       </div>
     </motion.div>

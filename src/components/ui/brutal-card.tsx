@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export type BrutalCardVariant = "destination" | "package" | "review" | "info";
 
 const base =
-  "relative border-[3px] border-ink bg-paper shadow-hard text-left";
+  "relative border border-line bg-paper shadow-hard text-left";
 
 const variantClasses: Record<BrutalCardVariant, string> = {
   destination:
@@ -16,7 +16,7 @@ const variantClasses: Record<BrutalCardVariant, string> = {
   package:
     "shadow-brutal-md transition-[transform,box-shadow] duration-200 hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-brutal-lg",
   review: "bg-paper",
-  info: "border-4",
+  info: "border",
 };
 
 /**
@@ -150,7 +150,7 @@ export function BrutalCardMedia({
       data-slot={SLOTS[1]}
       className={cn(
         CARD_CONTENT_CLASS,
-        "relative w-full overflow-hidden border-b-[3px] border-ink",
+        "relative w-full overflow-hidden border-b border-line",
         mediaAspect[aspect],
         className,
       )}
@@ -189,7 +189,7 @@ export function BrutalCardFooter({
       data-slot={SLOTS[3]}
       className={cn(
         CARD_CONTENT_CLASS,
-        "flex flex-wrap items-center justify-between gap-2 border-t-[3px] border-ink px-4 py-3",
+        "flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-3",
         className,
       )}
       {...props}

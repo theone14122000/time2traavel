@@ -13,7 +13,7 @@ export async function DestinationFinder() {
     <section
       id="trip-finder"
       aria-labelledby="trip-finder-heading"
-      className="relative w-full border-y-[3px] border-ink bg-lavender"
+      className="relative w-full border-y border-line bg-lavender"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
 

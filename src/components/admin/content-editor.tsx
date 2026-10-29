@@ -108,7 +108,7 @@ export function ContentEditor({
 
   return (
     <div className="grid max-w-4xl gap-5">
-      <section className="border-[3px] border-ink bg-sky p-4 shadow-hard sm:p-5">
+      <section className="border border-line bg-sky p-4 shadow-hard sm:p-5">
         <div className="grid gap-3 sm:grid-cols-2 sm:items-end">
           <div className="grid gap-1.5">
             <Label htmlFor="content-key-select">Content key</Label>
@@ -140,8 +140,8 @@ export function ContentEditor({
         >
           <input type="hidden" {...form.register("key")} />
 
-          <section className="border-[3px] border-ink bg-paper shadow-hard">
-            <h2 className="border-b-[3px] border-ink bg-butter px-4 py-3 font-display text-sm uppercase tracking-wide">
+          <section className="border border-line bg-paper shadow-hard">
+            <h2 className="border-b border-line bg-butter px-4 py-3 font-display text-sm uppercase tracking-wide">
               Content — {selectedKey}
             </h2>
             <div className="grid gap-4 p-4 sm:p-5">
@@ -208,7 +208,7 @@ export function ContentEditor({
               />
 
               {note ? (
-                <p className="flex items-start gap-2 border-[2px] border-ink bg-lavender px-3 py-2 text-xs font-semibold">
+                <p className="flex items-start gap-2 border border-line bg-lavender px-3 py-2 text-xs font-semibold">
                   <Braces aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
                   <span>
                     <strong className="font-display uppercase">About this key:</strong>{" "}

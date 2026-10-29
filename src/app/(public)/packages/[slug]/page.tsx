@@ -78,11 +78,11 @@ function BrutalIconList({
       {items.map((item, index) => (
         <li
           key={`${item}-${index}`}
-          className="flex items-start gap-3 border-[3px] border-ink bg-paper px-4 py-3 shadow-brutal-sm"
+          className="flex items-start gap-3 border border-line bg-paper px-4 py-3 shadow-brutal-sm"
         >
           <span
             aria-hidden="true"
-            className={`mt-0.5 flex size-6 shrink-0 items-center justify-center border-[2px] border-ink ${toneClass}`}
+            className={`mt-0.5 flex size-6 shrink-0 items-center justify-center border border-line ${toneClass}`}
           >
             {tone === "mint" ? (
               <BadgeCheck className="size-3.5" />
@@ -111,7 +111,7 @@ function BandHeading({
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <span className="label-brutal w-fit border-[3px] border-ink bg-lemon px-3 py-2">
+      <span className="label-brutal w-fit border border-line bg-lemon px-3 py-2">
         {eyebrow}
       </span>
       <div id={id}>
@@ -180,7 +180,7 @@ export default async function PackageDetailPage({ params }: Props) {
       <JsonLd data={breadcrumbLd} />
       <JsonLd data={productLd} />
 
-      <div className="border-b-[3px] border-ink bg-paper">
+      <div className="border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs
             items={breadcrumbItems.map((item) => ({
@@ -254,7 +254,7 @@ export default async function PackageDetailPage({ params }: Props) {
               {pkg.destination ? (
                 <Link
                   href={`/destinations/${pkg.destination.slug}`}
-                  className="label-brutal inline-flex items-center gap-1.5 border-[2px] border-ink bg-sky px-3 py-2 transition-colors hover:bg-sky-strong"
+                  className="label-brutal inline-flex items-center gap-1.5 border border-line bg-sky px-3 py-2 transition-colors hover:bg-sky-strong"
                 >
                   <MapPinned aria-hidden="true" className="size-3.5" />
                   {pkg.destination.name}
@@ -262,7 +262,7 @@ export default async function PackageDetailPage({ params }: Props) {
               ) : null}
             </div>
 
-            <div className="mt-6 border-4 border-ink bg-sunrise p-5 shadow-brutal-md">
+            <div className="mt-6 border border-line bg-sunrise p-5 shadow-brutal-md">
               <span className="label-brutal text-ink-soft">Price</span>
               <p className="mt-2 font-display text-h2 uppercase leading-none">
                 {pkg.price != null
@@ -289,7 +289,7 @@ export default async function PackageDetailPage({ params }: Props) {
             </div>
 
             {highlights.length > 0 ? (
-              <div className="mt-8 border-4 border-ink bg-paper p-5 shadow-brutal-md">
+              <div className="mt-8 border border-line bg-paper p-5 shadow-brutal-md">
                 <h3 className="flex items-center gap-2 font-display text-h4 uppercase">
                   <Highlighter aria-hidden="true" className="size-5" />
                   Highlights
@@ -312,7 +312,7 @@ export default async function PackageDetailPage({ params }: Props) {
               comparePkg={pkg}
             />
 
-            <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
+            <div className="border border-line bg-paper p-5 shadow-brutal-md">
               <h3 className="font-display text-h4 uppercase">Share &amp; save</h3>
               <div className="mt-4 grid gap-4">
                 <PackageShare title={pkg.title} path={`/packages/${pkg.slug}`} />
@@ -356,7 +356,7 @@ export default async function PackageDetailPage({ params }: Props) {
                         <span className="sr-only">Day {day.day}: </span>
                         <span
                           aria-hidden="true"
-                          className="flex size-10 shrink-0 items-center justify-center border-[3px] border-ink bg-lemon font-display text-base shadow-brutal-sm"
+                          className="flex size-10 shrink-0 items-center justify-center border border-line bg-lemon font-display text-base shadow-brutal-sm"
                         >
                           {day.day}
                         </span>
@@ -388,7 +388,7 @@ export default async function PackageDetailPage({ params }: Props) {
         />
 
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
-          <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
+          <div className="border border-line bg-paper p-5 shadow-brutal-md">
             <h3 className="flex items-center gap-2 font-display text-h4 uppercase">
               <BadgeCheck aria-hidden="true" className="size-5" />
               Inclusions
@@ -405,7 +405,7 @@ export default async function PackageDetailPage({ params }: Props) {
             </div>
           </div>
 
-          <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
+          <div className="border border-line bg-paper p-5 shadow-brutal-md">
             <h3 className="flex items-center gap-2 font-display text-h4 uppercase">
               <CircleX aria-hidden="true" className="size-5" />
               Exclusions
@@ -499,13 +499,13 @@ export default async function PackageDetailPage({ params }: Props) {
       <section
         id="package-plan"
         aria-labelledby="package-plan-heading"
-        className="relative w-full border-b-[3px] border-ink bg-sky"
+        className="relative w-full border-b border-line bg-sky"
       >
         <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
         <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
           <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-end">
             <div className="md:text-right">
-              <span className="label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2 md:ml-auto">
+              <span className="label-brutal inline-flex w-fit items-center gap-2 border border-line bg-lemon px-3 py-2 md:ml-auto">
                 <MapPinned aria-hidden="true" className="size-3.5" />
                 Next step
               </span>

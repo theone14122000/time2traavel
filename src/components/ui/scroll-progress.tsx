@@ -22,7 +22,7 @@ export function ScrollProgress() {
     <motion.div
       aria-hidden="true"
       style={{ scaleX }}
-      className="pointer-events-none fixed inset-x-0 top-0 z-[80] h-1.5 origin-left border-b-[2px] border-ink bg-tomato"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[80] h-1.5 origin-left border-b border-line bg-tomato"
     />
   );
 }

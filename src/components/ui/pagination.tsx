@@ -34,7 +34,7 @@ function buildPages(page: number, totalPages: number, siblingCount: number): (nu
 }
 
 const squareClass =
-  "tap-44 inline-flex items-center justify-center border-[2px] border-ink px-3 text-xs font-bold uppercase tracking-wide transition-colors";
+  "tap-44 inline-flex items-center justify-center border border-line px-3 text-xs font-bold uppercase tracking-wide transition-colors";
 
 /**
  * Brutalist square pagination. Client-only (handles clicks).

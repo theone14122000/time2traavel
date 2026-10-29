@@ -14,7 +14,7 @@ type WishlistButtonProps = {
 };
 
 const boxClass =
-  "tap-44 inline-flex size-11 shrink-0 items-center justify-center border-[3px] border-ink";
+  "tap-44 inline-flex size-11 shrink-0 items-center justify-center border border-line";
 
 /**
  * Heart toggle for the wishlist. Renders an inert placeholder until the

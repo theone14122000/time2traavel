@@ -59,7 +59,7 @@ export function PackageShare({ title, path }: { title: string; path: string }) {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="tap-44 inline-flex min-w-[44px] flex-1 items-center justify-center gap-2 border-[3px] border-ink bg-mint px-4 py-2.5 text-xs font-bold uppercase tracking-wide shadow-hard-sm transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard active:translate-x-1 active:translate-y-1 active:shadow-none"
+          className="tap-44 inline-flex min-w-[44px] flex-1 items-center justify-center gap-2 border border-line bg-mint px-4 py-2.5 text-xs font-bold uppercase tracking-wide shadow-hard-sm transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard active:translate-x-1 active:translate-y-1 active:shadow-none"
         >
           WhatsApp
         </a>

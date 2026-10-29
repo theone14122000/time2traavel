@@ -55,7 +55,7 @@ export default async function TripTypeDetailPage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbLd} />
 
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs
             items={[
@@ -84,7 +84,7 @@ export default async function TripTypeDetailPage({ params }: Props) {
       </PageHeader>
 
       {tripType.coverImage ? (
-        <div className="w-full border-b-[3px] border-ink bg-cream">
+        <div className="w-full border-b border-line bg-cream">
           <Container className="py-8 sm:py-10">
             <BrutalImage
               src={tripType.coverImage}

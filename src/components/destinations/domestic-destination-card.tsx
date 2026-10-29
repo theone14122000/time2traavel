@@ -35,7 +35,7 @@ export function DomesticDestinationCard({ destination, className }: Props) {
       href={`/destinations/${destination.slug}`}
       aria-label={`Explore ${destination.name}`}
       className={cn(
-        "group relative block h-full overflow-hidden rounded-sm border-[3px] border-ink bg-paper shadow-hard",
+        "group relative block h-full overflow-hidden rounded-sm border border-line bg-paper shadow-hard",
         "transition-[transform,box-shadow] duration-200",
         "hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg",
         "active:translate-y-0 active:shadow-hard",
@@ -61,17 +61,17 @@ export function DomesticDestinationCard({ destination, className }: Props) {
         {/* inner keyline */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-[6px] border-2 border-ink/80"
+          className="pointer-events-none absolute inset-[6px] border border-line"
         />
 
         {/* Domestic badge top-left */}
-        <span className="label-brutal absolute left-3 top-3 z-20 border-[2px] border-ink bg-lemon px-2 py-1 text-ink">
+        <span className="label-brutal absolute left-3 top-3 z-20 border border-line bg-lemon px-2 py-1 text-ink">
           Domestic
         </span>
       </div>
 
       {/* Caption panel overlapping the image bottom */}
-      <div className="absolute inset-x-0 bottom-0 z-10 border-t-[3px] border-ink bg-paper/95 p-4 backdrop-blur-sm sm:p-5">
+      <div className="absolute inset-x-0 bottom-0 z-10 border-t border-line bg-paper/95 p-4 backdrop-blur-sm sm:p-5">
         <div className="flex items-end justify-between gap-3">
           <div className="min-w-0">
             <h3 className="font-display text-[1.5rem] uppercase leading-none text-ink sm:text-[1.75rem]">
@@ -83,7 +83,7 @@ export function DomesticDestinationCard({ destination, className }: Props) {
           </div>
           <span
             aria-hidden="true"
-            className="flex size-11 shrink-0 items-center justify-center rounded-full border-[3px] border-ink bg-lemon text-ink transition-transform duration-200 group-hover:rotate-[-8deg] group-hover:scale-110"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full border border-line bg-lemon text-ink transition-transform duration-200 group-hover:rotate-[-8deg] group-hover:scale-110"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

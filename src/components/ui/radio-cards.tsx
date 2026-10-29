@@ -117,7 +117,7 @@ export function RadioCards({
               key={option.value}
               htmlFor={optionId}
               className={cn(
-                "flex min-h-11 cursor-pointer items-start gap-3 border-[3px] border-ink p-3.5 transition-all",
+                "flex min-h-11 cursor-pointer items-start gap-3 border border-line p-3.5 transition-all",
                 checked
                   ? "bg-lemon shadow-brutal-sm"
                   : "bg-paper shadow-hard-xs hover:bg-butter",
@@ -135,7 +135,7 @@ export function RadioCards({
                 onChange={() => onChange(option.value)}
                 aria-describedby={errorText ? errorId : undefined}
                 className={cn(
-                  "mt-0.5 size-5 shrink-0 appearance-none rounded-full border-[3px] border-ink bg-paper",
+                  "mt-0.5 size-5 shrink-0 appearance-none rounded-full border border-line bg-paper",
                   "checked:bg-tomato focus-visible:rounded-full",
                   "disabled:cursor-not-allowed",
                 )}

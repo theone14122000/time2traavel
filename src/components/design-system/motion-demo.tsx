@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 export function MotionDemo() {
   return (
     <div className="grid gap-6">
-      <div className="grid gap-2 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
+      <div className="grid gap-2 border border-line bg-paper p-4 shadow-hard-xs">
         <span className="label-brutal text-ink-soft">RevealTitle — masked slide-up</span>
         <RevealTitle as="h3" className="font-display text-h3 uppercase">
           Scroll me into view
@@ -17,7 +17,7 @@ export function MotionDemo() {
         </p>
       </div>
 
-      <div className="grid gap-2 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
+      <div className="grid gap-2 border border-line bg-paper p-4 shadow-hard-xs">
         <span className="label-brutal text-ink-soft">CountUp — component demo only</span>
         <p className="font-display text-h2 text-tomato">
           <CountUp value={120} duration={1.2} suffix="+" />
@@ -28,7 +28,7 @@ export function MotionDemo() {
         </p>
       </div>
 
-      <div className="grid gap-2 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
+      <div className="grid gap-2 border border-line bg-paper p-4 shadow-hard-xs">
         <span className="label-brutal text-ink-soft">Magnetic wrapper</span>
         <div className="flex flex-wrap items-center gap-4">
           <Magnetic strength={14}>

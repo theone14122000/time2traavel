@@ -173,7 +173,7 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
             )
           ) : (
             <>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-[3px] border-ink bg-butter px-4 py-3 shadow-brutal-sm">
+              <div className="flex flex-wrap items-center justify-between gap-3 border border-line bg-butter px-4 py-3 shadow-brutal-sm">
                 <p role="status" aria-live="polite" className="label-brutal">
                   {resultSummary}
                 </p>
@@ -198,14 +198,14 @@ export default async function PackagesPage({ searchParams }: { searchParams: Sea
       <section
         id="packages-cta"
         aria-labelledby="packages-cta-heading"
-        className="relative w-full border-b-[3px] border-ink bg-mint"
+        className="relative w-full border-b border-line bg-mint"
       >
         <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
         <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
           <Reveal>
             <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
               <div>
-                <span className="label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2">
+                <span className="label-brutal inline-flex w-fit items-center gap-2 border border-line bg-lemon px-3 py-2">
                   Need something custom?
                 </span>
                 <h2

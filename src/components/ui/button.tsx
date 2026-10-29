@@ -84,7 +84,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <>
             <span
               aria-hidden="true"
-              className="size-3.5 animate-spin border-2 border-current border-t-transparent"
+              className="size-3.5 animate-spin border border-current border-t-transparent"
             />
             {children}
           </>

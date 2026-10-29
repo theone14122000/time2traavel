@@ -128,8 +128,8 @@ export function TravellerStepper({
         aria-describedby={describedBy}
         data-invalid={hasError ? "true" : undefined}
         className={cn(
-          "flex w-fit items-stretch border-[3px] bg-paper shadow-brutal-sm",
-          hasError ? "border-danger" : "border-ink",
+          "flex w-fit items-stretch border bg-paper shadow-brutal-sm",
+          hasError ? "border-danger" : "border-line",
           disabled && "opacity-50",
         )}
       >
@@ -138,7 +138,7 @@ export function TravellerStepper({
           aria-label={decreaseLabel}
           disabled={disabled || atMin}
           onClick={() => onChange(clamp(current - stride))}
-          className={cn(buttonClasses, "border-r-[3px] border-ink")}
+          className={cn(buttonClasses, "border-r border-line")}
         >
           <Minus aria-hidden="true" className="size-4" strokeWidth={3} />
         </button>
@@ -156,7 +156,7 @@ export function TravellerStepper({
           aria-label={increaseLabel}
           disabled={disabled || atMax}
           onClick={() => onChange(clamp(current + stride))}
-          className={cn(buttonClasses, "border-l-[3px] border-ink")}
+          className={cn(buttonClasses, "border-l border-line")}
         >
           <Plus aria-hidden="true" className="size-4" strokeWidth={3} />
         </button>

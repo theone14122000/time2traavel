@@ -43,8 +43,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function RelatedGuideTile({ guide }: { guide: GuideCard }) {
   return (
-    <article className="flex h-full flex-col border-[3px] border-ink bg-paper p-4 shadow-hard-sm">
-      <span className="label-brutal w-fit border-[2px] border-ink bg-lemon px-2 py-1">
+    <article className="flex h-full flex-col border border-line bg-paper p-4 shadow-hard-sm">
+      <span className="label-brutal w-fit border border-line bg-lemon px-2 py-1">
         {guide.category}
       </span>
       <h3 className="mt-3 font-display text-base uppercase leading-snug">
@@ -80,7 +80,7 @@ export default async function GuideDetailPage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbLd} />
 
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs
             items={[
@@ -98,7 +98,7 @@ export default async function GuideDetailPage({ params }: Props) {
         description={guide.excerpt}
         tone="sky"
       >
-        <span className="inline-flex items-center gap-1.5 border-[3px] border-ink bg-paper px-3 py-2 text-sm font-bold uppercase">
+        <span className="inline-flex items-center gap-1.5 border border-line bg-paper px-3 py-2 text-sm font-bold uppercase">
           <Clock aria-hidden="true" className="size-4" />
           {readingMinutes} min read
         </span>
@@ -120,7 +120,7 @@ export default async function GuideDetailPage({ params }: Props) {
         </h2>
 
         <div className="flex flex-wrap items-center gap-2">
-          <span className="label-brutal inline-flex items-center gap-1 border-[2px] border-ink bg-lemon px-2 py-1">
+          <span className="label-brutal inline-flex items-center gap-1 border border-line bg-lemon px-2 py-1">
             <Tag aria-hidden="true" className="size-3" />
             {guide.category}
           </span>
@@ -130,7 +130,7 @@ export default async function GuideDetailPage({ params }: Props) {
         </div>
 
         {guide.coverImage ? (
-          <div className="relative mt-6 aspect-video w-full overflow-hidden border-4 border-ink shadow-brutal-md">
+          <div className="relative mt-6 aspect-video w-full overflow-hidden border border-line shadow-brutal-md">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={guide.coverImage}
@@ -141,7 +141,7 @@ export default async function GuideDetailPage({ params }: Props) {
         ) : null}
 
         {guide.body ? (
-          <div className="brutal-prose mt-8 max-w-3xl whitespace-pre-line border-4 border-ink bg-paper p-6 shadow-brutal-md sm:p-8">
+          <div className="brutal-prose mt-8 max-w-3xl whitespace-pre-line border border-line bg-paper p-6 shadow-brutal-md sm:p-8">
             {guide.body}
           </div>
         ) : (

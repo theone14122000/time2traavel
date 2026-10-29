@@ -63,7 +63,7 @@ export function SectionWrapper({
       className={cn(
         "relative w-full",
         toneClasses[tone],
-        bordered && "border-y-[3px] border-ink",
+        bordered && "border-y border-line",
         gridLines && "grid-lines",
         className,
       )}
@@ -105,7 +105,7 @@ export function SectionHeading({
       {eyebrow ? (
         <span
           className={cn(
-            "label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-ink px-3 py-2 text-cream",
+            "label-brutal inline-flex w-fit items-center gap-2 border border-line bg-ink px-3 py-2 text-cream",
             tone === "cream" && "bg-lemon text-ink",
           )}
         >

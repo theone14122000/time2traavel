@@ -100,7 +100,7 @@ const REMINDERS: { title: string; body: string }[] = [
 export default async function TravelEssentialsPage() {
   return (
     <>
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Travel Essentials" }]} />
         </Container>
@@ -157,7 +157,7 @@ export default async function TravelEssentialsPage() {
           {REMINDERS.map((reminder) => (
             <li
               key={reminder.title}
-              className="border-4 border-ink bg-paper p-5 shadow-brutal-md"
+              className="border border-line bg-paper p-5 shadow-brutal-md"
             >
               <h3 className="font-display text-h4 uppercase leading-tight">{reminder.title}</h3>
               <p className="mt-2 text-sm font-medium leading-relaxed text-ink-soft">

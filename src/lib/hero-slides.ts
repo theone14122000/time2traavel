@@ -1,6 +1,6 @@
 import { IMAGE_MANIFEST } from "@/lib/image-manifest";
 
-export type HeroSlide = { src: string; alt: string };
+export type HeroSlide = { src: string; alt: string; label: string };
 
 /**
  * Curated hero rotation — the five photographs stored in
@@ -16,26 +16,31 @@ export type HeroSlide = { src: string; alt: string };
  * auto-generated IMAGE_MANIFEST so the rotation stays in sync with the
  * image scan.
  */
-const HERO_SLIDES: ReadonlyArray<{ file: string; alt: string }> = [
+const HERO_SLIDES: ReadonlyArray<{ file: string; alt: string; label: string }> = [
   {
     file: "hero/slide-1.jpg",
     alt: "Snow-covered Himalayan peaks rising above a pine forest",
+    label: "The Himalayas",
   },
   {
     file: "hero/slide-2.jpg",
     alt: "A timber house in a green meadow with forested mountains behind",
+    label: "Mountain meadows",
   },
   {
     file: "hero/slide-3.jpg",
     alt: "Winding roads crossing the high-altitude Leh valley in Ladakh",
+    label: "Leh, Ladakh",
   },
   {
     file: "hero/slide-4.jpg",
     alt: "The Tanah Lot sea temple on a cliff above the ocean in Bali",
+    label: "Tanah Lot, Bali",
   },
   {
     file: "hero/slide-5.jpg",
     alt: "The Dubai skyline at night with illuminated highways and towers",
+    label: "Dubai",
   },
 ];
 
@@ -46,10 +51,10 @@ const HERO_SLIDES: ReadonlyArray<{ file: string; alt: string }> = [
  */
 export function getHeroSlides(): HeroSlide[] {
   const slides: HeroSlide[] = [];
-  for (const { file, alt } of HERO_SLIDES) {
+  for (const { file, alt, label } of HERO_SLIDES) {
     const entry = IMAGE_MANIFEST.find((e) => e.filename === file);
     if (!entry) continue;
-    slides.push({ src: entry.url, alt });
+    slides.push({ src: entry.url, alt, label });
   }
   return slides;
 }

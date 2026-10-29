@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import * as React from "react";
 import Link from "next/link";
@@ -160,8 +160,8 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
 
   const navLinkClass = (active: boolean) =>
     cn(
-      "label-brutal relative border-[3px] border-transparent px-3 py-2.5 transition-all hover:border-ink hover:bg-butter hover:shadow-hard-xs",
-      active && "border-ink bg-paper shadow-hard-xs",
+      "relative px-3.5 py-2.5 text-[0.8125rem] font-medium tracking-[0.04em] text-ink/70 transition-colors hover:text-ink",
+      active && "text-ink",
     );
 
   return (
@@ -171,8 +171,8 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
       <header
         style={{ zIndex: Z_HEADER }}
         className={cn(
-          "sticky top-0 w-full border-b-[3px] border-ink bg-cream/95 pt-[env(safe-area-inset-top)] backdrop-blur transition-shadow duration-300 ease-out",
-          scrolled && "shadow-hard-sm",
+          "sticky top-0 w-full border-b border-line bg-cream/85 pt-[env(safe-area-inset-top)] backdrop-blur-xl transition-[box-shadow,background-color] duration-300 ease-out",
+          scrolled && "bg-cream/95 shadow-hard-sm",
         )}
       >
         <div
@@ -200,7 +200,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                     {active ? (
                       <span
                         aria-hidden="true"
-                        className="absolute inset-x-2 bottom-0.5 h-[3px] bg-lemon"
+                        className="absolute inset-x-3.5 bottom-1 h-px bg-gold"
                       />
                     ) : null}
                   </Link>
@@ -241,7 +241,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                     {active ? (
                       <span
                         aria-hidden="true"
-                        className="absolute inset-x-2 bottom-0.5 h-[3px] bg-lemon"
+                        className="absolute inset-x-3.5 bottom-1 h-px bg-gold"
                       />
                     ) : null}
                   </Link>
@@ -254,7 +254,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
             {phoneHref ? (
               <a
                 href={phoneHref}
-                className="hidden size-10 items-center justify-center border-[3px] border-ink bg-paper shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard sm:flex"
+                className="hidden size-10 items-center justify-center rounded-full border border-line bg-paper text-ink transition-colors hover:border-ink sm:flex"
                 aria-label={`Call ${settings.siteName}`}
               >
                 <Phone aria-hidden="true" className="size-4" />
@@ -265,7 +265,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden size-10 items-center justify-center border-[3px] border-ink bg-mint-strong shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard sm:flex"
+                className="hidden size-10 items-center justify-center rounded-full border border-line bg-paper text-ink transition-colors hover:border-ink sm:flex"
                 aria-label="Chat on WhatsApp"
               >
                 <MessageCircle aria-hidden="true" className="size-4" />
@@ -280,7 +280,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
               onClick={() => openPlanner()}
             >
               <Compass aria-hidden="true" className="size-4" />
-              Plan My Trip
+              Plan Your Journey
             </Button>
 
             <Dialog open={menuOpen} onOpenChange={setMenuOpen}>
@@ -289,7 +289,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                   type="button"
                   aria-label={menuOpen ? "Close menu" : "Open menu"}
                   aria-expanded={menuOpen}
-                  className="flex size-11 items-center justify-center border-[3px] border-ink bg-paper shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard lg:hidden"
+                  className="flex size-11 items-center justify-center rounded-full border border-line bg-paper transition-colors hover:border-ink lg:hidden"
                 >
                   {menuOpen ? (
                     <X aria-hidden="true" className="size-5" />
@@ -308,14 +308,14 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                   variants={stagger(0.05)}
                   className="flex min-h-full flex-col bg-paper pb-[env(safe-area-inset-bottom)]"
                 >
-                  <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b-[3px] border-ink bg-lemon px-4 pb-3 pt-[calc(0.75rem_+_env(safe-area-inset-top))]">
+                  <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-line bg-cream px-4 pb-3 pt-[calc(0.75rem_+_env(safe-area-inset-top))]">
                     <Logo height={28} onClick={() => setMenuOpen(false)} />
 
                     <button
                       type="button"
                       aria-label="Close menu"
                       onClick={() => setMenuOpen(false)}
-                      className="tap-44 flex size-11 items-center justify-center border-[3px] border-ink bg-paper shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard"
+                      className="tap-44 flex size-11 items-center justify-center rounded-full border border-line bg-paper transition-colors hover:border-ink"
                     >
                       <X aria-hidden="true" className="size-5" />
                     </button>
@@ -331,16 +331,16 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                             onClick={() => setMenuOpen(false)}
                             aria-current={active ? "page" : undefined}
                             className={cn(
-                              "tap-44 relative flex items-center justify-between gap-3 overflow-hidden border-[3px] border-ink py-4 pl-7 pr-4 font-display text-xl uppercase transition-all sm:text-2xl",
+                              "tap-44 relative flex items-center justify-between gap-3 overflow-hidden rounded-xl border border-line py-4 pl-6 pr-4 font-display text-xl transition-colors sm:text-2xl",
                               active
-                                ? "bg-paper shadow-hard-sm"
-                                : "bg-paper hover:bg-butter hover:shadow-hard-xs",
+                                ? "bg-sand"
+                                : "bg-paper hover:bg-cream",
                             )}
                           >
                             {active ? (
                               <span
                                 aria-hidden="true"
-                                className="absolute inset-y-0 left-0 w-2.5 bg-lemon"
+                                className="absolute inset-y-3 left-0 w-0.5 bg-gold"
                               />
                             ) : null}
                             <span>{link.label}</span>
@@ -363,14 +363,14 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                         }}
                       >
                         <Compass aria-hidden="true" className="size-4" />
-                        Plan My Trip
+                        Plan Your Journey
                       </Button>
                     </motion.div>
 
                     {contactRows.length > 0 ? (
                       <motion.div
                         variants={fadeUp}
-                        className="grid gap-2 border-t-[3px] border-ink pt-4"
+                        className="grid gap-2 border-t border-line pt-4"
                       >
                         {contactRows.map((row) => (
                           <a
@@ -379,7 +379,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                             onClick={() => setMenuOpen(false)}
                             target={row.external ? "_blank" : undefined}
                             rel={row.external ? "noopener noreferrer" : undefined}
-                            className="tap-44 flex items-center gap-3 rounded-chip border-[3px] border-ink bg-paper px-4 py-3 text-sm font-semibold transition-colors hover:bg-butter"
+                            className="tap-44 flex items-center gap-3 rounded-xl border border-line bg-paper px-4 py-3 text-sm font-medium transition-colors hover:bg-cream"
                           >
                             <row.icon aria-hidden="true" className="size-4 shrink-0" />
                             <span className="truncate">{row.label}</span>
@@ -414,7 +414,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                     : { opacity: 0, y: -16, transition: { duration: 0.2, ease: EASE } }
                 }
                 variants={slideIn("top", 24)}
-                className="border-[3px] border-ink bg-paper p-4 shadow-hard-lg sm:p-5"
+                className="rounded-2xl border border-line bg-paper p-4 shadow-hard-lg sm:p-5"
               >
                 <p className="label-brutal mb-3 text-ink-soft">Browse destinations</p>
 
@@ -426,9 +426,9 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                           <Link
                             href={`/destinations/${destination.slug}`}
                             onClick={() => closeMega(false)}
-                            className="flex h-full flex-col gap-1 border-[2px] border-ink bg-paper px-3 py-2.5 transition-colors hover:bg-butter"
+                            className="flex h-full flex-col gap-1 rounded-xl border border-line bg-paper px-3 py-2.5 transition-colors hover:bg-cream"
                           >
-                            <span className="font-display text-sm uppercase leading-tight">
+                            <span className="font-display text-base leading-tight">
                               {destination.name}
                             </span>
                             <span className="label-brutal text-xs text-ink-soft">
@@ -439,11 +439,11 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                       ))}
                     </ul>
 
-                    <div className="mt-4 flex items-center justify-end border-t-[3px] border-ink pt-3">
+                    <div className="mt-4 flex items-center justify-end border-t border-line pt-3">
                       <Link
                         href="/destinations"
                         onClick={() => closeMega(false)}
-                        className="label-brutal inline-flex items-center gap-1.5 border-[2px] border-ink bg-lemon px-3 py-2 shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard"
+                        className="label-brutal inline-flex items-center gap-1.5 rounded-full bg-forest px-4 py-2 text-white transition-colors hover:bg-[var(--tt-forest-hover)]"
                       >
                         View all
                         <ArrowRight aria-hidden="true" className="size-3.5" />
@@ -456,7 +456,7 @@ export function SiteHeader({ settings, destinations = [] }: SiteHeaderProps) {
                     <Link
                       href="/about-us"
                       onClick={() => closeMega(false)}
-                      className="underline decoration-2 underline-offset-4 hover:bg-lemon"
+                      className="underline decoration-2 underline-offset-4 hover:text-bronze"
                     >
                       About Us
                     </Link>{" "}

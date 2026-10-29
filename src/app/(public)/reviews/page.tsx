@@ -31,7 +31,7 @@ export default async function ReviewsPage() {
 
   return (
     <>
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Reviews" }]} />
         </Container>
@@ -44,7 +44,7 @@ export default async function ReviewsPage() {
         tone="lavender"
       >
         {average !== null ? (
-          <span className="inline-flex items-center gap-2 border-[3px] border-ink bg-paper px-3 py-2 text-sm font-bold uppercase">
+          <span className="inline-flex items-center gap-2 border border-line bg-paper px-3 py-2 text-sm font-bold uppercase">
             <Star aria-hidden="true" className="size-4 fill-lemon" />
             {average.toFixed(1)} average · {pluralize(reviews.length, "review")}
           </span>
@@ -88,13 +88,13 @@ export default async function ReviewsPage() {
               {reviews.map((review) => (
                 <li
                   key={review.id}
-                  className="flex h-full w-[calc(100%_-_2rem)] shrink-0 flex-col border-4 border-ink bg-paper p-5 shadow-brutal-md sm:w-auto"
+                  className="flex h-full w-[calc(100%_-_2rem)] shrink-0 flex-col border border-line bg-paper p-5 shadow-brutal-md sm:w-auto"
                 >
                   <RatingStars rating={review.rating} />
                   <p className="mt-3 whitespace-pre-line text-sm font-medium leading-relaxed">
                     {review.comment}
                   </p>
-                  <footer className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t-[2px] border-ink pt-3">
+                  <footer className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3">
                     <span className="font-display text-sm uppercase">{review.name}</span>
                     <span className="label-brutal text-ink-soft">
                       {review.context || "Trip"}
@@ -124,7 +124,7 @@ export default async function ReviewsPage() {
             description="Reviews go through a quick check by our team before they appear publicly. No marketing quotes — just your honest experience."
           />
 
-          <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md sm:p-6">
+          <div className="border border-line bg-paper p-5 shadow-brutal-md sm:p-6">
             <ReviewForm />
           </div>
         </div>

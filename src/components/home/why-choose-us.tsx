@@ -9,20 +9,30 @@ import { getWhyChooseItems } from "@/lib/data/site";
  * "Why choose us" — 100% admin-managed content. No invented stats.
  */
 export async function WhyChooseUs() {
-  const items = await getWhyChooseItems();
+  const stored = await getWhyChooseItems();
+  // Until the team publishes its own reasons, show our service principles
+  // (no statistics or claims — only how we work).
+  const items =
+    stored.length > 0
+      ? stored
+      : [
+          { title: "Personal planning", description: "Every enquiry is read by a person who plans around your dates, pace and budget." },
+          { title: "Adventure first", description: "From Himalayan treks to island escapes, we start from the experience you want." },
+          { title: "Support throughout", description: "One point of contact from first enquiry to final itinerary." },
+        ];
 
   return (
     <section
       id="why-us"
       aria-labelledby="why-us-heading"
-      className="relative w-full border-y-[3px] border-ink bg-peach"
+      className="relative w-full border-y border-line bg-peach"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <HomeSectionHeading
           id="why-us-heading"
-          eyebrow="The good stuff"
-          title="Why roll with [[us]]?"
+          eyebrow="Our approach"
+          title="Why travel with [[Time2Travel]]"
           gradientTone="plum"
           description="Personalised planning, adventure-first experiences, and support from first enquiry to final itinerary."
         />

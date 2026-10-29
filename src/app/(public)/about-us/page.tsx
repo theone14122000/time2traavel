@@ -148,7 +148,7 @@ export default async function AboutUsPage() {
               Based in Shimla
             </Stamp>
 
-            <span className="label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-paper px-3 py-2 shadow-hard-xs">
+            <span className="label-brutal inline-flex w-fit items-center gap-2 border border-line bg-paper px-3 py-2 shadow-hard-xs">
               {SITE_IDENTITY.name}
             </span>
 
@@ -353,7 +353,7 @@ export default async function AboutUsPage() {
 
       <SectionWrapper tone="ink" bordered gridLines>
         <div className="flex flex-col items-center gap-5 py-14 text-center sm:py-16 lg:py-20">
-          <span className="label-brutal w-fit border-[3px] border-ink bg-lemon px-3 py-2 text-ink">
+          <span className="label-brutal w-fit border border-line bg-lemon px-3 py-2 text-ink">
             Plan my trip
           </span>
           <h2

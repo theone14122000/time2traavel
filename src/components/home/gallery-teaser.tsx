@@ -48,7 +48,7 @@ export async function GalleryTeaser() {
     <section
       id="gallery"
       aria-labelledby="gallery-heading"
-      className="relative w-full border-y-[3px] border-ink bg-paper"
+      className="relative w-full border-y border-line bg-paper"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
 
@@ -57,7 +57,7 @@ export async function GalleryTeaser() {
           <HomeSectionHeading
             id="gallery-heading"
             eyebrow="Gallery"
-            title="Snapshots from the [[road]]"
+            title="Moments from the [[road]]"
             gradientTone="ink"
             description={
               usingFallback
@@ -77,14 +77,14 @@ export async function GalleryTeaser() {
           {figures.map((figure, index) => (
             <figure
               key={figure.key}
-              className="mb-3 break-inside-avoid border-[3px] border-ink bg-paper shadow-hard sm:mb-6"
+              className="mb-3 break-inside-avoid border border-line bg-paper shadow-hard sm:mb-6"
             >
               <BrutalImage
                 src={figure.url}
                 alt={figure.alt}
                 aspect={ASPECTS[index % ASPECTS.length]}
                 sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
-                className="border-0 border-b-[3px]"
+                className="border-0 border-b"
               />
               <figcaption className="flex flex-wrap items-center justify-between gap-2 p-2 sm:p-3">
                 <span className="line-clamp-2 text-xs font-semibold text-ink-soft">

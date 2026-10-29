@@ -64,9 +64,9 @@ export function AdminSidebarNav({ className }: { className?: string }) {
             href={item.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex items-center gap-3 border-[3px] px-3 py-2.5 text-sm font-bold uppercase tracking-wide transition-colors",
+              "flex items-center gap-3 border px-3 py-2.5 text-sm font-bold uppercase tracking-wide transition-colors",
               active
-                ? "border-ink bg-lemon text-ink shadow-hard-xs"
+                ? "border-line bg-lemon text-ink shadow-hard-xs"
                 : "border-transparent text-cream hover:border-cream hover:bg-ink-soft/40",
             )}
           >
@@ -96,7 +96,7 @@ export function AdminMobileNav({ className }: { className?: string }) {
             href={item.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "whitespace-nowrap border-[3px] border-ink px-3 py-1.5 text-xs font-bold uppercase tracking-wide shadow-hard-xs",
+              "whitespace-nowrap border border-line px-3 py-1.5 text-xs font-bold uppercase tracking-wide shadow-hard-xs",
               active ? "bg-lemon" : "bg-paper hover:bg-butter",
             )}
           >

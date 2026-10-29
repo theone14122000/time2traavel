@@ -19,7 +19,7 @@ export function MapEmbed({
   if (!src) return null;
 
   return (
-    <div className={cn("relative border-[3px] border-ink bg-paper shadow-hard", className)}>
+    <div className={cn("relative border border-line bg-paper shadow-hard", className)}>
       <iframe
         src={src}
         title={title}
@@ -30,7 +30,7 @@ export function MapEmbed({
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 border-[3px] border-ink"
+        className="pointer-events-none absolute inset-0 border border-line"
       />
     </div>
   );

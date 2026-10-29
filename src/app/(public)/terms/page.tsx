@@ -42,7 +42,7 @@ export default async function TermsPage() {
 
   return (
     <>
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Terms" }]} />
         </Container>
@@ -69,7 +69,7 @@ export default async function TermsPage() {
           />
 
           {paragraphs.length > 0 ? (
-            <div className="brutal-prose mt-8 max-w-3xl border-4 border-ink bg-paper p-6 shadow-brutal-md sm:p-8">
+            <div className="brutal-prose mt-8 max-w-3xl border border-line bg-paper p-6 shadow-brutal-md sm:p-8">
               {paragraphs.map((paragraph, index) => (
                 <p key={`paragraph-${index}`}>{paragraph}</p>
               ))}

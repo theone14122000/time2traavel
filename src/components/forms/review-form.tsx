@@ -87,11 +87,11 @@ export function ReviewForm({
   }
 
   return (
-    <div className={cn("border-[3px] border-ink bg-paper p-4 shadow-hard sm:p-6", className)}>
+    <div className={cn("border border-line bg-paper p-4 shadow-hard sm:p-6", className)}>
       <div className="mb-5 flex items-start gap-3">
         <span
           aria-hidden="true"
-          className="flex size-10 shrink-0 items-center justify-center border-[3px] border-ink bg-lemon"
+          className="flex size-10 shrink-0 items-center justify-center border border-line bg-lemon"
         >
           <MessageSquareHeart className="size-5" />
         </span>
@@ -108,10 +108,10 @@ export function ReviewForm({
       </p>
 
       {submitted ? (
-        <div className="grid gap-4 border-[3px] border-ink bg-mint p-5 shadow-brutal-sm">
+        <div className="grid gap-4 border border-line bg-mint p-5 shadow-brutal-sm">
           <span
             aria-hidden="true"
-            className="inline-flex size-12 -rotate-6 items-center justify-center border-[3px] border-ink bg-mint-strong shadow-brutal-sm"
+            className="inline-flex size-12 -rotate-6 items-center justify-center border border-line bg-mint-strong shadow-brutal-sm"
           >
             <Check className="size-6" strokeWidth={4} />
           </span>
@@ -122,7 +122,7 @@ export function ReviewForm({
                 <li key={step} className="flex items-start gap-2">
                   <span
                     aria-hidden="true"
-                    className="mt-1.5 size-2 shrink-0 border-[2px] border-ink bg-ink"
+                    className="mt-1.5 size-2 shrink-0 border border-line bg-ink"
                   />
                   {step}
                 </li>
@@ -190,7 +190,7 @@ export function ReviewForm({
                             aria-label={`${value} star${value > 1 ? "s" : ""}`}
                             onClick={() => field.onChange(value)}
                             className={cn(
-                              "flex size-11 items-center justify-center border-[3px] border-ink transition-all",
+                              "flex size-11 items-center justify-center border border-line transition-all",
                               active ? "bg-lemon shadow-hard-xs" : "bg-paper hover:bg-butter",
                             )}
                           >
@@ -227,7 +227,7 @@ export function ReviewForm({
             />
 
             {submitError ? (
-              <div className="grid gap-2 border-[2px] border-ink bg-blush px-3 py-2.5">
+              <div className="grid gap-2 border border-line bg-blush px-3 py-2.5">
                 <p className="break-words text-sm font-bold">{submitError}</p>
                 <div>
                   <Button

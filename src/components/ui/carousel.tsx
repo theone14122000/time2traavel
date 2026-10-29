@@ -92,7 +92,7 @@ export function Carousel({ items, label, tone = "paper", loop = false, className
       aria-label={label}
       tabIndex={0}
       onKeyDown={onKeyDown}
-      className={cn("relative border-[3px] border-ink shadow-hard", toneClasses[tone], className)}
+      className={cn("relative border border-line shadow-hard", toneClasses[tone], className)}
     >
       <div className="relative overflow-hidden">
         <motion.div
@@ -118,14 +118,14 @@ export function Carousel({ items, label, tone = "paper", loop = false, className
         </motion.div>
       </div>
 
-      <div className="flex items-center justify-between gap-3 border-t-[3px] border-ink bg-paper px-3 py-2.5">
+      <div className="flex items-center justify-between gap-3 border-t border-line bg-paper px-3 py-2.5">
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => goTo(index - 1)}
             disabled={index === 0 && !loop}
             aria-label="Previous slide"
-            className="tap-44 inline-flex size-11 items-center justify-center border-[3px] border-ink bg-lemon shadow-hard-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:pointer-events-none disabled:opacity-40"
+            className="tap-44 inline-flex size-11 items-center justify-center border border-line bg-lemon shadow-hard-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:pointer-events-none disabled:opacity-40"
           >
             <ChevronLeft aria-hidden="true" className="size-5" />
           </button>
@@ -134,7 +134,7 @@ export function Carousel({ items, label, tone = "paper", loop = false, className
             onClick={() => goTo(index + 1)}
             disabled={index === count - 1 && !loop}
             aria-label="Next slide"
-            className="tap-44 inline-flex size-11 items-center justify-center border-[3px] border-ink bg-lemon shadow-hard-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:pointer-events-none disabled:opacity-40"
+            className="tap-44 inline-flex size-11 items-center justify-center border border-line bg-lemon shadow-hard-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:pointer-events-none disabled:opacity-40"
           >
             <ChevronRight aria-hidden="true" className="size-5" />
           </button>
@@ -150,7 +150,7 @@ export function Carousel({ items, label, tone = "paper", loop = false, className
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => goTo(i)}
               className={cn(
-                "size-3.5 border-[2px] border-ink transition-colors",
+                "size-3.5 border border-line transition-colors",
                 i === index ? "bg-lemon" : "bg-paper hover:bg-butter",
               )}
             />

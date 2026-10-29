@@ -34,7 +34,7 @@ export function PageHeader({
   return (
     <header
       className={cn(
-        "relative w-full border-b-[3px] border-ink",
+        "relative w-full border-b border-line",
         toneClasses[tone],
         className,
       )}
@@ -43,7 +43,7 @@ export function PageHeader({
       <Container className="relative py-10 sm:py-14 lg:py-20">
         <div className="flex flex-col gap-4">
           {eyebrow ? (
-            <span className="label-brutal w-fit border-[3px] border-ink bg-ink px-3 py-2 text-cream">
+            <span className="label-brutal w-fit border border-line bg-ink px-3 py-2 text-cream">
               {eyebrow}
             </span>
           ) : null}

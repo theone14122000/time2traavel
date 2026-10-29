@@ -144,7 +144,7 @@ export default async function AdminInquiriesPage({
           <Link
             href={buildHref({ type: sp.type })}
             className={cn(
-              "border-[3px] border-ink px-3 py-2 text-xs font-bold uppercase shadow-hard-xs",
+              "border border-line px-3 py-2 text-xs font-bold uppercase shadow-hard-xs",
               !status ? "bg-lemon" : "bg-paper hover:bg-butter",
             )}
           >
@@ -165,7 +165,7 @@ export default async function AdminInquiriesPage({
               key={value}
               href={buildHref({ status: value, type: sp.type })}
               className={cn(
-                "border-[3px] border-ink px-3 py-2 text-xs font-bold uppercase shadow-hard-xs",
+                "border border-line px-3 py-2 text-xs font-bold uppercase shadow-hard-xs",
                 status === value ? "bg-lemon" : "bg-paper hover:bg-butter",
               )}
             >
@@ -178,7 +178,7 @@ export default async function AdminInquiriesPage({
           <Link
             href={buildHref({ status: sp.status })}
             className={cn(
-              "border-[2px] border-ink px-2.5 py-1.5 text-xs font-bold uppercase",
+              "border border-line px-2.5 py-1.5 text-xs font-bold uppercase",
               !type ? "bg-ink text-cream" : "bg-paper hover:bg-butter",
             )}
           >
@@ -191,7 +191,7 @@ export default async function AdminInquiriesPage({
               key={value}
               href={buildHref({ status: sp.status, type: value })}
               className={cn(
-                "border-[2px] border-ink px-2.5 py-1.5 text-xs font-bold uppercase",
+                "border border-line px-2.5 py-1.5 text-xs font-bold uppercase",
                 type === value ? "bg-ink text-cream" : "bg-paper hover:bg-butter",
               )}
             >

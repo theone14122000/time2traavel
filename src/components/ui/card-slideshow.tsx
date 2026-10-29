@@ -63,7 +63,7 @@ export function CardSlideshow({ images, label, className }: CardSlideshowProps) 
   // Static fallbacks
   if (images.length === 0) {
     return (
-      <div className={cn("relative aspect-[4/5] min-h-[380px] border-[3px] border-cream/90 bg-ink/60", className)}>
+      <div className={cn("relative aspect-[4/5] min-h-[380px] border border-cream/90 bg-ink/60", className)}>
         <p className="absolute inset-0 grid place-items-center p-6 text-center text-cream/70">
           Himalayan photos will appear here once published from the admin.
         </p>
@@ -74,7 +74,7 @@ export function CardSlideshow({ images, label, className }: CardSlideshowProps) 
   if (images.length === 1 || reduceMotion) {
     const img = images[0]!;
     return (
-      <figure className={cn("relative aspect-[4/5] min-h-[380px] overflow-hidden border-[3px] border-cream/90 bg-ink", className)}>
+      <figure className={cn("relative aspect-[4/5] min-h-[380px] overflow-hidden border border-cream/90 bg-ink", className)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={img.src} alt={img.alt} className="h-full w-full object-cover" loading="eager" />
       </figure>
@@ -104,15 +104,15 @@ export function CardSlideshow({ images, label, className }: CardSlideshowProps) 
     >
       {/* Peek cards behind */}
       <div aria-hidden="true" className="absolute inset-0">
-        <div className="absolute inset-0 scale-[0.88] translate-y-[28px] rotate-2 border-[3px] border-cream/40 bg-ink/50" />
-        <div className="absolute inset-0 scale-[0.94] translate-y-[14px] -rotate-2 border-[3px] border-cream/60 bg-ink/70" />
+        <div className="absolute inset-0 scale-[0.88] translate-y-[28px] rotate-2 border border-cream/40 bg-ink/50" />
+        <div className="absolute inset-0 scale-[0.94] translate-y-[14px] -rotate-2 border border-cream/60 bg-ink/70" />
       </div>
 
       {/* Active card */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.figure
           key={`${current?.src}-${index}`}
-          className="absolute inset-0 overflow-hidden border-[3px] border-cream/90 bg-ink shadow-brutal-lg"
+          className="absolute inset-0 overflow-hidden border border-cream/90 bg-ink shadow-brutal-lg"
           initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: "120%", rotate: 8 }}
@@ -143,7 +143,7 @@ export function CardSlideshow({ images, label, className }: CardSlideshowProps) 
             type="button"
             onClick={() => setPausedByUser((p) => !p)}
             aria-label={pausedByUser ? "Play slideshow" : "Pause slideshow"}
-            className="flex size-9 items-center justify-center border-[2px] border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
+            className="flex size-9 items-center justify-center border border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
           >
             {pausedByUser ? <Play className="size-4" /> : <Pause className="size-4" />}
           </button>
@@ -151,7 +151,7 @@ export function CardSlideshow({ images, label, className }: CardSlideshowProps) 
             type="button"
             onClick={prev}
             aria-label="Previous image"
-            className="flex size-9 items-center justify-center border-[2px] border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
+            className="flex size-9 items-center justify-center border border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
           >
             <ArrowLeft className="size-4" />
           </button>
@@ -159,13 +159,13 @@ export function CardSlideshow({ images, label, className }: CardSlideshowProps) 
             type="button"
             onClick={next}
             aria-label="Next image"
-            className="flex size-9 items-center justify-center border-[2px] border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
+            className="flex size-9 items-center justify-center border border-cream bg-ink/80 text-cream hover:bg-cream hover:text-ink"
           >
             <ArrowRight className="size-4" />
           </button>
         </div>
 
-        <span aria-live="polite" className="label-brutal border-[2px] border-cream bg-ink/80 px-2 py-1 text-cream">
+        <span aria-live="polite" className="label-brutal border border-cream bg-ink/80 px-2 py-1 text-cream">
           {index + 1} of {total}
         </span>
       </div>

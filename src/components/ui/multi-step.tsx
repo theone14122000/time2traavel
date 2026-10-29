@@ -145,7 +145,7 @@ export function MultiStepForm({
           aria-valuemax={total}
           aria-valuenow={index + 1}
           aria-label={progressLabel ?? "Form progress"}
-          className="h-4 w-full overflow-hidden border-[3px] border-ink bg-paper"
+          className="h-4 w-full overflow-hidden border border-line bg-paper"
         >
           <motion.div
             className="h-full bg-tomato"
@@ -174,7 +174,7 @@ export function MultiStepForm({
               key={step.id}
               aria-current={state === "current" ? "step" : undefined}
               className={cn(
-                "label-brutal flex items-center gap-1.5 border-[3px] border-ink px-2.5 py-1.5",
+                "label-brutal flex items-center gap-1.5 border border-line px-2.5 py-1.5",
                 state === "current" && "bg-lemon shadow-brutal-sm",
                 state === "done" && "bg-ink text-cream",
                 state === "todo" && "bg-paper text-ink-soft",

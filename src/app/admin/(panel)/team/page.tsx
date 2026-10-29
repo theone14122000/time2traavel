@@ -119,7 +119,7 @@ export default async function AdminTeamPage() {
               <TableRow key={row.id}>
                 <TableCell>
                   <div className="flex items-center gap-3">
-                    <span className="relative block size-12 shrink-0 overflow-hidden rounded-full border-[3px] border-ink bg-sand">
+                    <span className="relative block size-12 shrink-0 overflow-hidden rounded-full border border-line bg-sand">
                       {row.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img

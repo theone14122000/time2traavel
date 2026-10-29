@@ -103,11 +103,11 @@ export function WeatherWidget({
   const Icon = BUCKET_ICONS[summary.bucket] ?? Cloud;
 
   return (
-    <div className="border-4 border-ink bg-sky p-5 shadow-brutal-md">
+    <div className="border border-line bg-sky p-5 shadow-brutal-md">
       <div className="flex items-center gap-2">
         <span
           aria-hidden="true"
-          className="flex size-9 items-center justify-center border-[3px] border-ink bg-paper"
+          className="flex size-9 items-center justify-center border border-line bg-paper"
         >
           <Icon className="size-4" />
         </span>

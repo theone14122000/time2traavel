@@ -72,7 +72,7 @@ function SocialLinks({ member }: { member: TeamMemberShape }) {
                 ? `${member.name} email address`
                 : `${member.name} on ${SOCIAL_NAMES[social.kind]}`
             }
-            className="flex size-11 items-center justify-center border-[3px] border-ink bg-paper transition-colors hover:bg-lemon"
+            className="flex size-11 items-center justify-center border border-line bg-paper transition-colors hover:bg-lemon"
           >
             <SocialGlyph kind={social.kind} />
           </a>
@@ -97,7 +97,7 @@ function FounderCard({
       whileInView={{ opacity: 1, x: 0 }}
       viewport={viewportOnce}
       transition={{ duration: 0.55, ease: EASE }}
-      className="relative flex flex-col gap-6 border-4 border-ink bg-paper p-5 shadow-brutal-lg sm:p-7 md:flex-row md:items-start md:gap-8"
+      className="relative flex flex-col gap-6 border border-line bg-paper p-5 shadow-brutal-lg sm:p-7 md:flex-row md:items-start md:gap-8"
     >
       <div className="w-[240px] max-w-full shrink-0 md:w-[300px]">
         <TeamAvatar
@@ -155,7 +155,7 @@ function MemberCard({
           ? { type: "spring", stiffness: 260, damping: 18, delay: index * 0.08 }
           : { duration: 0.4, ease: EASE }
       }
-      className="flex w-full max-w-md flex-col items-center gap-4 border-[3px] border-ink bg-paper p-6 text-center shadow-brutal-md"
+      className="flex w-full max-w-md flex-col items-center gap-4 border border-line bg-paper p-6 text-center shadow-brutal-md"
     >
       <TeamAvatar
         src={avatarSrc(member)}
@@ -172,7 +172,7 @@ function MemberCard({
         whileHover={animate ? { rotate: [-2, 2, 0], scale: 1.05 } : undefined}
         transition={{ duration: 0.35, ease: EASE }}
         className={cn(
-          "label-brutal inline-flex border-[2px] border-ink px-3 py-1.5",
+          "label-brutal inline-flex border border-line px-3 py-1.5",
           ROLE_TONES[index % ROLE_TONES.length],
         )}
       >

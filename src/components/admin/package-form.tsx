@@ -66,8 +66,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-[3px] border-ink bg-paper shadow-hard">
-      <h2 className="border-b-[3px] border-ink bg-mint px-4 py-3 font-display text-sm uppercase tracking-wide">
+    <section className="border border-line bg-paper shadow-hard">
+      <h2 className="border-b border-line bg-mint px-4 py-3 font-display text-sm uppercase tracking-wide">
         {title}
       </h2>
       <div className="grid gap-4 p-4 sm:p-5">{children}</div>
@@ -610,9 +610,9 @@ function ItineraryEditor({
       {fields.map((field, index) => (
         <div
           key={field.id}
-          className="relative grid gap-3 border-[3px] border-ink bg-cream p-3 pr-12 shadow-hard-xs"
+          className="relative grid gap-3 border border-line bg-cream p-3 pr-12 shadow-hard-xs"
         >
-          <span className="label-brutal w-fit border-[2px] border-ink bg-lemon px-2 py-1">
+          <span className="label-brutal w-fit border border-line bg-lemon px-2 py-1">
             Day {index + 1}
           </span>
           <FormField
@@ -664,7 +664,7 @@ function ItineraryEditor({
       ))}
 
       {fields.length === 0 ? (
-        <p className="border-[2px] border-dashed border-ink/50 px-3 py-3 text-sm font-semibold text-ink-soft">
+        <p className="border border-dashed border-line px-3 py-3 text-sm font-semibold text-ink-soft">
           No days yet — add the first day of the itinerary.
         </p>
       ) : null}

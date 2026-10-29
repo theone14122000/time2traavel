@@ -13,7 +13,7 @@ export const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "inline-flex w-full flex-wrap items-stretch gap-0 border-[3px] border-ink bg-paper p-1 shadow-hard-xs",
+      "inline-flex w-full flex-wrap items-stretch gap-0 border border-line bg-paper p-1 shadow-hard-xs",
       className,
     )}
     {...props}
@@ -28,10 +28,10 @@ export const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 border-[2px] border-transparent px-3 py-1.5 text-xs font-bold uppercase tracking-wide transition-colors",
-      "hover:border-ink hover:bg-butter",
+      "inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 border border-transparent px-3 py-1.5 text-xs font-bold uppercase tracking-wide transition-colors",
+      "hover:border-line hover:bg-butter",
       "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink",
-      "data-[state=active]:border-ink data-[state=active]:bg-lemon data-[state=active]:shadow-hard-xs",
+      "data-[state=active]:border-line data-[state=active]:bg-lemon data-[state=active]:shadow-hard-xs",
       "whitespace-nowrap",
       className,
     )}

@@ -21,8 +21,8 @@ export default async function AdminPanelLayout({
 
   return (
     <div className="flex min-h-dvh flex-col lg:flex-row">
-      <aside className="sticky top-0 z-40 hidden w-64 shrink-0 flex-col border-r-[3px] border-ink bg-ink text-cream lg:flex lg:h-dvh">
-        <div className="border-b-[3px] border-cream/20 px-4 py-5">
+      <aside className="sticky top-0 z-40 hidden w-64 shrink-0 flex-col border-r border-line bg-ink text-cream lg:flex lg:h-dvh">
+        <div className="border-b border-cream/20 px-4 py-5">
           <Link href="/admin/dashboard" className="block">
             <span className="label-brutal text-lemon">Admin</span>
             <span className="mt-1 block font-display text-lg uppercase leading-tight">
@@ -35,7 +35,7 @@ export default async function AdminPanelLayout({
           <AdminSidebarNav />
         </div>
 
-        <div className="border-t-[3px] border-cream/20 p-4">
+        <div className="border-t border-cream/20 p-4">
           <p className="truncate text-xs font-bold uppercase tracking-wide text-cream/80">
             {user.name || user.email}
           </p>
@@ -49,7 +49,7 @@ export default async function AdminPanelLayout({
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 border-b-[3px] border-ink bg-butter">
+        <header className="sticky top-0 z-30 border-b border-line bg-butter">
           <div className="flex items-center justify-between gap-3 px-4 py-3">
             <div className="min-w-0">
               <span className="label-brutal text-ink-soft lg:hidden">Admin</span>

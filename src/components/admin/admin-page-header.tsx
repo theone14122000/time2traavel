@@ -18,13 +18,13 @@ export function AdminPageHeader({
   return (
     <div
       className={cn(
-        "mb-6 flex flex-col gap-4 border-[3px] border-ink bg-butter p-4 shadow-hard sm:p-5 lg:flex-row lg:items-end lg:justify-between",
+        "mb-6 flex flex-col gap-4 border border-line bg-butter p-4 shadow-hard sm:p-5 lg:flex-row lg:items-end lg:justify-between",
         className,
       )}
     >
       <div className="flex min-w-0 flex-col gap-2">
         {eyebrow ? (
-          <span className="label-brutal w-fit border-[2px] border-ink bg-ink px-2 py-1 text-cream">
+          <span className="label-brutal w-fit border border-line bg-ink px-2 py-1 text-cream">
             {eyebrow}
           </span>
         ) : null}

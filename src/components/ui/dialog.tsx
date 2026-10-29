@@ -35,7 +35,7 @@ export const DialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         "fixed left-1/2 top-1/2 z-50 grid w-[calc(100vw-2rem)] max-w-xl -translate-x-1/2 -translate-y-1/2 gap-0",
-        "max-h-[calc(100dvh-3rem)] overflow-y-auto border-[3px] border-ink bg-cream shadow-hard-xl",
+        "max-h-[calc(100dvh-3rem)] overflow-y-auto border border-line bg-cream shadow-hard-xl",
         className,
       )}
       {...props}
@@ -43,7 +43,7 @@ export const DialogContent = React.forwardRef<
       {children}
       <DialogPrimitive.Close
         aria-label="Close dialog"
-        className="absolute right-2 top-2 flex size-9 items-center justify-center border-[3px] border-ink bg-lemon transition-transform hover:translate-x-0.5 hover:translate-y-0.5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className="absolute right-2 top-2 flex size-9 items-center justify-center border border-line bg-lemon transition-transform hover:translate-x-0.5 hover:translate-y-0.5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
         <X aria-hidden="true" className="size-4" />
       </DialogPrimitive.Close>
@@ -59,7 +59,7 @@ export function DialogHeader({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1.5 border-b-[3px] border-ink bg-butter p-4 pr-14 sm:p-5 sm:pr-14",
+        "flex flex-col gap-1.5 border-b border-line bg-butter p-4 pr-14 sm:p-5 sm:pr-14",
         className,
       )}
       {...props}
@@ -81,7 +81,7 @@ export function DialogFooter({
   return (
     <div
       className={cn(
-        "flex flex-wrap justify-end gap-3 border-t-[3px] border-ink bg-paper p-4 sm:p-5",
+        "flex flex-wrap justify-end gap-3 border-t border-line bg-paper p-4 sm:p-5",
         className,
       )}
       {...props}

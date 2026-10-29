@@ -33,7 +33,7 @@ export function ControlsDemo() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <div className="grid gap-2 border-[3px] border-ink bg-paper p-4 shadow-hard-xs">
+      <div className="grid gap-2 border border-line bg-paper p-4 shadow-hard-xs">
         <span className="label-brutal text-ink-soft">TravellerStepper</span>
         <TravellerStepper
           label="Travellers"
@@ -51,7 +51,7 @@ export function ControlsDemo() {
         <DateRange label="Demo dates" value={dates} onChange={setDates} />
       </div>
 
-      <div className="grid gap-2 border-[3px] border-ink bg-paper p-4 shadow-hard-xs lg:col-span-2">
+      <div className="grid gap-2 border border-line bg-paper p-4 shadow-hard-xs lg:col-span-2">
         <span className="label-brutal text-ink-soft">
           BudgetSlider — arbitrary demo units, not a real price
         </span>
@@ -65,7 +65,7 @@ export function ControlsDemo() {
         />
       </div>
 
-      <div className="grid gap-2 border-[3px] border-ink bg-paper p-4 shadow-hard-xs lg:col-span-2">
+      <div className="grid gap-2 border border-line bg-paper p-4 shadow-hard-xs lg:col-span-2">
         <span className="label-brutal text-ink-soft">ChipMultiSelect</span>
         <ChipMultiSelect
           label="Demo interests"
@@ -76,7 +76,7 @@ export function ControlsDemo() {
         />
       </div>
 
-      <div className="grid gap-2 border-[3px] border-ink bg-paper p-4 shadow-hard-xs lg:col-span-2">
+      <div className="grid gap-2 border border-line bg-paper p-4 shadow-hard-xs lg:col-span-2">
         <span className="label-brutal text-ink-soft">RadioCards</span>
         <RadioCards
           name="design-system-demo-style"

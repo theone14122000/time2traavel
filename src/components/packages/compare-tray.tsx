@@ -86,12 +86,12 @@ export function CompareTray() {
         variants={slideIn("bottom", 72)}
         className="fixed inset-x-0 bottom-20 z-[50] px-2 sm:px-4"
       >
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 border-4 border-ink bg-ink p-3 text-cream shadow-hard-xl sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 border border-line bg-ink p-3 text-cream shadow-hard-xl sm:flex-row sm:items-center sm:justify-between">
           <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-1">
             {selected.map((pkg) => (
               <span
                 key={pkg.id}
-                className="inline-flex shrink-0 items-center gap-2 border-[3px] border-cream bg-paper px-2 py-1.5 text-ink"
+                className="inline-flex shrink-0 items-center gap-2 border border-cream bg-paper px-2 py-1.5 text-ink"
               >
                 <span className="max-w-[10rem] truncate text-xs font-bold uppercase tracking-wide sm:max-w-[14rem]">
                   {pkg.title}
@@ -100,7 +100,7 @@ export function CompareTray() {
                   type="button"
                   aria-label={`Remove ${pkg.title} from compare`}
                   onClick={() => remove(pkg.id)}
-                  className="tap-44 -my-1 flex items-center justify-center border-[2px] border-ink bg-lemon transition-colors hover:bg-tomato"
+                  className="tap-44 -my-1 flex items-center justify-center border border-line bg-lemon transition-colors hover:bg-tomato"
                 >
                   <X aria-hidden="true" className="size-4" />
                 </button>
@@ -151,7 +151,7 @@ export function CompareTray() {
                   <tr>
                     <th
                       scope="col"
-                      className="label-brutal border-[3px] border-ink bg-lemon px-3 py-3"
+                      className="label-brutal border border-line bg-lemon px-3 py-3"
                     >
                       Feature
                     </th>
@@ -159,7 +159,7 @@ export function CompareTray() {
                       <th
                         key={pkg.id}
                         scope="col"
-                        className="border-[3px] border-ink bg-butter px-3 py-3 align-top font-display text-sm uppercase leading-tight"
+                        className="border border-line bg-butter px-3 py-3 align-top font-display text-sm uppercase leading-tight"
                       >
                         {pkg.title}
                       </th>
@@ -171,7 +171,7 @@ export function CompareTray() {
                     <tr key={row.label}>
                       <th
                         scope="row"
-                        className="label-brutal border-[3px] border-ink bg-paper px-3 py-3 align-top text-ink-soft"
+                        className="label-brutal border border-line bg-paper px-3 py-3 align-top text-ink-soft"
                       >
                         {row.label}
                       </th>
@@ -179,7 +179,7 @@ export function CompareTray() {
                         <td
                           key={pkg.id}
                           className={cn(
-                            "border-[3px] border-ink px-3 py-3 align-top text-sm font-medium",
+                            "border border-line px-3 py-3 align-top text-sm font-medium",
                             row.label === "Featured" ? "bg-paper" : "bg-cream",
                           )}
                         >

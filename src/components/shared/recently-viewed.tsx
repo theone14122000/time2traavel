@@ -33,11 +33,11 @@ export function RecentlyViewed({ className }: { className?: string }) {
           <li key={`${item.kind}:${item.id}`} className="shrink-0">
             <Link
               href={item.href}
-              className="press tap-44 flex max-w-[15rem] items-center gap-2.5 border-[3px] border-ink bg-paper px-3 py-2 shadow-hard-xs"
+              className="press tap-44 flex max-w-[15rem] items-center gap-2.5 border border-line bg-paper px-3 py-2 shadow-hard-xs"
             >
               <span
                 className={cn(
-                  "label-brutal shrink-0 border-[2px] border-ink px-1.5 py-1",
+                  "label-brutal shrink-0 border border-line px-1.5 py-1",
                   item.kind === "destination" ? "bg-mint" : "bg-peach",
                 )}
               >

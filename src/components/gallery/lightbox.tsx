@@ -55,7 +55,7 @@ export function Lightbox({
         if (!next) onClose();
       }}
     >
-      <DialogContent className="max-w-5xl gap-0 border-[4px] border-ink bg-ink p-0 shadow-brutal-lg">
+      <DialogContent className="max-w-5xl gap-0 border border-line bg-ink p-0 shadow-brutal-lg">
         {active ? (
           <div className="relative">
             <div className="relative flex max-h-[70vh] items-center justify-center overflow-hidden bg-ink">
@@ -73,7 +73,7 @@ export function Lightbox({
               )}
             </div>
 
-            <div className="flex items-center justify-between gap-3 border-t-[4px] border-ink bg-paper px-4 py-3">
+            <div className="flex items-center justify-between gap-3 border-t border-line bg-paper px-4 py-3">
               <Button
                 type="button"
                 variant="outline"
@@ -113,7 +113,7 @@ export function Lightbox({
               aria-label="Close photo viewer"
               className={cn(
                 "absolute right-3 top-3 z-10 flex size-11 items-center justify-center",
-                "border-[3px] border-ink bg-paper shadow-hard-sm transition-all hover:bg-lemon",
+                "border border-line bg-paper shadow-hard-sm transition-all hover:bg-lemon",
               )}
             >
               <X aria-hidden="true" className="size-5" />

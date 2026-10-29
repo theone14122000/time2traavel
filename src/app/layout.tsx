@@ -1,17 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import {
-  Caveat,
-  Caveat_Brush,
-  Fraunces,
-  Inter,
-  Kaushan_Script,
-  Kalam,
-  Noto_Sans_Devanagari,
-  Nunito,
-  Pacifico,
-  Yellowtail,
-} from "next/font/google";
+import { Inter, Noto_Sans_Devanagari, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { CommandPaletteProvider } from "@/components/ui/command-palette";
@@ -23,79 +12,18 @@ import { MotionProvider } from "@/components/shared/lazy-motion";
 import { getSiteSettings } from "@/lib/data/site";
 import { SITE_IDENTITY } from "@/lib/constants";
 import { fontThemeClass } from "@/lib/font-theme";
-/* ---------------------------------------------------------------
-   Font themes (Site settings → Font theme).
-   Only the active theme's families are actually used on the page,
-   so the browser downloads just that pair + the body font.
-   Just the default theme's display face is preloaded (spec).
-   --------------------------------------------------------------- */
-
-// Theme A — Journal (default)
-const kaushan = Kaushan_Script({
-  weight: "400",
+/* Luxury type pairing: Playfair Display (editorial display) + Inter (UI/body). */
+const playfair = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
-  preload: true, // display font only — spec: preload the display font
-  variable: "--font-kaushan",
-});
-const caveatBrush = Caveat_Brush({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-  variable: "--font-caveat-brush",
-});
-const nunito = Nunito({
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-  variable: "--font-nunito",
-});
-
-// Theme B — Retro Postcard
-const pacifico = Pacifico({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-  variable: "--font-pacifico",
-});
-const caveat = Caveat({
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-  variable: "--font-caveat",
-});
-
-// Theme C — Elegant
-const yellowtail = Yellowtail({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-  variable: "--font-yellowtail",
-});
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  style: "italic",
-  display: "swap",
-  preload: false,
-  variable: "--font-fraunces",
+  preload: true,
+  variable: "--font-display-serif",
 });
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  preload: false,
+  preload: true,
   variable: "--font-inter",
-});
-
-// Hindi / Devanagari pair (EN/HI toggle ready)
-const kalam = Kalam({
-  weight: "400",
-  subsets: ["latin", "devanagari"],
-  display: "swap",
-  preload: false,
-  variable: "--font-kalam",
 });
 const notoDevanagari = Noto_Sans_Devanagari({
   subsets: ["latin", "devanagari"],
@@ -104,18 +32,7 @@ const notoDevanagari = Noto_Sans_Devanagari({
   variable: "--font-noto-devanagari",
 });
 
-const fontVariables = [
-  kaushan.variable,
-  caveatBrush.variable,
-  nunito.variable,
-  pacifico.variable,
-  caveat.variable,
-  yellowtail.variable,
-  fraunces.variable,
-  inter.variable,
-  kalam.variable,
-  notoDevanagari.variable,
-].join(" ");
+const fontVariables = [playfair.variable, inter.variable, notoDevanagari.variable].join(" ");
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -134,7 +51,7 @@ export const metadata: Metadata = {
 // `themeColor` lives on `viewport` (the `metadata.themeColor` field is
 // deprecated since Next 14) and matches the manifest's theme_color.
 export const viewport = {
-  themeColor: "#FFFAF0",
+  themeColor: "#FAF8F3",
   width: "device-width",
   initialScale: 1,
 };

@@ -35,10 +35,10 @@ export function MasonryGrid({
           key={item.id}
           type="button"
           onClick={() => onOpen(index)}
-          className="group block w-full break-inside-avoid border-[3px] border-ink bg-paper p-0 text-left shadow-hard-sm transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky"
+          className="group block w-full break-inside-avoid border border-line bg-paper p-0 text-left shadow-hard-sm transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky"
           aria-label={`Open photo ${index + 1} of ${items.length}${item.caption ? `: ${item.caption}` : ""}`}
         >
-          <div className="relative w-full overflow-hidden border-b-[3px] border-ink">
+          <div className="relative w-full overflow-hidden border-b border-line">
             {item.url ? (
               <Image
                 src={item.url}
@@ -60,7 +60,7 @@ export function MasonryGrid({
               />
             )}
             {item.category ? (
-              <span className="absolute left-3 top-3 inline-flex items-center border-[2px] border-ink bg-lemon px-2 py-1 text-xs font-bold uppercase tracking-wide shadow-hard-xs">
+              <span className="absolute left-3 top-3 inline-flex items-center border border-line bg-lemon px-2 py-1 text-xs font-bold uppercase tracking-wide shadow-hard-xs">
                 {item.category}
               </span>
             ) : null}

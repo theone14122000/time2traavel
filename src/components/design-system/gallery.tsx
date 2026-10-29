@@ -57,8 +57,8 @@ export function Panel({
   bodyClassName?: string;
 }) {
   return (
-    <div className={cn("border-[3px] border-ink bg-paper shadow-brutal-md", className)}>
-      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b-[3px] border-ink bg-ink px-4 py-2.5">
+    <div className={cn("border border-line bg-paper shadow-brutal-md", className)}>
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-line bg-ink px-4 py-2.5">
         <span className="label-brutal text-cream">{label}</span>
         {note ? (
           <span className="label-brutal text-butter">{note}</span>

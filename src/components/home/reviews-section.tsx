@@ -34,7 +34,7 @@ function ReviewMiniCard({ review }: { review: ApprovedReview }) {
           &ldquo;{review.comment}&rdquo;
         </p>
 
-        <div className="flex flex-wrap items-center gap-2 border-t-[2px] border-ink pt-2.5">
+        <div className="flex flex-wrap items-center gap-2 border-t border-line pt-2.5">
           <span className="font-display text-xs uppercase">{review.name}</span>
           {review.context ? (
             <Badge variant="soft" size="sm">
@@ -61,7 +61,7 @@ function FeaturedReview({ review }: { review: ApprovedReview }) {
       <CardTexture className="opacity-[0.03]" />
       <span
         aria-hidden="true"
-        className="absolute right-4 top-4 z-[2] flex size-10 items-center justify-center border-[3px] border-ink bg-lemon"
+        className="absolute right-4 top-4 z-[2] flex size-10 items-center justify-center border border-line bg-lemon"
       >
         <Quote className="size-5" />
       </span>
@@ -73,10 +73,10 @@ function FeaturedReview({ review }: { review: ApprovedReview }) {
           &ldquo;{review.comment}&rdquo;
         </blockquote>
 
-        <div className="flex flex-wrap items-center gap-3 border-t-[3px] border-ink pt-4">
+        <div className="flex flex-wrap items-center gap-3 border-t border-line pt-4">
           <span
             aria-hidden="true"
-            className="flex size-10 items-center justify-center border-[3px] border-ink bg-butter"
+            className="flex size-10 items-center justify-center border border-line bg-butter"
           >
             <UserRound className="size-5" />
           </span>
@@ -118,7 +118,7 @@ export async function ReviewsSection() {
     <section
       id="reviews"
       aria-labelledby="reviews-heading"
-      className="relative w-full border-y-[3px] border-ink bg-peach"
+      className="relative w-full border-y border-line bg-peach"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
@@ -153,7 +153,7 @@ export async function ReviewsSection() {
 
           <div
             id="write-review"
-            className="scroll-mt-24 border-[3px] border-ink bg-paper p-5 shadow-hard sm:p-6"
+            className="scroll-mt-24 border border-line bg-paper p-5 shadow-hard sm:p-6"
           >
             <ReviewForm />
           </div>

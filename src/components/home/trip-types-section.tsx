@@ -37,7 +37,7 @@ export async function TripTypesSection() {
     <section
       id="trip-types"
       aria-labelledby="trip-types-heading"
-      className="relative w-full border-y-[3px] border-ink bg-lavender"
+      className="relative w-full border-y border-line bg-lavender"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
 
@@ -45,8 +45,8 @@ export async function TripTypesSection() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="trip-types-heading"
-            eyebrow="Choose your next quest"
-            title="Pick your next [[adventure]]!"
+            eyebrow="Ways to travel"
+            title="Travel the way you [[want]]."
             gradientTone="flame"
             description="Mountain trails, peaceful valleys, international escapes, and unforgettable road trips. Your next story starts here."
           />
@@ -83,10 +83,10 @@ function TripTypeTile({
 
   return (
     <li className="h-full">
-      <article className="group relative flex h-full flex-col rounded-sm border-[3px] border-ink bg-paper shadow-hard transition-[transform,box-shadow] duration-150 hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg">
+      <article className="group relative flex h-full flex-col rounded-sm border border-line bg-paper shadow-hard transition-[transform,box-shadow] duration-150 hover:-translate-x-0.5 hover:-translate-y-1 hover:shadow-hard-lg">
         <div
           className={cn(
-            "relative aspect-[3/2] overflow-hidden border-b-[3px] border-ink",
+            "relative aspect-[3/2] overflow-hidden border-b border-line",
             !usesHex && fallbackTone,
           )}
           style={usesHex ? { backgroundColor: color as string } : undefined}
@@ -108,7 +108,7 @@ function TripTypeTile({
 
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-[6px] border-2 border-ink/80"
+            className="pointer-events-none absolute inset-[6px] border border-line"
           />
 
           <span className="absolute left-3 top-3 z-[2]">

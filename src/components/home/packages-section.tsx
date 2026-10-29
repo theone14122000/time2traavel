@@ -51,15 +51,15 @@ export async function PackagesSection() {
     <section
       id="packages"
       aria-labelledby="packages-heading"
-      className="relative w-full border-y-[3px] border-ink bg-paper"
+      className="relative w-full border-y border-line bg-paper"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="packages-heading"
-            eyebrow="Less planning stress"
-            title="More [[adventure]]!"
+            eyebrow="Curated packages"
+            title="Journeys, [[composed]] for you."
             gradientTone="flame"
             description="Find a journey that matches your travel style and turns your next holiday into something unforgettable."
           />
@@ -74,14 +74,14 @@ export async function PackagesSection() {
         <div className="mt-8">
           {items.length === 0 ? (
             <EmptyState
-              eyebrow="Packages"
-              title="Packages coming soon"
-              description="We haven't published any packages yet. Tell us your dates and we'll put together a plan for you."
+              eyebrow="Tailor-made"
+              title="Journeys designed around you"
+              description="Our curated packages are being refreshed. Share your dates and interests and we'll put together a plan personally."
               tone="mint"
               illustration="luggage"
               action={
                 <Button asChild variant="default" size="md">
-                  <Link href="/about-us#contact">Enquire now</Link>
+                  <Link href="/plan-my-trip">Plan Your Journey</Link>
                 </Button>
               }
             />

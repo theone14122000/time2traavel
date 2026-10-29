@@ -37,9 +37,9 @@ export function PackageDetailActions({
   return (
     <aside
       aria-label={`Enquiry options for ${title}`}
-      className="border-4 border-ink bg-paper p-5 shadow-brutal-md lg:sticky lg:top-24"
+      className="border border-line bg-paper p-5 shadow-brutal-md lg:sticky lg:top-24"
     >
-      <div className="border-[3px] border-ink bg-mint px-4 py-3 shadow-brutal-sm">
+      <div className="border border-line bg-mint px-4 py-3 shadow-brutal-sm">
         <span className="label-brutal text-ink-soft">From</span>
         <p className="mt-1 font-display text-h3 uppercase leading-tight">
           {priceLabel ?? "On request"}
@@ -49,13 +49,13 @@ export function PackageDetailActions({
       <ul className="mt-4 grid gap-2.5 text-sm font-semibold">
         {durationText ? (
           <li className="flex items-center gap-2">
-            <Clock3 aria-hidden="true" className="size-4 shrink-0 border-[2px] border-ink bg-sky-strong p-0.5" />
+            <Clock3 aria-hidden="true" className="size-4 shrink-0 border border-line bg-sky-strong p-0.5" />
             {durationText}
           </li>
         ) : null}
         {destinationName && destinationSlug ? (
           <li className="flex items-center gap-2">
-            <MapPin aria-hidden="true" className="size-4 shrink-0 border-[2px] border-ink bg-mint-strong p-0.5" />
+            <MapPin aria-hidden="true" className="size-4 shrink-0 border border-line bg-mint-strong p-0.5" />
             <Link
               href={`/destinations/${destinationSlug}`}
               className="underline-offset-4 hover:underline"
@@ -65,7 +65,7 @@ export function PackageDetailActions({
           </li>
         ) : null}
         <li className="flex items-center gap-2">
-          <Tag aria-hidden="true" className="size-4 shrink-0 border-[2px] border-ink bg-lemon p-0.5" />
+          <Tag aria-hidden="true" className="size-4 shrink-0 border border-line bg-lemon p-0.5" />
           Custom dates on request
         </li>
       </ul>
@@ -83,7 +83,7 @@ export function PackageDetailActions({
           aria-pressed={compared}
           onClick={() => compare.toggle(comparePkg)}
           className={cn(
-            "tap-44 mt-3 flex w-full items-center justify-center gap-2 border-[3px] border-ink px-4 py-3 text-xs font-bold uppercase tracking-wide transition-colors",
+            "tap-44 mt-3 flex w-full items-center justify-center gap-2 border border-line px-4 py-3 text-xs font-bold uppercase tracking-wide transition-colors",
             compared
               ? "bg-lemon"
               : "bg-paper shadow-brutal-sm hover:bg-butter",

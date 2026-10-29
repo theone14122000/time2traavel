@@ -137,12 +137,12 @@ export function DateRange({
       id={id}
       data-invalid={hasError ? "true" : undefined}
       className={cn(
-        "border-[3px] border-ink bg-paper p-4 shadow-hard-sm",
+        "border border-line bg-paper p-4 shadow-hard-sm",
         "data-[invalid=true]:border-danger",
         className,
       )}
     >
-      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b-[3px] border-ink pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-line pb-3">
         <span className="flex items-center gap-2 font-display text-h4 uppercase">
           <CalendarDays aria-hidden="true" className="size-5" />
           {label}

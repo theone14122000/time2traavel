@@ -47,7 +47,7 @@ export default async function CancellationRefundPage() {
 
   return (
     <>
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "Cancellation & Refund" }]}
@@ -77,7 +77,7 @@ export default async function CancellationRefundPage() {
           />
 
           {paragraphs.length > 0 ? (
-            <div className="brutal-prose mt-8 max-w-3xl border-4 border-ink bg-paper p-6 shadow-brutal-md sm:p-8">
+            <div className="brutal-prose mt-8 max-w-3xl border border-line bg-paper p-6 shadow-brutal-md sm:p-8">
               {paragraphs.map((paragraph, index) => (
                 <p key={`paragraph-${index}`}>{paragraph}</p>
               ))}
@@ -103,7 +103,7 @@ export default async function CancellationRefundPage() {
             </div>
           )}
 
-          <div className="mt-10 border-4 border-ink bg-butter p-5 shadow-brutal-md sm:p-6">
+          <div className="mt-10 border border-line bg-butter p-5 shadow-brutal-md sm:p-6">
             <h2 className="font-display text-h4 uppercase">Questions about a booking?</h2>
             <p className="mt-2 max-w-2xl text-sm font-medium leading-relaxed text-ink-soft">
               If you already have an enquiry with us, reference it when you write so we can

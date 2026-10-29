@@ -49,8 +49,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-[3px] border-ink bg-paper shadow-hard">
-      <h2 className="border-b-[3px] border-ink bg-mint px-4 py-3 font-display text-sm uppercase tracking-wide">
+    <section className="border border-line bg-paper shadow-hard">
+      <h2 className="border-b border-line bg-mint px-4 py-3 font-display text-sm uppercase tracking-wide">
         {title}
       </h2>
       <div className="grid gap-4 p-4 sm:p-5">{children}</div>

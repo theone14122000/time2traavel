@@ -158,7 +158,7 @@ export function TrackInquiryForm({ className }: { className?: string }) {
             return rootError?.message ? (
               <p
                 role="alert"
-                className="break-words border-[3px] border-ink bg-danger px-3 py-2 text-sm font-semibold text-paper"
+                className="break-words border border-line bg-danger px-3 py-2 text-sm font-semibold text-paper"
               >
                 {rootError.message}
               </p>
@@ -178,7 +178,7 @@ export function TrackInquiryForm({ className }: { className?: string }) {
 
       <div role="status" aria-live="polite">
         {result && !result.ok ? (
-          <div className="border-4 border-ink bg-peach p-5 shadow-brutal-md">
+          <div className="border border-line bg-peach p-5 shadow-brutal-md">
             <p className="font-display text-h4 uppercase leading-tight">
               {result.notFound ? "No match" : "Couldn't check right now"}
             </p>
@@ -187,11 +187,11 @@ export function TrackInquiryForm({ className }: { className?: string }) {
         ) : null}
 
         {result?.ok ? (
-          <div className="border-4 border-ink bg-mint p-5 shadow-brutal-md">
+          <div className="border border-line bg-mint p-5 shadow-brutal-md">
             <div className="flex items-center gap-2">
               <span
                 aria-hidden="true"
-                className="flex size-9 items-center justify-center border-[3px] border-ink bg-paper"
+                className="flex size-9 items-center justify-center border border-line bg-paper"
               >
                 <ClipboardCheck className="size-4" />
               </span>

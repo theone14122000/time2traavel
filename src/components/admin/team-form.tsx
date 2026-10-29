@@ -62,8 +62,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-[3px] border-ink bg-paper shadow-hard">
-      <h2 className="border-b-[3px] border-ink bg-sky px-4 py-3 font-display text-sm uppercase tracking-wide">
+    <section className="border border-line bg-paper shadow-hard">
+      <h2 className="border-b border-line bg-sky px-4 py-3 font-display text-sm uppercase tracking-wide">
         {title}
       </h2>
       <div className="grid gap-4 p-4 sm:p-5">{children}</div>
@@ -240,7 +240,7 @@ export function TeamMemberForm({
               <span className="text-xs font-medium text-ink-soft">Preview</span>
               <span
                 aria-hidden="true"
-                className="relative block size-24 overflow-hidden rounded-full border-[3px] border-ink bg-sand"
+                className="relative block size-24 overflow-hidden rounded-full border border-line bg-sand"
               >
                 {imageValue.startsWith("/") ? (
                   // eslint-disable-next-line @next/next/no-img-element

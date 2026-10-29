@@ -8,15 +8,15 @@ export default function PublicLoading() {
     <div className="flex min-h-[60vh] w-full items-center justify-center bg-paper p-4">
       <div
         role="status"
-        className="w-full max-w-md border-[3px] border-ink bg-paper px-6 py-8 text-center shadow-hard-xl"
+        className="w-full max-w-md border border-line bg-paper px-6 py-8 text-center shadow-hard-xl"
       >
-        <p className="label-brutal mx-auto w-fit border-[3px] border-ink bg-ink px-3 py-2 text-cream">
+        <p className="label-brutal mx-auto w-fit border border-line bg-ink px-3 py-2 text-cream">
           Time2Travel
         </p>
 
         <div
           aria-hidden="true"
-          className="divider-stripe mt-5 h-5 animate-pulse border-[3px] border-ink bg-lemon"
+          className="divider-stripe mt-5 h-5 animate-pulse border border-line bg-lemon"
         />
 
         <p className="label-brutal mt-5 text-ink-soft">Loading page…</p>

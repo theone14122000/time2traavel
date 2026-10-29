@@ -80,7 +80,7 @@ export default async function AdminReviewsPage({
                 key={value}
                 href={`/admin/reviews?status=${value}`}
                 className={cn(
-                  "border-[3px] border-ink px-3 py-2 text-xs font-bold uppercase shadow-hard-xs",
+                  "border border-line px-3 py-2 text-xs font-bold uppercase shadow-hard-xs",
                   status === value ? "bg-lemon" : "bg-paper hover:bg-butter",
                 )}
               >

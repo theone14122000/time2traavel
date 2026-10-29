@@ -47,7 +47,7 @@ export function ColorTokens() {
         {TOKENS.map((token) => (
           <div
             key={token.name}
-            className={`flex aspect-square flex-col justify-between border-[3px] border-ink p-2.5 ${token.className} ${
+            className={`flex aspect-square flex-col justify-between border border-line p-2.5 ${token.className} ${
               token.textOn === "paper" ? "text-paper" : "text-ink"
             }`}
           >
@@ -62,7 +62,7 @@ export function ColorTokens() {
           Rotating demo strip (pauses for reduced motion)
         </span>
         <div
-          className={`flex min-h-24 items-center justify-between gap-3 border-[3px] border-ink p-4 shadow-brutal-sm ${current.className} ${
+          className={`flex min-h-24 items-center justify-between gap-3 border border-line p-4 shadow-brutal-sm ${current.className} ${
             current.textOn === "paper" ? "text-paper" : "text-ink"
           }`}
         >
@@ -73,7 +73,7 @@ export function ColorTokens() {
           {TOKENS.map((token, index) => (
             <span
               key={token.name}
-              className={`size-3.5 border-2 border-ink ${
+              className={`size-3.5 border border-line ${
                 index === active ? "bg-ink" : "bg-paper"
               }`}
             />

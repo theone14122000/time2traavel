@@ -121,9 +121,9 @@ export function PackageFilters({
   return (
     <section
       aria-label="Filter packages"
-      className="border-4 border-ink bg-paper p-4 shadow-brutal-md sm:p-5"
+      className="border border-line bg-paper p-4 shadow-brutal-md sm:p-5"
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b-[3px] border-ink pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
         <h3 className="flex items-center gap-2 font-display text-h4 uppercase">
           <SlidersHorizontal aria-hidden="true" className="size-5" />
           Filters

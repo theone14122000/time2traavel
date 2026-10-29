@@ -142,7 +142,7 @@ export function ChipMultiSelect({
         className={cn(
           "flex gap-2 overflow-x-auto no-scrollbar snap-rail pb-1",
           "md:flex-wrap md:overflow-visible md:pb-0",
-          hasError && "border-[3px] border-danger p-2",
+          hasError && "border border-danger p-2",
           disabled && "opacity-50",
         )}
       >
@@ -164,7 +164,7 @@ export function ChipMultiSelect({
             >
               {option.label}
               {typeof option.count === "number" ? (
-                <span className="ml-1.5 border-2 border-ink bg-sky px-1.5 py-0.5 text-xs tabular-nums">
+                <span className="ml-1.5 border border-line bg-sky px-1.5 py-0.5 text-xs tabular-nums">
                   {option.count}
                 </span>
               ) : null}

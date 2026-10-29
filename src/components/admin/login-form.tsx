@@ -53,14 +53,14 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
     <main className="flex min-h-dvh items-center justify-center bg-cream px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-6 flex flex-col items-center gap-2 text-center">
-          <span className="label-brutal border-[3px] border-ink bg-ink px-3 py-1.5 text-cream">
+          <span className="label-brutal border border-line bg-ink px-3 py-1.5 text-cream">
             Admin panel
           </span>
           <h1 className="font-display text-h3 uppercase">Time to Travel</h1>
         </div>
 
-        <div className="border-[3px] border-ink bg-paper shadow-hard-xl">
-          <div className="flex items-center gap-3 border-b-[3px] border-ink bg-lemon px-5 py-4">
+        <div className="border border-line bg-paper shadow-hard-xl">
+          <div className="flex items-center gap-3 border-b border-line bg-lemon px-5 py-4">
             <ShieldCheck aria-hidden="true" className="size-5" />
             <h2 className="font-display text-lg uppercase leading-none">
               Sign in
@@ -110,7 +110,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
                         <button
                           type="button"
                           onClick={() => setShowPassword((v) => !v)}
-                          className="absolute right-0 top-0 flex h-full items-center gap-1 border-l-[3px] border-ink bg-butter px-3 text-xs font-bold uppercase hover:bg-lemon"
+                          className="absolute right-0 top-0 flex h-full items-center gap-1 border-l border-line bg-butter px-3 text-xs font-bold uppercase hover:bg-lemon"
                           aria-label={
                             showPassword ? "Hide password" : "Show password"
                           }
@@ -131,7 +131,7 @@ export function LoginForm({ redirectTo }: { redirectTo?: string }) {
               {rootError ? (
                 <p
                   role="alert"
-                  className="border-[2px] border-ink bg-pink px-3 py-2 text-sm font-bold"
+                  className="border border-line bg-pink px-3 py-2 text-sm font-bold"
                 >
                   {rootError}
                 </p>

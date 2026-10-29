@@ -15,7 +15,7 @@ export default function RootError({
 }) {
   return (
     <main className="flex min-h-dvh w-full items-center justify-center bg-paper p-4">
-      <div className="w-full max-w-lg border-[4px] border-ink bg-peach p-6 text-center shadow-hard-xl sm:p-8">
+      <div className="w-full max-w-lg border border-line bg-peach p-6 text-center shadow-hard-xl sm:p-8">
         <p className="label-brutal text-ink">Error</p>
 
         <h1 className="mt-3 text-h2">

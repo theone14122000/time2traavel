@@ -37,7 +37,7 @@ const STEPS: { title: string; body: string }[] = [
 export default async function TrackInquiryPage() {
   return (
     <>
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Track Enquiry" }]} />
         </Container>
@@ -64,7 +64,7 @@ export default async function TrackInquiryPage() {
       >
         <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
           <div>
-            <span className="label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2">
+            <span className="label-brutal inline-flex w-fit items-center gap-2 border border-line bg-lemon px-3 py-2">
               <ClipboardList aria-hidden="true" className="size-3.5" />
               How it works
             </span>
@@ -79,11 +79,11 @@ export default async function TrackInquiryPage() {
               {STEPS.map((step, index) => (
                 <li
                   key={step.title}
-                  className="flex gap-4 border-4 border-ink bg-paper p-4 shadow-brutal-md"
+                  className="flex gap-4 border border-line bg-paper p-4 shadow-brutal-md"
                 >
                   <span
                     aria-hidden="true"
-                    className="flex size-9 shrink-0 items-center justify-center border-[3px] border-ink bg-lemon font-display text-base"
+                    className="flex size-9 shrink-0 items-center justify-center border border-line bg-lemon font-display text-base"
                   >
                     {index + 1}
                   </span>
@@ -106,7 +106,7 @@ export default async function TrackInquiryPage() {
             </Link>
           </div>
 
-          <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md sm:p-6">
+          <div className="border border-line bg-paper p-5 shadow-brutal-md sm:p-6">
             <TrackInquiryForm />
           </div>
         </div>

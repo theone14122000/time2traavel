@@ -43,7 +43,7 @@ export async function SiteFooter() {
     "text-sm font-semibold underline-offset-4 hover:text-lemon hover:underline";
 
   return (
-    <footer className="border-t-[3px] border-ink bg-ink text-cream">
+    <footer className="border-t border-line bg-ink text-cream">
       <SectionDivider variant="stripe" tone="lemon" />
 
       <Container className="pt-8 sm:pt-12">
@@ -52,14 +52,8 @@ export async function SiteFooter() {
         <div className="mt-8 grid gap-8 lg:grid-cols-12">
           {/* Brand + newsletter */}
           <div className="flex flex-col gap-4 lg:col-span-4">
-            <span className="inline-flex w-fit items-center gap-2 border-[3px] border-cream bg-lemon px-3 py-2 text-ink shadow-[6px_6px_0_var(--color-cream)]">
-              <span
-                aria-hidden="true"
-                className="flex size-6 items-center justify-center border-[2px] border-ink bg-ink font-display text-xs leading-none text-cream"
-              >
-                T
-              </span>
-              <Logo height={28} href={null} />
+            <span className="inline-flex w-fit items-center rounded-xl bg-cream px-4 py-3">
+              <Logo height={30} href={null} />
             </span>
 
             {settings.tagline ? (
@@ -110,7 +104,7 @@ export async function SiteFooter() {
           <div className="lg:col-span-4">
             <p className="label-brutal mb-3 text-lemon">Contact</p>
             <ul className="grid gap-2.5 text-sm font-medium">
-              <li className="flex items-start gap-2.5 border-l-4 border-lemon pl-3">
+              <li className="flex items-start gap-2.5 border-l border-lemon pl-3">
                 <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-lemon" />
                 <address className="not-italic font-semibold">
                   <Link
@@ -156,7 +150,7 @@ export async function SiteFooter() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${social.platform} — opens in a new tab`}
-                        className="flex size-10 items-center justify-center border-[3px] border-cream bg-ink shadow-[4px_4px_0_var(--color-lemon)] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-lemon hover:text-ink"
+                        className="flex size-10 items-center justify-center border border-cream bg-ink shadow-hard transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-lemon hover:text-ink"
                       >
                         {badge ? (
                           <span aria-hidden="true" className="font-display text-sm leading-none">
@@ -184,7 +178,7 @@ export async function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t-[3px] border-cream/30 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-3 border-t border-cream/30 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs font-semibold text-cream/80">
             © {year} {settings.siteName}. All rights reserved.
           </p>

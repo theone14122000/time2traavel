@@ -104,7 +104,7 @@ export function FinderForm({ tripTypes }: { tripTypes: TripTypeOption[] }) {
   }
 
   return (
-    <div className="border-4 border-ink bg-paper p-4 shadow-brutal-md sm:p-6">
+    <div className="border border-line bg-paper p-4 shadow-brutal-md sm:p-6">
       <form onSubmit={handleSubmit} className="grid gap-5" aria-label="Trip finder">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <label className="grid gap-1.5">
@@ -186,7 +186,7 @@ export function FinderForm({ tripTypes }: { tripTypes: TripTypeOption[] }) {
 
       <div aria-live="polite" className="mt-6">
         {state.status === "error" && state.error ? (
-          <p className="break-words border-[3px] border-ink bg-tomato px-4 py-3 text-sm font-bold">
+          <p className="break-words border border-line bg-tomato px-4 py-3 text-sm font-bold">
             {state.error}
           </p>
         ) : null}
@@ -218,7 +218,7 @@ export function FinderForm({ tripTypes }: { tripTypes: TripTypeOption[] }) {
                 <li key={destination.slug}>
                   <Link
                     href={`/destinations/${destination.slug}`}
-                    className="press flex items-center gap-3 border-[3px] border-ink bg-paper p-3 shadow-hard-xs"
+                    className="press flex items-center gap-3 border border-line bg-paper p-3 shadow-hard-xs"
                   >
                     <FinderThumb src={destination.image} alt={destination.name} />
                     <span className="grid min-w-0 gap-1">
@@ -243,7 +243,7 @@ export function FinderForm({ tripTypes }: { tripTypes: TripTypeOption[] }) {
                 <li key={pkg.slug}>
                   <Link
                     href={`/packages/${pkg.slug}`}
-                    className="press flex items-center gap-3 border-[3px] border-ink bg-paper p-3 shadow-hard-xs"
+                    className="press flex items-center gap-3 border border-line bg-paper p-3 shadow-hard-xs"
                   >
                     <FinderThumb src={pkg.image} alt={pkg.title} />
                     <span className="grid min-w-0 gap-1">
@@ -300,10 +300,10 @@ function ResultPanel({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border-[3px] border-ink bg-lavender p-4 shadow-hard">
+    <div className="border border-line bg-lavender p-4 shadow-hard">
       <div className="flex items-center justify-between gap-3">
         <h3 className="font-display text-h4 uppercase">{title}</h3>
-        <span className="label-brutal border-[2px] border-ink bg-paper px-2 py-1">
+        <span className="label-brutal border border-line bg-paper px-2 py-1">
           {pluralize(count, "match", "matches")}
         </span>
       </div>

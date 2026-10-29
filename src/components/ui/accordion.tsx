@@ -14,7 +14,7 @@ export const AccordionItem = React.forwardRef<
   <AccordionPrimitive.Item
     ref={ref}
     className={cn(
-      "border-[3px] border-ink bg-paper shadow-hard-sm transition-shadow has-[data-state=open]:shadow-hard",
+      "border border-line bg-paper shadow-hard-sm transition-shadow has-[data-state=open]:shadow-hard",
       className,
     )}
     {...props}
@@ -39,7 +39,7 @@ export const AccordionTrigger = React.forwardRef<
       {children}
       <ChevronDown
         aria-hidden="true"
-        className="size-5 shrink-0 border-[2px] border-ink bg-lemon p-0.5 transition-transform duration-200"
+        className="size-5 shrink-0 border border-line bg-lemon p-0.5 transition-transform duration-200"
       />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
@@ -53,7 +53,7 @@ export const AccordionContent = React.forwardRef<
   <AccordionPrimitive.Content
     ref={ref}
     className={cn(
-      "overflow-hidden border-t-[3px] border-ink data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+      "overflow-hidden border-t border-line data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
       className,
     )}
     {...props}

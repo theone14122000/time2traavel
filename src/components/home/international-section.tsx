@@ -51,24 +51,15 @@ export async function InternationalTrips() {
     <section
       id="international"
       aria-labelledby="international-heading"
-      className="relative w-full border-y-[3px] border-ink bg-sky"
+      className="relative w-full border-y border-line bg-sky"
     >
-      <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
-      <span
-        aria-hidden="true"
-        className="absolute inset-0 opacity-25"
-        style={{
-          backgroundImage: "radial-gradient(var(--color-ink) 1.5px, transparent 2px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
 
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <HomeSectionHeading
             id="international-heading"
-            eyebrow="No borders"
-            title="Your next chapter has no [[borders]]!"
+            eyebrow="International escapes"
+            title="The world, [[thoughtfully]] arranged."
             gradientTone="ocean"
             description="Discover exciting destinations, different cultures, and journeys that take you beyond the familiar."
           />
@@ -84,33 +75,23 @@ export async function InternationalTrips() {
           {destinations.length === 0 ? (
             /* Local photo showcase — real international photos from
                public/images when no CMS destinations are published yet. */
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {getInternationalFallbacks().map((img, index) => (
-                <article
-                  key={img.src}
-                  className={cn(
-                    "h-full",
-                    index === 0 && "sm:col-span-2",
-                  )}
-                >
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+              {getInternationalFallbacks().map((img) => (
+                <article key={img.src} className="h-full">
                   <Card variant="media" accent="sky" as="article">
-                    <CardMedia aspect={index === 0 ? "16/10" : "4/5"}>
+                    <CardMedia aspect="16/10">
                       <BrutalImage
                         src={img.src}
                         alt={img.alt}
                         aspect="free"
-                        className="h-full w-full border-0"
-                        sizes={
-                          index === 0
-                            ? "(max-width: 1024px) 92vw, 62vw"
-                            : "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
-                        }
+                        className="h-full w-full rounded-none"
+                        sizes="(max-width: 640px) 92vw, 46vw"
                       />
                     </CardMedia>
                     <CardCaption
                       title={img.caption}
                       badge={
-                        <span className="label-brutal border-[2px] border-ink bg-sky px-2 py-1 text-ink">
+                        <span className="label-brutal border border-line bg-sky px-2 py-1 text-ink">
                           {img.regionLabel}
                         </span>
                       }
@@ -150,7 +131,7 @@ export async function InternationalTrips() {
                       title={destination.name}
                       tagline={destination.summary ?? undefined}
                       badge={
-                        <span className="label-brutal border-[2px] border-ink bg-sky px-2 py-1 text-ink">
+                        <span className="label-brutal border border-line bg-sky px-2 py-1 text-ink">
                           {destination.country?.trim() || "International"}
                         </span>
                       }

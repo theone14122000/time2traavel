@@ -52,9 +52,9 @@ export function Checklists({
             <section
               key={listKey}
               aria-labelledby={`${listKey}-heading`}
-              className="flex h-full flex-col border-4 border-ink bg-paper shadow-brutal-md"
+              className="flex h-full flex-col border border-line bg-paper shadow-brutal-md"
             >
-              <div className="border-b-[3px] border-ink bg-butter px-5 py-4">
+              <div className="border-b border-line bg-butter px-5 py-4">
                 <h3
                   id={`${listKey}-heading`}
                   className="font-display text-h4 uppercase leading-tight"
@@ -73,7 +73,7 @@ export function Checklists({
                 {list.items.map((item) => {
                   const checked = Boolean(draft[item.id]);
                   return (
-                    <li key={item.id} className="border-b-[2px] border-ink last:border-b-0">
+                    <li key={item.id} className="border-b border-line last:border-b-0">
                       <button
                         type="button"
                         role="checkbox"
@@ -84,7 +84,7 @@ export function Checklists({
                         <span
                           aria-hidden="true"
                           className={cn(
-                            "flex size-6 shrink-0 items-center justify-center border-[3px] border-ink transition-colors",
+                            "flex size-6 shrink-0 items-center justify-center border border-line transition-colors",
                             checked ? "bg-mint" : "bg-paper",
                           )}
                         >
@@ -104,7 +104,7 @@ export function Checklists({
                 })}
               </ul>
 
-              <div className="border-t-[3px] border-ink p-4">
+              <div className="border-t border-line p-4">
                 <Button
                   type="button"
                   variant="outline"

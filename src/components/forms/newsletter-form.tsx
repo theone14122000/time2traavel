@@ -69,7 +69,7 @@ export function NewsletterForm({
       {submitted ? (
         <div
           className={cn(
-            "flex w-full flex-col gap-3 border-[3px] border-ink p-4 shadow-brutal-sm sm:flex-row sm:items-center sm:justify-between",
+            "flex w-full flex-col gap-3 border border-line p-4 shadow-brutal-sm sm:flex-row sm:items-center sm:justify-between",
             tone === "dark" ? "bg-paper text-ink" : "bg-mint text-ink",
             className,
           )}
@@ -77,7 +77,7 @@ export function NewsletterForm({
           <p className="flex items-center gap-2.5 text-sm font-bold">
             <span
               aria-hidden="true"
-              className="inline-flex size-8 shrink-0 -rotate-6 items-center justify-center border-[3px] border-ink bg-mint-strong"
+              className="inline-flex size-8 shrink-0 -rotate-6 items-center justify-center border border-line bg-mint-strong"
             >
               <Check className="size-4" strokeWidth={4} />
             </span>
@@ -136,7 +136,7 @@ export function NewsletterForm({
           {submitError ? (
             <div
               className={cn(
-                "mt-2 flex flex-wrap items-center gap-3 border-[2px] border-ink px-3 py-2",
+                "mt-2 flex flex-wrap items-center gap-3 border border-line px-3 py-2",
                 tone === "dark" ? "bg-paper text-ink" : "bg-blush text-ink",
               )}
             >
@@ -144,7 +144,7 @@ export function NewsletterForm({
               <button
                 type="button"
                 onClick={() => void form.handleSubmit(onSubmit)()}
-                className="label-brutal tap-44 inline-flex items-center gap-1.5 border-[2px] border-ink bg-paper px-2.5 py-1.5 shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5"
+                className="label-brutal tap-44 inline-flex items-center gap-1.5 border border-line bg-paper px-2.5 py-1.5 shadow-hard-xs transition-all hover:-translate-x-0.5 hover:-translate-y-0.5"
               >
                 <RotateCcw aria-hidden="true" className="size-3" />
                 Try again

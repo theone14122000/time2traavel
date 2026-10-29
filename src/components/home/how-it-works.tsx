@@ -42,14 +42,14 @@ export function HowItWorks() {
     <section
       id="how-it-works"
       aria-labelledby="how-it-works-heading"
-      className="relative w-full border-y-[3px] border-ink bg-mint"
+      className="relative w-full border-y border-line bg-mint"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-60" />
 
       <div className="relative mx-auto w-full max-w-[90rem] px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20 xl:px-14">
         <HomeSectionHeading
           id="how-it-works-heading"
-          eyebrow="Your adventure, your rules"
+          eyebrow="Our process"
           title="How it [[works]]"
           gradientTone="ink"
           description="The same four steps whether you're booking a weekend break or a multi-stop trip."

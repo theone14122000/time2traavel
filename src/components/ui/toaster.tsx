@@ -17,19 +17,19 @@ export function Toaster(props: ToasterProps) {
         unstyled: true,
         classNames: {
           toast:
-            "group flex w-full items-start gap-3 border-[3px] border-ink bg-cream px-4 py-3 text-ink shadow-[6px_6px_0_var(--color-ink)] pointer-events-auto",
+            "group flex w-full items-start gap-3 border border-line bg-cream px-4 py-3 text-ink shadow-hard pointer-events-auto",
           title: "font-display text-sm uppercase tracking-wide",
           description: "text-sm font-medium text-ink-soft",
           content: "flex flex-col gap-1",
           actionButton:
-            "border-[2px] border-ink bg-lemon px-3 py-1 text-xs font-bold uppercase",
+            "border border-line bg-lemon px-3 py-1 text-xs font-bold uppercase",
           cancelButton:
-            "border-[2px] border-ink bg-paper px-3 py-1 text-xs font-bold uppercase",
+            "border border-line bg-paper px-3 py-1 text-xs font-bold uppercase",
           success:
             "border-l-[10px] border-l-success bg-mint",
           error: "border-l-[10px] border-l-danger bg-pink",
           warning: "border-l-[10px] border-l-warning bg-butter",
-          info: "border-l-[10px] border-l-ink bg-sky",
+          info: "border-l-[10px] border-l-line bg-sky",
         },
       }}
       {...props}

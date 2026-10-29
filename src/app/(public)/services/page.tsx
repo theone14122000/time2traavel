@@ -39,8 +39,8 @@ function serviceAccent(color: string | null): string {
 
 function ServiceCardTile({ service }: { service: ServiceCard }) {
   return (
-    <article className="flex h-full flex-col border-4 border-ink bg-paper shadow-brutal-md transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg">
-      <div className={cn("relative border-b-[3px] border-ink", serviceAccent(service.color))}>
+    <article className="flex h-full flex-col border border-line bg-paper shadow-brutal-md transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal-lg">
+      <div className={cn("relative border-b border-line", serviceAccent(service.color))}>
         <BrutalImage
           src={service.coverImage}
           alt={service.coverImageAlt || service.title}
@@ -48,7 +48,7 @@ function ServiceCardTile({ service }: { service: ServiceCard }) {
           sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
         />
         {service.icon ? (
-          <span className="absolute left-3 top-3 flex size-10 items-center justify-center border-[3px] border-ink bg-paper font-display text-lg shadow-hard-xs">
+          <span className="absolute left-3 top-3 flex size-10 items-center justify-center border border-line bg-paper font-display text-lg shadow-hard-xs">
             {service.icon}
           </span>
         ) : null}
@@ -81,7 +81,7 @@ export default async function ServicesPage() {
 
   return (
     <>
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services" }]} />
         </Container>

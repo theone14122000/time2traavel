@@ -57,14 +57,14 @@ const TYPE_ROWS: { label: string; cls: string; clamp: string; sample: string }[]
 
 export function TypeScale() {
   return (
-    <div className="grid gap-0 border-[3px] border-ink">
+    <div className="grid gap-0 border border-line">
       {TYPE_ROWS.map((row, index) => (
         <div
           key={row.label}
           className={
             index === 0
               ? "grid gap-3 p-4 sm:p-5"
-              : "grid gap-3 border-t-[3px] border-ink p-4 sm:p-5"
+              : "grid gap-3 border-t border-line p-4 sm:p-5"
           }
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -82,20 +82,20 @@ export function TypeScale() {
 export function TypeUtilities() {
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs sm:p-5">
+      <div className="grid gap-3 border border-line bg-paper p-4 shadow-hard-xs sm:p-5">
         <span className="label-brutal text-ink-soft">GradientWord accent</span>
         <p className="font-display text-h3 uppercase leading-tight">
           Highlighted with <GradientWord tone="ink">accent</GradientWord> word.
         </p>
       </div>
 
-      <div className="grid gap-3 border-[3px] border-ink bg-paper p-4 shadow-hard-xs sm:p-5">
+      <div className="grid gap-3 border border-line bg-paper p-4 shadow-hard-xs sm:p-5">
         <span className="label-brutal text-ink-soft">.label-brutal / .text-outline</span>
         <div className="flex flex-wrap items-center gap-3">
-          <span className="label-brutal border-[2px] border-ink bg-lemon px-2.5 py-1.5">
+          <span className="label-brutal border border-line bg-lemon px-2.5 py-1.5">
             Demo label
           </span>
-          <span className="label-brutal border-[2px] border-ink bg-ink px-2.5 py-1.5 text-cream">
+          <span className="label-brutal border border-line bg-ink px-2.5 py-1.5 text-cream">
             Ink label
           </span>
         </div>
@@ -113,7 +113,7 @@ const SHADOWS = [
   "shadow-brutal-lg",
 ];
 
-const BORDERS = ["border-2", "border-[3px]", "border-4"];
+const BORDERS = ["border", "border", "border"];
 
 export function ShadowsAndBorders() {
   return (
@@ -122,7 +122,7 @@ export function ShadowsAndBorders() {
         {SHADOWS.map((shadow) => (
           <div
             key={shadow}
-            className={`border-[3px] border-ink bg-paper p-5 ${shadow}`}
+            className={`border border-line bg-paper p-5 ${shadow}`}
           >
             <span className="label-brutal text-ink-soft">{shadow}</span>
             <p className="mt-2 text-sm font-semibold">Hard offset shadow sample.</p>
@@ -134,7 +134,7 @@ export function ShadowsAndBorders() {
         {BORDERS.map((border) => (
           <div
             key={border}
-            className={`flex flex-col gap-2 bg-butter p-5 ${border} border-ink`}
+            className={`flex flex-col gap-2 bg-butter p-5 ${border} border-line`}
           >
             <span className="label-brutal text-ink-soft">{border}</span>
             <p className="text-sm font-semibold">Border weight sample.</p>

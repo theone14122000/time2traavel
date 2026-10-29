@@ -1,14 +1,14 @@
-﻿import * as React from "react";
+import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1.5 border-[2px] border-ink px-2.5 py-1 font-bold uppercase tracking-wider",
+  "inline-flex items-center gap-1.5 rounded-full border border-transparent px-3 py-1 font-semibold uppercase tracking-[0.12em]",
   {
     variants: {
       variant: {
-        default: "bg-lemon text-ink",
-        tomato: "bg-tomato text-ink",
+        default: "bg-gold/25 text-[#5f4818]",
+        tomato: "bg-gold/25 text-[#5f4818]",
         sunrise: "bg-sunrise text-ink",
         mint: "bg-mint text-ink",
         sky: "bg-sky text-ink",
@@ -17,13 +17,13 @@ const badgeVariants = cva(
         blush: "bg-blush text-ink",
         sand: "bg-sand text-ink",
         dark: "bg-ink text-cream",
-        outline: "bg-transparent text-ink",
-        soft: "bg-paper text-ink",
-        "mint-strong": "bg-mint-strong text-ink",
-        "sky-strong": "bg-sky-strong text-ink",
+        outline: "border-line-strong bg-transparent text-ink",
+        soft: "border-line bg-paper text-ink",
+        "mint-strong": "bg-mint-strong/50 text-ink",
+        "sky-strong": "bg-sky-strong/25 text-ink",
         coral: "bg-coral text-ink",
         danger: "bg-danger text-paper",
-        success: "bg-mint-strong text-ink",
+        success: "bg-mint-strong/50 text-ink",
       },
       size: {
         sm: "px-2 py-0.5 text-xs",
@@ -45,11 +45,11 @@ export function Badge({ className, variant, size, ...props }: BadgeProps) {
   );
 }
 
-/** Rotated "sticker" badge — for DB flags only (e.g. featured → "Popular"). */
+/** Quiet pill badge — for DB flags only (e.g. featured → "Popular"). */
 export function Stamp({
   children,
   className,
-  rotate = -6,
+  rotate: _rotate,
   variant = "default",
 }: {
   children: React.ReactNode;
@@ -60,11 +60,9 @@ export function Stamp({
   return (
     <span
       aria-hidden="true"
-      style={{ rotate: `${rotate}deg` }}
-      className={cn(
-        "pointer-events-none inline-flex items-center border-[3px] border-ink px-2.5 py-1 font-display text-xs uppercase leading-none shadow-hard-xs",
+            className={cn(
+        "pointer-events-none inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase leading-none tracking-[0.12em] shadow-hard-xs",
         badgeVariants({ variant: variant ?? "default", size: "md" }),
-        "border-[3px]",
         className,
       )}
     >
@@ -86,9 +84,9 @@ export function Ribbon({
   return (
     <span
       className={cn(
-        "label-brutal inline-flex items-center border-y-[2px] border-r-[2px] border-ink px-3 py-1.5",
+        "label-brutal inline-flex items-center border-y border-r border-line px-3 py-1.5",
         badgeVariants({ variant: variant ?? "tomato", size: "md" }),
-        "border-y-[2px] border-r-[2px] border-l-0",
+        "border-y border-r border-l-0",
         className,
       )}
     >
@@ -109,7 +107,7 @@ export function TagChip({
       type="button"
       aria-pressed={active}
       className={cn(
-        "label-brutal tap-44 inline-flex shrink-0 items-center border-[2px] border-ink px-3.5 py-2.5 transition-all",
+        "label-brutal tap-44 inline-flex shrink-0 items-center border border-line px-3.5 py-2.5 transition-all",
         active
           ? "bg-lemon shadow-hard-xs"
           : "bg-paper shadow-hard-xs hover:bg-butter hover:-translate-x-0.5 hover:-translate-y-0.5",

@@ -30,7 +30,7 @@ export function TeamAvatar({
       height={400}
       sizes={sizes}
       className={cn(
-        "aspect-square rounded-full border-[3px] border-ink object-cover shadow-[6px_6px_0_#0A0A0A]",
+        "aspect-square rounded-full border border-line object-cover shadow-hard",
         className,
       )}
       onError={() => setFailed(true)}

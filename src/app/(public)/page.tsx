@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { Metadata } from "next";
-import { Hero } from "@/components/home/hero";
+import { CinematicHero } from "@/components/home/cinematic-hero";
 import { AnnouncementBar } from "@/components/home/announcement-bar";
 import { DestinationsSection } from "@/components/home/destinations-section";
 import { MountainsBand } from "@/components/home/mountains-band";
@@ -17,12 +17,6 @@ import { ReviewsSection } from "@/components/home/reviews-section";
 import { FounderTeaser } from "@/components/home/founder-teaser";
 import { FaqSection } from "@/components/home/faq-section";
 import { FinalCta } from "@/components/home/final-cta";
-import { Marquee } from "@/components/shared/marquee";
-import {
-  SectionDivider,
-  type DividerTone,
-  type DividerVariant,
-} from "@/components/ui/dividers";
 import { getHeroTileFallbacks } from "@/lib/home-fallback-images";
 import { getHeroSlides } from "@/lib/hero-slides";
 import {
@@ -86,15 +80,6 @@ const SECTION_TONES: Record<string, BandTone> = {
   final_cta: "ink",
 };
 
-const DIVIDER_VARIANTS: DividerVariant[] = ["torn", "zigzag", "stripe", "thick"];
-const DIVIDER_TONES: DividerTone[] = ["ink", "tomato", "sky"];
-
-function pickDividerTone(previous: BandTone, next: BandTone): DividerTone {
-  return (
-    DIVIDER_TONES.find((tone) => tone !== previous && tone !== next) ?? "ink"
-  );
-}
-
 type HomeBands = {
   sections: { key: string; enabled: boolean }[];
   announcement: AnnouncementShape | null;
@@ -104,7 +89,7 @@ type HomeBands = {
     instruction: string;
     counts: { destinations: number; packages: number };
     tiles: { src: string; alt: string }[];
-    backgroundSlides: { src: string; alt: string }[];
+    backgroundSlides: { src: string; alt: string; label: string }[];
     founderName: string | null;
   };
 };
@@ -168,10 +153,7 @@ async function loadHomeBands(): Promise<HomeBands> {
 
   // Hero background slides: the five curated photographs in
   // /public/images/hero (slide-1 … slide-5).
-  const backgroundSlides = getHeroSlides().map((slide) => ({
-    src: slide.src,
-    alt: slide.alt,
-  }));
+  const backgroundSlides = getHeroSlides();
 
   return {
     sections: sections.map(({ key, enabled }) => ({ key, enabled })),
@@ -203,17 +185,9 @@ export default async function HomePage() {
         <AnnouncementBar text={announcement.text} link={announcement.link} />
       ) : null,
     hero: () => (
-      <Hero
-        title={hero.title}
-        subtitle={hero.subtitle}
-        instruction={hero.instruction}
-        counts={hero.counts}
-        tiles={hero.tiles}
-        backgroundSlides={hero.backgroundSlides}
-        founderName={hero.founderName}
-      />
+      <CinematicHero slides={hero.backgroundSlides} counts={hero.counts} />
     ),
-    marquee: () => <Marquee tone="ink" />,
+    marquee: () => null,
     domestic: () => <DestinationsSection />,
     mountains: () => <MountainsBand />,
     international: () => <InternationalTrips />,
@@ -252,25 +226,9 @@ export default async function HomePage() {
 
   return (
     <>
-      {bands.map((band, index) => {
-        if (index === 0) {
-          return (
-            <React.Fragment key={band.key}>{band.node}</React.Fragment>
-          );
-        }
-        const previous = bands[index - 1];
-        const variant = DIVIDER_VARIANTS[index % DIVIDER_VARIANTS.length];
-        const dividerTone = pickDividerTone(previous?.tone ?? "ink", band.tone);
-        const flip =
-          (variant === "torn" || variant === "zigzag") && index % 2 === 1;
-
-        return (
-          <React.Fragment key={band.key}>
-            <SectionDivider variant={variant} tone={dividerTone} flip={flip} />
-            {band.node}
-          </React.Fragment>
-        );
-      })}
+      {bands.map((band) => (
+        <React.Fragment key={band.key}>{band.node}</React.Fragment>
+      ))}
     </>
   );
 }

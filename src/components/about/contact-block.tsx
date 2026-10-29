@@ -31,7 +31,7 @@ const MapEmbed = dynamic(
     loading: () => (
       <div
         aria-hidden="true"
-        className="h-[320px] w-full border-4 border-ink bg-paper shadow-brutal-lg sm:h-[420px]"
+        className="h-[320px] w-full border border-line bg-paper shadow-brutal-lg sm:h-[420px]"
       />
     ),
   },
@@ -61,14 +61,14 @@ function ContactCard({
   return (
     <div
       className={cn(
-        "flex flex-col border-[3px] border-ink bg-paper p-5 shadow-brutal-md",
+        "flex flex-col border border-line bg-paper p-5 shadow-brutal-md",
         className,
       )}
     >
       <div className="flex items-center gap-3">
         <span
           aria-hidden="true"
-          className="flex size-10 shrink-0 items-center justify-center border-[3px] border-ink bg-lemon"
+          className="flex size-10 shrink-0 items-center justify-center border border-line bg-lemon"
         >
           {icon}
         </span>
@@ -99,7 +99,7 @@ function CopyButton({
     <button
       type="button"
       onClick={handleCopy}
-      className="label-brutal tap-44 inline-flex h-11 w-fit items-center gap-2 border-[3px] border-ink bg-butter px-3 transition-colors hover:bg-lemon"
+      className="label-brutal tap-44 inline-flex h-11 w-fit items-center gap-2 border border-line bg-butter px-3 transition-colors hover:bg-lemon"
     >
       <Copy aria-hidden="true" className="size-4" />
       Copy {children}
@@ -120,7 +120,7 @@ function DirectionsLink({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "label-brutal tap-44 inline-flex h-11 items-center gap-2 border-[3px] border-ink bg-butter px-3 transition-colors hover:bg-lemon",
+        "label-brutal tap-44 inline-flex h-11 items-center gap-2 border border-line bg-butter px-3 transition-colors hover:bg-lemon",
         className,
       )}
     >
@@ -229,7 +229,7 @@ export function ContactBlock({
       </div>
 
       <div className="lg:col-span-6">
-        <div className="border-4 border-ink bg-paper p-5 shadow-brutal-lg sm:p-7">
+        <div className="border border-line bg-paper p-5 shadow-brutal-lg sm:p-7">
           <ContactForm
             heading="Send us a message"
             submitLabel="Send Enquiry"
@@ -239,12 +239,12 @@ export function ContactBlock({
           />
         </div>
 
-        <div className="mt-6 border-4 border-ink bg-paper p-4 shadow-brutal-lg">
+        <div className="mt-6 border border-line bg-paper p-4 shadow-brutal-lg">
           <p className="label-brutal text-ink-soft">Find our office</p>
           <div className="mt-3">
-            <MapEmbed src={mapEmbedUrl} className="border-4 shadow-brutal-lg" />
+            <MapEmbed src={mapEmbedUrl} className="border shadow-brutal-lg" />
           </div>
-          <div className="mt-4 border-[3px] border-dashed border-ink bg-butter p-4">
+          <div className="mt-4 border border-dashed border-line bg-butter p-4">
             <p className="text-sm font-semibold leading-relaxed">{address}</p>
             <DirectionsLink url={directionsUrl} className="mt-3" />
           </div>

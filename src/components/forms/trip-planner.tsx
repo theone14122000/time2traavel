@@ -557,7 +557,7 @@ export function TripPlanner({
                                 )
                               }
                               className={cn(
-                                "min-h-11 rounded-sm border-2 border-ink px-3 text-sm font-bold transition-colors",
+                                "min-h-11 rounded-sm border border-line px-3 text-sm font-bold transition-colors",
                                 selected ? "bg-butter shadow-hard-sm" : "bg-paper hover:bg-butter/50",
                               )}
                             >
@@ -685,7 +685,7 @@ export function TripPlanner({
           {step === 4 ? (
             <div className="grid gap-3">
               <h4 className="font-display text-h4 uppercase">Review your trip</h4>
-              <dl className="grid gap-2 border-[3px] border-ink bg-butter p-4 text-sm sm:grid-cols-2">
+              <dl className="grid gap-2 border border-line bg-butter p-4 text-sm sm:grid-cols-2">
                 <Summary label="Destination" value={values.destination} />
                 <Summary label="Trip type" value={values.tripType} />
                 <Summary
@@ -716,13 +716,13 @@ export function TripPlanner({
         </MultiStepForm>
 
         {formError ? (
-          <div className="flex items-center gap-2 border-[2px] border-ink bg-blush px-3 py-2 text-sm font-bold">
+          <div className="flex items-center gap-2 border border-line bg-blush px-3 py-2 text-sm font-bold">
             <RotateCcw aria-hidden="true" className="size-4 shrink-0" />
             {formError}
           </div>
         ) : null}
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t-[3px] border-ink pt-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
           <Button
             type="button"
             variant="ghost"
@@ -765,8 +765,8 @@ export function TripPlanner({
 
   if (standalone) {
     return (
-      <div className="border-4 border-ink bg-cream shadow-brutal-lg">
-        <div className="border-b-[3px] border-ink bg-butter p-4 pr-14 sm:p-5 sm:pr-14">
+      <div className="border border-line bg-cream shadow-brutal-lg">
+        <div className="border-b border-line bg-butter p-4 pr-14 sm:p-5 sm:pr-14">
           <h2 className="font-display text-xl leading-tight sm:text-2xl">Plan my trip</h2>
           <p className="mt-1 text-sm font-medium text-ink-soft">
             Five quick steps — we&apos;ll come back with a plan built around your dates and

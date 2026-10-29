@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
   if (value === null || value === undefined || value === "") return null;
   return (
-    <div className="grid gap-1 border-b-[2px] border-ink/15 py-2.5 last:border-b-0 sm:grid-cols-[10rem_1fr] sm:gap-4">
+    <div className="grid gap-1 border-b border-line py-2.5 last:border-b-0 sm:grid-cols-[10rem_1fr] sm:gap-4">
       <dt className="label-brutal text-ink-soft">{label}</dt>
       <dd className="break-words text-sm font-medium">{value}</dd>
     </div>

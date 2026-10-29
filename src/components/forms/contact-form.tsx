@@ -128,10 +128,10 @@ export function ContactForm({
       </p>
 
       {submitted ? (
-        <div className="grid gap-4 border-[3px] border-ink bg-mint p-5 shadow-brutal-md sm:p-6">
+        <div className="grid gap-4 border border-line bg-mint p-5 shadow-brutal-md sm:p-6">
           <span
             aria-hidden="true"
-            className="inline-flex size-12 -rotate-6 items-center justify-center border-[3px] border-ink bg-mint-strong shadow-brutal-sm"
+            className="inline-flex size-12 -rotate-6 items-center justify-center border border-line bg-mint-strong shadow-brutal-sm"
           >
             <Check className="size-6" strokeWidth={4} />
           </span>
@@ -146,7 +146,7 @@ export function ContactForm({
                 <li key={step} className="flex items-start gap-2">
                   <span
                     aria-hidden="true"
-                    className="mt-1.5 size-2 shrink-0 border-[2px] border-ink bg-ink"
+                    className="mt-1.5 size-2 shrink-0 border border-line bg-ink"
                   />
                   {step}
                 </li>
@@ -164,7 +164,7 @@ export function ContactForm({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="press tap-44 inline-flex items-center gap-2 border-[3px] border-ink bg-paper px-5 py-2.5 text-xs font-bold uppercase tracking-wide shadow-brutal-sm"
+                className="press tap-44 inline-flex items-center gap-2 border border-line bg-paper px-5 py-2.5 text-xs font-bold uppercase tracking-wide shadow-brutal-sm"
               >
                 <MessageCircle aria-hidden="true" className="size-4" />
                 Continue on WhatsApp
@@ -262,7 +262,7 @@ export function ContactForm({
             />
 
             {submitError ? (
-              <div className="grid gap-2 border-[2px] border-ink bg-blush px-3 py-2.5">
+              <div className="grid gap-2 border border-line bg-blush px-3 py-2.5">
                 <p className="break-words text-sm font-bold">{submitError}</p>
                 <div>
                   <Button

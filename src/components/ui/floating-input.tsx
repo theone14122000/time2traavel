@@ -54,10 +54,10 @@ export interface FloatingInputProps
 }
 
 const shellClasses =
-  "flex w-full items-stretch rounded-chip border-[3px] border-ink bg-paper shadow-hard-xs transition-shadow duration-150 ease-out " +
-  "focus-within:shadow-[4px_4px_0_var(--color-ink)] " +
-  "data-[invalid=true]:border-danger data-[invalid=true]:shadow-[4px_4px_0_var(--color-danger)] " +
-  "data-[invalid=true]:focus-within:shadow-[6px_6px_0_var(--color-danger)]";
+  "flex w-full items-stretch rounded-chip border border-line bg-paper shadow-hard-xs transition-shadow duration-150 ease-out " +
+  "focus-within:shadow-hard " +
+  "data-[invalid=true]:border-danger data-[invalid=true]:shadow-hard " +
+  "data-[invalid=true]:focus-within:shadow-hard";
 
 const labelCore =
   "pointer-events-none absolute left-3.5 z-10 select-none font-medium text-ink-soft transition-all duration-150 ease-out " +
@@ -120,7 +120,7 @@ export const FloatingInput = React.forwardRef<HTMLInputElement, FloatingInputPro
           className={cn(shellClasses, disabled && "opacity-50")}
         >
           {prefix ? (
-            <span className="label-brutal flex shrink-0 items-center border-r-[3px] border-ink bg-butter px-3 text-ink">
+            <span className="label-brutal flex shrink-0 items-center border-r border-line bg-butter px-3 text-ink">
               {prefix}
             </span>
           ) : null}

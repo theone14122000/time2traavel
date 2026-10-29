@@ -61,10 +61,10 @@ export function PlanSteps() {
       >
         {STEPS.map((step, index) => (
           <StaggerItem key={step.title} className="h-full">
-            <div className="flex h-full flex-col border-[3px] border-ink bg-paper p-5 shadow-hard">
+            <div className="flex h-full flex-col border border-line bg-paper p-5 shadow-hard">
               <span
                 aria-hidden="true"
-                className="relative z-[1] flex size-14 items-center justify-center border-[3px] border-ink bg-lemon font-display text-xl leading-none shadow-brutal-sm"
+                className="relative z-[1] flex size-14 items-center justify-center border border-line bg-lemon font-display text-xl leading-none shadow-brutal-sm"
               >
                 {String(index + 1).padStart(2, "0")}
               </span>

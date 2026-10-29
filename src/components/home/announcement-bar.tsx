@@ -52,7 +52,7 @@ export function AnnouncementBar({
     <div
       role="region"
       aria-label="Announcement"
-      className="relative w-full border-b-[3px] border-ink bg-tomato text-ink"
+      className="relative w-full border-b border-line bg-tomato text-ink"
     >
       <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-40" />
 
@@ -75,7 +75,7 @@ export function AnnouncementBar({
           type="button"
           onClick={dismiss}
           aria-label="Dismiss announcement"
-          className="tap-44 absolute right-2 inline-flex size-9 items-center justify-center border-[3px] border-ink bg-paper shadow-hard-xs transition-colors hover:bg-lemon"
+          className="tap-44 absolute right-2 inline-flex size-9 items-center justify-center border border-line bg-paper shadow-hard-xs transition-colors hover:bg-lemon"
         >
           <X aria-hidden="true" className="size-4" strokeWidth={3} />
         </button>

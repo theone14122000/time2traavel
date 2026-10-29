@@ -26,7 +26,7 @@ export async function FounderTeaser() {
     <section
       id="founder"
       aria-labelledby="founder-heading"
-      className="relative w-full border-y-[3px] border-ink bg-ink text-cream"
+      className="relative w-full border-y border-line bg-ink text-cream"
     >
       <span
         aria-hidden="true"
@@ -43,7 +43,7 @@ export async function FounderTeaser() {
           />
 
           <div className="max-w-2xl">
-            <span className="label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2 text-ink">
+            <span className="label-brutal inline-flex w-fit items-center gap-2 border border-line bg-lemon px-3 py-2 text-ink">
               <Building2 aria-hidden="true" className="size-3.5" />
               About us
             </span>

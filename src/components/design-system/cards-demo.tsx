@@ -94,7 +94,7 @@ export function CardsDemo() {
           </p>
         </BrutalCardBody>
         <BrutalCardFooter>
-          <span className="label-brutal text-ink-soft">border-4</span>
+          <span className="label-brutal text-ink-soft">border</span>
         </BrutalCardFooter>
       </BrutalCard>
     </div>

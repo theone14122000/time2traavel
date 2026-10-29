@@ -63,7 +63,7 @@ export function Marquee({
   return (
     <div
       className={cn(
-        "marquee-pause relative w-full overflow-hidden border-y-[3px] border-ink py-3",
+        "marquee-pause relative w-full overflow-hidden border-y border-line py-3",
         toneClasses,
         className,
       )}

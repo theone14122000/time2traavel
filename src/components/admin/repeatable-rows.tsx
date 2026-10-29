@@ -40,7 +40,7 @@ export function RepeatableRows<T extends FieldValues>({
       {fields.map((field, index) => (
         <div
           key={field.id}
-          className="relative grid gap-3 border-[3px] border-ink bg-paper p-3 pr-12 shadow-hard-xs sm:grid-cols-[1fr_1fr]"
+          className="relative grid gap-3 border border-line bg-paper p-3 pr-12 shadow-hard-xs sm:grid-cols-[1fr_1fr]"
         >
           {renderRow(index)}
           <Button
@@ -57,7 +57,7 @@ export function RepeatableRows<T extends FieldValues>({
       ))}
 
       {fields.length === 0 ? (
-        <p className="border-[2px] border-dashed border-ink/50 px-3 py-3 text-xs font-semibold text-ink-soft">
+        <p className="border border-dashed border-line px-3 py-3 text-xs font-semibold text-ink-soft">
           No rows yet.
         </p>
       ) : null}

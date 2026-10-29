@@ -30,7 +30,7 @@ export function RatingStars({
             aria-hidden="true"
             className={cn(
               sizeClass,
-              "border-[2px] border-ink p-[1px]",
+              "border border-line p-[1px]",
               filled ? "fill-lemon bg-lemon" : "fill-paper bg-paper",
             )}
           />

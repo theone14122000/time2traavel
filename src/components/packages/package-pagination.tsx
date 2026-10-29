@@ -32,7 +32,7 @@ export function PackagePagination({
   };
 
   return (
-    <div className="mt-10 flex justify-center border-[3px] border-ink bg-paper p-3 shadow-brutal-sm">
+    <div className="mt-10 flex justify-center border border-line bg-paper p-3 shadow-brutal-sm">
       <Pagination page={page} totalPages={totalPages} onPageChange={goTo} />
     </div>
   );

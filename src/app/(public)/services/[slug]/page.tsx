@@ -70,7 +70,7 @@ export default async function ServiceDetailPage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbLd} />
 
-      <div className="w-full border-b-[3px] border-ink bg-paper">
+      <div className="w-full border-b border-line bg-paper">
         <Container className="py-3">
           <Breadcrumbs
             items={[
@@ -132,11 +132,11 @@ export default async function ServiceDetailPage({ params }: Props) {
 
           <aside className="grid content-start gap-6">
             {processSteps.length > 0 ? (
-              <div className="border-4 border-ink bg-mint p-5 shadow-brutal-md">
+              <div className="border border-line bg-mint p-5 shadow-brutal-md">
                 <div className="flex items-center gap-2">
                   <span
                     aria-hidden="true"
-                    className="flex size-9 items-center justify-center border-[3px] border-ink bg-paper"
+                    className="flex size-9 items-center justify-center border border-line bg-paper"
                   >
                     <ListChecks className="size-4" />
                   </span>
@@ -147,7 +147,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                     <li key={`${step.title}-${index}`} className="flex gap-3">
                       <span
                         aria-hidden="true"
-                        className="flex size-8 shrink-0 items-center justify-center border-[3px] border-ink bg-lemon font-display text-sm"
+                        className="flex size-8 shrink-0 items-center justify-center border border-line bg-lemon font-display text-sm"
                       >
                         {index + 1}
                       </span>
@@ -165,7 +165,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               </div>
             ) : null}
 
-            <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md">
+            <div className="border border-line bg-paper p-5 shadow-brutal-md">
               <h3 className="font-display text-h4 uppercase">Need this service?</h3>
               <p className="mt-3 text-sm font-medium leading-relaxed text-ink-soft">
                 Send a note with your trip details — we&apos;ll confirm what&apos;s possible
@@ -227,13 +227,13 @@ export default async function ServiceDetailPage({ params }: Props) {
       <section
         id="service-enquire"
         aria-labelledby="service-enquire-heading"
-        className="relative w-full border-y-[3px] border-ink bg-peach"
+        className="relative w-full border-y border-line bg-peach"
       >
         <span aria-hidden="true" className="grid-lines absolute inset-0 opacity-70" />
         <Container className="relative py-12 sm:py-16 lg:py-20">
           <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
             <div>
-              <span className="label-brutal inline-flex w-fit items-center gap-2 border-[3px] border-ink bg-lemon px-3 py-2">
+              <span className="label-brutal inline-flex w-fit items-center gap-2 border border-line bg-lemon px-3 py-2">
                 <CircleHelp aria-hidden="true" className="size-3.5" />
                 Enquire
               </span>
@@ -256,7 +256,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               </Link>
             </div>
 
-            <div className="border-4 border-ink bg-paper p-5 shadow-brutal-md sm:p-6">
+            <div className="border border-line bg-paper p-5 shadow-brutal-md sm:p-6">
               <ContactForm
                 heading={`Enquire: ${service.title}`}
                 subject={`Service enquiry: ${service.title}`}
