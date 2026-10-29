@@ -58,7 +58,7 @@ export async function TripTypesSection() {
           </Button>
         </div>
 
-        <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {tripTypes.map((tripType, index) => (
             <TripTypeTile key={tripType.id} tripType={tripType} index={index} />
           ))}
@@ -118,11 +118,11 @@ function TripTypeTile({
           </span>
         </div>
 
-        <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
-          <h3 className="font-display text-h4 uppercase leading-tight">{tripType.name}</h3>
+        <div className="flex flex-1 flex-col gap-2 p-3 sm:gap-3 sm:p-5">
+          <h3 className="font-display text-base uppercase leading-tight sm:text-h4">{tripType.name}</h3>
 
           {tripType.description ? (
-            <p className="line-clamp-3 text-sm font-medium leading-relaxed text-ink-soft">
+            <p className="hidden line-clamp-3 text-sm font-medium leading-relaxed text-ink-soft sm:block">
               {tripType.description}
             </p>
           ) : null}
@@ -143,7 +143,7 @@ function TripTypeTile({
                 href={`/packages?tripType=${tripType.slug}`}
                 className={cn(
                   buttonVariants({ variant: "soft", size: "sm" }),
-                  "tap-44 flex-1",
+                  "tap-44 hidden flex-1 sm:inline-flex",
                 )}
               >
                 Packages

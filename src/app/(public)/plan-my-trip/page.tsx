@@ -49,7 +49,7 @@ export default async function PlanMyTripPage() {
       <PageHeader
         eyebrow="Plan my trip"
         title="Let's build your trip"
-        description="Four quick steps — where you're headed, when, how many of you, and how to reach you. Drafts save on this device as you go."
+        description="Five quick steps — where you're headed, when, how many of you, your style, and how to reach you. Drafts save on this device as you go."
         tone="butter"
       >
         <Link className={buttonVariants({ variant: "outline", size: "lg" })} href="/about-us#contact">

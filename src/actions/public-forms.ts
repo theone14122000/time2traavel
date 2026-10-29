@@ -65,22 +65,42 @@ export async function submitTripPlanAction(
   const parsed = tripPlanSchema.safeParse(values);
   if (!parsed.success) return invalid(parsed.error);
   const data = parsed.data;
+
+  const adults = Number(data.adults || 0);
+  const children = Number(data.children || 0);
+  const party = adults + children;
+  const travellers = party > 0 ? String(party) : data.travellers;
+
+  // Extra planner answers live in the existing free-text columns so admins see
+  // them on the inquiry detail page without a schema change.
+  const details = [
+    data.departureCity && `Departing from: ${data.departureCity}`,
+    data.flexibleDates === "yes" && "Dates are flexible",
+    party > 0 &&
+      `Party: ${adults} adult${adults === 1 ? "" : "s"}` +
+        (children > 0
+          ? `, ${children} child${children === 1 ? "" : "ren"} (ages: ${data.childAges})`
+          : ""),
+    data.stayType && `Stay preference: ${data.stayType}`,
+    data.interests && `Interests: ${data.interests.split(",").join(", ")}`,
+    data.contactMethod && `Preferred contact: ${data.contactMethod}`,
+    data.specialRequests && `Special requests: ${data.specialRequests}`,
+  ].filter(Boolean) as string[];
+
   return submitInquiry({
     type: "TRIP_PLAN",
     name: data.name,
     email: data.email,
     phone: data.phone,
-    message: data.specialRequests
-      ? `Special requests: ${data.specialRequests}`
-      : "Trip planning request from the website.",
+    message: details.length ? details.join("\n") : "Trip planning request from the website.",
     subject: `Trip to ${data.destination}`,
     destinationSlug: data.destination,
     travelDate: data.travelDate,
     endDate: data.endDate || null,
-    travellers: data.travellers,
+    travellers,
     budgetRange: data.budgetRange,
     tripType: data.tripType,
-    specialRequests: data.specialRequests,
+    specialRequests: details.join("\n") || null,
     honeypot: data.website,
   });
 }

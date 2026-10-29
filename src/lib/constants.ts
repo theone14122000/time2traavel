@@ -55,6 +55,19 @@ export const BUDGET_RANGES = [
   "To be discussed",
 ] as const;
 
+export const STAY_TYPES = ["Hotel", "Homestay", "Villa", "Resort", "No preference"] as const;
+
+export const TRIP_INTERESTS = [
+  "Sightseeing",
+  "Adventure activities",
+  "Trekking",
+  "Transport included",
+  "Meals included",
+  "Cultural experiences",
+] as const;
+
+export const CONTACT_METHODS = ["Email", "Phone call", "WhatsApp"] as const;
+
 export const TRAVELLER_COUNTS = [
   "1",
   "2",

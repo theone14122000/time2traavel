@@ -73,11 +73,11 @@ export async function GalleryTeaser() {
           </Button>
         </div>
 
-        <div className="mt-8 columns-1 gap-6 sm:columns-2 lg:columns-3">
+        <div className="mt-8 columns-2 gap-3 sm:gap-6 lg:columns-3">
           {figures.map((figure, index) => (
             <figure
               key={figure.key}
-              className="mb-6 break-inside-avoid border-[3px] border-ink bg-paper shadow-hard"
+              className="mb-3 break-inside-avoid border-[3px] border-ink bg-paper shadow-hard sm:mb-6"
             >
               <BrutalImage
                 src={figure.url}
@@ -86,11 +86,11 @@ export async function GalleryTeaser() {
                 sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
                 className="border-0 border-b-[3px]"
               />
-              <figcaption className="flex flex-wrap items-center justify-between gap-2 p-3">
-                <span className="text-xs font-semibold text-ink-soft">
+              <figcaption className="flex flex-wrap items-center justify-between gap-2 p-2 sm:p-3">
+                <span className="line-clamp-2 text-xs font-semibold text-ink-soft">
                   {figure.caption}
                 </span>
-                <Badge variant="soft" size="sm">
+                <Badge variant="soft" size="sm" className="hidden sm:inline-flex">
                   {figure.category}
                 </Badge>
               </figcaption>

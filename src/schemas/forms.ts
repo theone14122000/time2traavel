@@ -1,5 +1,12 @@
 import { z } from "zod";
-import { BUDGET_RANGES, TRAVELLER_COUNTS, TRIP_TYPES } from "@/lib/constants";
+import {
+  BUDGET_RANGES,
+  CONTACT_METHODS,
+  STAY_TYPES,
+  TRAVELLER_COUNTS,
+  TRIP_INTERESTS,
+  TRIP_TYPES,
+} from "@/lib/constants";
 
 /** Honeypot field — must stay empty. Filled by bots → silently dropped. */
 const honeypot = z.string().max(0).optional().or(z.literal(""));
@@ -76,6 +83,40 @@ export const tripPlanSchema = z
       .optional()
       .or(z.literal("")),
     travellers: travellersField,
+    departureCity: z.string().trim().max(120, "Too long").optional().or(z.literal("")),
+    flexibleDates: z.enum(["yes"]).or(z.literal("")).optional(),
+    adults: z
+      .string()
+      .trim()
+      .regex(/^\d{1,2}$/, "Enter the number of adults")
+      .refine((v) => Number(v) >= 1 && Number(v) <= 30, "Between 1 and 30 adults")
+      .optional()
+      .or(z.literal("")),
+    children: z
+      .string()
+      .trim()
+      .regex(/^\d{1,2}$/, "Enter the number of children")
+      .refine((v) => Number(v) <= 20, "Up to 20 children")
+      .optional()
+      .or(z.literal("")),
+    childAges: z.string().trim().max(120, "Too long").optional().or(z.literal("")),
+    stayType: z
+      .enum([...STAY_TYPES] as [string, ...string[]])
+      .or(z.literal(""))
+      .optional(),
+    /** Comma-joined selections from TRIP_INTERESTS. */
+    interests: z
+      .string()
+      .max(300)
+      .refine(
+        (v) => v === "" || v.split(",").every((i) => (TRIP_INTERESTS as readonly string[]).includes(i)),
+        "Pick from the listed interests",
+      )
+      .optional(),
+    contactMethod: z
+      .enum([...CONTACT_METHODS] as [string, ...string[]])
+      .or(z.literal(""))
+      .optional(),
     budgetRange: z
       .enum([...BUDGET_RANGES] as [string, ...string[]])
       .or(z.literal(""))
@@ -100,7 +141,11 @@ export const tripPlanSchema = z
       !v.endDate ||
       new Date(v.endDate).getTime() >= new Date(v.travelDate).getTime(),
     { message: "End date must be after the start date", path: ["endDate"] },
-  );
+  )
+  .refine((v) => Number(v.children || 0) === 0 || (v.childAges ?? "").trim().length > 0, {
+    message: "Add the children's ages so we can plan suitably",
+    path: ["childAges"],
+  });
 export type TripPlanInput = z.infer<typeof tripPlanSchema>;
 
 /* ---------------------------------------------------------------

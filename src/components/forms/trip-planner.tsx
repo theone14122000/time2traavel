@@ -28,7 +28,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { MultiStepForm, type MultiStepDefinition } from "@/components/ui/multi-step";
 import { scrollFieldIntoViewOnFocus } from "@/components/forms/scroll-on-focus";
 import { useDraft } from "@/hooks/use-draft";
-import { BUDGET_RANGES, TRAVELLER_COUNTS, TRIP_TYPES } from "@/lib/constants";
+import {
+  BUDGET_RANGES,
+  CONTACT_METHODS,
+  STAY_TYPES,
+  TRIP_INTERESTS,
+  TRIP_TYPES,
+} from "@/lib/constants";
 import { cn, formatDate } from "@/lib/utils";
 
 export type TripPlannerInitial = {
@@ -40,17 +46,30 @@ export type TripPlannerInitial = {
 
 const STEPS: MultiStepDefinition[] = [
   { id: "trip", label: "Trip", title: "Where & how" },
-  { id: "dates", label: "Dates", title: "Dates & budget" },
+  { id: "dates", label: "Dates", title: "Dates & travellers" },
+  { id: "prefs", label: "Style", title: "Budget & preferences" },
   { id: "contact", label: "Contact", title: "Your details" },
   { id: "send", label: "Send", title: "Review & send" },
 ];
 
 const STEP_FIELDS: (keyof TripPlanInput)[][] = [
-  ["destination", "tripType"],
-  ["travelDate", "endDate", "travellers", "budgetRange", "specialRequests"],
-  ["name", "email", "phone"],
+  ["destination", "tripType", "departureCity"],
+  ["travelDate", "endDate", "adults", "children", "childAges"],
+  ["budgetRange", "stayType", "interests", "specialRequests"],
+  ["name", "email", "phone", "contactMethod"],
   [],
 ];
+
+const STEP_OF_FIELD: Record<string, number> = Object.fromEntries(
+  STEP_FIELDS.flatMap((fields, index) => fields.map((f) => [f, index] as const)),
+);
+
+/** Today as YYYY-MM-DD in the visitor's timezone, for date inputs' min. */
+function todayISO(): string {
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 10);
+}
 
 /** localStorage keys — field values and the active step are stored separately. */
 const FIELD_DRAFT_KEY = "trip-planner";
@@ -62,6 +81,14 @@ function buildDefaults(initial?: TripPlannerInitial): TripPlanInput {
     travelDate: initial?.travelDate ?? "",
     endDate: "",
     travellers: initial?.travellers ?? "",
+    departureCity: "",
+    flexibleDates: "",
+    adults: initial?.travellers && /^\d$/.test(initial.travellers) ? initial.travellers : "2",
+    children: "0",
+    childAges: "",
+    stayType: "",
+    interests: "",
+    contactMethod: "",
     budgetRange: "",
     tripType: initial?.tripType ?? "",
     specialRequests: "",
@@ -88,6 +115,11 @@ function hasDraftData(values: TripPlanInput): boolean {
       values.endDate ||
       values.travellers ||
       values.budgetRange ||
+      values.departureCity ||
+      values.childAges ||
+      values.stayType ||
+      values.interests ||
+      values.contactMethod ||
       values.tripType ||
       values.specialRequests ||
       values.name ||
@@ -230,11 +262,7 @@ export function TripPlanner({
           }
         }
         const first = Object.keys(result.fieldErrors)[0];
-        if (first === "name" || first === "email" || first === "phone") {
-          setStep(2);
-        } else if (first === "travelDate" || first === "endDate") {
-          setStep(1);
-        }
+        if (first in STEP_OF_FIELD) setStep(STEP_OF_FIELD[first]);
       }
     }
   }
@@ -274,64 +302,52 @@ export function TripPlanner({
                   </FormItem>
                 )}
               />
-              <div className="grid gap-4 sm:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="tripType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Trip type</FormLabel>
-                      <Select
-                        value={field.value || "none"}
-                        onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
-                      >
-                        <FormControl>
-                          <SelectTrigger onFocus={scrollFieldIntoViewOnFocus}>
-                            <SelectValue placeholder="Select trip type" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="none">Not sure yet</SelectItem>
-                          {tripTypeOptions.map((type) => (
-                            <SelectItem key={type} value={type}>
-                              {type}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="travellers"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Travellers</FormLabel>
-                      <Select
-                        value={field.value || "none"}
-                        onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
-                      >
-                        <FormControl>
-                          <SelectTrigger onFocus={scrollFieldIntoViewOnFocus}>
-                            <SelectValue placeholder="How many people?" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="none">Not sure yet</SelectItem>
-                          {TRAVELLER_COUNTS.map((count) => (
-                            <SelectItem key={count} value={count}>
-                              {count}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="departureCity"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Departing from</FormLabel>
+                    <FormControl>
+                      <Input
+                        autoComplete="address-level2"
+                        placeholder="Your city"
+                        onFocus={scrollFieldIntoViewOnFocus}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="tripType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Trip type</FormLabel>
+                    <Select
+                      value={field.value || "none"}
+                      onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
+                    >
+                      <FormControl>
+                        <SelectTrigger onFocus={scrollFieldIntoViewOnFocus}>
+                          <SelectValue placeholder="Select trip type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="none">Not sure yet</SelectItem>
+                        {tripTypeOptions.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </>
           ) : null}
 
@@ -347,6 +363,7 @@ export function TripPlanner({
                       <FormControl>
                         <Input
                           type="date"
+                          min={todayISO()}
                           onFocus={scrollFieldIntoViewOnFocus}
                           {...field}
                         />
@@ -364,6 +381,7 @@ export function TripPlanner({
                       <FormControl>
                         <Input
                           type="date"
+                          min={values.travelDate || todayISO()}
                           onFocus={scrollFieldIntoViewOnFocus}
                           {...field}
                         />
@@ -374,6 +392,89 @@ export function TripPlanner({
                 />
               </div>
 
+              <FormField
+                control={form.control}
+                name="flexibleDates"
+                render={({ field }) => (
+                  <FormItem>
+                    <label className="flex min-h-11 cursor-pointer items-center gap-3 text-sm font-semibold">
+                      <input
+                        type="checkbox"
+                        className="size-5 shrink-0 accent-ink"
+                        checked={field.value === "yes"}
+                        onChange={(e) => field.onChange(e.target.checked ? "yes" : "")}
+                      />
+                      My dates are flexible
+                    </label>
+                  </FormItem>
+                )}
+              />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="adults"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel required>Adults</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          inputMode="numeric"
+                          min={1}
+                          max={30}
+                          onFocus={scrollFieldIntoViewOnFocus}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="children"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Children</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          inputMode="numeric"
+                          min={0}
+                          max={20}
+                          onFocus={scrollFieldIntoViewOnFocus}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              {Number(values.children || 0) > 0 ? (
+                <FormField
+                  control={form.control}
+                  name="childAges"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel required>Children&apos;s ages</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. 4, 9"
+                          onFocus={scrollFieldIntoViewOnFocus}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ) : null}
+            </>
+          ) : null}
+
+          {step === 2 ? (
+            <>
               <FormField
                 control={form.control}
                 name="budgetRange"
@@ -405,6 +506,72 @@ export function TripPlanner({
 
               <FormField
                 control={form.control}
+                name="stayType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Where would you like to stay?</FormLabel>
+                    <Select
+                      value={field.value || "none"}
+                      onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
+                    >
+                      <FormControl>
+                        <SelectTrigger onFocus={scrollFieldIntoViewOnFocus}>
+                          <SelectValue placeholder="Select a stay type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="none">No preference</SelectItem>
+                        {STAY_TYPES.filter((t) => t !== "No preference").map((t) => (
+                          <SelectItem key={t} value={t}>
+                            {t}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="interests"
+                render={({ field }) => (
+                  <FormItem>
+                    <fieldset className="grid gap-2">
+                      <legend className="label-brutal mb-1">What matters to you?</legend>
+                      <div className="flex flex-wrap gap-2">
+                        {TRIP_INTERESTS.map((interest) => {
+                          const current = field.value ? field.value.split(",") : [];
+                          const selected = current.includes(interest);
+                          return (
+                            <button
+                              key={interest}
+                              type="button"
+                              aria-pressed={selected}
+                              onClick={() =>
+                                field.onChange(
+                                  (selected
+                                    ? current.filter((i) => i !== interest)
+                                    : [...current, interest]
+                                  ).join(","),
+                                )
+                              }
+                              className={cn(
+                                "min-h-11 rounded-sm border-2 border-ink px-3 text-sm font-bold transition-colors",
+                                selected ? "bg-butter shadow-hard-sm" : "bg-paper hover:bg-butter/50",
+                              )}
+                            >
+                              {interest}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </fieldset>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="specialRequests"
                 render={({ field }) => (
                   <FormItem>
@@ -424,7 +591,7 @@ export function TripPlanner({
             </>
           ) : null}
 
-          {step === 2 ? (
+          {step === 3 ? (
             <>
               <div className="grid gap-4 sm:grid-cols-2">
                 <FormField
@@ -484,10 +651,38 @@ export function TripPlanner({
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="contactMethod"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Best way to reach you</FormLabel>
+                    <Select
+                      value={field.value || "none"}
+                      onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
+                    >
+                      <FormControl>
+                        <SelectTrigger onFocus={scrollFieldIntoViewOnFocus}>
+                          <SelectValue placeholder="Select a contact method" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="none">Any</SelectItem>
+                        {CONTACT_METHODS.map((m) => (
+                          <SelectItem key={m} value={m}>
+                            {m}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </>
           ) : null}
 
-          {step === 3 ? (
+          {step === 4 ? (
             <div className="grid gap-3">
               <h4 className="font-display text-h4 uppercase">Review your trip</h4>
               <dl className="grid gap-2 border-[3px] border-ink bg-butter p-4 text-sm sm:grid-cols-2">
@@ -501,8 +696,13 @@ export function TripPlanner({
                   label="End date"
                   value={values.endDate ? formatDate(values.endDate) : ""}
                 />
-                <Summary label="Travellers" value={values.travellers} />
+                <Summary label="Departing from" value={values.departureCity} />
+                <Summary label="Travellers" value={partyLabel(values)} />
+                <Summary label="Flexible dates" value={values.flexibleDates === "yes" ? "Yes" : ""} />
                 <Summary label="Budget" value={values.budgetRange} />
+                <Summary label="Stay" value={values.stayType} />
+                <Summary label="Interests" value={values.interests?.split(",").join(", ")} wide />
+                <Summary label="Preferred contact" value={values.contactMethod} />
                 <Summary label="Name" value={values.name} />
                 <Summary label="Email" value={values.email} />
                 <Summary label="Phone" value={values.phone} />
@@ -569,7 +769,7 @@ export function TripPlanner({
         <div className="border-b-[3px] border-ink bg-butter p-4 pr-14 sm:p-5 sm:pr-14">
           <h2 className="font-display text-xl leading-tight sm:text-2xl">Plan my trip</h2>
           <p className="mt-1 text-sm font-medium text-ink-soft">
-            Four quick steps — we&apos;ll come back with a plan built around your dates and
+            Five quick steps — we&apos;ll come back with a plan built around your dates and
             budget.
           </p>
         </div>
@@ -584,13 +784,24 @@ export function TripPlanner({
         <DialogHeader>
           <DialogTitle>Plan my trip</DialogTitle>
           <DialogDescription>
-            Four quick steps — we&apos;ll come back with a plan built around your dates and budget.
+            Five quick steps — we&apos;ll come back with a plan built around your dates and budget.
           </DialogDescription>
         </DialogHeader>
         {body}
       </DialogContent>
     </Dialog>
   );
+}
+
+function partyLabel(v: TripPlanInput): string {
+  const adults = Number(v.adults || 0);
+  const children = Number(v.children || 0);
+  const parts = [];
+  if (adults > 0) parts.push(`${adults} adult${adults === 1 ? "" : "s"}`);
+  if (children > 0) {
+    parts.push(`${children} child${children === 1 ? "" : "ren"} (${v.childAges})`);
+  }
+  return parts.join(", ");
 }
 
 function Summary({
