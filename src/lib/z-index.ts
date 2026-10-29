@@ -17,6 +17,8 @@ export const Z_ACTION_BAR = 40;
 export const Z_FLOATING = 45;
 export const Z_DRAWER = 50;
 export const Z_COOKIE = 60;
+/** GURU chat panel: above the cookie banner so it never covers the composer, below toasts. */
+export const Z_GURU = 65;
 export const Z_TOAST = 70;
 
 /**

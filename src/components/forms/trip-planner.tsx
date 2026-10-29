@@ -40,8 +40,18 @@ import { cn, formatDate } from "@/lib/utils";
 export type TripPlannerInitial = {
   destination?: string;
   travelDate?: string;
+  endDate?: string;
   travellers?: string;
   tripType?: string;
+  departureCity?: string;
+  adults?: string;
+  children?: string;
+  childAges?: string;
+  budgetRange?: string;
+  stayType?: string;
+  /** Comma-joined values from TRIP_INTERESTS. */
+  interests?: string;
+  specialRequests?: string;
 };
 
 const STEPS: MultiStepDefinition[] = [
@@ -79,19 +89,21 @@ function buildDefaults(initial?: TripPlannerInitial): TripPlanInput {
   return {
     destination: initial?.destination ?? "",
     travelDate: initial?.travelDate ?? "",
-    endDate: "",
+    endDate: initial?.endDate ?? "",
     travellers: initial?.travellers ?? "",
-    departureCity: "",
+    departureCity: initial?.departureCity ?? "",
     flexibleDates: "",
-    adults: initial?.travellers && /^\d$/.test(initial.travellers) ? initial.travellers : "2",
-    children: "0",
-    childAges: "",
-    stayType: "",
-    interests: "",
+    adults:
+      initial?.adults ??
+      (initial?.travellers && /^\d$/.test(initial.travellers) ? initial.travellers : "2"),
+    children: initial?.children ?? "0",
+    childAges: initial?.childAges ?? "",
+    stayType: initial?.stayType ?? "",
+    interests: initial?.interests ?? "",
     contactMethod: "",
-    budgetRange: "",
+    budgetRange: initial?.budgetRange ?? "",
     tripType: initial?.tripType ?? "",
-    specialRequests: "",
+    specialRequests: initial?.specialRequests ?? "",
     name: "",
     email: "",
     phone: "",
@@ -100,12 +112,7 @@ function buildDefaults(initial?: TripPlannerInitial): TripPlanInput {
 }
 
 function hasInitialOverride(initial?: TripPlannerInitial): boolean {
-  return Boolean(
-    initial?.destination ||
-      initial?.travelDate ||
-      initial?.travellers ||
-      initial?.tripType,
-  );
+  return Boolean(initial && Object.values(initial).some(Boolean));
 }
 
 function hasDraftData(values: TripPlanInput): boolean {

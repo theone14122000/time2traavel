@@ -3,8 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
-import { Phone, PenLine } from "lucide-react";
-import { telHref } from "@/lib/contact";
+import { PenLine } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type MobileActionBarProps = {
@@ -22,7 +21,7 @@ const DIRECTION_THRESHOLD_PX = 4;
  * and email buttons own messaging elsewhere).
  * Slides out of the way while scrolling down and returns on scroll up.
  */
-export function MobileActionBar({ phone, className }: MobileActionBarProps) {
+export function MobileActionBar({ className }: MobileActionBarProps) {
   const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const [hidden, setHidden] = React.useState(false);
@@ -46,8 +45,6 @@ export function MobileActionBar({ phone, className }: MobileActionBarProps) {
     else if (delta < -DIRECTION_THRESHOLD_PX) setHidden(false);
   });
 
-  const callUrl = telHref(phone);
-  const columns = callUrl ? 2 : 1;
   const slideOut = !reduceMotion && hidden;
 
   return (
@@ -68,18 +65,8 @@ export function MobileActionBar({ phone, className }: MobileActionBarProps) {
       )}
     >
       <div
-        className="grid gap-2 p-2"
-        style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+        className="p-2"
       >
-        {callUrl ? (
-          <a
-            href={callUrl}
-            className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-line-strong bg-paper px-3 text-center text-sm font-semibold transition-colors active:bg-sand"
-          >
-            <Phone aria-hidden="true" className="size-4" />
-            <span>Call us</span>
-          </a>
-        ) : null}
 
         <Link
           href="/plan-my-trip"

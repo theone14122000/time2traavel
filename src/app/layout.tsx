@@ -72,10 +72,7 @@ export default async function RootLayout({
           <CommandPaletteProvider>{children}</CommandPaletteProvider>
         </MotionProvider>
         <CookieConsent />
-        <FloatingContactButtons
-          whatsapp={settings.whatsapp}
-          email={settings.email}
-        />
+        <FloatingContactButtons whatsapp={settings.whatsapp} />
         {process.env.NODE_ENV === "production" ? (
           <Script
             id="tt-sw-register"

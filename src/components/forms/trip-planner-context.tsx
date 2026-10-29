@@ -17,6 +17,18 @@ export function TripPlannerProvider({ children }: { children: React.ReactNode })
   const [open, setOpen] = React.useState(false);
   const [initial, setInitial] = React.useState<TripPlannerInitial | undefined>(undefined);
 
+  // Other widgets (e.g. the GURU assistant) open the planner through this
+  // window event so they need no access to the provider.
+  React.useEffect(() => {
+    const onOpen = (event: Event) => {
+      const detail = (event as CustomEvent<TripPlannerInitial | undefined>).detail;
+      setInitial(detail && typeof detail === "object" ? detail : undefined);
+      setOpen(true);
+    };
+    window.addEventListener("tt:open-planner", onOpen);
+    return () => window.removeEventListener("tt:open-planner", onOpen);
+  }, []);
+
   const value = React.useMemo<TripPlannerContextValue>(
     () => ({
       openPlanner: (next) => {
