@@ -86,7 +86,7 @@ async function load() {
   lines.push("DESTINATIONS FEATURED ON THE TIME2TRAVEL WEBSITE (verified):");
   for (const d of domestic) {
     lines.push(
-      `- ${d.name} [/destinations/${d.slug}] — ${clip(d.tagline, 120)}. Overview: ${clip(d.overview, 260)} Known for: ${d.knownFor.join(", ")}. Best time (site guidance): ${clip(d.bestTime, 110)}`,
+      `- ${d.name} [/destinations/${d.slug}] — ${clip(d.tagline, 120)}. Overview: ${clip(d.overview, 180)} Known for: ${d.knownFor.join(", ")}. Best time (site guidance): ${clip(d.bestTime, 110)}`,
     );
   }
   const domesticSlugs = new Set(domestic.map((d) => d.slug));
@@ -113,12 +113,12 @@ async function load() {
   if (faqs.length > 0) {
     lines.push("");
     lines.push("FREQUENTLY ASKED QUESTIONS ON THE WEBSITE (verified answers):");
-    for (const f of faqs.slice(0, 20)) lines.push(`- Q: ${clip(f.question, 120)} A: ${clip(f.answer, 240)}`);
+    for (const f of faqs.slice(0, 12)) lines.push(`- Q: ${clip(f.question, 120)} A: ${clip(f.answer, 180)}`);
   }
 
   if (refund?.body?.trim()) {
     lines.push("");
-    lines.push(`CANCELLATION & REFUND POLICY (as published, summarised): ${clip(refund.body, 700)} [/cancellation-refund]`);
+    lines.push(`CANCELLATION & REFUND POLICY (as published, summarised): ${clip(refund.body, 500)} [/cancellation-refund]`);
   } else {
     lines.push("");
     lines.push("CANCELLATION & REFUND POLICY: not published online. Do not state terms; direct the visitor to the team.");
@@ -132,7 +132,7 @@ async function load() {
   if (guides.length > 0) {
     lines.push("");
     lines.push("TRAVEL GUIDES ON THE WEBSITE:");
-    for (const g of guides.slice(0, 15)) {
+    for (const g of guides.slice(0, 8)) {
       lines.push(`- ${g.title} (${g.category}) [/travel-guides/${g.slug}]${g.excerpt ? ` — ${clip(g.excerpt, 120)}` : ""}`);
     }
   }

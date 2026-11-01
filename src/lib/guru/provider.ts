@@ -9,10 +9,12 @@ import "server-only";
  *   - Groq, OpenRouter, Together, vLLM, LM Studio, Hugging Face TGI … likewise
  *     (add GURU_API_KEY when the host needs one).
  *
- * With no configuration it uses key-less public endpoints serving the
- * open-weight GPT-OSS 20B model, in order, falling back to the next on failure.
- * Those are free third-party services: fine to get started, but for production
- * point GURU_API_URL at a host you control or pay for (see .env.example).
+ * Selection order:
+ *   1. GURU_API_URL            → exactly that host (Ollama, OpenRouter, vLLM …)
+ *   2. GROQ_API_KEY / GURU_API_KEY → Groq (free tier) running open-weight Llama
+ *   3. nothing configured      → key-less public endpoints serving GPT-OSS 20B
+ * When a key is configured GURU never silently falls back to a third-party
+ * free endpoint, so visitor messages only go where you chose to send them.
  */
 
 export type ProviderEndpoint = {
@@ -20,35 +22,68 @@ export type ProviderEndpoint = {
   chatUrl: string;
   model: string;
   apiKey?: string;
+  /** Ask the host for a JSON-object response (reliable structured output). */
+  jsonMode?: boolean;
+  /** Completion budget; reasoning models need more headroom than chat models. */
+  maxTokens?: number;
 };
 
 export type ChatTurn = { role: "system" | "user" | "assistant"; content: string };
 
 export type ProviderResult =
   | { ok: true; text: string; endpoint: string; model: string }
-  | { ok: false; reason: "timeout" | "upstream" | "busy"; detail: string };
+  | { ok: false; reason: "timeout" | "upstream" | "busy"; detail: string; retryAfterMs?: number };
 
 const DEFAULT_ENDPOINTS: ProviderEndpoint[] = [
   { name: "llm7", chatUrl: "https://api.llm7.io/v1/chat/completions", model: "gpt-oss:20b" },
   { name: "pollinations", chatUrl: "https://text.pollinations.ai/openai", model: "openai-fast" },
 ];
 
-export function configuredEndpoints(): ProviderEndpoint[] {
-  const base = process.env.GURU_API_URL?.trim();
-  if (!base) return DEFAULT_ENDPOINTS;
-  const trimmed = base.replace(/\/+$/, "");
-  return [
-    {
-      name: "custom",
-      chatUrl: /\/chat\/completions$/.test(trimmed) ? trimmed : `${trimmed}/chat/completions`,
-      model: process.env.GURU_MODEL?.trim() || "gpt-oss:20b",
-      apiKey: process.env.GURU_API_KEY?.trim() || undefined,
-    },
-  ];
+const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
+/** Open-weight Llama; swap for llama-3.1-8b-instant via GURU_MODEL for a higher free-tier token allowance. */
+const GROQ_DEFAULT_MODEL = "llama-3.3-70b-versatile";
+
+function envTokens(fallback: number): number {
+  return Math.min(Math.max(Number(process.env.GURU_MAX_TOKENS) || fallback, 300), 4000);
 }
 
-/** Reasoning models spend tokens thinking before they answer, so allow generous headroom. */
-const MAX_TOKENS = Math.min(Math.max(Number(process.env.GURU_MAX_TOKENS) || 1800, 400), 4000);
+export function configuredEndpoints(): ProviderEndpoint[] {
+  const base = process.env.GURU_API_URL?.trim();
+  const key = (process.env.GROQ_API_KEY ?? process.env.GURU_API_KEY)?.trim() || undefined;
+
+  if (base) {
+    const trimmed = base.replace(/\/+$/, "");
+    return [
+      {
+        name: "custom",
+        chatUrl: /\/chat\/completions$/.test(trimmed) ? trimmed : `${trimmed}/chat/completions`,
+        model: process.env.GURU_MODEL?.trim() || "gpt-oss:20b",
+        apiKey: process.env.GURU_API_KEY?.trim() || undefined,
+        jsonMode: process.env.GURU_JSON_MODE === "true",
+        maxTokens: envTokens(1200),
+      },
+    ];
+  }
+
+  if (key) {
+    return [
+      {
+        name: "groq",
+        chatUrl: GROQ_URL,
+        model: process.env.GURU_MODEL?.trim() || GROQ_DEFAULT_MODEL,
+        apiKey: key,
+        jsonMode: true,
+        // Plain chat models don't "think" first, and a small budget keeps the
+        // request inside Groq's free per-minute token allowance.
+        maxTokens: envTokens(900),
+      },
+    ];
+  }
+
+  return DEFAULT_ENDPOINTS;
+}
+/** Reasoning headroom for the key-less GPT-OSS fallbacks. */
+const DEFAULT_MAX_TOKENS = 1800;
 const ATTEMPT_TIMEOUT_MS = Number(process.env.GURU_TIMEOUT_MS) > 0 ? Number(process.env.GURU_TIMEOUT_MS) : 30_000;
 
 async function attempt(endpoint: ProviderEndpoint, messages: ChatTurn[]): Promise<ProviderResult> {
@@ -66,15 +101,22 @@ async function attempt(endpoint: ProviderEndpoint, messages: ChatTurn[]): Promis
       body: JSON.stringify({
         model: endpoint.model,
         messages,
-        max_tokens: MAX_TOKENS,
+        max_tokens: endpoint.maxTokens ?? envTokens(DEFAULT_MAX_TOKENS),
         temperature: 0.6,
         stream: false,
+        ...(endpoint.jsonMode ? { response_format: { type: "json_object" } } : null),
       }),
     });
     if (!response.ok) {
       // Rate-limited / out of free capacity: the caller should say "busy", not "broken".
       const busy = [402, 429, 503].includes(response.status);
-      return { ok: false, reason: busy ? "busy" : "upstream", detail: `${endpoint.name} HTTP ${response.status}` };
+      const retryAfter = Number(response.headers.get("retry-after"));
+      return {
+        ok: false,
+        reason: busy ? "busy" : "upstream",
+        detail: `${endpoint.name} HTTP ${response.status}`,
+        retryAfterMs: Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : undefined,
+      };
     }
     const data = (await response.json()) as {
       choices?: { message?: { content?: string | null } }[];
@@ -101,7 +143,9 @@ export async function completeChat(messages: ChatTurn[]): Promise<ProviderResult
     let result = await attempt(endpoint, messages);
     // One short retry when an endpoint is momentarily rate-limited.
     if (!result.ok && result.reason === "busy") {
-      await new Promise((r) => setTimeout(r, 1500));
+      // Honour the host's Retry-After, but never hold the visitor for long.
+      const wait = Math.min(result.retryAfterMs ?? 1500, 5000);
+      await new Promise((r) => setTimeout(r, wait));
       result = await attempt(endpoint, messages);
     }
     if (result.ok) return result;
