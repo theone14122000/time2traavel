@@ -60,13 +60,24 @@ export function parseHeadingAccent(text: string): ParsedHeading {
   const match = text.match(/\[\[([^\]]+)\]\]/);
   if (match && match.index !== undefined) {
     const before = text.slice(0, match.index).trim();
-    const after = text.slice(match.index + match[0].length).trim();
-    const beforeWords = before ? before.split(/\s+/).filter(Boolean) : [];
     const accentWords = match[1].trim().split(/\s+/).filter(Boolean);
+    let rawAfter = text.slice(match.index + match[0].length);
+
+    // Punctuation written straight after the bracket ("[[India]], region") belongs to the
+    // accent word. Splitting it off made "India ," render with a stray space.
+    const punctuation = rawAfter.match(/^[,.;:!?…)"”’']+/)?.[0] ?? "";
+    if (punctuation && accentWords.length > 0) {
+      accentWords[accentWords.length - 1] += punctuation;
+      rawAfter = rawAfter.slice(punctuation.length);
+    }
+
+    const beforeWords = before ? before.split(/\s+/).filter(Boolean) : [];
+    const after = rawAfter.trim();
     const afterWords = after ? after.split(/\s+/).filter(Boolean) : [];
     const words = [...beforeWords, ...accentWords, ...afterWords];
-    return { words, accentIndex: Math.max(0, words.length - 1) };
+    // The accent is the bracketed word (first word of a multi-word group).
+    return { words, accentIndex: beforeWords.length };
   }
   const words = text.trim().split(/\s+/).filter(Boolean);
-  return { words, accentIndex: Math.max(0, words.length - 1) };
+  return { words, accentIndex: pickAccentIndex(words) };
 }

@@ -784,6 +784,56 @@
     .hero-pan-a, .hero-pan-b, .hero-pan-c, .hero-label { animation: none; }
   }
 
+  /* ---- WhatsApp launcher: same family as GURU (gradient disc, gold ring, glow) ---- */
+  .wa-launcher {
+    background: radial-gradient(circle at 30% 25%, #3ee37f, #14946f 55%, #0d6b57 100%);
+    box-shadow:
+      0 0 0 1px rgb(199 165 106 / 0.5),
+      0 10px 30px -8px rgb(16 29 44 / 0.5),
+      0 0 24px -6px rgb(37 211 102 / 0.55);
+  }
+  .wa-launcher:hover {
+    box-shadow:
+      0 0 0 1px rgb(199 165 106 / 0.75),
+      0 14px 34px -8px rgb(16 29 44 / 0.55),
+      0 0 30px -4px rgb(37 211 102 / 0.7);
+  }
+
+  /* ---- Dynamic cards: pointer tilt, image parallax, gold edge, scroll entrance ---- */
+  @media (hover: hover) and (pointer: fine) {
+    .card-shine {
+      transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition:
+        transform 320ms var(--tt-ease),
+        translate 320ms var(--tt-ease),
+        box-shadow 320ms var(--tt-ease),
+        border-color 320ms ease;
+    }
+    .card-shine:hover {
+      border-color: rgb(199 165 106 / 0.75);
+    }
+    /* Photos drift against the cursor for depth (uses the individual `translate` property,
+       so it composes with the existing hover zoom). */
+    .card-shine img {
+      translate: calc(var(--px, 0) * -5px) calc(var(--py, 0) * -5px);
+      transition: translate 260ms var(--tt-ease), transform 700ms var(--tt-ease), scale 700ms var(--tt-ease);
+    }
+  }
+  /* Cards rise and settle as they scroll into view (Chrome/Edge/Safari 26+; elsewhere they simply appear) */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .card-shine {
+        animation: card-rise linear backwards;
+        animation-timeline: view();
+        animation-range: entry 0% entry 38%;
+      }
+    }
+  }
+  @keyframes card-rise {
+    from { opacity: 0; translate: 0 28px; scale: 0.97; }
+    to { opacity: 1; translate: 0 0; scale: 1; }
+  }
+
   /* ---- GURU assistant ---- */
   .guru-enter {
     animation: guru-in 520ms var(--tt-ease) 600ms both;
@@ -1079,6 +1129,11 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  /* Cursor-driven card depth needs its easing even when other transitions are cut. */
+  .card-shine,
+  .card-shine img {
+    transition-duration: 280ms !important;
   }
   /* The ticker strip must always read as a moving marquee; under reduced motion it just runs slower. */
   .marquee-track {

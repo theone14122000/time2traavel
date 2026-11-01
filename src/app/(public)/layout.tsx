@@ -5,6 +5,7 @@ import { MobileActionBar } from "@/components/layout/mobile-action-bar";
 import { TripPlannerProvider } from "@/components/forms/trip-planner-context";
 import { RouteWipe } from "@/components/shared/motion";
 import { BackToTop } from "@/components/ui/back-to-top";
+import { CardFx } from "@/components/shared/card-fx";
 import { getSiteSettings } from "@/lib/data/site";
 import { getPublishedDestinations } from "@/lib/data/destinations";
 import { buildOrganizationJsonLd, JsonLd } from "@/lib/seo";
@@ -53,6 +54,7 @@ export default async function PublicLayout({
       <SiteFooter />
       <MobileActionBar phone={settings.phone} />
       <BackToTop />
+      <CardFx />
       <JsonLd data={jsonLd} />
     </TripPlannerProvider>
   );

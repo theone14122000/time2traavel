@@ -92,7 +92,7 @@ export default async function AboutUsPage() {
   const values = parseValues(mission?.data);
   const hasValues = Boolean(missionTitle || missionParagraphs.length > 0 || values);
 
-  const telephone = toE164(settings.phone) ?? "+919882726990";
+  const telephone = toE164(settings.phone) ?? "+918351823736";
 
   const breadcrumb = buildBreadcrumbJsonLd([
     { name: "Home", path: "/" },

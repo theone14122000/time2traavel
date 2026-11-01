@@ -188,9 +188,20 @@ export function FloatingContactButtons({ whatsapp }: FloatingContactButtonsProps
             rel="noopener noreferrer"
             aria-label="Contact Time2Travel on WhatsApp"
             onClick={() => trackClick("whatsapp_click")}
-            className="guru-enter pointer-events-auto grid size-14 place-items-center rounded-full border border-white/20 bg-[#128c7e] text-white shadow-hard-lg transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-hard-xl active:scale-95 lg:size-[3.75rem]"
+            className="guru-enter wa-launcher group pointer-events-auto relative grid size-14 place-items-center rounded-full text-white transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 active:scale-95 lg:size-[3.75rem]"
           >
-            <WhatsAppGlyph className="size-7" />
+            <WhatsAppGlyph className="size-7 drop-shadow-sm" />
+            <span
+              aria-hidden="true"
+              className="absolute -right-0.5 -top-0.5 size-3.5 rounded-full border-2 border-white bg-[#22c55e]"
+            />
+            {/* Label slides out on hover / keyboard focus (decorative: the link already has an aria-label) */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute left-full ml-3 hidden translate-x-[-6px] whitespace-nowrap rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-medium text-ink opacity-0 shadow-hard-lg transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 sm:block"
+            >
+              Chat on WhatsApp
+            </span>
           </a>
         </div>
       ) : null}
