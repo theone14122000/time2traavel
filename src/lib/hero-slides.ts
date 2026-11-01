@@ -8,25 +8,28 @@ export type DayCycleSlide = HeroSlide & { phase: DayPhase };
 /**
  * The hero's sunrise → midday → night loop. All three photographs frame the
  * same Himalayan ridge, so cross-dissolving them reads as a time-lapse of one
- * place. Paths are URL-encoded because one source file name contains spaces.
+ * place. The frames are web-sized progressive JPEGs (~250–430 KB) generated
+ * from the full-resolution originals that sit alongside them in this folder
+ * (Radiant Alpine Sunrise Panorama.png, slide-1.jpg, night.png), so the first
+ * paint is fast and the image optimiser never has to chew through 3 MB PNGs.
  * Alt text describes what is visible in each file.
  */
 const DAY_CYCLE: ReadonlyArray<DayCycleSlide> = [
   {
     phase: "sunrise",
-    src: encodeURI("/images/hero/Radiant Alpine Sunrise Panorama.png"),
+    src: "/images/hero/day-sunrise.jpg",
     alt: "The sun rising between snow-covered Himalayan peaks, lighting the slopes gold",
     label: "Sunrise",
   },
   {
     phase: "midday",
-    src: "/images/hero/slide-1.jpg",
+    src: "/images/hero/day-midday.jpg",
     alt: "Snow-covered Himalayan peaks above a pine forest under a clear blue sky",
     label: "Midday",
   },
   {
     phase: "night",
-    src: "/images/hero/night.png",
+    src: "/images/hero/day-night.jpg",
     alt: "The same snowy peaks under a full moon and a starry night sky",
     label: "Night",
   },

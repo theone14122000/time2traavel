@@ -74,7 +74,7 @@ export function buildOrganizationJsonLd(settings?: {
         "@id": `${url}#organization`,
         name,
         url,
-        logo: absoluteUrl("/logo.svg"),
+        logo: absoluteUrl("/images/logo/logo-mark.png"),
         address: {
           "@type": "PostalAddress",
           streetAddress: "Kasumpti",

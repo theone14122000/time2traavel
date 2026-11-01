@@ -20,10 +20,10 @@ type CinematicHeroProps = {
 };
 
 /** How long each time of day holds before the next dissolve begins. */
-const HOLD_MS = 7000;
-const HOLD_MS_REDUCED = 9000;
-/** Matches --hero-dissolve in globals.css (the long cross-dissolve + colour grade). */
-const DISSOLVE_MS = 3400;
+const HOLD_MS = 3600;
+const HOLD_MS_REDUCED = 5200;
+/** Matches --hero-dissolve in globals.css (the cross-dissolve + colour grade). */
+const DISSOLVE_MS = 2200;
 
 const PHASE_ICON: Record<DayPhase, typeof Sun> = { sunrise: Sunrise, midday: Sun, night: Moon };
 
@@ -136,7 +136,7 @@ function HeroQuickPlan() {
  * Cinematic hero: one Himalayan ridge through a full day.
  *
  * Sunrise → midday → (a synthesised sunset glow) → night → (pre-dawn glow) →
- * sunrise. Frames dissolve over ~3.4s while a colour-grade wash sweeps the sky,
+ * sunrise. Frames dissolve over ~2.2s while a colour-grade wash sweeps the sky,
  * so the changeover feels like light moving, not a slideshow cut. At night the
  * sky gains twinkling stars and the odd shooting star; mist drifts across the
  * valley in every phase.
@@ -261,6 +261,8 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
                 fill
                 priority={index === 0}
                 loading="eager"
+                // The first frame is the LCP image; the others load right behind it.
+                fetchPriority={index === 0 ? "high" : "low"}
                 sizes="100vw"
                 style={{ objectPosition: FOCAL }}
                 className={cn(

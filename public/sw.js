@@ -12,14 +12,14 @@
  * Registered from the root layout in production only.
  */
 
-const CACHE_VERSION = "tt-v1";
+const CACHE_VERSION = "tt-v2";
 const OFFLINE_URL = "/offline.html";
 
 /** Immutable build assets + the icon/offline shell are safe to cache hard. */
 function isCacheFirst(pathname) {
   return (
     pathname.startsWith("/_next/static/") ||
-    pathname === "/icon.svg" ||
+    pathname.startsWith("/icons/") ||
     pathname === OFFLINE_URL
   );
 }

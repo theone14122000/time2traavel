@@ -581,7 +581,7 @@
 
   /* ---- Hero day cycle: dissolve, colour grade, stars, meteor, mist ---- */
   .hero-cycle {
-    --hero-dissolve: 3400ms;
+    --hero-dissolve: 2200ms;
   }
   .hero-frame-in {
     transition: opacity var(--hero-dissolve) cubic-bezier(0.45, 0, 0.25, 1);
@@ -1034,10 +1034,10 @@
   .hero-frame-in,
   .hero-stars,
   .hero-bloom {
-    transition-duration: var(--hero-dissolve, 3400ms) !important;
+    transition-duration: var(--hero-dissolve, 2200ms) !important;
   }
   .hero-tint {
-    animation-duration: var(--hero-dissolve, 3400ms) !important;
+    animation-duration: var(--hero-dissolve, 2200ms) !important;
   }
   /* The heading colour cycle is a slow colour fade (no movement), so it stays on. */
   .hg-word {
