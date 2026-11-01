@@ -303,7 +303,7 @@ export default async function DesignSystemPage() {
         <Panel label="Marquee" note="pause on hover" bodyClassName="p-0">
           <div className="grid gap-0">
             <Marquee />
-            <Marquee tone="lemon" reverse slow />
+            <Marquee tone="lemon" reverse duration={70} />
           </div>
           <p className="border-t border-line p-4 text-sm font-medium text-ink-soft sm:p-5">
             Hovering (or focusing inside) the strip pauses it via{" "}

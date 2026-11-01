@@ -1049,6 +1049,16 @@
   }
 
   /* Marquee track helper (duplicated groups, seamless loop) */
+  /* Plain keyframes (not inside @theme) so they are always emitted */
+  @keyframes marquee-scroll {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes marquee-scroll-reverse {
+    from { transform: translate3d(-50%, 0, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+
   .marquee-track {
     will-change: transform;
   }
@@ -1069,6 +1079,11 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  /* The ticker strip must always read as a moving marquee; under reduced motion it just runs slower. */
+  .marquee-track {
+    animation-duration: 70s !important;
+    animation-iteration-count: infinite !important;
   }
   /* The heading colour cycle is a slow colour fade (no movement), so it stays on. */
   .hg-word {

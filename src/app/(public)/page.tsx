@@ -191,15 +191,7 @@ export default async function HomePage() {
     marquee: () => (
       <Marquee
         tone="lemon"
-        slow
-        items={[
-          "Himalayan treks",
-          "Kashmir valleys",
-          "Ladakh high passes",
-          "Himachal escapes",
-          "Island getaways",
-          "Tailor-made journeys",
-        ]}
+        items={["Himalayan treks", "Kashmir valleys", "Ladakh high passes", "Himachal escapes", "Island getaways"]}
       />
     ),
     domestic: () => <DestinationsSection />,

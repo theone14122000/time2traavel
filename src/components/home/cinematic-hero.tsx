@@ -20,8 +20,8 @@ type CinematicHeroProps = {
 };
 
 /** One full day (sunrise → midday → sunset → night → sunrise), in milliseconds. */
-const DAY_MS = 24000;
-const DAY_MS_REDUCED = 40000;
+const DAY_MS = 12000;
+const DAY_MS_REDUCED = 20000;
 
 /** Where the quick-jump chips land on the 0–1 timeline. */
 const JUMPS = [
@@ -275,7 +275,7 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
     let raf = 0;
     let last = performance.now();
     const tick = (now: number) => {
-      const dt = Math.min(64, now - last);
+      const dt = Math.min(500, now - last);
       last = now;
       const tw = tweenRef.current;
       if (tw) {
@@ -298,7 +298,7 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
     (target: number) => {
       const from = tRef.current;
       const to = target > from ? target : target + 1;
-      const dur = Math.max(1100, Math.min(3200, (to - from) * 6000));
+      const dur = Math.max(800, Math.min(2200, (to - from) * 4000));
       tweenRef.current = { from, to, start: performance.now(), dur };
     },
     [],
