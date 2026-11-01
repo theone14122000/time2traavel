@@ -784,6 +784,36 @@
     .hero-pan-a, .hero-pan-b, .hero-pan-c, .hero-label { animation: none; }
   }
 
+  /* ---- About page atmosphere ---- */
+  .about-aurora {
+    background:
+      radial-gradient(52% 60% at 88% 8%, rgb(199 165 106 / 0.28), transparent 70%),
+      radial-gradient(46% 55% at 6% 92%, rgb(91 141 168 / 0.22), transparent 70%),
+      radial-gradient(40% 40% at 50% 50%, rgb(255 255 255 / 0.6), transparent 80%);
+    animation: about-aurora 16s ease-in-out infinite alternate;
+  }
+  @keyframes about-aurora {
+    from { filter: hue-rotate(0deg) saturate(1); transform: scale(1); }
+    to { filter: hue-rotate(-14deg) saturate(1.2); transform: scale(1.06); }
+  }
+  /* Quiet starfield on the dark bands (static dots, gentle twinkle) */
+  .about-stars {
+    background-image:
+      radial-gradient(1.2px 1.2px at 12% 22%, rgb(255 255 255 / 0.9), transparent 60%),
+      radial-gradient(1px 1px at 28% 68%, rgb(255 255 255 / 0.7), transparent 60%),
+      radial-gradient(1.4px 1.4px at 44% 14%, rgb(230 207 159 / 0.9), transparent 60%),
+      radial-gradient(1px 1px at 61% 82%, rgb(255 255 255 / 0.7), transparent 60%),
+      radial-gradient(1.2px 1.2px at 76% 30%, rgb(255 255 255 / 0.85), transparent 60%),
+      radial-gradient(1px 1px at 90% 64%, rgb(230 207 159 / 0.8), transparent 60%),
+      radial-gradient(1px 1px at 6% 88%, rgb(255 255 255 / 0.6), transparent 60%),
+      radial-gradient(1.2px 1.2px at 52% 48%, rgb(255 255 255 / 0.55), transparent 60%);
+    animation: about-twinkle 5.5s ease-in-out infinite alternate;
+  }
+  @keyframes about-twinkle {
+    from { opacity: 0.35; }
+    to { opacity: 0.8; }
+  }
+
   /* ---- WhatsApp launcher: same family as GURU (gradient disc, gold ring, glow) ---- */
   .wa-launcher {
     background: radial-gradient(circle at 30% 25%, #3ee37f, #14946f 55%, #0d6b57 100%);
