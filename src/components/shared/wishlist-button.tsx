@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { Heart } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useWishlist } from "@/hooks/use-wishlist";
 import { popIn } from "@/lib/motion";
 import { cn } from "@/lib/utils";

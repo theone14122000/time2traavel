@@ -3,33 +3,59 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, MapPin, Pause, Play, Search } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, ChevronDown, Moon, Pause, Play, Search, Sun, Sunrise } from "lucide-react";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { GradientWord } from "@/components/ui/gradient-word";
 import { useTripPlanner } from "@/components/forms/trip-planner-context";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-
-export type CinematicSlide = { src: string; alt: string; label: string };
+import type { DayCycleSlide, DayPhase } from "@/lib/hero-slides";
 
 type CinematicHeroProps = {
-  slides: readonly CinematicSlide[];
+  /** The day-cycle frames, in display order (sunrise → midday → night). */
+  slides: readonly DayCycleSlide[];
   /** Real database counts only — a stat is hidden when it is zero. */
   counts?: { destinations: number; packages: number };
 };
 
-/** Time each photograph stays on screen. */
-const SLIDE_MS = 6500;
-/** Reduced-motion visitors still get the reel (opacity only, no pans), just slower, with a pause control. */
-const SLIDE_MS_REDUCED = 8500;
-/** Ken Burns pans — alternate per slide so the motion never feels repetitive. */
-const PANS = [
-  "hero-pan-a",
-  "hero-pan-b",
-  "hero-pan-c",
-  "hero-pan-b",
-  "hero-pan-a",
-] as const;
+/** How long each time of day holds before the next dissolve begins. */
+const HOLD_MS = 7000;
+const HOLD_MS_REDUCED = 9000;
+/** Matches --hero-dissolve in globals.css (the long cross-dissolve + colour grade). */
+const DISSOLVE_MS = 3400;
+
+const PHASE_ICON: Record<DayPhase, typeof Sun> = { sunrise: Sunrise, midday: Sun, night: Moon };
+
+/** The tint that sweeps the sky while we dissolve *into* a phase. */
+const TINT_INTO: Record<DayPhase, "warm" | "dusk" | "dawn"> = {
+  midday: "warm", // morning gold clearing to full daylight
+  night: "dusk", // sunset: orange → magenta → indigo
+  sunrise: "dawn", // pre-dawn violet → rose → gold
+};
+
+/** Same ridge in every frame, so one shared focal point keeps the dissolve seamless. */
+const FOCAL = "42% 42%";
+
+/** Deterministic pseudo-random so server and client render the same stars. */
+function seeded(seed: number) {
+  let s = seed;
+  return () => {
+    s = (s * 1664525 + 1013904223) % 4294967296;
+    return s / 4294967296;
+  };
+}
+
+const STARS = (() => {
+  const rnd = seeded(20260214);
+  return Array.from({ length: 46 }, () => ({
+    left: `${(rnd() * 100).toFixed(2)}%`,
+    top: `${(rnd() * 100).toFixed(2)}%`,
+    size: 1 + rnd() * 1.8,
+    delay: `${(rnd() * 6).toFixed(2)}s`,
+    duration: `${(2.6 + rnd() * 3.4).toFixed(2)}s`,
+  }));
+})();
 
 /** Suggestions only — the planner accepts any destination text. */
 const QUICK_DESTINATIONS = ["Himachal Pradesh", "Ladakh", "Kashmir", "Uttarakhand", "Bali", "Dubai"];
@@ -107,27 +133,33 @@ function HeroQuickPlan() {
 }
 
 /**
- * Full-bleed cinematic hero with an auto-advancing photo reel.
+ * Cinematic hero: one Himalayan ridge through a full day.
  *
- * - Crossfades every few seconds with a slow Ken Burns pan on the active frame.
- * - Story-style progress bars show the time left; tap one to jump.
- * - Pauses on hover/focus and when the tab is hidden. A manual pick restarts
- *   the timer. A visible play/pause control is always present (WCAG 2.2.2).
- *   Swipe left/right on touch screens.
- * - Fully static under prefers-reduced-motion.
+ * Sunrise → midday → (a synthesised sunset glow) → night → (pre-dawn glow) →
+ * sunrise. Frames dissolve over ~3.4s while a colour-grade wash sweeps the sky,
+ * so the changeover feels like light moving, not a slideshow cut. At night the
+ * sky gains twinkling stars and the odd shooting star; mist drifts across the
+ * valley in every phase.
+ *
+ * Hover/focus and a hidden tab pause the cycle; a play/pause control is always
+ * present (WCAG 2.2.2). Swipe on touch screens. Reduced-motion visitors keep the
+ * dissolve (opacity only) but lose pans, twinkling and meteors.
  */
 export function CinematicHero({ slides, counts }: CinematicHeroProps) {
   const reduceMotion = useReducedMotion();
   const { openPlanner } = useTripPlanner();
   const [active, setActive] = React.useState(0);
+  const [transition, setTransition] = React.useState<{ id: number; into: DayPhase; from: number } | null>(null);
   const [userPaused, setUserPaused] = React.useState(false);
   const [hovering, setHovering] = React.useState(false);
   const [tabHidden, setTabHidden] = React.useState(false);
   const touchStart = React.useRef<number | null>(null);
+  const transitionId = React.useRef(0);
 
   const count = slides.length;
   const autoplay = count > 1 && !userPaused && !hovering && !tabHidden;
-  const slideMs = reduceMotion ? SLIDE_MS_REDUCED : SLIDE_MS;
+  const holdMs = reduceMotion ? HOLD_MS_REDUCED : HOLD_MS;
+  const phase: DayPhase = slides[active]?.phase ?? "midday";
 
   React.useEffect(() => {
     const onVisibility = () => setTabHidden(document.hidden);
@@ -136,23 +168,40 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
 
-  // Restarts whenever the active slide changes, so manual picks get a full interval.
+  const go = React.useCallback(
+    (index: number) => {
+      if (count === 0) return;
+      const next = ((index % count) + count) % count;
+      if (next === active) return;
+      const into = slides[next]?.phase ?? "midday";
+      transitionId.current += 1;
+      setTransition({ id: transitionId.current, into, from: active });
+      setActive(next);
+    },
+    [active, count, slides],
+  );
+
+  // Restarts on every change, so a manual pick gets a full hold before the next dissolve.
   React.useEffect(() => {
     if (!autoplay) return;
-    const id = window.setTimeout(() => setActive((i) => (i + 1) % count), slideMs);
+    const id = window.setTimeout(() => go(active + 1), holdMs);
     return () => window.clearTimeout(id);
-  }, [autoplay, active, count, slideMs]);
+  }, [autoplay, active, go, holdMs]);
 
-  const go = React.useCallback((index: number) => setActive(((index % count) + count) % count), [count]);
+  // Clears the colour wash once its animation has finished.
+  React.useEffect(() => {
+    if (!transition) return;
+    const id = window.setTimeout(() => setTransition(null), DISSOLVE_MS + 200);
+    return () => window.clearTimeout(id);
+  }, [transition]);
 
-  const rise = (delay: number) =>
-    reduceMotion
-      ? {}
-      : {
-          initial: { opacity: 0, y: 24 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.8, delay, ease: EASE },
-        };
+  // Always animates to fully visible. Reduced-motion visitors (known only after mount,
+  // to keep hydration consistent) just get an instant, non-moving transition.
+  const rise = (delay: number) => ({
+    initial: { opacity: 0, y: 24 },
+    animate: { opacity: 1, y: 0 },
+    transition: reduceMotion ? { duration: 0.01 } : { duration: 0.8, delay, ease: EASE },
+  });
 
   const stats = [
     counts && counts.destinations > 0 ? { value: counts.destinations, label: "Destinations" } : null,
@@ -160,13 +209,15 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
   ].filter(Boolean) as { value: number; label: string }[];
 
   const current = slides[active];
+  const isNight = phase === "night";
 
   return (
     <section
       id="hero"
       aria-labelledby="hero-heading"
       aria-roledescription="carousel"
-      className="relative isolate flex min-h-[min(86svh,44rem)] w-full items-end overflow-hidden bg-ink text-white lg:min-h-[min(92svh,52rem)]"
+      data-phase={phase}
+      className="hero-cycle relative isolate flex min-h-[min(88svh,46rem)] w-full items-end overflow-hidden bg-ink text-white lg:min-h-[min(92svh,52rem)]"
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
       onFocus={() => setHovering(true)}
@@ -183,18 +234,21 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
         if (Math.abs(delta) > 60) go(active + (delta < 0 ? 1 : -1));
       }}
     >
-      {/* Photography */}
-      <div className="absolute inset-0 -z-20 bg-ink" aria-hidden={count === 0}>
+      {/* Photography: three frames of one place, dissolving through the day */}
+      <div className="absolute inset-0 -z-20 bg-ink">
         {slides.map((slide, index) => {
           const isActive = index === active;
-          // Render the active and the next frame eagerly so the crossfade never shows a gap.
-          const eager = index === 0 || index === (active + 1) % count || isActive;
+          const isOutgoing = transition?.from === index && !isActive;
           return (
             <div
-              key={slide.src}
+              key={slide.phase}
+              // The incoming frame fades in on top while the outgoing one stays fully
+              // opaque beneath it, so the cross-dissolve never dips through black.
               className={cn(
-                "absolute inset-0 transition-opacity duration-[1600ms] ease-in-out",
-                isActive ? "opacity-100" : "opacity-0",
+                "absolute inset-0",
+                isActive && "hero-frame-in z-[2] opacity-100",
+                isOutgoing && "z-[1] opacity-100",
+                !isActive && !isOutgoing && "z-0 opacity-0",
               )}
               aria-hidden={!isActive}
               role="group"
@@ -206,16 +260,53 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
                 alt={isActive ? slide.alt : ""}
                 fill
                 priority={index === 0}
-                loading={eager ? "eager" : "lazy"}
+                loading="eager"
                 sizes="100vw"
+                style={{ objectPosition: FOCAL }}
                 className={cn(
                   "object-cover will-change-transform",
-                  isActive && !reduceMotion && PANS[index % PANS.length],
+                  isActive && !reduceMotion && "hero-drift",
                 )}
               />
             </div>
           );
         })}
+      </div>
+
+      {/* Sky effects, each tied to the current phase */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-[15] overflow-hidden">
+        {/* Colour wash that sweeps the sky while the frames dissolve */}
+        {transition ? <div key={transition.id} className={`hero-tint hero-tint-${TINT_INTO[transition.into]}`} /> : null}
+
+        {/* Warm bloom while the sun is up near the horizon */}
+        <div className={cn("hero-bloom", phase === "sunrise" && "hero-bloom-on")} />
+
+        {/* Stars + meteor: only in the night phase */}
+        <div className={cn("hero-stars", isNight && "hero-stars-on")}>
+          {STARS.map((star, i) => (
+            <span
+              key={i}
+              className={cn("hero-star", reduceMotion && "hero-star-still")}
+              style={{
+                left: star.left,
+                top: star.top,
+                width: star.size,
+                height: star.size,
+                animationDelay: star.delay,
+                animationDuration: star.duration,
+              }}
+            />
+          ))}
+          {!reduceMotion ? <span className="hero-meteor" /> : null}
+        </div>
+
+        {/* Valley mist drifting across the lower slopes */}
+        {!reduceMotion ? (
+          <>
+            <div className="hero-mist hero-mist-a" />
+            <div className="hero-mist hero-mist-b" />
+          </>
+        ) : null}
       </div>
 
       {/* Readability overlays */}
@@ -264,7 +355,7 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
           </motion.div>
         </div>
 
-        {/* Reel controls: label, counter, progress bars, play/pause */}
+        {/* Time-of-day selector: sunrise · midday · night */}
         <motion.div {...rise(0.6)} className="mt-10 border-t border-white/20 pt-5 sm:mt-14">
           <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
             {stats.length > 0 ? (
@@ -280,61 +371,66 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
               <span />
             )}
 
-            {current ? (
-              <div className="flex min-w-0 flex-1 items-center justify-end gap-4 sm:flex-none">
-                <p aria-live="polite" className="flex items-center gap-2 text-sm text-white/90">
-                  <MapPin aria-hidden="true" className="size-4 shrink-0 text-[#e6cf9f]" />
-                  <span key={current.label} className="hero-label">
-                    {current.label}
-                  </span>
-                  <span className="tabular-nums text-white/55">
-                    {String(active + 1).padStart(2, "0")}/{String(count).padStart(2, "0")}
-                  </span>
-                </p>
-                {count > 1 ? (
-                  <button
-                    type="button"
-                    onClick={() => setUserPaused((p) => !p)}
-                    aria-label={userPaused ? "Play photo reel" : "Pause photo reel"}
-                    className="grid size-9 shrink-0 place-items-center rounded-full border border-white/35 text-white/90 transition-colors hover:border-white hover:bg-white/10"
-                  >
-                    {userPaused ? <Play aria-hidden="true" className="size-3.5" /> : <Pause aria-hidden="true" className="size-3.5" />}
-                  </button>
-                ) : null}
-              </div>
+            {count > 1 ? (
+              <button
+                type="button"
+                onClick={() => setUserPaused((p) => !p)}
+                aria-label={userPaused ? "Play the day cycle" : "Pause the day cycle"}
+                className="grid size-9 shrink-0 place-items-center rounded-full border border-white/35 text-white/90 transition-colors hover:border-white hover:bg-white/10"
+              >
+                {userPaused ? <Play aria-hidden="true" className="size-3.5" /> : <Pause aria-hidden="true" className="size-3.5" />}
+              </button>
             ) : null}
           </div>
 
           {count > 1 ? (
-            <div role="group" aria-label="Choose photograph" className="mt-4 flex gap-2">
+            <div role="group" aria-label="Choose time of day" className="mt-4 flex gap-2 sm:gap-3">
               {slides.map((slide, index) => {
                 const isActive = index === active;
                 const done = index < active;
+                const Icon = PHASE_ICON[slide.phase];
                 return (
                   <button
-                    key={slide.src}
+                    key={slide.phase}
                     type="button"
                     aria-label={`Show ${slide.label}`}
                     aria-current={isActive}
                     onClick={() => go(index)}
-                    className="group relative h-6 flex-1"
+                    className="group flex-1 text-left"
                   >
-                    <span className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-white/25 transition-[height] group-hover:h-1">
-                      <span
-                        key={isActive ? `fill-${active}-${autoplay}` : "idle"}
-                        className={cn(
-                          "absolute inset-y-0 left-0 block rounded-full bg-[#e6cf9f]",
-                          done && "w-full",
-                          isActive && (!autoplay || reduceMotion) && "w-full",
-                          isActive && autoplay && !reduceMotion && "hero-progress",
-                        )}
-                        style={isActive && autoplay && !reduceMotion ? { animationDuration: `${slideMs}ms` } : undefined}
-                      />
+                    <span
+                      className={cn(
+                        "mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] transition-colors duration-500",
+                        isActive ? "text-[#f1dcae]" : "text-white/55 group-hover:text-white/85",
+                      )}
+                    >
+                      <Icon aria-hidden="true" className="size-4" />
+                      <span className="hidden sm:inline">{slide.label}</span>
+                    </span>
+                    <span className="relative block h-6">
+                      <span className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-white/25 transition-[height] group-hover:h-1">
+                        <span
+                          key={isActive ? `fill-${active}-${autoplay}` : "idle"}
+                          className={cn(
+                            "absolute inset-y-0 left-0 block rounded-full bg-[#e6cf9f]",
+                            done && "w-full",
+                            isActive && (!autoplay || reduceMotion) && "w-full",
+                            isActive && autoplay && !reduceMotion && "hero-progress",
+                          )}
+                          style={isActive && autoplay && !reduceMotion ? { animationDuration: `${holdMs}ms` } : undefined}
+                        />
+                      </span>
                     </span>
                   </button>
                 );
               })}
             </div>
+          ) : null}
+
+          {current ? (
+            <p aria-live="polite" className="sr-only">
+              {current.label}
+            </p>
           ) : null}
         </motion.div>
       </div>

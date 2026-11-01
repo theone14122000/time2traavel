@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { EASE, DURATION, maskReveal, viewportOnce } from "@/lib/motion";

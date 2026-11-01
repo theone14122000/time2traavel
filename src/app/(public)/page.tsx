@@ -19,7 +19,7 @@ import { FounderTeaser } from "@/components/home/founder-teaser";
 import { FaqSection } from "@/components/home/faq-section";
 import { FinalCta } from "@/components/home/final-cta";
 import { getHeroTileFallbacks } from "@/lib/home-fallback-images";
-import { getHeroSlides } from "@/lib/hero-slides";
+import { getDayCycleSlides, type DayCycleSlide } from "@/lib/hero-slides";
 import {
   getAnnouncement,
   getSiteSettings,
@@ -90,7 +90,7 @@ type HomeBands = {
     instruction: string;
     counts: { destinations: number; packages: number };
     tiles: { src: string; alt: string }[];
-    backgroundSlides: { src: string; alt: string; label: string }[];
+    backgroundSlides: DayCycleSlide[];
     founderName: string | null;
   };
 };
@@ -154,7 +154,7 @@ async function loadHomeBands(): Promise<HomeBands> {
 
   // Hero background slides: the five curated photographs in
   // /public/images/hero (slide-1 … slide-5).
-  const backgroundSlides = getHeroSlides();
+  const backgroundSlides = getDayCycleSlides();
 
   return {
     sections: sections.map(({ key, enabled }) => ({ key, enabled })),

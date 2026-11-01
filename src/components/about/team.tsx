@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Mail } from "lucide-react";
 import { Stamp } from "@/components/ui/badge";
 import { TeamAvatar } from "@/components/about/team-avatar";

@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { EASE, headingFadeUp, headingWord, stagger } from "@/lib/motion";
 import { viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/utils";

@@ -1,7 +1,8 @@
 ﻿"use client";
 
 import * as React from "react";
-import { motion, useReducedMotion, type PanInfo } from "framer-motion";
+import { motion, type PanInfo } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";

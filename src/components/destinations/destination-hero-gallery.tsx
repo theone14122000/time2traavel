@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 import { useImageRotation } from "@/hooks/use-image-rotation";
 import { renderHeading } from "@/lib/render-heading";

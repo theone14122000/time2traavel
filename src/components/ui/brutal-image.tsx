@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
 const ALLOWED_HOSTS = new Set(["res.cloudinary.com", "img.youtube.com"]);

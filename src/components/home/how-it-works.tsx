@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { HomeSectionHeading } from "@/components/home/section-heading";
 import { StaggerGroup, StaggerItem } from "@/components/shared/reveal";
 import { CardSurface as Card, CardBadge, CardBody, CardTexture } from "@/components/ui/card";

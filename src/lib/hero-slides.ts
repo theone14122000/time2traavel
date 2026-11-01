@@ -2,6 +2,40 @@ import { IMAGE_MANIFEST } from "@/lib/image-manifest";
 
 export type HeroSlide = { src: string; alt: string; label: string };
 
+export type DayPhase = "sunrise" | "midday" | "night";
+export type DayCycleSlide = HeroSlide & { phase: DayPhase };
+
+/**
+ * The hero's sunrise → midday → night loop. All three photographs frame the
+ * same Himalayan ridge, so cross-dissolving them reads as a time-lapse of one
+ * place. Paths are URL-encoded because one source file name contains spaces.
+ * Alt text describes what is visible in each file.
+ */
+const DAY_CYCLE: ReadonlyArray<DayCycleSlide> = [
+  {
+    phase: "sunrise",
+    src: encodeURI("/images/hero/Radiant Alpine Sunrise Panorama.png"),
+    alt: "The sun rising between snow-covered Himalayan peaks, lighting the slopes gold",
+    label: "Sunrise",
+  },
+  {
+    phase: "midday",
+    src: "/images/hero/slide-1.jpg",
+    alt: "Snow-covered Himalayan peaks above a pine forest under a clear blue sky",
+    label: "Midday",
+  },
+  {
+    phase: "night",
+    src: "/images/hero/night.png",
+    alt: "The same snowy peaks under a full moon and a starry night sky",
+    label: "Night",
+  },
+];
+
+export function getDayCycleSlides(): DayCycleSlide[] {
+  return [...DAY_CYCLE];
+}
+
 /**
  * Curated hero rotation — the five photographs stored in
  * /public/images/hero (slide-1 … slide-5).

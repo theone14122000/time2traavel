@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { PenLine } from "lucide-react";
 import { cn } from "@/lib/utils";
 

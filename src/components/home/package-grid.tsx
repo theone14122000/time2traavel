@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { HomePackageCard, type HomePackageMeta } from "@/components/home/package-card";
 import { EnquiryDialog } from "@/components/forms/enquiry-dialog";
 import { StaggerGroup, StaggerItem } from "@/components/shared/reveal";

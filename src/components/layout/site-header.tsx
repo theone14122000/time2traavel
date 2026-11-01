@@ -3,13 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-} from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { ArrowRight, Compass, Mail, MapPin, Menu, MessageCircle, Phone, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
 import { telHref, waHref } from "@/lib/contact";

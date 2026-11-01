@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { DestinationCard } from "@/components/shared/cards";
 import { EmptyState } from "@/components/shared/empty-state";
 import { EnquiryDialog } from "@/components/forms/enquiry-dialog";
