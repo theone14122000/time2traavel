@@ -3,14 +3,14 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, Moon, Pause, Play, Search, Sun, Sunrise } from "lucide-react";
+import { ArrowRight, ChevronDown, Moon, Pause, Play, Search, Sun, Sunrise, Sunset } from "lucide-react";
 import { motion } from "framer-motion";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { GradientWord } from "@/components/ui/gradient-word";
 import { useTripPlanner } from "@/components/forms/trip-planner-context";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import type { DayCycleSlide, DayPhase } from "@/lib/hero-slides";
+import type { DayCycleSlide } from "@/lib/hero-slides";
 
 type CinematicHeroProps = {
   /** The day-cycle frames, in display order (sunrise → midday → night). */
@@ -19,22 +19,38 @@ type CinematicHeroProps = {
   counts?: { destinations: number; packages: number };
 };
 
-/** How long each time of day holds before the next dissolve begins. */
-const HOLD_MS = 3600;
-const HOLD_MS_REDUCED = 5200;
-/** Matches --hero-dissolve in globals.css (the cross-dissolve + colour grade). */
-const DISSOLVE_MS = 2200;
+/** One full day (sunrise → midday → sunset → night → sunrise), in milliseconds. */
+const DAY_MS = 24000;
+const DAY_MS_REDUCED = 40000;
 
-const PHASE_ICON: Record<DayPhase, typeof Sun> = { sunrise: Sunrise, midday: Sun, night: Moon };
+/** Where the quick-jump chips land on the 0–1 timeline. */
+const JUMPS = [
+  { label: "Sunrise", t: 0, Icon: Sunrise },
+  { label: "Midday", t: 1 / 3, Icon: Sun },
+  { label: "Sunset", t: 0.5, Icon: Sunset },
+  { label: "Night", t: 2 / 3, Icon: Moon },
+] as const;
 
-/** The tint that sweeps the sky while we dissolve *into* a phase. */
-const TINT_INTO: Record<DayPhase, "warm" | "dusk" | "dawn"> = {
-  midday: "warm", // morning gold clearing to full daylight
-  night: "dusk", // sunset: orange → magenta → indigo
-  sunrise: "dawn", // pre-dawn violet → rose → gold
+/** Friendly name for a moment on the timeline. */
+function momentName(t: number): { name: string; Icon: typeof Sun } {
+  if (t < 0.05 || t >= 0.95) return { name: "Sunrise", Icon: Sunrise };
+  if (t < 0.25) return { name: "Morning", Icon: Sun };
+  if (t < 0.38) return { name: "Midday", Icon: Sun };
+  if (t < 0.45) return { name: "Afternoon", Icon: Sun };
+  if (t < 0.58) return { name: "Sunset", Icon: Sunset };
+  if (t < 0.68) return { name: "Dusk", Icon: Sunset };
+  if (t < 0.85) return { name: "Night", Icon: Moon };
+  return { name: "Dawn", Icon: Sunrise };
+}
+
+const ease = (p: number) => (1 - Math.cos(Math.PI * p)) / 2;
+const smooth = (a: number, b: number, x: number) => {
+  const k = Math.min(1, Math.max(0, (x - a) / (b - a)));
+  return k * k * (3 - 2 * k);
 };
+const bell = (p: number) => Math.sin(Math.PI * p);
 
-/** Same ridge in every frame, so one shared focal point keeps the dissolve seamless. */
+/** Same ridge in every frame, so one shared focal point keeps the blend seamless. */
 const FOCAL = "42% 42%";
 
 /** Deterministic pseudo-random so server and client render the same stars. */
@@ -133,33 +149,110 @@ function HeroQuickPlan() {
 }
 
 /**
- * Cinematic hero: one Himalayan ridge through a full day.
+ * Cinematic hero: one Himalayan ridge through a whole day, in one continuous motion.
  *
- * Sunrise → midday → (a synthesised sunset glow) → night → (pre-dawn glow) →
- * sunrise. Frames dissolve over ~2.2s while a colour-grade wash sweeps the sky,
- * so the changeover feels like light moving, not a slideshow cut. At night the
- * sky gains twinkling stars and the odd shooting star; mist drifts across the
- * valley in every phase.
+ * A single 0→1 timeline drives everything, frame by frame, with no holds and no
+ * cuts:
+ *   0.00 sunrise ─ 0.33 midday ─ 0.50 sunset ─ 0.67 night ─ 1.00 sunrise again
+ * Photos cross-blend with a cosine ease (the outgoing frame stays fully opaque
+ * underneath, so there is never a dark dip). On top of them the sky is graded
+ * continuously: a warm morning wash, a sinking sun and an orange→magenta→indigo
+ * sunset, stars and a shooting star fading in at night, and a violet→rose→gold
+ * dawn that hands back to the rising sun. Mist drifts through every phase.
  *
- * Hover/focus and a hidden tab pause the cycle; a play/pause control is always
- * present (WCAG 2.2.2). Swipe on touch screens. Reduced-motion visitors keep the
- * dissolve (opacity only) but lose pans, twinkling and meteors.
+ * Values are written straight to the DOM from one requestAnimationFrame loop
+ * (no React re-render per frame). The loop pauses while hovering/focusing, when
+ * the tab is hidden or the hero is off-screen, and while the visitor drags the
+ * time-of-day slider. A play/pause control is always present (WCAG 2.2.2).
+ * Reduced-motion visitors get the same blend, only slower, with no pans,
+ * twinkling or meteor.
  */
 export function CinematicHero({ slides, counts }: CinematicHeroProps) {
   const reduceMotion = useReducedMotion();
   const { openPlanner } = useTripPlanner();
-  const [active, setActive] = React.useState(0);
-  const [transition, setTransition] = React.useState<{ id: number; into: DayPhase; from: number } | null>(null);
+
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const frameRefs = React.useRef<(HTMLDivElement | null)[]>([]);
+  const duskRef = React.useRef<HTMLDivElement>(null);
+  const dawnRef = React.useRef<HTMLDivElement>(null);
+  const warmRef = React.useRef<HTMLDivElement>(null);
+  const bloomRef = React.useRef<HTMLDivElement>(null);
+  const starsRef = React.useRef<HTMLDivElement>(null);
+  const orbRef = React.useRef<HTMLDivElement>(null);
+  const sliderRef = React.useRef<HTMLInputElement>(null);
+
+  const tRef = React.useRef(0);
+  const tweenRef = React.useRef<{ from: number; to: number; start: number; dur: number } | null>(null);
+  const scrubbingRef = React.useRef(false);
+  const resumeTimer = React.useRef<number | null>(null);
+  const touchStart = React.useRef<number | null>(null);
+
   const [userPaused, setUserPaused] = React.useState(false);
   const [hovering, setHovering] = React.useState(false);
   const [tabHidden, setTabHidden] = React.useState(false);
-  const touchStart = React.useRef<number | null>(null);
-  const transitionId = React.useRef(0);
+  const [inView, setInView] = React.useState(true);
+  const [moment, setMoment] = React.useState(() => momentName(0));
 
   const count = slides.length;
-  const autoplay = count > 1 && !userPaused && !hovering && !tabHidden;
-  const holdMs = reduceMotion ? HOLD_MS_REDUCED : HOLD_MS;
-  const phase: DayPhase = slides[active]?.phase ?? "midday";
+  const playing = count > 1 && !userPaused && !hovering && !tabHidden && inView;
+  const dayMs = reduceMotion ? DAY_MS_REDUCED : DAY_MS;
+  const useThree = count === 3;
+
+  /** Paints the whole sky for a moment `t` on the 0–1 timeline. */
+  const apply = React.useCallback(
+    (t: number) => {
+      if (!useThree) return;
+      const seg = Math.min(2, Math.floor(t * 3)); // 0 sunrise→midday · 1 midday→night · 2 night→sunrise
+      const p = t * 3 - seg;
+      const e = ease(p);
+      const incoming = (seg + 1) % 3;
+
+      frameRefs.current.forEach((el, i) => {
+        if (!el) return;
+        // Incoming frame fades in on top while the outgoing one stays opaque beneath.
+        el.style.opacity = i === incoming ? String(e) : i === seg ? "1" : "0";
+        el.style.zIndex = i === incoming ? "2" : i === seg ? "1" : "0";
+      });
+
+      const b = bell(p);
+      if (warmRef.current) warmRef.current.style.opacity = String(seg === 0 ? 0.75 * b : 0);
+      if (duskRef.current) duskRef.current.style.opacity = String(seg === 1 ? 0.95 * Math.pow(b, 1.1) : 0);
+      if (dawnRef.current) dawnRef.current.style.opacity = String(seg === 2 ? 0.9 * Math.pow(b, 1.1) : 0);
+
+      const night = seg === 1 ? smooth(0.5, 1, p) : seg === 2 ? 1 - smooth(0, 0.6, p) : 0;
+      if (starsRef.current) starsRef.current.style.opacity = String(night);
+
+      const sunUp = seg === 2 ? smooth(0.4, 1, p) : seg === 0 ? 1 - smooth(0, 0.6, p) : 0;
+      if (bloomRef.current) bloomRef.current.style.opacity = String(sunUp);
+
+      // The sun sinking toward the horizon during the midday → night blend.
+      const orb = orbRef.current;
+      if (orb) {
+        if (seg === 1) {
+          const y = 22 + 44 * ease(p); // % of hero height
+          orb.style.opacity = String(Math.pow(b, 0.8) * 0.95);
+          orb.style.top = `${y}%`;
+          orb.style.transform = `translate(-50%, -50%) scale(${(1 + 0.35 * ease(p)).toFixed(3)})`;
+        } else {
+          orb.style.opacity = "0";
+        }
+      }
+
+      const sec = sectionRef.current;
+      if (sec) sec.dataset.phase = night > 0.5 ? "night" : sunUp > 0.5 ? "sunrise" : "midday";
+
+      const next = momentName(t);
+      setMoment((prev) => (prev.name === next.name ? prev : next));
+      const slider = sliderRef.current;
+      if (slider && !scrubbingRef.current) slider.value = String(Math.round(t * 1000));
+    },
+    [useThree],
+  );
+
+  // First paint (also re-applies after a hydration-time reduced-motion flip).
+  React.useEffect(() => {
+    apply(tRef.current);
+  }, [apply]);
 
   React.useEffect(() => {
     const onVisibility = () => setTabHidden(document.hidden);
@@ -168,35 +261,67 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
 
-  const go = React.useCallback(
-    (index: number) => {
-      if (count === 0) return;
-      const next = ((index % count) + count) % count;
-      if (next === active) return;
-      const into = slides[next]?.phase ?? "midday";
-      transitionId.current += 1;
-      setTransition({ id: transitionId.current, into, from: active });
-      setActive(next);
+  React.useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([entry]) => setInView(Boolean(entry?.isIntersecting)), { threshold: 0.05 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // The single animation loop.
+  React.useEffect(() => {
+    if (!useThree) return;
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min(64, now - last);
+      last = now;
+      const tw = tweenRef.current;
+      if (tw) {
+        const k = Math.min(1, (now - tw.start) / tw.dur);
+        tRef.current = (tw.from + (tw.to - tw.from) * ease(k)) % 1;
+        if (k >= 1) tweenRef.current = null;
+        apply(tRef.current);
+      } else if (playing && !scrubbingRef.current) {
+        tRef.current = (tRef.current + dt / dayMs) % 1;
+        apply(tRef.current);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [apply, playing, dayMs, useThree]);
+
+  /** Glides forward to a moment (never backwards, so the light always moves on). */
+  const jumpTo = React.useCallback(
+    (target: number) => {
+      const from = tRef.current;
+      const to = target > from ? target : target + 1;
+      const dur = Math.max(1100, Math.min(3200, (to - from) * 6000));
+      tweenRef.current = { from, to, start: performance.now(), dur };
     },
-    [active, count, slides],
+    [],
   );
 
-  // Restarts on every change, so a manual pick gets a full hold before the next dissolve.
-  React.useEffect(() => {
-    if (!autoplay) return;
-    const id = window.setTimeout(() => go(active + 1), holdMs);
-    return () => window.clearTimeout(id);
-  }, [autoplay, active, go, holdMs]);
+  const onScrub = (value: number) => {
+    scrubbingRef.current = true;
+    tweenRef.current = null;
+    tRef.current = Math.min(0.9999, Math.max(0, value / 1000));
+    apply(tRef.current);
+    if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
+    resumeTimer.current = window.setTimeout(() => {
+      scrubbingRef.current = false;
+    }, 1800);
+  };
 
-  // Clears the colour wash once its animation has finished.
-  React.useEffect(() => {
-    if (!transition) return;
-    const id = window.setTimeout(() => setTransition(null), DISSOLVE_MS + 200);
-    return () => window.clearTimeout(id);
-  }, [transition]);
+  React.useEffect(
+    () => () => {
+      if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
+    },
+    [],
+  );
 
-  // Always animates to fully visible. Reduced-motion visitors (known only after mount,
-  // to keep hydration consistent) just get an instant, non-moving transition.
   const rise = (delay: number) => ({
     initial: { opacity: 0, y: 24 },
     animate: { opacity: 1, y: 0 },
@@ -208,15 +333,16 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
     counts && counts.packages > 0 ? { value: counts.packages, label: "Curated packages" } : null,
   ].filter(Boolean) as { value: number; label: string }[];
 
-  const current = slides[active];
-  const isNight = phase === "night";
+  const MomentIcon = moment.Icon;
+  // Initial z-order matches t = 0 (sunrise frame on screen, midday waiting on top).
+  const initialZ = [1, 2, 0];
 
   return (
     <section
       id="hero"
+      ref={sectionRef}
       aria-labelledby="hero-heading"
-      aria-roledescription="carousel"
-      data-phase={phase}
+      data-phase="sunrise"
       className="hero-cycle relative isolate flex min-h-[min(88svh,46rem)] w-full items-end overflow-hidden bg-ink text-white lg:min-h-[min(92svh,52rem)]"
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
@@ -230,61 +356,51 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
         touchStart.current = null;
         const end = e.changedTouches[0]?.clientX;
         if (start == null || end == null) return;
-        const delta = end - start;
-        if (Math.abs(delta) > 60) go(active + (delta < 0 ? 1 : -1));
+        // Swipe left: glide to the start of the next part of the day.
+        if (end - start < -60) jumpTo(((Math.floor(tRef.current * 3) + 1) % 3) / 3);
       }}
     >
-      {/* Photography: three frames of one place, dissolving through the day */}
-      <div className="absolute inset-0 -z-20 bg-ink">
-        {slides.map((slide, index) => {
-          const isActive = index === active;
-          const isOutgoing = transition?.from === index && !isActive;
-          return (
-            <div
-              key={slide.phase}
-              // The incoming frame fades in on top while the outgoing one stays fully
-              // opaque beneath it, so the cross-dissolve never dips through black.
-              className={cn(
-                "absolute inset-0",
-                isActive && "hero-frame-in z-[2] opacity-100",
-                isOutgoing && "z-[1] opacity-100",
-                !isActive && !isOutgoing && "z-0 opacity-0",
-              )}
-              aria-hidden={!isActive}
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${index + 1} of ${count}: ${slide.label}`}
-            >
-              <Image
-                src={slide.src}
-                alt={isActive ? slide.alt : ""}
-                fill
-                priority={index === 0}
-                loading="eager"
-                // The first frame is the LCP image; the others load right behind it.
-                fetchPriority={index === 0 ? "high" : "low"}
-                sizes="100vw"
-                style={{ objectPosition: FOCAL }}
-                className={cn(
-                  "object-cover will-change-transform",
-                  isActive && !reduceMotion && "hero-drift",
-                )}
-              />
-            </div>
-          );
-        })}
+      {/* Photography: three frames of one place, blended continuously */}
+      <div className={cn("absolute inset-0 -z-20 bg-ink", !reduceMotion && "hero-drift")}>
+        {slides.map((slide, index) => (
+          <div
+            key={slide.phase}
+            ref={(el) => {
+              frameRefs.current[index] = el;
+            }}
+            className="absolute inset-0"
+            // Only the starting state is declared here; the animation loop owns it afterwards.
+            style={{ opacity: index === 0 ? 1 : 0, zIndex: initialZ[index] ?? 0 }}
+            aria-hidden={index !== 0}
+          >
+            <Image
+              src={slide.src}
+              alt={index === 0 ? slide.alt : ""}
+              fill
+              priority={index === 0}
+              loading="eager"
+              fetchPriority={index === 0 ? "high" : "low"}
+              sizes="100vw"
+              // Pre-sized bundled JPEGs: served directly (no optimiser round-trip that can
+              // fail or stall), with a blurred preview until each one has decoded.
+              unoptimized
+              placeholder="blur"
+              style={{ objectPosition: FOCAL }}
+              className="object-cover"
+            />
+          </div>
+        ))}
       </div>
 
-      {/* Sky effects, each tied to the current phase */}
+      {/* Sky: every layer's opacity is driven by the timeline */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-[15] overflow-hidden">
-        {/* Colour wash that sweeps the sky while the frames dissolve */}
-        {transition ? <div key={transition.id} className={`hero-tint hero-tint-${TINT_INTO[transition.into]}`} /> : null}
+        <div ref={warmRef} className="hero-sky hero-sky-warm" />
+        <div ref={orbRef} className="hero-orb" />
+        <div ref={duskRef} className="hero-sky hero-sky-dusk" />
+        <div ref={dawnRef} className="hero-sky hero-sky-dawn" />
+        <div ref={bloomRef} className="hero-bloom" />
 
-        {/* Warm bloom while the sun is up near the horizon */}
-        <div className={cn("hero-bloom", phase === "sunrise" && "hero-bloom-on")} />
-
-        {/* Stars + meteor: only in the night phase */}
-        <div className={cn("hero-stars", isNight && "hero-stars-on")}>
+        <div ref={starsRef} className="hero-stars">
           {STARS.map((star, i) => (
             <span
               key={i}
@@ -302,7 +418,6 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
           {!reduceMotion ? <span className="hero-meteor" /> : null}
         </div>
 
-        {/* Valley mist drifting across the lower slopes */}
         {!reduceMotion ? (
           <>
             <div className="hero-mist hero-mist-a" />
@@ -357,82 +472,69 @@ export function CinematicHero({ slides, counts }: CinematicHeroProps) {
           </motion.div>
         </div>
 
-        {/* Time-of-day selector: sunrise · midday · night */}
+        {/* Time of day: moment name, draggable slider, quick jumps, play/pause */}
         <motion.div {...rise(0.6)} className="mt-10 border-t border-white/20 pt-5 sm:mt-14">
-          <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
-            {stats.length > 0 ? (
-              <dl className="flex gap-8">
-                {stats.map((stat) => (
-                  <div key={stat.label}>
-                    <dt className="text-xs font-medium uppercase tracking-[0.14em] text-white/70">{stat.label}</dt>
-                    <dd className="font-display text-3xl text-white">{stat.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            ) : (
-              <span />
-            )}
+          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
+            <div className="flex items-center gap-8">
+              {stats.length > 0 ? (
+                <dl className="flex gap-8">
+                  {stats.map((stat) => (
+                    <div key={stat.label}>
+                      <dt className="text-xs font-medium uppercase tracking-[0.14em] text-white/70">{stat.label}</dt>
+                      <dd className="font-display text-3xl text-white">{stat.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : null}
+            </div>
 
             {count > 1 ? (
-              <button
-                type="button"
-                onClick={() => setUserPaused((p) => !p)}
-                aria-label={userPaused ? "Play the day cycle" : "Pause the day cycle"}
-                className="grid size-9 shrink-0 place-items-center rounded-full border border-white/35 text-white/90 transition-colors hover:border-white hover:bg-white/10"
-              >
-                {userPaused ? <Play aria-hidden="true" className="size-3.5" /> : <Pause aria-hidden="true" className="size-3.5" />}
-              </button>
+              <div className="flex items-center gap-2" role="group" aria-label="Jump to a time of day">
+                {JUMPS.map(({ label, t, Icon }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => jumpTo(t)}
+                    aria-label={`Show ${label}`}
+                    className="inline-flex h-9 items-center gap-1.5 rounded-full border border-white/30 px-3 text-xs font-medium uppercase tracking-[0.12em] text-white/85 transition-colors hover:border-white hover:bg-white/10"
+                  >
+                    <Icon aria-hidden="true" className="size-3.5 text-[#e6cf9f]" />
+                    <span className="hidden sm:inline">{label}</span>
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setUserPaused((p) => !p)}
+                  aria-label={userPaused ? "Play the day cycle" : "Pause the day cycle"}
+                  className="grid size-9 shrink-0 place-items-center rounded-full border border-white/35 text-white/90 transition-colors hover:border-white hover:bg-white/10"
+                >
+                  {userPaused ? <Play aria-hidden="true" className="size-3.5" /> : <Pause aria-hidden="true" className="size-3.5" />}
+                </button>
+              </div>
             ) : null}
           </div>
 
           {count > 1 ? (
-            <div role="group" aria-label="Choose time of day" className="mt-4 flex gap-2 sm:gap-3">
-              {slides.map((slide, index) => {
-                const isActive = index === active;
-                const done = index < active;
-                const Icon = PHASE_ICON[slide.phase];
-                return (
-                  <button
-                    key={slide.phase}
-                    type="button"
-                    aria-label={`Show ${slide.label}`}
-                    aria-current={isActive}
-                    onClick={() => go(index)}
-                    className="group flex-1 text-left"
-                  >
-                    <span
-                      className={cn(
-                        "mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] transition-colors duration-500",
-                        isActive ? "text-[#f1dcae]" : "text-white/55 group-hover:text-white/85",
-                      )}
-                    >
-                      <Icon aria-hidden="true" className="size-4" />
-                      <span className="hidden sm:inline">{slide.label}</span>
-                    </span>
-                    <span className="relative block h-6">
-                      <span className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-white/25 transition-[height] group-hover:h-1">
-                        <span
-                          key={isActive ? `fill-${active}-${autoplay}` : "idle"}
-                          className={cn(
-                            "absolute inset-y-0 left-0 block rounded-full bg-[#e6cf9f]",
-                            done && "w-full",
-                            isActive && (!autoplay || reduceMotion) && "w-full",
-                            isActive && autoplay && !reduceMotion && "hero-progress",
-                          )}
-                          style={isActive && autoplay && !reduceMotion ? { animationDuration: `${holdMs}ms` } : undefined}
-                        />
-                      </span>
-                    </span>
-                  </button>
-                );
-              })}
+            <div className="mt-4 flex items-center gap-4">
+              <p className="flex w-32 shrink-0 items-center gap-2 text-sm text-white/90">
+                <MomentIcon aria-hidden="true" className="size-4 shrink-0 text-[#e6cf9f]" />
+                <span key={moment.name} className="hero-label">
+                  {moment.name}
+                </span>
+              </p>
+              <input
+                ref={sliderRef}
+                type="range"
+                min={0}
+                max={999}
+                step={1}
+                defaultValue={0}
+                aria-label="Time of day"
+                aria-valuetext={moment.name}
+                onChange={(e) => onScrub(Number(e.target.value))}
+                className="hero-scrub"
+              />
             </div>
-          ) : null}
-
-          {current ? (
-            <p aria-live="polite" className="sr-only">
-              {current.label}
-            </p>
           ) : null}
         </motion.div>
       </div>

@@ -1,35 +1,47 @@
+import type { StaticImageData } from "next/image";
 import { IMAGE_MANIFEST } from "@/lib/image-manifest";
+import daySunrise from "@/assets/brand/day-sunrise.jpg";
+import dayMidday from "@/assets/brand/day-midday.jpg";
+import dayNight from "@/assets/brand/day-night.jpg";
 
 export type HeroSlide = { src: string; alt: string; label: string };
 
 export type DayPhase = "sunrise" | "midday" | "night";
-export type DayCycleSlide = HeroSlide & { phase: DayPhase };
+export type DayCycleSlide = {
+  phase: DayPhase;
+  /** Bundled import: carries width/height and a blur preview, and is served from /_next/static. */
+  src: StaticImageData;
+  alt: string;
+  label: string;
+};
 
 /**
  * The hero's sunrise → midday → night loop. All three photographs frame the
  * same Himalayan ridge, so cross-dissolving them reads as a time-lapse of one
- * place. The frames are web-sized progressive JPEGs (~250–430 KB) generated
- * from the full-resolution originals that sit alongside them in this folder
- * (Radiant Alpine Sunrise Panorama.png, slide-1.jpg, night.png), so the first
- * paint is fast and the image optimiser never has to chew through 3 MB PNGs.
+ * place. The frames are web-sized progressive JPEGs (~250–430 KB) in
+ * src/assets/brand, generated from the full-resolution originals in
+ * public/images/hero (Radiant Alpine Sunrise Panorama.png, slide-1.jpg,
+ * night.png). They are imported (not referenced by URL) so the bundler emits
+ * and serves them itself: they cannot 404 from a stale public-file list and
+ * they get a blur-up preview for free.
  * Alt text describes what is visible in each file.
  */
 const DAY_CYCLE: ReadonlyArray<DayCycleSlide> = [
   {
     phase: "sunrise",
-    src: "/images/hero/day-sunrise.jpg",
+    src: daySunrise,
     alt: "The sun rising between snow-covered Himalayan peaks, lighting the slopes gold",
     label: "Sunrise",
   },
   {
     phase: "midday",
-    src: "/images/hero/day-midday.jpg",
+    src: dayMidday,
     alt: "Snow-covered Himalayan peaks above a pine forest under a clear blue sky",
     label: "Midday",
   },
   {
     phase: "night",
-    src: "/images/hero/day-night.jpg",
+    src: dayNight,
     alt: "The same snowy peaks under a full moon and a starry night sky",
     label: "Night",
   },
