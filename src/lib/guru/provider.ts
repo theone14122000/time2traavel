@@ -40,8 +40,13 @@ const DEFAULT_ENDPOINTS: ProviderEndpoint[] = [
 ];
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-/** Open-weight Llama; swap for llama-3.1-8b-instant via GURU_MODEL for a higher free-tier token allowance. */
-const GROQ_DEFAULT_MODEL = "llama-3.3-70b-versatile";
+/**
+ * Open-weight GPT-OSS 120B: the strongest open model Groq currently serves for
+ * chat. Groq retires models over time (llama-3.3-70b-versatile is already gone),
+ * so GURU_MODEL can override this — list what your key can use at
+ * https://api.groq.com/openai/v1/models. openai/gpt-oss-20b is a lighter option.
+ */
+const GROQ_DEFAULT_MODEL = "openai/gpt-oss-120b";
 
 function envTokens(fallback: number): number {
   return Math.min(Math.max(Number(process.env.GURU_MAX_TOKENS) || fallback, 300), 4000);
@@ -73,9 +78,9 @@ export function configuredEndpoints(): ProviderEndpoint[] {
         model: process.env.GURU_MODEL?.trim() || GROQ_DEFAULT_MODEL,
         apiKey: key,
         jsonMode: true,
-        // Plain chat models don't "think" first, and a small budget keeps the
-        // request inside Groq's free per-minute token allowance.
-        maxTokens: envTokens(900),
+        // GPT-OSS reasons briefly before answering (reasoning_effort: low), so
+        // leave headroom while staying inside the free per-minute token allowance.
+        maxTokens: envTokens(1200),
       },
     ];
   }
@@ -105,6 +110,8 @@ async function attempt(endpoint: ProviderEndpoint, messages: ChatTurn[]): Promis
         temperature: 0.6,
         stream: false,
         ...(endpoint.jsonMode ? { response_format: { type: "json_object" } } : null),
+        // Groq-hosted GPT-OSS accepts this; it keeps replies fast and cheap.
+        ...(endpoint.name === "groq" && /gpt-oss/i.test(endpoint.model) ? { reasoning_effort: "low" } : null),
       }),
     });
     if (!response.ok) {
